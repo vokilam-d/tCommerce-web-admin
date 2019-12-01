@@ -34,7 +34,7 @@
           <div class="grid__block product__thumbnail">
             <img class="product__thumbnail-img"
                  *ngIf="product.medias && product.medias[0] as media"
-                 [src]="media.variantsUrls.small"
+                 [src]="'http://localhost:3500' + media.variantsUrls.small"
                  [alt]="media.altText">
           </div>
           <div class="grid__block product__name">

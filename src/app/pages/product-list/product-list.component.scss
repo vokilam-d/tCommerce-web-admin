@@ -7,6 +7,11 @@
 
   &__thumbnail {
     width: 95px;
+    text-align: center;
+  }
+
+  &__thumbnail-img {
+    max-height: 50px;
   }
 
   &__name {
