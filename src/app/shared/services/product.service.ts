@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AddOrUpdateProductDto, ResponseProductDto } from '../dto/product.dto';
+import { AddOrUpdateProductDto, ResponseProductDto } from '../dtos/product.dto';
 
 @Injectable()
 export class ProductService {

@@ -1,0 +1,34 @@
+<div class="page">
+  <div class="header">
+    <h1 class="header__title">Атрибуты</h1>
+
+    <div class="header__toolbar">
+      <button class="header__btn toolbar-main-btn" (click)="add()">Добавить атрибут</button>
+    </div>
+  </div>
+
+  <div class="grid attribute">
+    <div class="grid__container">
+
+      <div class="grid__head">
+        <div class="grid__block attribute__id">ID</div>
+        <div class="grid__block attribute__label">Label</div>
+      </div>
+
+      <div class="grid__body">
+        <a class="grid__row"
+           *ngFor="let attribute of attributes, even as even"
+           [routerLink]="['edit', attribute.id]"
+           [class.grid__row--even]="even"
+        >
+          <div class="grid__block attribute__id">
+            {{ attribute.id }}
+          </div>
+          <div class="grid__block attribute__label">
+            {{ attribute.label }}
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,8 +1,11 @@
+export class AttributeValue {
+  isDefault: boolean;
+  name: string;
+}
+
 export class UpdateAttributeDto {
   label: string;
-
-  values: string[];
-
+  values: AttributeValue[];
   groupName: string;
 }
 

@@ -1,0 +1,119 @@
+<div class="page">
+  <div class="header">
+    <h1 class="header__title" [ngSwitch]="isNewAttribute">
+      <ng-container *ngSwitchCase="true">
+        Новый атрибут
+      </ng-container>
+
+      <ng-container *ngSwitchCase="false">
+        {{ attribute?.id }}
+      </ng-container>
+    </h1>
+
+    <div class="header__toolbar">
+      <button class="header__btn toolbar-btn" (click)="goBack()">
+        <i class="ai ai-arrow-left"></i> назад
+      </button>
+      <button class="header__btn toolbar-btn" *ngIf="!isNewAttribute" (click)="deleteAttribute()">
+        Удалить
+      </button>
+      <button class="header__btn toolbar-main-btn" (click)="save()">Сохранить</button>
+    </div>
+  </div>
+
+  <form class="attribute" *ngIf="form" [formGroup]="form">
+
+    <div class="attribute__field field field--required"
+           *ngIf="form.get('id') as id"
+           [class.field--invalid]="isControlInvalid(id)"
+    >
+      <label for="id" class="field__label">Код атрибута <span class="attribute__id-note">(для внутреннего использования)</span></label>
+      <div class="field__control">
+        <input class="field__input"
+               [formControl]="id"
+               type="text"
+               id="id"
+               placeholder="Только латинские буквы, дефис (-) и нижнее подчёркивание (_)"
+        >
+      </div>
+    </div>
+
+    <div class="attribute__field field field--required"
+           *ngIf="form.get('label') as label"
+           [class.field--invalid]="isControlInvalid(label)"
+    >
+      <label for="label" class="field__label">Ярлык (label)</label>
+      <div class="field__control">
+        <input class="field__input" [formControl]="label" type="text" id="label">
+      </div>
+    </div>
+
+    <div class="attribute__field field"
+           *ngIf="form.get('groupName') as groupName"
+           [class.field--invalid]="isControlInvalid(groupName)"
+    >
+      <label for="id" class="field__label">Имя групы</label>
+      <div class="field__control">
+        <input class="field__input" [formControl]="groupName" type="text" id="groupName">
+      </div>
+    </div>
+
+    <div class="attribute__field field"
+           *ngIf="form.get('values').value as options"
+           [class.field--invalid]="isControlInvalid(options)"
+    >
+      <div class="field__label">Опции (значения атрибута)</div>
+      <div class="field__control">
+
+        <div class="option">
+          <div class="option__radio-container">
+            По умолчанию
+          </div>
+          <div class="option__name-container">
+            Имя опции
+          </div>
+        </div>
+
+        <div class="option" *ngFor="let option of options, index as index">
+          <div class="option__radio-container">
+            <input class="option__radio"
+                   [id]="index"
+                   (change)="onRadioChange(index)"
+                   [checked]="option.isDefault"
+                   type="radio"
+                   name="attribute"
+            >
+          </div>
+
+          <div class="option__name-container">
+            <input class="option__name field__input"
+                   [(ngModel)]="option.name"
+                   [ngModelOptions]="{standalone: true}"
+                   type="text"
+            >
+          </div>
+
+          <div class="option__delete-container">
+            <button class="btn option__delete"
+                    (click)="deleteOption(index)"
+                    type="button"
+            >
+              Удалить
+            </button>
+          </div>
+        </div>
+
+        <button class="btn attribute__add-option"
+                (click)="addOption()"
+                type="button"
+        >
+          Добавить опцию
+        </button>
+
+      </div>
+    </div>
+
+
+
+  </form>
+</div>

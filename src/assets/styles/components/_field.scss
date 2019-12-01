@@ -4,6 +4,8 @@ $fieldBorderColorHover: #878787;
 $fieldBorderColorFocus: #007bdb;
 
 .field {
+  $field: &;
+
   display: flex;
 
   &__label {
@@ -43,12 +45,23 @@ $fieldBorderColorFocus: #007bdb;
     font-size: 16px;
     color: $dark;
 
-    &:hover {
-      border-color: $fieldBorderColorHover;
+    &:not([disabled]) {
+      &:hover {
+        border-color: $fieldBorderColorHover;
+      }
+
+      &:focus {
+        border-color: $fieldBorderColorFocus;
+      }
+
+      #{$field}--invalid & {
+        border-color: $red;
+      }
     }
 
-    &:focus {
-      border-color: $fieldBorderColorFocus;
+    &[disabled] {
+      background: #e9e9e9;
+      cursor: not-allowed;
     }
   }
 
@@ -92,11 +105,5 @@ $fieldBorderColorFocus: #007bdb;
     &:focus::after {
       transform: rotate(180deg);
     }
-  }
-
-  &--invalid &__input,
-  &--invalid &__textarea,
-  &--invalid &__select {
-    border-color: $red;
   }
 }

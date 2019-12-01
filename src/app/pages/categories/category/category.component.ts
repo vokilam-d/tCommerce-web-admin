@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { EPageAction } from '../../../shared/enums/category-page-action.enum';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
-import { AddOrUpdateCategoryDto, ResponseCategoryDto } from '../../../shared/dto/category.dto';
+import { AddOrUpdateCategoryDto, ResponseCategoryDto } from '../../../shared/dtos/category.dto';
 
 const EMPTY_CATEGORY: AddOrUpdateCategoryDto = {
   isEnabled: true,

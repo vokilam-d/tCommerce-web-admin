@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CategoriesService } from './categories.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
-import { CategoryTreeItem, ResponseCategoryDto } from '../../shared/dto/category.dto';
+import { CategoryTreeItem, ResponseCategoryDto } from '../../shared/dtos/category.dto';
 
 @Component({
   selector: 'categories',

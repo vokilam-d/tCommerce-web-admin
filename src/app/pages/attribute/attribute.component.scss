@@ -1,0 +1,42 @@
+@import "variables";
+
+.attribute {
+  margin: 40px 0 0;
+
+  &__field {
+    margin: 30px 0 0;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  &__id-note {
+    display: block;
+    margin: 4px 0 0;
+    font-size: 11px;
+    color: lighten($grey, 20%);
+  }
+}
+
+.option {
+  display: flex;
+  margin: 0 0 20px;
+
+  &__radio-container {
+    width: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  &__name-container {
+    flex-grow: 2;
+  }
+
+  &__delete-container {
+    margin: 0 0 0 20px;
+  }
+}

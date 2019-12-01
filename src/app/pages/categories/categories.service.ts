@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
-import { AddOrUpdateCategoryDto, AdminCategoriesTreeDto, ResponseCategoryDto } from '../../shared/dto/category.dto';
+import { AddOrUpdateCategoryDto, AdminCategoriesTreeDto, ResponseCategoryDto } from '../../shared/dtos/category.dto';
 
 @Injectable()
 export class CategoriesService {

@@ -42,16 +42,36 @@ const routes: Routes = [
         }
       },
       {
+        path: 'attribute',
+        loadChildren: () => import('./pages/attribute-list/attribute-list.module').then(m => m.AttributeListModule)
+      },
+      {
+        path: 'attribute/add',
+        loadChildren: () => import('./pages/attribute/attribute.module').then(m => m.AttributeModule),
+        data: {
+          action: EPageAction.Add
+        }
+      },
+      {
+        path: 'attribute/edit/:id',
+        loadChildren: () => import('./pages/attribute/attribute.module').then(m => m.AttributeModule),
+        data: {
+          action: EPageAction.Edit
+        }
+      },
+      {
         path: '**',
         loadChildren: () => import('./pages/not-found/not-found.module').then(m => m.NotFoundModule)
       }
     ]
   }
-
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'corrected', scrollPositionRestoration: 'enabled' })],
+  imports: [RouterModule.forRoot(routes, {
+    relativeLinkResolution: 'corrected',
+    scrollPositionRestoration: 'enabled'
+  })],
   exports: [RouterModule]
 })
 export class AppRoutingModule {

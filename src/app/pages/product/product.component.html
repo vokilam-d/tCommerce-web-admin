@@ -11,13 +11,13 @@
     </h1>
 
     <div class="header__toolbar">
-      <button class="header__btn btn" (click)="goBack()">
+      <button class="header__btn toolbar-btn" (click)="goBack()">
         <i class="ai ai-arrow-left"></i> назад
       </button>
-      <button class="header__btn btn" (click)="delete()">
+      <button class="header__btn toolbar-btn" *ngIf="!isNewProduct" (click)="delete()">
         Удалить
       </button>
-      <button class="header__btn main-btn" (click)="save()">Сохранить</button>
+      <button class="header__btn toolbar-main-btn" (click)="save()">Сохранить</button>
     </div>
   </div>
 

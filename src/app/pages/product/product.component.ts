@@ -4,8 +4,8 @@ import { ProductService } from '../../shared/services/product.service';
 import { EPageAction } from '../../shared/enums/category-page-action.enum';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
-import { MediaDto } from '../../shared/dto/media.dto';
-import { AddOrUpdateProductDto, ResponseProductDto } from '../../shared/dto/product.dto';
+import { MediaDto } from '../../shared/dtos/media.dto';
+import { AddOrUpdateProductDto, ResponseProductDto } from '../../shared/dtos/product.dto';
 
 @Component({
   selector: 'product',
@@ -68,7 +68,7 @@ export class ProductComponent implements OnInit {
     if (this.isNewProduct) {
       this.buildForm(this.getEmptyProduct());
     } else {
-      this.getProduct();
+      this.fetchProduct();
     }
   }
 
@@ -92,7 +92,7 @@ export class ProductComponent implements OnInit {
     });
   }
 
-  private getProduct() {
+  private fetchProduct() {
     const id = this.route.snapshot.paramMap.get('id');
     this.productsService.fetchProduct(id).subscribe(
       product => {

@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { finalize } from 'rxjs/operators';
-import { MediaDto } from '../shared/dto/media.dto';
+import { MediaDto } from '../shared/dtos/media.dto';
 
 @Component({
   selector: 'media-uploader',

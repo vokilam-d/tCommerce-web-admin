@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { MediaDto } from '../shared/dto/media.dto';
+import { MediaDto } from '../shared/dtos/media.dto';
 
 @Component({
   selector: 'media-asset',

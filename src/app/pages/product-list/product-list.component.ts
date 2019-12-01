@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../../shared/services/product.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ResponseProductDto } from '../../shared/dto/product.dto';
+import { ResponseProductDto } from '../../shared/dtos/product.dto';
 
 @Component({
   selector: 'product-list',
