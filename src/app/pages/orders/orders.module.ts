@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { WebAdminOrdersRoutingModule } from './orders-routing.module';
-import { WebAdminOrdersComponent } from './orders.component';
+import { OrdersRoutingModule } from './orders-routing.module';
+import { OrdersComponent } from './orders.component';
 
 
 @NgModule({
-  declarations: [WebAdminOrdersComponent],
+  declarations: [OrdersComponent],
   imports: [
     CommonModule,
-    WebAdminOrdersRoutingModule
+    OrdersRoutingModule
   ]
 })
-export class WebAdminOrdersModule { }
+export class OrdersModule { }

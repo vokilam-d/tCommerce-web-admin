@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'web-admin-navbar',
+  selector: 'navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class WebAdminNavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit {
 
   constructor() { }
 

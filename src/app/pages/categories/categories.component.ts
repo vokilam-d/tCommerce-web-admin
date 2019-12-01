@@ -1,23 +1,20 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { WebAdminCategoriesService } from './categories.service';
+import { CategoriesService } from './categories.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  AdminCategoryTreeItem,
-  AdminResponseCategoryDto
-} from '../../../../../backend/src/shared/dtos/admin/category.dto';
 import { Subject } from 'rxjs';
+import { CategoryTreeItem, ResponseCategoryDto } from '../../shared/dto/category.dto';
 
 @Component({
   selector: 'categories',
   templateUrl: './categories.component.html',
   styleUrls: ['./categories.component.scss']
 })
-export class WebAdminCategoriesComponent implements OnInit, OnDestroy {
+export class CategoriesComponent implements OnInit, OnDestroy {
 
-  categories: AdminCategoryTreeItem[];
+  categories: CategoryTreeItem[];
   ngUnsubscribe = new Subject();
 
-  constructor(private categoriesService: WebAdminCategoriesService,
+  constructor(private categoriesService: CategoriesService,
               private router: Router,
               private route: ActivatedRoute) {
   }
@@ -42,7 +39,7 @@ export class WebAdminCategoriesComponent implements OnInit, OnDestroy {
     );
   }
 
-  selectCategory(category: AdminResponseCategoryDto) {
+  selectCategory(category: ResponseCategoryDto) {
     this.categoriesService.setSelectedCategoryId(category.id);
     this.router.navigate(['edit', category.id], { relativeTo: this.route });
   }

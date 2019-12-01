@@ -1,28 +1,28 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { WebAdminCategoriesRoutingModule } from './categories-routing.module';
-import { WebAdminCategoriesComponent } from './categories.component';
-import { WebAdminCategoryComponent } from './web-admin-category/web-admin-category.component';
-import { WebAdminCategoriesService } from './categories.service';
+import { CategoriesRoutingModule } from './categories-routing.module';
+import { CategoriesComponent } from './categories.component';
+import { CategoryComponent } from './category/category.component';
+import { CategoriesService } from './categories.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 
 
 @NgModule({
   declarations: [
-    WebAdminCategoriesComponent,
-    WebAdminCategoryComponent
+    CategoriesComponent,
+    CategoryComponent
   ],
   imports: [
     CommonModule,
-    WebAdminCategoriesRoutingModule,
+    CategoriesRoutingModule,
     ReactiveFormsModule,
     FormsModule,
     AngularEditorModule
   ],
   providers: [
-    WebAdminCategoriesService
+    CategoriesService
   ]
 })
-export class WebAdminCategoriesModule { }
+export class CategoriesModule { }

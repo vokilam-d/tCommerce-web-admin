@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { WebAdminNavbarComponent } from './navbar.component';
+import { NavbarComponent } from './navbar.component';
 import { RouterModule } from '@angular/router';
 
 
 @NgModule({
-  declarations: [WebAdminNavbarComponent],
+  declarations: [NavbarComponent],
   imports: [
     CommonModule,
     RouterModule
   ],
   exports: [
-    WebAdminNavbarComponent
+    NavbarComponent
   ]
 })
-export class WebAdminNavbarModule { }
+export class NavbarModule { }

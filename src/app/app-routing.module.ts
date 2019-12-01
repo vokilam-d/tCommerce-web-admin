@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { EWebAdminPageAction } from './shared/enums/category-page-action.enum';
+import { EPageAction } from './shared/enums/category-page-action.enum';
 
 
 const routes: Routes = [
@@ -14,36 +14,36 @@ const routes: Routes = [
       },
       {
         path: 'dashboard',
-        loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.WebAdminDashboardModule)
+        loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.DashboardModule)
       }, {
         path: 'order',
-        loadChildren: () => import('./pages/orders/orders.module').then(m => m.WebAdminOrdersModule)
+        loadChildren: () => import('./pages/orders/orders.module').then(m => m.OrdersModule)
       },
       {
         path: 'category',
-        loadChildren: () => import('./pages/categories/categories.module').then(m => m.WebAdminCategoriesModule)
+        loadChildren: () => import('./pages/categories/categories.module').then(m => m.CategoriesModule)
       },
       {
         path: 'product',
-        loadChildren: () => import('./pages/web-admin-product-list/web-admin-product-list.module').then(m => m.WebAdminProductListModule)
+        loadChildren: () => import('./pages/product-list/product-list.module').then(m => m.ProductListModule)
       },
       {
         path: 'product/add',
-        loadChildren: () => import('./pages/web-admin-product/web-admin-product.module').then(m => m.WebAdminProductModule),
+        loadChildren: () => import('./pages/product/product.module').then(m => m.ProductModule),
         data: {
-          action: EWebAdminPageAction.Add
+          action: EPageAction.Add
         }
       },
       {
         path: 'product/edit/:id',
-        loadChildren: () => import('./pages/web-admin-product/web-admin-product.module').then(m => m.WebAdminProductModule),
+        loadChildren: () => import('./pages/product/product.module').then(m => m.ProductModule),
         data: {
-          action: EWebAdminPageAction.Edit
+          action: EPageAction.Edit
         }
       },
       {
         path: '**',
-        loadChildren: () => import('./pages/web-admin-not-found/web-admin-not-found.module').then(m => m.WebAdminNotFoundModule)
+        loadChildren: () => import('./pages/not-found/not-found.module').then(m => m.NotFoundModule)
       }
     ]
   }
@@ -54,5 +54,5 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'corrected', scrollPositionRestoration: 'enabled' })],
   exports: [RouterModule]
 })
-export class WebAdminAppRoutingModule {
+export class AppRoutingModule {
 }

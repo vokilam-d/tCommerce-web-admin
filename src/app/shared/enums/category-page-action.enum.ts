@@ -1,4 +1,4 @@
-export enum EWebAdminPageAction {
+export enum EPageAction {
   Add = 'add',
   Edit = 'edit'
 }

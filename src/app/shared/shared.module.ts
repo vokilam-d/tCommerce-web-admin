@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { WebAdminCategorySelectComponent } from './components/category-select/web-admin-category-select.component';
+import { CategorySelectComponent } from './components/category-select/category-select.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { WebAdminClickOutsideDirective } from './directives/click-outside/web-admin-click-outside.directive';
+import { ClickOutsideDirective } from './directives/click-outside/click-outside.directive';
 
 
 @NgModule({
-  declarations: [WebAdminCategorySelectComponent, WebAdminClickOutsideDirective],
+  declarations: [CategorySelectComponent, ClickOutsideDirective],
   exports: [
-    WebAdminCategorySelectComponent,
-    WebAdminClickOutsideDirective
+    CategorySelectComponent,
+    ClickOutsideDirective
   ],
   imports: [
     CommonModule,

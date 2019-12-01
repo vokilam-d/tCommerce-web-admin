@@ -1,14 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
-import {
-  AdminAddOrUpdateCategoryDto,
-  AdminCategoriesTreeDto,
-  AdminResponseCategoryDto
-} from '../../../../../backend/src/shared/dtos/admin/category.dto';
+import { AddOrUpdateCategoryDto, AdminCategoriesTreeDto, ResponseCategoryDto } from '../../shared/dto/category.dto';
 
 @Injectable()
-export class WebAdminCategoriesService {
+export class CategoriesService {
 
   selectedCategoryId: number;
   categoryUpdated$ = new Subject();
@@ -21,7 +17,7 @@ export class WebAdminCategoriesService {
   }
 
   fetchCategory(id: string) {
-    return this.http.get<AdminResponseCategoryDto>(`http://localhost:3500/api/v1/admin/categories/${id}`);
+    return this.http.get<ResponseCategoryDto>(`http://localhost:3500/api/v1/admin/categories/${id}`);
   }
 
   setSelectedCategoryId(id: number) {
@@ -32,17 +28,17 @@ export class WebAdminCategoriesService {
     this.selectedCategoryId = null;
   }
 
-  saveCategory(category: AdminAddOrUpdateCategoryDto, parentId: string) {
-    const categoryDto: AdminAddOrUpdateCategoryDto = {
+  saveCategory(category: AddOrUpdateCategoryDto, parentId: string) {
+    const categoryDto: AddOrUpdateCategoryDto = {
       ...category,
       parentId: parseInt(parentId)
     };
 
-    return this.http.post<AdminResponseCategoryDto>(`http://localhost:3500/api/v1/admin/categories`, categoryDto);
+    return this.http.post<ResponseCategoryDto>(`http://localhost:3500/api/v1/admin/categories`, categoryDto);
   }
 
-  updateCategory(id: number, categoryDto: AdminResponseCategoryDto) {
-    return this.http.put<AdminResponseCategoryDto>(`http://localhost:3500/api/v1/admin/categories/${id}`, categoryDto);
+  updateCategory(id: number, categoryDto: ResponseCategoryDto) {
+    return this.http.put<ResponseCategoryDto>(`http://localhost:3500/api/v1/admin/categories/${id}`, categoryDto);
   }
 
   deleteCategory(id: number) {

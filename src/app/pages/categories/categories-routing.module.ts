@@ -1,27 +1,27 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { WebAdminCategoriesComponent } from './categories.component';
-import { WebAdminCategoryComponent } from './web-admin-category/web-admin-category.component';
-import { EWebAdminPageAction } from '../../shared/enums/category-page-action.enum';
+import { CategoriesComponent } from './categories.component';
+import { CategoryComponent } from './category/category.component';
+import { EPageAction } from '../../shared/enums/category-page-action.enum';
 
 const routes: Routes = [
   {
     path: '',
-    component: WebAdminCategoriesComponent,
+    component: CategoriesComponent,
     children: [
       {
         path: 'edit/:id',
-        component: WebAdminCategoryComponent,
+        component: CategoryComponent,
         data: {
-          action: EWebAdminPageAction.Edit
+          action: EPageAction.Edit
         }
       },
       {
         path: 'add/parent/:parentId',
-        component: WebAdminCategoryComponent,
+        component: CategoryComponent,
         data: {
-          action: EWebAdminPageAction.Add
+          action: EPageAction.Add
         }
       }
     ]
@@ -32,4 +32,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class WebAdminCategoriesRoutingModule { }
+export class CategoriesRoutingModule { }
