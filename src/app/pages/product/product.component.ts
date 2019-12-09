@@ -6,6 +6,7 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { MediaDto } from '../../shared/dtos/media.dto';
 import { AddOrUpdateProductDto, ResponseProductDto } from '../../shared/dtos/product.dto';
+import { NotyService } from '../../noty/noty.service';
 
 @Component({
   selector: 'product',
@@ -26,6 +27,7 @@ export class ProductComponent implements OnInit {
   constructor(private productsService: ProductService,
               private formBuilder: FormBuilder,
               private router: Router,
+              private notyService: NotyService,
               private route: ActivatedRoute) {
   }
 
@@ -55,12 +57,14 @@ export class ProductComponent implements OnInit {
       return;
     }
 
-    this.productsService.deleteProduct(this.product.id).subscribe(
-      _ => {
-        this.goBack();
-      },
-      error => console.warn(error)
-    );
+    this.productsService.deleteProduct(this.product.id)
+      .pipe(this.notyService.attachNoty({ onSuccess: 'Товар успешно удалён' }))
+      .subscribe(
+        _ => {
+          this.goBack();
+        },
+        error => console.warn(error)
+      );
   }
 
   private init() {
@@ -94,13 +98,15 @@ export class ProductComponent implements OnInit {
 
   private fetchProduct() {
     const id = this.route.snapshot.paramMap.get('id');
-    this.productsService.fetchProduct(id).subscribe(
-      product => {
-        this.product = product;
-        this.buildForm(this.product);
-      },
-      error => console.warn(error)
-    )
+    this.productsService.fetchProduct(id)
+      .pipe(this.notyService.attachNoty())
+      .subscribe(
+        product => {
+          this.product = product;
+          this.buildForm(this.product);
+        },
+        error => console.warn(error)
+      );
   }
 
   private validateAllControls() {
@@ -119,12 +125,14 @@ export class ProductComponent implements OnInit {
 
   private addNewProduct() {
     const dto = this.form.value;
-    this.productsService.addNewProduct(dto).subscribe(
-      product => {
-        this.router.navigate(['admin', 'product', 'edit', product.id]);
-      },
-      error => console.warn(error)
-    );
+    this.productsService.addNewProduct(dto)
+      .pipe(this.notyService.attachNoty({ onSuccess: 'Товар успешно добавлен' }))
+      .subscribe(
+        product => {
+          this.router.navigate(['admin', 'product', 'edit', product.id]);
+        },
+        error => console.warn(error)
+      );
   }
 
   private updateProduct() {
@@ -133,12 +141,14 @@ export class ProductComponent implements OnInit {
       ...this.form.value
     };
 
-    this.productsService.updateProduct(this.product.id, dto).subscribe(
-      product => {
-        this.product = product;
-      },
-      error => console.warn(error)
-    )
+    this.productsService.updateProduct(this.product.id, dto)
+      .pipe(this.notyService.attachNoty({ onSuccess: 'Товар успешно обновлён' }))
+      .subscribe(
+        product => {
+          this.product = product;
+        },
+        error => console.warn(error)
+      );
   }
 
   getMediaUploadUrl() {

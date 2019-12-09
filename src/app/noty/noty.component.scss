@@ -1,0 +1,60 @@
+@import "variables";
+
+$bottomDistance: 25px;
+
+.noty {
+  position: fixed;
+  left: 50%;
+  bottom: $bottomDistance;
+  transform: translate(-50%, 0);
+  max-width: 700px;
+  width: 90%;
+  min-width: 300px;
+  padding: 15px 40px 15px 20px;
+  background: $dark;
+  border-radius: 5px;
+  box-shadow: 0 2px 8px rgba($dark, 0.3);
+  color: #fff;
+  animation: slideInNoty 0.3s $cubicBezier;
+  white-space: pre-line;
+  line-height: 1.3;
+
+  &--error {
+    background: darken($red, 30%);
+  }
+
+  &--hiding {
+    animation: slideOutNoty 0.3s $cubicBezier forwards;
+  }
+
+  &__close {
+    position: absolute;
+    top: 50%;
+    right: 7px;
+    transform: translateY(-50%);
+    padding: 10px;
+    cursor: pointer;
+  }
+
+  &__close-icon {
+    font-size: 11px;
+  }
+}
+
+@keyframes slideInNoty {
+  from {
+    transform: translate(-50%, calc(100% + #{$bottomDistance}));
+  }
+  to {
+    transform: translate(-50%, 0);
+  }
+}
+
+@keyframes slideOutNoty {
+  from {
+    transform: translate(-50%, 0);
+  }
+  to {
+    transform: translate(-50%, calc(100% + #{$bottomDistance}));
+  }
+}

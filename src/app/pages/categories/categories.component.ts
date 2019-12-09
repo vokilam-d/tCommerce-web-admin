@@ -3,6 +3,7 @@ import { CategoriesService } from './categories.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { CategoryTreeItem, ResponseCategoryDto } from '../../shared/dtos/category.dto';
+import { NotyService } from '../../noty/noty.service';
 
 @Component({
   selector: 'categories',
@@ -16,6 +17,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 
   constructor(private categoriesService: CategoriesService,
               private router: Router,
+              private notyService: NotyService,
               private route: ActivatedRoute) {
   }
 
@@ -31,12 +33,14 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   }
 
   fetchCategoriesTree() {
-    this.categoriesService.fetchCategoriesTree().subscribe(
-      tree => {
-        this.categories = tree.categories;
-      },
-      error => console.warn(error)
-    );
+    this.categoriesService.fetchCategoriesTree()
+      .pipe(this.notyService.attachNoty())
+      .subscribe(
+        tree => {
+          this.categories = tree.categories;
+        },
+        error => console.warn(error)
+      );
   }
 
   selectCategory(category: ResponseCategoryDto) {

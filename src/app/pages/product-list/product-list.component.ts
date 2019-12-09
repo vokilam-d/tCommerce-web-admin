@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../../shared/services/product.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ResponseProductDto } from '../../shared/dtos/product.dto';
+import { NotyService } from '../../noty/noty.service';
 
 @Component({
   selector: 'product-list',
@@ -14,6 +15,7 @@ export class ProductListComponent implements OnInit {
 
   constructor(private productsService: ProductService,
               private route: ActivatedRoute,
+              private notyService: NotyService,
               private router: Router) {
   }
 
@@ -26,11 +28,13 @@ export class ProductListComponent implements OnInit {
   }
 
   private fetchProducts() {
-    this.productsService.fetchProducts().subscribe(
-      products => {
-        this.products = products;
-      },
-      error => console.warn(error)
-    )
+    this.productsService.fetchProducts()
+      .pipe(this.notyService.attachNoty())
+      .subscribe(
+        products => {
+          this.products = products;
+        },
+        error => console.warn(error)
+      );
   }
 }

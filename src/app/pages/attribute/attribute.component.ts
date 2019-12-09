@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AttributeDto, AttributeValueDto } from '../../shared/dtos/attribute.dto';
 import { AttributeService } from '../../shared/services/attribute.service';
 import { urlFriendlyCodeRegex } from '../../shared/constants/constants';
+import { NotyService } from 'src/app/noty/noty.service';
 
 @Component({
   selector: 'attribute',
@@ -20,6 +21,7 @@ export class AttributeComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private attributeService: AttributeService,
               private router: Router,
+              private notyService: NotyService,
               private route: ActivatedRoute) {
   }
 
@@ -135,13 +137,15 @@ export class AttributeComponent implements OnInit {
       ...this.form.value
     };
 
-    this.attributeService.updateAttribute(this.attribute.id, dto).subscribe(
-      attribute => {
-        this.attribute = attribute;
-        this.buildForm(this.attribute);
-      },
-      error => console.warn(error)
-    )
+    this.attributeService.updateAttribute(this.attribute.id, dto)
+      .pipe(this.notyService.attachNoty({ onSuccess: 'Атрибут успешно обновлён!' }))
+      .subscribe(
+        attribute => {
+          this.attribute = attribute;
+          this.buildForm(this.attribute);
+        },
+        error => console.warn(error)
+      );
   }
 
   private getEmptyAttribute(): AttributeDto {

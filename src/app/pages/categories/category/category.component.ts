@@ -5,6 +5,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { EPageAction } from '../../../shared/enums/category-page-action.enum';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { AddOrUpdateCategoryDto, ResponseCategoryDto } from '../../../shared/dtos/category.dto';
+import { NotyService } from '../../../noty/noty.service';
 
 const EMPTY_CATEGORY: AddOrUpdateCategoryDto = {
   isEnabled: true,
@@ -49,6 +50,7 @@ export class CategoryComponent implements OnInit {
   constructor(private categoriesService: CategoriesService,
               private formBuilder: FormBuilder,
               private router: Router,
+              private notyService: NotyService,
               private route: ActivatedRoute) {
   }
 
@@ -71,14 +73,16 @@ export class CategoryComponent implements OnInit {
   getCategory() {
     const id = this.route.snapshot.paramMap.get('id');
 
-    this.categoriesService.fetchCategory(id).subscribe(
-      category => {
-        this.category = category;
-        this.categoriesService.setSelectedCategoryId(category.id);
-        this.buildForm(this.category);
-      },
-      error => console.warn(error)
-    );
+    this.categoriesService.fetchCategory(id)
+      .pipe(this.notyService.attachNoty())
+      .subscribe(
+        category => {
+          this.category = category;
+          this.categoriesService.setSelectedCategoryId(category.id);
+          this.buildForm(this.category);
+        },
+        error => console.warn(error)
+      );
   }
 
   save() {
@@ -99,25 +103,29 @@ export class CategoryComponent implements OnInit {
       return;
     }
 
-    this.categoriesService.deleteCategory(this.category.id).subscribe(
-      _ => {
-        this.router.navigate(['admin', 'category']);
-        this.categoriesService.categoryUpdated$.next();
-      },
-      error => console.warn(error)
-    );
+    this.categoriesService.deleteCategory(this.category.id)
+      .pipe(this.notyService.attachNoty())
+      .subscribe(
+        _ => {
+          this.router.navigate(['admin', 'category']);
+          this.categoriesService.categoryUpdated$.next();
+        },
+        error => console.warn(error)
+      );
   }
 
   private addNewCategory() {
     const parentId = this.route.snapshot.paramMap.get('parentId');
 
-    this.categoriesService.saveCategory(this.form.value, parentId).subscribe(
-      category => {
-        this.categoriesService.categoryUpdated$.next();
-        this.router.navigate(['admin', 'category', 'edit', category.id]);
-      },
-      error => console.warn(error)
-    );
+    this.categoriesService.saveCategory(this.form.value, parentId)
+      .pipe(this.notyService.attachNoty())
+      .subscribe(
+        category => {
+          this.categoriesService.categoryUpdated$.next();
+          this.router.navigate(['admin', 'category', 'edit', category.id]);
+        },
+        error => console.warn(error)
+      );
   }
 
   private updateCategory() {
@@ -126,13 +134,15 @@ export class CategoryComponent implements OnInit {
       ...this.form.value
     };
 
-    this.categoriesService.updateCategory(this.category.id, dto).subscribe(
-      category => {
-        this.categoriesService.categoryUpdated$.next();
-        this.category = category;
-      },
-      error => console.warn(error)
-    );
+    this.categoriesService.updateCategory(this.category.id, dto)
+      .pipe(this.notyService.attachNoty())
+      .subscribe(
+        category => {
+          this.categoriesService.categoryUpdated$.next();
+          this.category = category;
+        },
+        error => console.warn(error)
+      );
   }
 
   private buildForm(category: AddOrUpdateCategoryDto) {
