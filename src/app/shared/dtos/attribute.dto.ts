@@ -1,11 +1,12 @@
-export class AttributeValue {
-  isDefault: boolean;
+export class AttributeValueDto {
+  id: string;
   name: string;
+  isDefault: boolean;
 }
 
 export class UpdateAttributeDto {
   label: string;
-  values: AttributeValue[];
+  values: AttributeValueDto[];
   groupName: string;
 }
 

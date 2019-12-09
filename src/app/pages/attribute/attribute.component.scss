@@ -23,6 +23,10 @@
   display: flex;
   margin: 0 0 20px;
 
+  &--head {
+    align-items: flex-start;
+  }
+
   &__radio-container {
     width: 120px;
     display: flex;
@@ -32,8 +36,20 @@
     flex-shrink: 0;
   }
 
+  &__code-container {
+    width: 150px;
+  }
+
+  &__code-note {
+    display: block;
+    margin: 3px 0 0;
+    font-size: 10px;
+    color: lighten($grey, 20%);
+  }
+
   &__name-container {
-    flex-grow: 2;
+    width: 300px;
+    margin: 0 0 0 20px;
   }
 
   &__delete-container {

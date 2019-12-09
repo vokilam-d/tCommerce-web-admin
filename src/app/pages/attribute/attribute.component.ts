@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { EPageAction } from '../../shared/enums/category-page-action.enum';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AttributeDto, AttributeValue } from '../../shared/dtos/attribute.dto';
+import { AttributeDto, AttributeValueDto } from '../../shared/dtos/attribute.dto';
 import { AttributeService } from '../../shared/services/attribute.service';
+import { urlFriendlyCodeRegex } from '../../shared/constants/constants';
 
 @Component({
   selector: 'attribute',
@@ -67,25 +68,25 @@ export class AttributeComponent implements OnInit {
   }
 
   addOption() {
-    const controlOptions = this.form.get('values').value as AttributeValue[];
+    const controlOptions = this.form.get('values').value as AttributeValueDto[];
     controlOptions.push(this.getEmptyAttributeValue());
   }
 
   onRadioChange(optionIndex: number) {
-    const controlOptions = this.form.get('values').value as AttributeValue[];
+    const controlOptions = this.form.get('values').value as AttributeValueDto[];
     controlOptions.forEach((option, index) => {
       option.isDefault = optionIndex === index;
     });
   }
 
   deleteOption(index: number) {
-    const controlOptions = this.form.get('values').value as AttributeValue[];
+    const controlOptions = this.form.get('values').value as AttributeValueDto[];
     controlOptions.splice(index, 1);
   }
 
   private buildForm(attribute: AttributeDto) {
     this.form = this.formBuilder.group({
-      id: [{ value: attribute.id, disabled: !this.isNewAttribute }, [Validators.pattern(/[a-zA-Z\-_]/g), Validators.required]],
+      id: [{ value: attribute.id, disabled: !this.isNewAttribute }, [Validators.pattern(urlFriendlyCodeRegex), Validators.required]],
       label: [attribute.label, Validators.required],
       values: [attribute.values],
       groupName: attribute.groupName
@@ -137,6 +138,7 @@ export class AttributeComponent implements OnInit {
     this.attributeService.updateAttribute(this.attribute.id, dto).subscribe(
       attribute => {
         this.attribute = attribute;
+        this.buildForm(this.attribute);
       },
       error => console.warn(error)
     )
@@ -151,10 +153,12 @@ export class AttributeComponent implements OnInit {
     };
   }
 
-  private getEmptyAttributeValue(): AttributeValue {
+  private getEmptyAttributeValue(): AttributeValueDto & { isNew?: boolean; } {
     return {
+      id: '',
+      name: '',
       isDefault: false,
-      name: ''
+      isNew: true
     };
   }
 }

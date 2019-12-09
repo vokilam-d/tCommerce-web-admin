@@ -33,7 +33,7 @@
                [formControl]="id"
                type="text"
                id="id"
-               placeholder="Только латинские буквы, дефис (-) и нижнее подчёркивание (_)"
+               placeholder="Только латинские буквы, цифры, дефис (-), нижнее подчёркивание (_)"
         >
       </div>
     </div>
@@ -60,14 +60,19 @@
 
     <div class="attribute__field field"
            *ngIf="form.get('values').value as options"
-           [class.field--invalid]="isControlInvalid(options)"
     >
       <div class="field__label">Опции (значения атрибута)</div>
-      <div class="field__control">
+      <div class="attribute__options">
 
-        <div class="option">
+        <div class="option option--head">
           <div class="option__radio-container">
             По умолчанию
+          </div>
+          <div class="option__code-container">
+            Код опции
+            <span class="option__code-note">
+              (нельзя изменять после сохранения)
+            </span>
           </div>
           <div class="option__name-container">
             Имя опции
@@ -85,10 +90,20 @@
             >
           </div>
 
+          <div class="option__code-container">
+            <input class="option__code field__input"
+                   [(ngModel)]="option.id"
+                   [ngModelOptions]="{ standalone: true }"
+                   [disabled]="option.isNew !== true"
+                   type="text"
+                   placeholder='a-z, 0-9, -, _'
+            >
+          </div>
+
           <div class="option__name-container">
             <input class="option__name field__input"
                    [(ngModel)]="option.name"
-                   [ngModelOptions]="{standalone: true}"
+                   [ngModelOptions]="{ standalone: true }"
                    type="text"
             >
           </div>
