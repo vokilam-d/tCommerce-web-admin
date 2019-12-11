@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AddOrUpdateProductDto, ResponseProductDto } from '../dtos/product.dto';
+import { FilterDto } from '../dtos/filter.dto';
 
 @Injectable()
 export class ProductService {
@@ -9,7 +10,7 @@ export class ProductService {
   constructor(private http: HttpClient) {
   }
 
-  fetchProducts(): Observable<ResponseProductDto[]> {
+  fetchProducts(filter: FilterDto): Observable<ResponseProductDto[]> {
     return this.http.get<ResponseProductDto[]>('http://localhost:3500/api/v1/admin/products');
   }
 

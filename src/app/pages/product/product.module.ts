@@ -9,6 +9,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { MediaAssetModule } from '../../media-asset/media-asset.module';
 import { MediaUploaderModule } from '../../media-uploader/media-uploader.module';
 import { AngularEditorModule } from '@kolkov/angular-editor';
+import { CategorySelectModule } from '../../category-select/category-select.module';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
     SharedModule,
     MediaAssetModule,
     MediaUploaderModule,
-    AngularEditorModule
+    AngularEditorModule,
+    CategorySelectModule
   ],
   providers: [
     ProductService
