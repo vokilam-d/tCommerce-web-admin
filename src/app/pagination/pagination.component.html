@@ -1,0 +1,27 @@
+<div class="pagination">
+  <div class="pagination__limit-container">
+    <app-select class="pagination__limit" [options]="limitOptions" [formControl]="limitControl"></app-select>
+    <div class="pagination__limit-label">на стр.</div>
+  </div>
+
+  <div class="pagination__page-container">
+    <button class="pagination__page-control"
+            [disabled]="pageControl.value <= 1"
+            (click)="prevPage()"
+    >
+      <i class="ai ai-left pagination__page-icon"></i>
+    </button>
+
+    <div class="pagination__text">
+      {{ pageControl.value }} из {{ pageCount }}
+    </div>
+
+    <button class="pagination__page-control"
+            [disabled]="pageControl.value >= pageCount"
+            (click)="nextPage()"
+    >
+      <i class="ai ai-right pagination__page-icon"></i>
+    </button>
+  </div>
+
+</div>

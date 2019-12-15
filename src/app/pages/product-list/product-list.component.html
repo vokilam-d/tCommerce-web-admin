@@ -1,5 +1,5 @@
 <div class="page">
-  <header class="header">
+  <header class="header page__header">
     <h1 class="header__title">
       Товары
     </h1>
@@ -9,10 +9,12 @@
     </div>
   </header>
 
-  <div class="grid product">
+  <pagination class="page__pagination" (change)="fetchProducts($event)"></pagination>
+
+  <div class="grid page__grid">
     <div class="grid__container">
 
-      <div class="grid__head">
+      <div class="grid__head product">
         <div class="grid__block product__id">ID</div>
         <div class="grid__block product__thumbnail">Картинка</div>
         <div class="grid__block product__name">Название товара</div>
@@ -23,7 +25,7 @@
       </div>
 
       <div class="grid__body">
-        <a class="grid__row"
+        <a class="grid__row product"
            *ngFor="let product of products, even as even"
            [routerLink]="['edit', product.id]"
            [class.grid__row--even]="even"

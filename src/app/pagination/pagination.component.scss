@@ -1,0 +1,50 @@
+@import "variables";
+
+.pagination {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  &__limit-container {
+    display: flex;
+    align-items: center;
+  }
+
+  &__limit {
+    width: 100px;
+  }
+
+  &__limit-label {
+    margin: 0 0 0 6px;
+  }
+
+  &__page-container {
+    margin: 0 0 0 40px;
+    display: flex;
+    align-items: center;
+  }
+
+  &__page-control {
+    padding: 8px 15px;
+    background: $controlBg;
+    border: 1px solid $borderColor;
+    transition: all 0.2s ease;
+
+    &[disabled] {
+      opacity: 0.5;
+      cursor: default;
+    }
+
+    &:not([disabled]):hover {
+      background: darken($controlBg, 10%);
+    }
+  }
+
+  &__page-icon {
+    font-size: 17px;
+  }
+
+  &__text {
+    margin: 0 20px;
+  }
+}

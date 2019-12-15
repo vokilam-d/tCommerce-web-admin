@@ -1,0 +1,32 @@
+.select {
+  position: relative;
+
+  &__active {
+    font-size: 14px;
+    text-align: left;
+  }
+
+  &__options {
+    position: absolute;
+    top: calc(100% + 2px);
+    left: 0;
+    right: 0;
+    max-height: 350px;
+    overflow: auto;
+    background: #fff;
+    border: 1px solid #007bdb;
+    box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.3);
+    z-index: 101;
+  }
+
+  &__option {
+    padding: 12px 10px;
+    text-align: left;
+    cursor: pointer;
+
+    &--active,
+    &:hover {
+      background: #f0f0f0;
+    }
+  }
+}

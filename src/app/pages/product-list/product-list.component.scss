@@ -1,5 +1,16 @@
 @import "variables";
 
+.page {
+  &__pagination {
+    display: block;
+    margin: 40px 0 0;
+  }
+
+  &__grid {
+    margin: 20px 0 0;
+  }
+}
+
 .product {
   &__id {
     width: 30px;
