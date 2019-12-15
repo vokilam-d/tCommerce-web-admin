@@ -1,13 +1,11 @@
 @import "variables";
 
-.page {
-  &__pagination {
-    display: block;
-    margin: 40px 0 0;
-  }
+.list-info {
+  display: flex;
+  align-items: center;
 
-  &__grid {
-    margin: 20px 0 0;
+  &__pagination {
+    margin: 0 0 0 auto;
   }
 }
 

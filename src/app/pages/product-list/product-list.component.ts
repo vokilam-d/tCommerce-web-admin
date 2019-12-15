@@ -14,6 +14,7 @@ import { PaginationComponent } from '../../pagination/pagination.component';
 export class ProductListComponent implements OnInit, AfterViewInit {
 
   products: ResponseProductDto[] = [];
+  itemsTotal: number = 0;
   pagesTotal: number = 1;
 
   @ViewChild(PaginationComponent) paginationCmp: PaginationComponent;
@@ -42,8 +43,8 @@ export class ProductListComponent implements OnInit, AfterViewInit {
       .subscribe(
         response => {
           this.products = response.data;
-          const itemsTotal = response.itemsTotal;
-          this.pagesTotal = Math.floor(itemsTotal / pagination.limit);
+          this.itemsTotal = response.itemsTotal;
+          this.pagesTotal = response.pagesTotal;
         },
         error => console.warn(error)
       );

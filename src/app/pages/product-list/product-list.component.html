@@ -9,7 +9,12 @@
     </div>
   </header>
 
-  <pagination class="page__pagination" (change)="fetchProducts($event)"></pagination>
+  <div class="page__list-info list-info">
+    <div class="list-info__total-items">
+      Всего {{ itemsTotal }} товаров
+    </div>
+    <pagination class="list-info__pagination" [pageCount]="pagesTotal" (change)="fetchProducts($event)"></pagination>
+  </div>
 
   <div class="grid page__grid">
     <div class="grid__container">
