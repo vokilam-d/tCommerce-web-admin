@@ -11,7 +11,7 @@
 
   <div class="page__list-info list-info">
     <div class="list-info__total-items">
-      Всего {{ itemsTotal }} товаров
+      Всего товаров: {{ itemsTotal }}
     </div>
     <pagination class="list-info__pagination" [pageCount]="pagesTotal" (change)="fetchProducts($event)"></pagination>
   </div>
