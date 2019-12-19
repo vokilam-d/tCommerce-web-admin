@@ -67,9 +67,20 @@ export class NotyService {
 
             observer.next(response);
           },
-          responseError => { // todo handle statusCode 0 - no internet
+          responseError => {
             if (options.showError) {
-              const message = (options.onError ? `${options.onError}:\n` : '') + this.buildErrorMessage(responseError.error);
+              let message = '';
+
+              if (options.onError) {
+                message += `${options.onError}:\n`
+              }
+
+              if (responseError.error && responseError.error.message) {
+                message += this.buildErrorMessage(responseError.error);
+              } else {
+                message += responseError.statusText;
+              }
+
               this.showErrorNoty(message);
             }
 
