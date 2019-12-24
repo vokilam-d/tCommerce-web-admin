@@ -123,8 +123,15 @@ export class NotyService {
     const errors: string[] = [];
 
     validationErrors.forEach(validationError => {
+
       if (validationError.constraints) {
-        errors.push(`${this.buildMessageFromConstraints(validationError.constraints)}, got: '${validationError.value}'`);
+        let errorMsg = this.buildMessageFromConstraints(validationError.constraints);
+
+        if (typeof validationError.value === 'string') {
+          errorMsg += `, got: '${validationError.value}'`;
+        }
+
+        errors.push(errorMsg);
       }
 
       if (Array.isArray(validationError.children) && validationError.children.length > 0) {
