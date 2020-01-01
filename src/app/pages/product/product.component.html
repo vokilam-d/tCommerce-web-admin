@@ -28,8 +28,8 @@
            [class.field--invalid]="isControlInvalid(isEnabled)"
     >
       <label class="field__label" for="isEnabled">Включить категорию</label>
-      <span class="field__control">
-        <span class="switcher">
+      <div class="field__control">
+        <label class="switcher">
           <input class="switcher__input"
                  [formControl]="isEnabled"
                  type="checkbox"
@@ -40,47 +40,17 @@
             <ng-container *ngIf="isEnabled.value; else isEnabledFalseText">Да</ng-container>
             <ng-template #isEnabledFalseText>Нет</ng-template>
           </span>
-        </span>
-      </span>
+        </label>
+      </div>
     </div>
 
-    <label class="product__field field field--required"
-           *ngIf="form.get('name') as name"
-           [class.field--invalid]="isControlInvalid(name)"
+    <div class="product__field field field--required"
+         *ngIf="form.get('name') as name"
+         [class.field--invalid]="isControlInvalid(name)"
     >
       <label for="name" class="field__label">Название товара</label>
       <span class="field__control">
         <input class="field__input" [formControl]="name" type="text" id="name">
-      </span>
-    </label>
-
-    <label class="product__field field field--required"
-           *ngIf="form.get('sku') as sku"
-           [class.field--invalid]="isControlInvalid(sku)"
-    >
-      <label for="sku" class="field__label">Артикул</label>
-      <span class="field__control">
-        <input class="field__input" [formControl]="sku" type="text" id="sku">
-      </span>
-    </label>
-
-    <label class="product__field field field--required"
-           *ngIf="form.get('price') as price"
-           [class.field--invalid]="isControlInvalid(price)"
-    >
-      <label for="price" class="field__label">Цена</label>
-      <span class="field__control">
-        <input class="field__input" [formControl]="price" type="text" id="price">
-      </span>
-    </label>
-
-    <div class="product__field field"
-           *ngIf="form.get('qty') as qty"
-           [class.field--invalid]="isControlInvalid(qty)"
-    >
-      <label for="qty" class="field__label">Количество</label>
-      <span class="field__control">
-        <input class="field__input" [formControl]="qty" type="text" id="qty">
       </span>
     </div>
 
@@ -91,79 +61,159 @@
       </span>
     </div>
 
-    <div class="product__field field"
-           *ngIf="form.get('fullDescription') as fullDescription"
-           [class.field--invalid]="isControlInvalid(fullDescription)"
+    <fields-group class="product__group" [id]="'product-attributes'">
+      <div class="group-title">Атрибуты<span *ngIf="isMultiVariant"> (общие)</span></div>
+
+      <ng-container *ngIf="form.get('attributes') as attributes">
+        <div class="product__field field"
+               *ngFor="let attribute of attributes.value"
+        >
+          <label for="name" class="field__label">{{ attribute.id }}</label>
+          <span class="field__control">
+            {{ attribute.valueIds | json }}
+          </span>
+        </div>
+      </ng-container>
+
+      <button class="product__edit-attributes" (click)="editAttributes()">
+        Редактировать атрибуты
+      </button>
+    </fields-group>
+
+    <fields-group *ngFor="let variantForm of variantsFormArray?.controls, index as i"
+                  [class.product__group]="isMultiVariant"
+                  [showHeader]="isMultiVariant"
     >
-      <label class="field__label">Описание</label>
-      <span class="field__control">
-        <angular-editor id="fullDescription" [formControl]="fullDescription" [config]="editorConfig"></angular-editor>
-      </span>
-    </div>
 
-    <div class="product__field field"
-           *ngIf="form.get('shortDescription') as shortDescription"
-           [class.field--invalid]="isControlInvalid(shortDescription)"
-    >
-      <label class="field__label">Короткое описание</label>
-      <span class="field__control">
-        <angular-editor id="shortDescription" [formControl]="shortDescription" [config]="editorConfig"></angular-editor>
-      </span>
-    </div>
+      <div class="group-title" *ngIf="isMultiVariant">
+        Вариация {{ i + 1 }} - {{ variantForm.get('name') && variantForm.get('name').value }}
+      </div>
 
-    <div class="product__field field"
-           *ngIf="form.get('slug') as slug"
-           [class.field--invalid]="isControlInvalid(slug)"
-    >
-      <label for="slug" class="field__label">URL адрес</label>
-      <span class="field__control">
-        <input class="field__input" [formControl]="slug" type="text" id="slug">
-      </span>
-    </div>
+      <div class="product__field field field--required"
+           *ngIf="variantForm.get('name') as name"
+           [class.field--invalid]="isControlInvalid(name)"
+      >
+        <label class="field__label" [for]="'name-' + i">Название товара</label>
+        <span class="field__control">
+          <input class="field__input" [formControl]="name" type="text" [id]="'name-' + i">
+        </span>
+      </div>
 
-    <div class="product__field field"
-           *ngIf="form.get('metaTags.title') as metaTitle"
-           [class.field--invalid]="isControlInvalid(metaTitle)"
-    >
-      <label for="metaTitle" class="field__label">Meta заголовок</label>
-      <span class="field__control">
-        <input class="field__input" [formControl]="metaTitle" type="text" id="metaTitle">
-      </span>
-    </div>
+      <div class="product__field field field--required"
+           *ngIf="variantForm.get('sku') as sku"
+           [class.field--invalid]="isControlInvalid(sku)"
+      >
+        <label class="field__label" [for]="'sku-' + i">Артикул</label>
+        <span class="field__control">
+          <input class="field__input" [formControl]="sku" [id]="'sku-' + i" type="text">
+        </span>
+      </div>
 
-    <div class="product__field field"
-           *ngIf="form.get('metaTags.description') as metaDescription"
-           [class.field--invalid]="isControlInvalid(metaDescription)"
-    >
-      <label class="field__label">Meta описание</label>
-      <span class="field__control">
-        <textarea class="field__textarea" [formControl]="metaDescription"></textarea>
-      </span>
-    </div>
+      <div class="product__field field field--required"
+             *ngIf="variantForm.get('price') as price"
+             [class.field--invalid]="isControlInvalid(price)"
+      >
+        <label class="field__label" [for]="'price-' + i">Цена</label>
+        <span class="field__control">
+          <input class="field__input" [formControl]="price" [id]="'price-' + i" type="text">
+        </span>
+      </div>
 
-    <div class="product__field field"
-           *ngIf="form.get('metaTags.keywords') as metaKeywords"
-           [class.field--invalid]="isControlInvalid(metaKeywords)"
-    >
-      <label class="field__label">Meta ключевые слова</label>
-      <span class="field__control">
-        <textarea class="field__textarea" [formControl]="metaKeywords"></textarea>
-      </span>
-    </div>
+      <div class="product__field field"
+             *ngIf="variantForm.get('qty') as qty"
+      >
+        <label class="field__label" [for]="'qty-' + i">Количество</label>
+        <span class="field__control">
+          <input class="field__input" [formControl]="qty" [id]="'qty-' + i" type="text">
+        </span>
+      </div>
 
-    <div class="product__field media">
-      <media-asset class="media__asset"
-                   *ngFor="let media of form.get('medias').value"
-                   [media]="media"
-                   (remove)="onMediaRemove(media)"
-      ></media-asset>
+      <fields-group class="product__group">
+        <div class="group-title">Контент</div>
 
-      <media-uploader class="media_asset"
-                      [uploadUrl]="getMediaUploadUrl()"
-                      (uploaded)="mediaUploaded($event)"
-      ></media-uploader>
+        <div class="product__field field"
+               *ngIf="variantForm.get('fullDescription') as fullDescription"
+        >
+          <label class="field__label" [for]="'desc-' + i">Описание</label>
+          <span class="field__control">
+            <angular-editor [formControl]="fullDescription" [config]="editorConfig" [id]="'desc-' + i"></angular-editor>
+          </span>
+        </div>
 
-    </div>
+        <div class="product__field field"
+               *ngIf="variantForm.get('shortDescription') as shortDescription"
+        >
+          <label class="field__label" [for]="'s-desc-' + i">Короткое описание</label>
+          <span class="field__control">
+            <angular-editor [formControl]="shortDescription" [config]="editorConfig" [id]="'s-desc-' + i"></angular-editor>
+          </span>
+        </div>
+      </fields-group>
+
+      <fields-group class="product__group">
+        <div class="group-title">SEO</div>
+
+        <div class="product__field field"
+               *ngIf="variantForm.get('slug') as slug"
+        >
+          <label class="field__label" [for]="'slug-' + i">URL адрес</label>
+          <span class="field__control">
+            <input class="field__input" [formControl]="slug" [id]="'slug-' + i" type="text">
+          </span>
+        </div>
+
+        <div class="product__field field"
+               *ngIf="variantForm.get('metaTags.title') as metaTitle"
+        >
+          <label class="field__label" [for]="'metaTitle-' + i">Meta заголовок</label>
+          <span class="field__control">
+            <input class="field__input" [formControl]="metaTitle" [id]="'metaTitle-' + i" type="text">
+          </span>
+        </div>
+
+        <div class="product__field field"
+               *ngIf="variantForm.get('metaTags.description') as metaDescription"
+        >
+          <label class="field__label" [for]="'metaDesc-' + i">Meta описание</label>
+          <span class="field__control">
+            <textarea class="field__textarea" [formControl]="metaDescription" [id]="'metaDesc-' + i"></textarea>
+          </span>
+        </div>
+
+        <div class="product__field field"
+               *ngIf="variantForm.get('metaTags.keywords') as metaKeywords"
+        >
+          <label class="field__label" [for]="'metaKeys-' + i">Meta ключевые слова</label>
+          <span class="field__control">
+            <textarea class="field__textarea" [formControl]="metaKeywords" [id]="'metaKeys-' + i"></textarea>
+          </span>
+        </div>
+      </fields-group>
+
+      <fields-group class="product__group">
+        <div class="group-title">Картинки и видео</div>
+
+        <div class="product__field media" *ngIf="variantForm.get('medias') as medias">
+          <media-asset class="media__asset"
+                       *ngFor="let media of medias.value"
+                       [media]="media"
+                       (remove)="onMediaRemove(media)"
+          ></media-asset>
+
+          <media-uploader class="media_asset"
+                          [uploadUrl]="getMediaUploadUrl()"
+                          (uploaded)="mediaUploaded($event, medias)"
+          ></media-uploader>
+
+        </div>
+      </fields-group>
+
+    </fields-group>
+
+    <fields-group class="product__group">
+      <div class="group-title">Отзывы</div>
+      In progress...
+    </fields-group>
 
   </form>
 

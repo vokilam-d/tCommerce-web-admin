@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { NavbarModule } from './navbar/navbar.module';
 import { HttpClientModule } from '@angular/common/http';
 import { NotyModule } from './noty/noty.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { NotyModule } from './noty/noty.module';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     NavbarModule,
     HttpClientModule,

@@ -1,6 +1,13 @@
 .product {
   margin: 40px 0 0;
 
+  &__group {
+    & & {
+      display: block;
+      padding: 0 50px;
+    }
+  }
+
   &__field {
     margin: 30px 0 0;
 

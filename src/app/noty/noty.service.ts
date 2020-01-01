@@ -28,8 +28,8 @@ interface ValidationError {
 }
 
 interface IAttachOptions {
-  onSuccess: string;
-  onError?: string;
+  successText: string;
+  errorText?: string;
   showError?: boolean;
   showProgress?: boolean;
 }
@@ -41,8 +41,8 @@ export class NotyService {
 
   showNoty$ = new Subject<INotyMessage>();
   private defaultOptions: IAttachOptions = {
-    onSuccess: null,
-    onError: null,
+    successText: null,
+    errorText: null,
     showError: true,
     showProgress: false
   };
@@ -61,8 +61,8 @@ export class NotyService {
 
         return source.subscribe(
           (response: T) => {
-            if (options.onSuccess) {
-              this.showSuccessNoty(options.onSuccess);
+            if (options.successText) {
+              this.showSuccessNoty(options.successText);
             }
 
             observer.next(response);
@@ -71,8 +71,8 @@ export class NotyService {
             if (options.showError) {
               let message = '';
 
-              if (options.onError) {
-                message += `${options.onError}:\n`
+              if (options.errorText) {
+                message += `${options.errorText}:\n`
               }
 
               if (responseError.error && responseError.error.message) {

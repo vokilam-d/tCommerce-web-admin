@@ -40,21 +40,21 @@
           </div>
           <div class="grid__block product__thumbnail">
             <img class="product__thumbnail-img"
-                 *ngIf="product.medias && product.medias[0] as media"
+                 *ngIf="product.variants[0].medias[0] as media"
                  [src]="'http://localhost:3500' + media.variantsUrls.small"
                  [alt]="media.altText">
           </div>
           <div class="grid__block product__name">
-            {{ product.name }}
+            {{ product.name || product.variants[0].name }}
           </div>
           <div class="grid__block product__sku">
-            {{ product.sku }}
+            {{ product.variants[0].sku }}
           </div>
           <div class="grid__block product__price">
-            {{ product.price }} грн
+            {{ product.variants[0].price }} грн
           </div>
           <div class="grid__block product__qty">
-            {{ product.qty }}
+            {{ product.variants[0].qty }}
           </div>
           <div class="grid__block product__status" [ngSwitch]="product.isEnabled">
             <ng-container *ngSwitchCase="true">Включен</ng-container>

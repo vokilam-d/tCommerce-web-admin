@@ -1,0 +1,17 @@
+<div class="group" @blockInitialAnimation>
+  <div class="group__header" *ngIf="showHeader" (click)="toggle()">
+    <div class="group__title">
+      <ng-content select=".group-title"></ng-content>
+    </div>
+
+    <div class="group__toggle"
+         [class.group__toggle--opened]="isOpened"
+    >
+      <i class="ai ai-arrow-down-in-circle group__toggle-icon"></i>
+    </div>
+  </div>
+
+  <div class="group__content" [@slideToggle]="isOpened">
+    <ng-content></ng-content>
+  </div>
+</div>

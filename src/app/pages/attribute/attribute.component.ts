@@ -138,7 +138,7 @@ export class AttributeComponent implements OnInit {
     };
 
     this.attributeService.updateAttribute(this.attribute.id, dto)
-      .pipe(this.notyService.attachNoty({ onSuccess: 'Атрибут успешно обновлён!' }))
+      .pipe(this.notyService.attachNoty({ successText: 'Атрибут успешно обновлён!' }))
       .subscribe(
         attribute => {
           this.attribute = attribute;

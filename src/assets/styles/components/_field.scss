@@ -44,7 +44,6 @@ $fieldBorderColorFocus: #007bdb;
     border: 1px solid $borderColor;
     font-size: 16px;
     color: $dark;
-    cursor: pointer;
 
     &:not([disabled]) {
       &:hover {
@@ -77,6 +76,7 @@ $fieldBorderColorFocus: #007bdb;
 
   &__select {
     position: relative;
+    cursor: pointer;
 
     &::before {
       content: '';
