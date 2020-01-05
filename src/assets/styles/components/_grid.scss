@@ -22,7 +22,7 @@
     transition: background-color 0.1s ease;
     cursor: pointer;
 
-    &--even {
+    &:nth-child(3n-1) {
       background: #f9f9f9;
     }
 

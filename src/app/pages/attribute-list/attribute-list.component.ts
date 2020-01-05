@@ -27,8 +27,8 @@ export class AttributeListComponent implements OnInit {
 
   private fetchProducts() {
     this.attributesService.fetchAttributes().subscribe(
-      attributes => {
-        this.attributes = attributes;
+      response => {
+        this.attributes = response.data;
       },
       error => console.warn(error)
     )

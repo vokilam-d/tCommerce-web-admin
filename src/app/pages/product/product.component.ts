@@ -5,8 +5,9 @@ import { EPageAction } from '../../shared/enums/category-page-action.enum';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { MediaDto } from '../../shared/dtos/media.dto';
-import { AddOrUpdateProductDto, ResponseProductDto } from '../../shared/dtos/product.dto';
+import { AddOrUpdateProductDto, ProductDto } from '../../shared/dtos/product.dto';
 import { NotyService } from '../../noty/noty.service';
+import { ProductSelectedAttributeDto } from '../../shared/dtos/selected-attribute.dto';
 
 @Component({
   selector: 'product',
@@ -16,7 +17,7 @@ import { NotyService } from '../../noty/noty.service';
 export class ProductComponent implements OnInit {
 
   isNewProduct: boolean;
-  product: ResponseProductDto;
+  product: ProductDto;
   form: FormGroup;
   editorConfig: AngularEditorConfig = {
     editable: true,
@@ -46,7 +47,7 @@ export class ProductComponent implements OnInit {
   private init() {
     this.isNewProduct = this.route.snapshot.data.action === EPageAction.Add;
     if (this.isNewProduct) {
-      this.product = this.getEmptyProduct();
+      this.product = new ProductDto();
       this.buildForm();
     } else {
       this.fetchProduct();
@@ -160,15 +161,15 @@ export class ProductComponent implements OnInit {
 
   private updateProduct() {
     const dto = { ...this.product, ...this.form.value };
-
-    this.productsService.updateProduct(this.product.id, dto)
-      .pipe(this.notyService.attachNoty({ successText: 'Товар успешно обновлён' }))
-      .subscribe(
-        product => {
-          this.product = product;
-        },
-        error => console.warn(error)
-      );
+    console.log(dto);
+    // this.productsService.updateProduct(this.product.id, dto)
+    //   .pipe(this.notyService.attachNoty({ successText: 'Товар успешно обновлён' }))
+    //   .subscribe(
+    //     product => {
+    //       this.product = product;
+    //     },
+    //     error => console.warn(error)
+    //   );
   }
 
   getMediaUploadUrl() {
@@ -187,12 +188,13 @@ export class ProductComponent implements OnInit {
     }
   }
 
-  private getEmptyProduct(): ResponseProductDto {
-    return new ResponseProductDto();
-  }
-
-  editAttributes() {
-    console.log('edit attributes!');
+  onAttributesEdit(generatedFormValue: ProductDto) {
+    // console.log(this.form.value);
+    // console.log(generatedFormValue);
+    // this.form.setValue(generatedFormValue);
+    // console.log(this.form.value);
+    this.product = generatedFormValue;
+    this.buildForm();
   }
 
   goBack() {

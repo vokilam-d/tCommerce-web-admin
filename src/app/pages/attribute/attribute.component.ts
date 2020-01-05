@@ -99,8 +99,8 @@ export class AttributeComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
 
     this.attributeService.fetchAttribute(id).subscribe(
-      attribute => {
-        this.attribute = attribute;
+      response => {
+        this.attribute = response.data;
         this.buildForm(this.attribute);
       },
       error => console.warn(error)
@@ -124,7 +124,8 @@ export class AttributeComponent implements OnInit {
   private addNewAttribute() {
     const dto = this.form.value;
     this.attributeService.addNewAttribute(dto).subscribe(
-      attribute => {
+      response => {
+        const attribute = response.data;
         this.router.navigate(['admin', 'attribute', 'edit', attribute.id]);
       },
       error => console.warn(error)
@@ -138,10 +139,10 @@ export class AttributeComponent implements OnInit {
     };
 
     this.attributeService.updateAttribute(this.attribute.id, dto)
-      .pipe(this.notyService.attachNoty({ successText: 'Атрибут успешно обновлён!' }))
+      .pipe(this.notyService.attachNoty({ successText: 'Атрибут успешно обновлён' }))
       .subscribe(
-        attribute => {
-          this.attribute = attribute;
+        response => {
+          this.attribute = response.data;
           this.buildForm(this.attribute);
         },
         error => console.warn(error)
@@ -160,7 +161,7 @@ export class AttributeComponent implements OnInit {
   private getEmptyAttributeValue(): AttributeValueDto & { isNew?: boolean; } {
     return {
       id: '',
-      name: '',
+      label: '',
       isDefault: false,
       isNew: true
     };

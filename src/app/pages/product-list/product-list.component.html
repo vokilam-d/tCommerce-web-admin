@@ -31,9 +31,8 @@
 
       <div class="grid__body">
         <a class="grid__row product"
-           *ngFor="let product of products, even as even"
+           *ngFor="let product of products"
            [routerLink]="['edit', product.id]"
-           [class.grid__row--even]="even"
         >
           <div class="grid__block product__id">
             {{ product.id }}

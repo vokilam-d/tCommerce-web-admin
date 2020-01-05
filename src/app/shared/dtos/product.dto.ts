@@ -10,6 +10,6 @@ export class AddOrUpdateProductDto {
   sortOrder: number = 0;
 }
 
-export class ResponseProductDto extends AddOrUpdateProductDto {
+export class ProductDto extends AddOrUpdateProductDto {
   id: number;
 }

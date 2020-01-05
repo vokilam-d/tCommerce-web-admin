@@ -17,9 +17,8 @@
 
       <div class="grid__body">
         <a class="grid__row"
-           *ngFor="let attribute of attributes, even as even"
+           *ngFor="let attribute of attributes"
            [routerLink]="['edit', attribute.id]"
-           [class.grid__row--even]="even"
         >
           <div class="grid__block attribute__id">
             {{ attribute.id }}

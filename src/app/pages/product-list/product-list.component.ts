@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ProductService } from '../../shared/services/product.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ResponseProductDto } from '../../shared/dtos/product.dto';
+import { ProductDto } from '../../shared/dtos/product.dto';
 import { NotyService } from '../../noty/noty.service';
 import { IPagination } from '../../pagination/pagination.interface';
 import { PaginationComponent } from '../../pagination/pagination.component';
@@ -13,7 +13,7 @@ import { PaginationComponent } from '../../pagination/pagination.component';
 })
 export class ProductListComponent implements OnInit, AfterViewInit {
 
-  products: ResponseProductDto[] = [];
+  products: ProductDto[] = [];
   itemsTotal: number = 0;
   pagesTotal: number = 1;
 

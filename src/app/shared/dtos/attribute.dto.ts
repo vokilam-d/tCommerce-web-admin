@@ -1,6 +1,6 @@
 export class AttributeValueDto {
   id: string;
-  name: string;
+  label: string;
   isDefault: boolean;
 }
 

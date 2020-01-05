@@ -68,16 +68,17 @@
         <div class="product__field field"
                *ngFor="let attribute of attributes.value"
         >
-          <label for="name" class="field__label">{{ attribute.id }}</label>
+          <label class="field__label">{{ attribute.attributeId }}</label>
           <span class="field__control">
-            {{ attribute.valueIds | json }}
+            {{ attribute.valueId }}
           </span>
         </div>
       </ng-container>
 
-      <button class="product__edit-attributes" (click)="editAttributes()">
-        Редактировать атрибуты
-      </button>
+      <attributes-editor class="product__edit-attributes"
+                         [initialFormValue]="form.value"
+                         (generated)="onAttributesEdit($event)"
+      ></attributes-editor>
     </fields-group>
 
     <fields-group *ngFor="let variantForm of variantsFormArray?.controls, index as i"
@@ -127,6 +128,18 @@
           <input class="field__input" [formControl]="qty" [id]="'qty-' + i" type="text">
         </span>
       </div>
+
+      <ng-container *ngIf="variantForm.get('attributes') as attributes">
+        <div class="product__field field"
+             *ngFor="let attribute of attributes.value"
+        >
+          <label class="field__label">{{ attribute.attributeId }}</label>
+          <span class="field__control">
+            {{ attribute.valueId }}
+          </span>
+          <input type="text" [(ngModel)]="attribute.valueId" [ngModelOptions]="{standalone: true}">
+        </div>
+      </ng-container>
 
       <fields-group class="product__group">
         <div class="group-title">Контент</div>
@@ -218,4 +231,3 @@
   </form>
 
 </div>
-

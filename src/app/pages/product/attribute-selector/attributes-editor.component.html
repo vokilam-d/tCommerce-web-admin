@@ -1,0 +1,151 @@
+<div class="show-editor">
+  <button class="show-editor__btn" (click)="show()" type="button">Редактировать атрибуты</button>
+</div>
+
+
+<div class="editor-overlay" *ngIf="isVisible" (click)="hide()"></div>
+<div class="editor" [class.editor--visible]="isVisible">
+
+  <header class="editor__header">
+    <div class="editor__title">Редактировать атрибуты</div>
+
+    <button class="editor__close" (click)="hide()" type="button">
+      <i class="ai ai-multiply editor__close-icon"></i>
+    </button>
+  </header>
+
+  <div class="editor__toolbar">
+    <div class="editor__steps">
+      <div class="editor__step" [class.editor__step--active]="activeStep === stepsEnum.SelectAttributes">Выбор атрибутов</div>
+      <div class="editor__step" [class.editor__step--active]="activeStep === stepsEnum.AttributeValues">Значения атрибутов</div>
+      <div class="editor__step" [class.editor__step--active]="activeStep === stepsEnum.Images">Картинки и цены</div>
+      <div class="editor__step" [class.editor__step--active]="activeStep === stepsEnum.Summary">Итог</div>
+    </div>
+
+    <div class="editor__toolbar-buttons">
+      <button class="editor__button-cancel" (click)="hide()" type="button">Отменить</button>
+
+      <button class="editor__button-prev"
+              [disabled]="activeStep === stepsEnum.SelectAttributes"
+              (click)="prevStep()"
+              type="button"
+      >
+        Назад
+      </button>
+
+      <button class="toolbar-main-btn editor__button-next" (click)="nextStep()" type="button">
+        <ng-container *ngIf="activeStep !== stepsEnum.Summary; else finishBtn">Вперёд</ng-container>
+        <ng-template #finishBtn>Завершить</ng-template>
+      </button>
+    </div>
+  </div>
+
+  <div class="editor__heading">
+    Шаг {{ activeStep + 1 }}: <ng-container [ngSwitch]="activeStep">
+      <ng-container *ngSwitchCase="stepsEnum.SelectAttributes">Выберите атрибуты</ng-container>
+      <ng-container *ngSwitchCase="stepsEnum.AttributeValues">Значения атрибутов</ng-container>
+      <ng-container *ngSwitchCase="stepsEnum.Images">Картинки, Цены и Количество</ng-container>
+      <ng-container *ngSwitchCase="stepsEnum.Summary">Итог</ng-container>
+    </ng-container>
+  </div>
+
+  <div class="editor__content" [ngSwitch]="activeStep">
+    <div class="grid" *ngSwitchCase="stepsEnum.SelectAttributes">
+      <div class="grid__container">
+        <div class="grid__head attribute-row">
+          <div class="grid__block attribute-row__is-selected"></div>
+          <div class="grid__block attribute-row__id">Код атрибута</div>
+          <div class="grid__block attribute-row__label">Ярлык атрибута</div>
+        </div>
+        <div class="grid__body">
+          <div class="grid__row attribute-row" *ngFor="let attribute of attributes">
+            <div class="grid__block attribute-row__is-selected">
+              <input class="attribute-row__checkbox"
+                     [(ngModel)]="attribute.isSelected"
+                     type="checkbox"
+              >
+            </div>
+            <div class="grid__block attribute-row__id">{{ attribute.id }}</div>
+            <div class="grid__block attribute-row__label">{{ attribute.label }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-container *ngSwitchCase="stepsEnum.AttributeValues">
+      <div class="attribute" *ngFor="let attribute of selectedAttributes">
+        <div class="attribute__header">
+          <div class="attribute__label">{{ attribute.label }}</div>
+          <div class="attribute__remove" (click)="attribute.isSelected = false">
+            <i class="ai ai-trash attribute__remove-icon"></i>
+          </div>
+        </div>
+
+        <div class="attribute__values">
+          <label class="attribute__value" *ngFor="let value of attribute.values">
+            <input class="attribute__value-checkbox"
+                   [(ngModel)]="value.isSelected"
+                   type="checkbox"
+            >
+            <span class="attribute__value-label">{{ value.label }}</span>
+          </label>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="stepsEnum.Images">
+      In progress...
+    </ng-container>
+
+    <ng-container *ngSwitchCase="stepsEnum.Summary">
+      Общие атрибуты:
+      <div *ngFor="let attribute of preGeneratedAttrsForProduct">
+        Атрибут: {{ attribute.id }}<br>
+        Значение: {{ attribute.values[0].id }}
+        <br>
+        <br>
+      </div>
+      <br>
+      <br>
+      <br>
+
+      Новые вариации:
+      <div *ngFor="let variant of variantsToCreate, index as i">
+        {{i}}
+        <div *ngFor="let keyValue of variant | keyvalue">
+          Атрибут: {{ keyValue.key }}<br>
+          Значение: {{ keyValue.value }}
+          <br>
+          <br>
+        </div>
+      </div>
+      <br>
+      <br>
+      <br>
+      Вариации для удаления:
+      <div *ngFor="let variant of variantsToRemove, index as i">
+        {{i}}
+        <div *ngFor="let attribute of variant.attributes">
+          Атрибут: {{ attribute.attributeId }}<br>
+          Значение: {{ attribute.valueId }}
+          <br>
+          <br>
+        </div>
+      </div>
+      <br>
+      <br>
+      <br>
+      Оставить как есть:
+      <div *ngFor="let variant of variantsToLeave, index as i">
+        {{i}}
+        <div *ngFor="let attribute of variant.attributes">
+          Атрибут: {{ attribute.attributeId }}<br>
+          Значение: {{ attribute.valueId }}
+          <br>
+          <br>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+</div>

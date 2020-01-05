@@ -1,4 +1,4 @@
 export class ProductSelectedAttributeDto {
-  id: string;
-  valueIds: string[];
+  attributeId: string;
+  valueId: string;
 }
