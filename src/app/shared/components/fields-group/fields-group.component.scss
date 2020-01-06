@@ -3,6 +3,10 @@
 .group {
   border-bottom: 1px solid $borderColor;
 
+  &--no-styles {
+    border-bottom: none;
+  }
+
   &__header {
     display: flex;
     justify-content: space-between;

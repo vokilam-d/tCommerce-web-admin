@@ -24,7 +24,7 @@ export class ProductComponent implements OnInit {
     minHeight: '5rem',
     outline: false,
     showToolbar: true,
-    // toolbarHiddenButtons: [['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', 'justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull', 'indent', 'outdent', 'insertUnorderedList', 'insertOrderedList', 'heading', 'fontName', 'fontSize', 'textColor', 'backgroundColor', 'customClasses', 'link', 'unlink', 'insertImage', 'insertVideo', 'insertHorizontalRule', 'removeFormat', 'toggleEditorMode']]
+    toolbarHiddenButtons: [['subscript', 'superscript', 'indent', 'outdent', 'fontName', 'textColor', 'backgroundColor', 'customClasses']]
   };
 
   get variantsFormArray(): FormArray {
