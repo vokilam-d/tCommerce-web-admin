@@ -52,7 +52,7 @@
            *ngIf="form.get('groupName') as groupName"
            [class.field--invalid]="isControlInvalid(groupName)"
     >
-      <label for="id" class="field__label">Имя групы</label>
+      <label for="groupName" class="field__label">Имя групы</label>
       <div class="field__control">
         <input class="field__input" [formControl]="groupName" type="text" id="groupName">
       </div>
