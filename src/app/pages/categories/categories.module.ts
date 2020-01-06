@@ -6,7 +6,7 @@ import { CategoriesComponent } from './categories.component';
 import { CategoryComponent } from './category/category.component';
 import { CategoriesService } from './categories.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AngularEditorModule } from '@kolkov/angular-editor';
+import { AngularEditorModule } from '../../angular-editor/angular-editor.module';
 
 
 @NgModule({

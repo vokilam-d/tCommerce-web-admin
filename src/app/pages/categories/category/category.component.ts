@@ -3,9 +3,9 @@ import { CategoriesService } from '../categories.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { EPageAction } from '../../../shared/enums/category-page-action.enum';
-import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { AddOrUpdateCategoryDto, ResponseCategoryDto } from '../../../shared/dtos/category.dto';
 import { NotyService } from '../../../noty/noty.service';
+import { AngularEditorConfig } from '../../../angular-editor/config';
 
 const EMPTY_CATEGORY: AddOrUpdateCategoryDto = {
   isEnabled: true,

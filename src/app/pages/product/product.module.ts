@@ -8,10 +8,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../../shared/shared.module';
 import { MediaAssetModule } from '../../media-asset/media-asset.module';
 import { MediaUploaderModule } from '../../media-uploader/media-uploader.module';
-import { AngularEditorModule } from '@kolkov/angular-editor';
 import { CategorySelectModule } from '../../category-select/category-select.module';
 import { AttributesEditorComponent } from './attribute-selector/attributes-editor.component';
 import { AttributeService } from '../../shared/services/attribute.service';
+import { AngularEditorModule } from 'src/app/angular-editor/angular-editor.module';
 
 
 @NgModule({

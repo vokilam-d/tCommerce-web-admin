@@ -3,11 +3,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../../shared/services/product.service';
 import { EPageAction } from '../../shared/enums/category-page-action.enum';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { MediaDto } from '../../shared/dtos/media.dto';
 import { AddOrUpdateProductDto, ProductDto } from '../../shared/dtos/product.dto';
 import { NotyService } from '../../noty/noty.service';
 import { ProductSelectedAttributeDto } from '../../shared/dtos/selected-attribute.dto';
+import { AngularEditorConfig } from '../../angular-editor/config';
 
 @Component({
   selector: 'product',
@@ -22,7 +22,9 @@ export class ProductComponent implements OnInit {
   editorConfig: AngularEditorConfig = {
     editable: true,
     minHeight: '5rem',
-    outline: false
+    outline: false,
+    showToolbar: true,
+    // toolbarHiddenButtons: [['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', 'justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull', 'indent', 'outdent', 'insertUnorderedList', 'insertOrderedList', 'heading', 'fontName', 'fontSize', 'textColor', 'backgroundColor', 'customClasses', 'link', 'unlink', 'insertImage', 'insertVideo', 'insertHorizontalRule', 'removeFormat', 'toggleEditorMode']]
   };
 
   get variantsFormArray(): FormArray {
