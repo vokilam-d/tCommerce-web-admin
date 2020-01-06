@@ -196,18 +196,21 @@ export class AttributesEditorComponent implements OnInit {
   }
 
   private transformResponse(attributeDtos: AttributeDto[]): Attribute[] {
-    return attributeDtos.map(attributeDtos => {
-      const values: AttributeValue[] = attributeDtos.values.map(valueDto => {
+    return attributeDtos.map(attributeDto => {
+      const values: AttributeValue[] = attributeDto.values.map(valueDto => {
+        const isSelected = this.initialFormValue.attributes.find(a => a.valueId === valueDto.id)
+          || this.initialFormValue.variants.find(v => v.attributes.find(a => a.valueId === valueDto.id));
+
         return {
           ...valueDto,
-          isSelected: false
+          isSelected: !!isSelected
         };
       });
 
       return {
-        ...attributeDtos,
+        ...attributeDto,
         values,
-        isSelected: false
+        isSelected: values.some(v => v.isSelected)
       };
     });
   }

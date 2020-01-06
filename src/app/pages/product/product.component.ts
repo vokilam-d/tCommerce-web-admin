@@ -4,9 +4,8 @@ import { ProductService } from '../../shared/services/product.service';
 import { EPageAction } from '../../shared/enums/category-page-action.enum';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MediaDto } from '../../shared/dtos/media.dto';
-import { AddOrUpdateProductDto, ProductDto } from '../../shared/dtos/product.dto';
+import { ProductDto } from '../../shared/dtos/product.dto';
 import { NotyService } from '../../noty/noty.service';
-import { ProductSelectedAttributeDto } from '../../shared/dtos/selected-attribute.dto';
 import { AngularEditorConfig } from '../../angular-editor/config';
 
 @Component({
@@ -27,13 +26,8 @@ export class ProductComponent implements OnInit {
     toolbarHiddenButtons: [['subscript', 'superscript', 'indent', 'outdent', 'fontName', 'textColor', 'backgroundColor', 'customClasses']]
   };
 
-  get variantsFormArray(): FormArray {
-    return this.form.get('variants') as FormArray;
-  }
-
-  get isMultiVariant(): boolean {
-    return this.variantsFormArray.controls.length > 1
-  }
+  get variantsFormArray() { return this.form.get('variants') as FormArray; }
+  get isMultiVariant(): boolean { return this.variantsFormArray.controls.length > 1 }
 
   constructor(private productsService: ProductService,
               private formBuilder: FormBuilder,
@@ -163,6 +157,7 @@ export class ProductComponent implements OnInit {
 
   private updateProduct() {
     const dto = { ...this.product, ...this.form.value };
+
     this.productsService.updateProduct(this.product.id, dto)
       .pipe(this.notyService.attachNoty({ successText: 'Товар успешно обновлён' }))
       .subscribe(
