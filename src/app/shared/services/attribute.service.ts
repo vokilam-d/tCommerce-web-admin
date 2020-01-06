@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AttributeDto, CreateAttributeDto, UpdateAttributeDto } from '../dtos/attribute.dto';
-import { Observable, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ResponseDto } from '../dtos/response.dto';
 import { tap } from 'rxjs/operators';
 
@@ -10,7 +10,8 @@ import { tap } from 'rxjs/operators';
 })
 export class AttributeService {
 
-  attributes$: ReplaySubject<AttributeDto[]> = new ReplaySubject();
+  private _attributes$: BehaviorSubject<AttributeDto[]> = new BehaviorSubject([]);
+  attributes$ = this._attributes$.asObservable();
 
   constructor(private http: HttpClient) {
     this.setAttributes();
@@ -20,7 +21,7 @@ export class AttributeService {
     this.http.get<ResponseDto<AttributeDto[]>>('http://localhost:3500/api/v1/admin/attributes')
       .subscribe(
         response => {
-          this.attributes$.next(response.data);
+          this._attributes$.next(response.data);
         }
       );
   }
@@ -42,5 +43,24 @@ export class AttributeService {
   deleteAttribute(id: string) {
     return this.http.delete<any>(`http://localhost:3500/api/v1/admin/attributes/${id}`)
       .pipe( tap(() => this.setAttributes()) );
+  }
+
+  getAttributeLabel(attrId: string): string {
+    const found = this._attributes$.getValue().find(attr => attr.id === attrId);
+    if (!found) {
+      throw new Error(`Attribute with id '${attrId}' not found`);
+    }
+
+    return found.label;
+  }
+
+  getValueLabel(attrId: string, valueId: string): string {
+    const found = this._attributes$.getValue().find(attr => attr.id === attrId);
+    if (!found) { throw new Error(`Attribute with id '${attrId}' not found`); }
+
+    const foundValue = found.values.find(value => value.id === valueId);
+    if (!foundValue) { throw new Error(`Value with id '${valueId}' not found in attribute '${found.label}'`); }
+
+    return foundValue.label
   }
 }

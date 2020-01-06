@@ -226,3 +226,38 @@
     transform: translateX(0);
   }
 }
+
+.summary-block {
+  margin: 20px 0 0;
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  &__title {
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  &__body {
+    margin: 25px 0 0;
+    padding: 0 0 0 20px;
+  }
+
+  &__attr {
+    margin: 8px 0 0;
+  }
+
+  &__attr-label {
+    padding-top: 0;
+    font-weight: 400;
+  }
+
+  &__attr-value {
+    font-weight: 500;
+  }
+
+  &__variant {
+    margin: 10px 0 0;
+  }
+}

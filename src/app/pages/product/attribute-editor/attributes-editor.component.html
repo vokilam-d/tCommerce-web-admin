@@ -98,51 +98,60 @@
     </ng-container>
 
     <ng-container *ngSwitchCase="stepsEnum.Summary">
-      Общие атрибуты:
-      <div *ngFor="let attribute of preGeneratedAttrsForProduct">
-        Атрибут: {{ attribute.id }}<br>
-        Значение: {{ attribute.values[0].id }}
-        <br>
-        <br>
-      </div>
-      <br>
-      <br>
-      <br>
 
-      Новые вариации:
-      <div *ngFor="let variant of variantsToCreate, index as i">
-        {{i}}
-        <div *ngFor="let keyValue of variant | keyvalue">
-          Атрибут: {{ keyValue.key }}<br>
-          Значение: {{ keyValue.value }}
-          <br>
-          <br>
+      <div class="summary-block" *ngIf="preGeneratedAttrsForProduct.length">
+        <div class="summary-block__title">
+          <ng-container *ngIf="variantsToLeave.length + variantsToCreate.length > 1; else noVariantsTitle">Общие атрибуты:</ng-container>
+          <ng-template #noVariantsTitle>Атрибуты:</ng-template>
+        </div>
+
+        <div class="summary-block__body">
+          <div class="summary-block__attr field" *ngFor="let attribute of preGeneratedAttrsForProduct">
+            <div class="field__label summary-block__attr-label">{{ attributeService.getAttributeLabel(attribute.id) }}</div>
+            <div class="field__control summary-block__attr-value">{{ attributeService.getValueLabel(attribute.id, attribute.values[0].id) }}</div>
+          </div>
         </div>
       </div>
-      <br>
-      <br>
-      <br>
-      Вариации для удаления:
-      <div *ngFor="let variant of variantsToRemove, index as i">
-        {{i}}
-        <div *ngFor="let attribute of variant.attributes">
-          Атрибут: {{ attribute.attributeId }}<br>
-          Значение: {{ attribute.valueId }}
-          <br>
-          <br>
+
+      <div class="summary-block" *ngIf="variantsToCreate.length">
+        <div class="summary-block__title">
+          Новые вариации:
+        </div>
+
+        <div class="summary-block__body">
+          <div class="summary-block__variant" *ngFor="let variant of variantsToCreate, index as i">
+             {{ i + 1}}. <span *ngFor="let keyValue of variant | keyvalue, last as last">
+              {{ attributeService.getAttributeLabel(keyValue.key) }}: <span class="summary-block__attr-value">{{ attributeService.getValueLabel(keyValue.key, keyValue.value) }}</span><ng-container *ngIf="!last">, </ng-container>
+            </span>
+          </div>
         </div>
       </div>
-      <br>
-      <br>
-      <br>
-      Оставить как есть:
-      <div *ngFor="let variant of variantsToLeave, index as i">
-        {{i}}
-        <div *ngFor="let attribute of variant.attributes">
-          Атрибут: {{ attribute.attributeId }}<br>
-          Значение: {{ attribute.valueId }}
-          <br>
-          <br>
+
+      <div class="summary-block" *ngIf="variantsToRemove.length">
+        <div class="summary-block__title">
+          Вариации для удаления:
+        </div>
+
+        <div class="summary-block__body">
+          <div class="summary-block__variant" *ngFor="let variant of variantsToRemove, index as i">
+             {{ i + 1}}. {{ variant.name }} <span *ngFor="let attribute of variant.attributes, last as last">
+              ({{ attributeService.getAttributeLabel(attribute.attributeId) }}: <span class="summary-block__attr-value">{{ attributeService.getValueLabel(attribute.attributeId, attribute.valueId) }}</span><ng-container *ngIf="!last">, </ng-container>)
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="summary-block" *ngIf="variantsToLeave.length">
+        <div class="summary-block__title">
+          Оставить как есть:
+        </div>
+
+        <div class="summary-block__body">
+          <div class="summary-block__variant" *ngFor="let variant of variantsToLeave, index as i">
+             {{ i + 1}}. {{ variant.name }} <span *ngFor="let attribute of variant.attributes, last as last">
+              ({{ attributeService.getAttributeLabel(attribute.attributeId) }}: <span class="summary-block__attr-value">{{ attributeService.getValueLabel(attribute.attributeId, attribute.valueId) }}</span><ng-container *ngIf="!last">, </ng-container>)
+            </span>
+          </div>
         </div>
       </div>
     </ng-container>
