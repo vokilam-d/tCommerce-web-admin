@@ -1,7 +1,7 @@
 @import "variables";
 
 $fieldBorderColorHover: #878787;
-$fieldBorderColorFocus: #007bdb;
+$fieldBorderColorFocus: $blue;
 
 .field {
   $field: &;

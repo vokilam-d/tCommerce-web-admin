@@ -3,17 +3,15 @@ import { CommonModule } from '@angular/common';
 
 import { AttributeListRoutingModule } from './attribute-list-routing.module';
 import { AttributeListComponent } from './attribute-list.component';
-import { AttributeService } from '../../shared/services/attribute.service';
+import { SharedModule } from '../../shared/shared.module';
 
 
 @NgModule({
-  declarations: [AttributeListComponent],
   imports: [
     CommonModule,
+    SharedModule,
     AttributeListRoutingModule
   ],
-  providers: [
-    AttributeService
-  ]
+  declarations: [AttributeListComponent],
 })
 export class AttributeListModule { }

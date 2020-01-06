@@ -7,16 +7,16 @@
     </div>
   </div>
 
-  <div class="grid attribute">
+  <div class="grid page__grid">
     <div class="grid__container">
 
-      <div class="grid__head">
+      <div class="grid__head attribute">
         <div class="grid__block attribute__id">ID</div>
         <div class="grid__block attribute__label">Label</div>
       </div>
 
       <div class="grid__body">
-        <a class="grid__row"
+        <a class="grid__row attribute"
            *ngFor="let attribute of attributes"
            [routerLink]="['edit', attribute.id]"
         >

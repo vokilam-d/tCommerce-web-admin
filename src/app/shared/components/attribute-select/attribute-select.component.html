@@ -1,0 +1,32 @@
+<div class="field">
+  <div class="field__label">
+    {{ attribute?.label }}
+  </div>
+
+  <div class="field__control select" (clickOutside)="toggleVisibility(false)">
+
+    <button class="field__select select__active"
+            [class.field__select--active]="isVisible"
+            [disabled]="isDisabled"
+            (click)="toggleVisibility()"
+    >
+      {{ activeOption.view || activeOption.data }}
+    </button>
+
+    <div class="select__options" *ngIf="isVisible">
+      <div class="select__option"
+           *ngIf="hasEmpty"
+           (click)="selectEmptyOption()"
+      ></div>
+
+      <div class="select__option"
+           *ngFor="let option of options"
+           [class.select__option--active]="option === activeOption"
+           (click)="selectOption(option)"
+      >
+        {{ option.view || option.data }}
+      </div>
+    </div>
+  </div>
+
+</div>

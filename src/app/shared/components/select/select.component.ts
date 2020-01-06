@@ -1,6 +1,7 @@
 import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { ISelectOption } from './select-option.interface';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { NgUnsubscribe } from '../../directives/ng-unsubscribe/ng-unsubscribe.directive';
 
 @Component({
   selector: 'app-select',
@@ -12,16 +13,21 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     multi: true
   }]
 })
-export class SelectComponent implements OnInit, ControlValueAccessor {
+export class SelectComponent extends NgUnsubscribe implements OnInit, ControlValueAccessor {
 
-  activeOption: ISelectOption = this.getEmptyOption();
+  get activeOption(): ISelectOption {
+    return this.options.find(option => option.data === this.value) || this.options[0] || this.getEmptyOption();
+  };
   private isVisible: boolean = false;
   private isDisabled: boolean = false;
+  private value: any;
 
   @Input() hasEmpty: boolean = false;
   @Input() options: ISelectOption[] = [];
 
-  constructor() { }
+  constructor() {
+    super();
+  }
 
   ngOnInit() {
   }
@@ -43,12 +49,12 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
   }
 
   writeValue(value: any): void {
-    this.activeOption = this.options.find(option => option.data === value) || this.options[0] || this.getEmptyOption();
+    this.value = value;
     this.onChange(value);
   }
 
   selectOption(option: ISelectOption) {
-    this.activeOption = option;
+    this.value = option.data;
     this.onChange(option.data);
     this.onTouched();
     this.toggleVisibility(false);

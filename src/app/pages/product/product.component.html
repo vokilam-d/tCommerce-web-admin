@@ -65,14 +65,13 @@
       <div class="group-title">Атрибуты<span *ngIf="isMultiVariant"> (общие)</span></div>
 
       <ng-container *ngIf="form.get('attributes') as attributes">
-        <div class="product__field field"
-               *ngFor="let attribute of attributes.value"
+        <attribute-select class="product__field"
+                          *ngFor="let attribute of attributes.value"
+                          [selectedAttr]="attribute"
+                          [ngModelOptions]="{standalone: true}"
+                          [(ngModel)]="attribute.valueId"
         >
-          <label class="field__label">{{ attribute.attributeId }}</label>
-          <span class="field__control">
-            {{ attribute.valueId }}
-          </span>
-        </div>
+        </attribute-select>
       </ng-container>
 
       <attributes-editor class="product__edit-attributes"
@@ -130,15 +129,13 @@
       </div>
 
       <ng-container *ngIf="variantForm.get('attributes') as attributes">
-        <div class="product__field field"
-             *ngFor="let attribute of attributes.value"
+        <attribute-select class="product__field"
+                          *ngFor="let attribute of attributes.value"
+                          [selectedAttr]="attribute"
+                          [ngModelOptions]="{standalone: true}"
+                          [(ngModel)]="attribute.valueId"
         >
-          <label class="field__label">{{ attribute.attributeId }}</label>
-          <span class="field__control">
-            {{ attribute.valueId }}
-          </span>
-          <input type="text" [(ngModel)]="attribute.valueId" [ngModelOptions]="{standalone: true}">
-        </div>
+        </attribute-select>
       </ng-container>
 
       <fields-group class="product__group">

@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { AttributeRoutingModule } from './attribute-routing.module';
 import { AttributeComponent } from './attribute.component';
-import { AttributeService } from '../../shared/services/attribute.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
@@ -14,9 +13,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     AttributeRoutingModule,
     FormsModule,
     ReactiveFormsModule
-  ],
-  providers: [
-    AttributeService
   ]
 })
 export class AttributeModule { }

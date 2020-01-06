@@ -9,8 +9,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { MediaAssetModule } from '../../media-asset/media-asset.module';
 import { MediaUploaderModule } from '../../media-uploader/media-uploader.module';
 import { CategorySelectModule } from '../../category-select/category-select.module';
-import { AttributesEditorComponent } from './attribute-selector/attributes-editor.component';
-import { AttributeService } from '../../shared/services/attribute.service';
+import { AttributesEditorComponent } from './attribute-editor/attributes-editor.component';
 import { AngularEditorModule } from 'src/app/angular-editor/angular-editor.module';
 
 
@@ -28,8 +27,7 @@ import { AngularEditorModule } from 'src/app/angular-editor/angular-editor.modul
     CategorySelectModule
   ],
   providers: [
-    ProductService,
-    AttributeService
+    ProductService
   ]
 })
 export class ProductModule { }

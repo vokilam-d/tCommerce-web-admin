@@ -1,4 +1,4 @@
-export interface ISelectOption {
-  data: any;
+export interface ISelectOption<T = any> {
+  data: T;
   view?: string;
 }

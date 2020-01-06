@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AttributeService } from '../../../shared/services/attribute.service';
-import { NotyService } from '../../../noty/noty.service';
 import { AttributeDto, AttributeValueDto } from '../../../shared/dtos/attribute.dto';
 import { ProductVariantDto } from '../../../shared/dtos/product-variant.dto';
 import { ProductDto } from '../../../shared/dtos/product.dto';
+import { NgUnsubscribe } from '../../../shared/directives/ng-unsubscribe/ng-unsubscribe.directive';
+import { takeUntil } from 'rxjs/operators';
 
 enum ESelectionStep {
   SelectAttributes,
@@ -31,7 +32,7 @@ interface ITruncatedVariant {
   styleUrls: ['./attributes-editor.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AttributesEditorComponent implements OnInit {
+export class AttributesEditorComponent extends NgUnsubscribe implements OnInit {
 
   isVisible: boolean = false;
   activeStep: ESelectionStep = ESelectionStep.SelectAttributes;
@@ -54,15 +55,16 @@ export class AttributesEditorComponent implements OnInit {
   @Input() initialFormValue: ProductDto;
   @Output('generated') generatedEmitter = new EventEmitter<ProductDto>();
 
-  constructor(private attributeService: AttributeService,
-              private notyService: NotyService) { }
+  constructor(private attributeService: AttributeService) {
+    super();
+  }
 
   ngOnInit() {
-    this.attributeService.fetchAttributes().pipe(this.notyService.attachNoty()).subscribe(
-      response => {
-        this.attributes = this.transformResponse(response.data);
-      }
-    );
+    this.attributeService.attributes$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(attributes => {
+        this.attributes = this.transformResponse(attributes);
+      });
   }
 
   show() {

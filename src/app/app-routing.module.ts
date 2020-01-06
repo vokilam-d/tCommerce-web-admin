@@ -30,16 +30,12 @@ const routes: Routes = [
       {
         path: 'product/add',
         loadChildren: () => import('./pages/product/product.module').then(m => m.ProductModule),
-        data: {
-          action: EPageAction.Add
-        }
+        data: { action: EPageAction.Add }
       },
       {
         path: 'product/edit/:id',
         loadChildren: () => import('./pages/product/product.module').then(m => m.ProductModule),
-        data: {
-          action: EPageAction.Edit
-        }
+        data: { action: EPageAction.Edit }
       },
       {
         path: 'attribute',
@@ -48,16 +44,12 @@ const routes: Routes = [
       {
         path: 'attribute/add',
         loadChildren: () => import('./pages/attribute/attribute.module').then(m => m.AttributeModule),
-        data: {
-          action: EPageAction.Add
-        }
+        data: { action: EPageAction.Add }
       },
       {
         path: 'attribute/edit/:id',
         loadChildren: () => import('./pages/attribute/attribute.module').then(m => m.AttributeModule),
-        data: {
-          action: EPageAction.Edit
-        }
+        data: { action: EPageAction.Edit }
       },
       {
         path: '**',

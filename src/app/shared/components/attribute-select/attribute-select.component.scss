@@ -1,6 +1,11 @@
 @import "variables";
 
+:host {
+  display: block;
+}
+
 .select {
+  width: 300px;
   position: relative;
 
   &__active {
