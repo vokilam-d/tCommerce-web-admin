@@ -200,14 +200,14 @@ export class AttributesEditorComponent implements OnInit {
       const values: AttributeValue[] = attributeDtos.values.map(valueDto => {
         return {
           ...valueDto,
-          isSelected: true
+          isSelected: false
         };
       });
 
       return {
         ...attributeDtos,
         values,
-        isSelected: true
+        isSelected: false
       };
     });
   }

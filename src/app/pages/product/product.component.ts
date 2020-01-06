@@ -163,15 +163,15 @@ export class ProductComponent implements OnInit {
 
   private updateProduct() {
     const dto = { ...this.product, ...this.form.value };
-    console.log(dto);
-    // this.productsService.updateProduct(this.product.id, dto)
-    //   .pipe(this.notyService.attachNoty({ successText: 'Товар успешно обновлён' }))
-    //   .subscribe(
-    //     product => {
-    //       this.product = product;
-    //     },
-    //     error => console.warn(error)
-    //   );
+    this.productsService.updateProduct(this.product.id, dto)
+      .pipe(this.notyService.attachNoty({ successText: 'Товар успешно обновлён' }))
+      .subscribe(
+        product => {
+          this.product = product;
+          this.buildForm();
+        },
+        error => console.warn(error)
+      );
   }
 
   getMediaUploadUrl() {
@@ -191,11 +191,10 @@ export class ProductComponent implements OnInit {
   }
 
   onAttributesEdit(generatedFormValue: ProductDto) {
-    // console.log(this.form.value);
-    // console.log(generatedFormValue);
-    // this.form.setValue(generatedFormValue);
-    // console.log(this.form.value);
-    this.product = generatedFormValue;
+    this.product = {
+      ...this.product,
+      ...generatedFormValue
+    };
     this.buildForm();
   }
 

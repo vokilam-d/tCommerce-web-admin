@@ -87,7 +87,7 @@
     >
 
       <div class="group-title" *ngIf="isMultiVariant">
-        Вариация {{ i + 1 }} - {{ variantForm.get('name') && variantForm.get('name').value }}
+        Вариация {{ i + 1 }}<ng-container *ngIf="variantForm.get('name') as name"> - {{ name.value }}</ng-container>
       </div>
 
       <div class="product__field field field--required"
@@ -125,7 +125,7 @@
       >
         <label class="field__label" [for]="'qty-' + i">Количество</label>
         <span class="field__control">
-          <input class="field__input" [formControl]="qty" [id]="'qty-' + i" type="text">
+          <input class="field__input" [formControl]="qty" [id]="'qty-' + i" type="number">
         </span>
       </div>
 
