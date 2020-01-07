@@ -21,9 +21,9 @@
     </div>
   </div>
 
-  <form class="customer" *ngIf="form" [formGroup]="form">
+  <form class="customer-form" *ngIf="form" [formGroup]="form">
 
-    <div class="customer__field field field--required"
+    <div class="customer-form__field field field--required"
          *ngIf="form.get('firstName') as firstName"
          [class.field--invalid]="isControlInvalid(firstName)"
     >
@@ -33,7 +33,7 @@
       </span>
     </div>
 
-    <div class="customer__field field field--required"
+    <div class="customer-form__field field field--required"
          *ngIf="form.get('lastName') as lastName"
          [class.field--invalid]="isControlInvalid(lastName)"
     >
@@ -43,7 +43,7 @@
       </span>
     </div>
 
-    <div class="customer__field field"
+    <div class="customer-form__field field"
          *ngIf="form.get('email') as email"
          [class.field--invalid]="isControlInvalid(email)"
     >
@@ -53,7 +53,7 @@
       </span>
     </div>
 
-    <div class="customer__field field"
+    <div class="customer-form__field field"
          *ngIf="form.get('phoneNumber') as phoneNumber"
          [class.field--invalid]="isControlInvalid(phoneNumber)"
     >
@@ -63,7 +63,7 @@
       </span>
     </div>
 
-    <div class="customer__field field"
+    <div class="customer-form__field field"
          *ngIf="form.get('note') as note"
          [class.field--invalid]="isControlInvalid(note)"
     >
