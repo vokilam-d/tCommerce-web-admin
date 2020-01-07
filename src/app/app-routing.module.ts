@@ -52,10 +52,6 @@ const routes: Routes = [
         data: { action: EPageAction.Edit }
       },
       {
-        path: '**',
-        loadChildren: () => import('./pages/not-found/not-found.module').then(m => m.NotFoundModule)
-      },
-      {
         path: 'customer',
         loadChildren: () => import('./pages/customer-list/customer-list.module').then(m => m.CustomerListModule)
       },
@@ -68,6 +64,10 @@ const routes: Routes = [
         path: 'customer/edit/:id',
         loadChildren: () => import('./pages/customer/customer.module').then(m => m.CustomerModule),
         data: { action: EPageAction.Edit }
+      },
+      {
+        path: '**',
+        loadChildren: () => import('./pages/not-found/not-found.module').then(m => m.NotFoundModule)
       }
     ]
   }

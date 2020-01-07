@@ -36,6 +36,8 @@
     padding: 17px 10px;
     flex-shrink: 0;
     box-sizing: content-box;
+    display: flex;
+    align-items: center;
   }
 
   &__head &__block {

@@ -5,12 +5,12 @@ export class AddOrUpdateCustomerDto {
   lastName: string = '';
   email: string = '';
   phoneNumber: string = '';
-  password: any;
-  creationDate: Date;
-  lastLoggedIn: Date;
-  isLocked: boolean;
-  isEmailConfirmed: boolean;
-  isPhoneNumberConfirmed: boolean;
+  password: any = undefined;
+  creationDate: Date = undefined;
+  lastLoggedIn: Date = undefined;
+  isLocked: boolean = undefined;
+  isEmailConfirmed: boolean = undefined;
+  isPhoneNumberConfirmed: boolean = undefined;
   note: string = '';
   addresses: CustomerAddressDto[] = [];
   reviewIds: number[] = [];

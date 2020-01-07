@@ -1,0 +1,11 @@
+.customer {
+  margin: 40px 0 0;
+
+  &__field {
+    margin: 30px 0 0;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+}
