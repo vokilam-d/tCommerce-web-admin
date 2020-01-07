@@ -1,0 +1,63 @@
+<div class="page">
+  <header class="header page__header">
+    <h1 class="header__title">
+      Покупатели
+    </h1>
+
+    <div class="header__toolbar">
+      <button class="header__btn toolbar-main-btn" (click)="add()">Добавить покупателя</button>
+    </div>
+  </header>
+
+  <div class="page__list-info list-info">
+    <div class="list-info__total-items">
+      Всего покупателей: {{ itemsTotal }}
+    </div>
+    <pagination class="list-info__pagination" [pageCount]="pagesTotal" (change)="fetchCustomers($event)"></pagination>
+  </div>
+
+  <div class="grid page__grid">
+    <div class="grid__container">
+
+      <div class="grid__head customer">
+        <div class="grid__block customer__id">ID</div>
+        <div class="grid__block customer__name">Имя</div>
+        <div class="grid__block customer__email">Email</div>
+        <div class="grid__block customer__phone">Телефон</div>
+        <div class="grid__block customer__city">Город</div>
+        <div class="grid__block customer__create-date">Дата рег-ции</div>
+        <div class="grid__block customer__note">Комментарий о покупателе</div>
+      </div>
+
+      <div class="grid__body">
+        <a class="grid__row customer"
+           *ngFor="let customer of customers"
+           [routerLink]="['edit', customer.id]"
+        >
+          <div class="grid__block customer__id">
+            {{ customer.id }}
+          </div>
+          <div class="grid__block customer__name">
+            {{ customer.firstName }} {{ customer.lastName }}
+          </div>
+          <div class="grid__block customer__email">
+            {{ customer.email }}
+          </div>
+          <div class="grid__block customer__phone">
+            {{ customer.phoneNumber }}
+          </div>
+          <div class="grid__block customer__city">
+            {{ customer.addresses[0]?.city }}
+          </div>
+          <div class="grid__block customer__create-date">
+            {{ customer.creationDate | date }}
+          </div>
+          <div class="grid__block customer__note">
+            {{ customer.note }}
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div>

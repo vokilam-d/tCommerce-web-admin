@@ -12,8 +12,11 @@ export class ProductService {
   constructor(private http: HttpClient) {
   }
 
-  fetchProducts(filter: IPagination): Observable<ResponsePaginationDto<ProductDto[]>> {
-    return this.http.get<ResponsePaginationDto<ProductDto[]>>('http://localhost:3500/api/v1/admin/products', { params: toHttpParams(filter) });
+  fetchAllProducts(filter: IPagination): Observable<ResponsePaginationDto<ProductDto[]>> {
+    return this.http.get<ResponsePaginationDto<ProductDto[]>>(
+      'http://localhost:3500/api/v1/admin/products',
+      { params: toHttpParams(filter) }
+    );
   }
 
   fetchProduct(id: string | number): Observable<ProductDto> {
