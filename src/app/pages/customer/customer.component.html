@@ -2,7 +2,7 @@
   <div class="header">
     <h1 class="header__title" [ngSwitch]="isNewCustomer">
       <ng-container *ngSwitchCase="true">
-        Новый покупатель
+        Новый клиент
       </ng-container>
 
       <ng-container *ngSwitchCase="false">
@@ -69,7 +69,7 @@
              *ngIf="infoForm.get('note') as note"
              [class.field--invalid]="isControlInvalid(note)"
         >
-          <label for="note" class="field__label">Комментарий о покупателе</label>
+          <label for="note" class="field__label">Комментарий о клиенте</label>
           <span class="field__control">
             <input class="field__input" [formControl]="note" type="text" id="note">
           </span>

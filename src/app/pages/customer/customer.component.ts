@@ -21,7 +21,7 @@ export class CustomerComponent implements OnInit {
   activeAddress: CustomerAddressDto = null;
   addressForm: FormGroup;
 
-  tabsLabels: string[] = ['Информация о покупателе', 'Адреса', 'Заказы', 'Корзина', 'Отзывы о товарах', 'Список желаний'];
+  tabsLabels: string[] = ['Информация о клиенте', 'Адреса', 'Заказы', 'Корзина', 'Отзывы о товарах', 'Список желаний'];
 
   constructor(private customersService: CustomerService,
               private formBuilder: FormBuilder,
@@ -58,12 +58,12 @@ export class CustomerComponent implements OnInit {
   }
 
   delete() {
-    if (!confirm(`Вы действительно хотите удалить этого покупателя?`)) {
+    if (!confirm(`Вы действительно хотите удалить этого клиента?`)) {
       return;
     }
 
     this.customersService.deleteCustomer(this.customer.id)
-      .pipe(this.notyService.attachNoty({ successText: 'Покупатель успешно удалён' }))
+      .pipe(this.notyService.attachNoty({ successText: 'Клиент успешно удалён' }))
       .subscribe(
         _ => {
           this.goBack();
@@ -115,7 +115,7 @@ export class CustomerComponent implements OnInit {
     const dto = { ...this.customer, ...this.infoForm.value };
 
     this.customersService.addNewCustomer(dto)
-      .pipe(this.notyService.attachNoty({ successText: 'Покупатель успешно добавлен' }))
+      .pipe(this.notyService.attachNoty({ successText: 'Клиент успешно добавлен' }))
       .subscribe(
         customer => {
           this.router.navigate(['admin', 'customer', 'edit', customer.id]);
@@ -128,7 +128,7 @@ export class CustomerComponent implements OnInit {
     const dto = { ...this.customer, ...this.infoForm.value };
 
     this.customersService.updateCustomer(this.customer.id, dto)
-      .pipe(this.notyService.attachNoty({ successText: 'Покупатель успешно обновлён' }))
+      .pipe(this.notyService.attachNoty({ successText: 'Клиент успешно обновлён' }))
       .subscribe(
         customer => {
           this.customer = customer;

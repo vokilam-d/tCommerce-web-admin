@@ -1,17 +1,17 @@
 <div class="page">
   <header class="header page__header">
     <h1 class="header__title">
-      Покупатели
+      Клиенты
     </h1>
 
     <div class="header__toolbar">
-      <button class="header__btn toolbar-main-btn" (click)="add()">Добавить покупателя</button>
+      <button class="header__btn toolbar-main-btn" (click)="add()">Добавить клиента</button>
     </div>
   </header>
 
   <div class="page__list-info list-info">
     <div class="list-info__total-items">
-      Всего покупателей: {{ itemsTotal }}
+      Всего клиентов: {{ itemsTotal }}
     </div>
     <pagination class="list-info__pagination" [pageCount]="pagesTotal" (change)="fetchCustomers($event)"></pagination>
   </div>
@@ -26,7 +26,7 @@
         <div class="grid__block customer__phone">Телефон</div>
         <div class="grid__block customer__city">Город</div>
         <div class="grid__block customer__create-date">Дата рег-ции</div>
-        <div class="grid__block customer__note">Комментарий о покупателе</div>
+        <div class="grid__block customer__note">Комментарий о клиенте</div>
       </div>
 
       <div class="grid__body">
