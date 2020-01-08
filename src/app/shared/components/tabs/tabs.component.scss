@@ -1,0 +1,54 @@
+@import "variables";
+
+:host {
+  display: block;
+}
+
+.tabs {
+  display: flex;
+  width: 100%;
+
+  &__sidebar {
+    flex-shrink: 0;
+    width: 350px;
+    background: #f1f1f1;
+    border: 1px solid #e3e3e3;
+    padding: 10px 0;
+  }
+
+  &__content {
+    flex-grow: 2;
+    padding: 5px 0 0 30px;
+  }
+
+  &__tab {
+    position: relative;
+    margin: 0 -1px 0 7px;
+    padding: 20px 0 20px 10px;
+    border: 1px solid transparent;
+    border-left: 0;
+    transition: border-color 0.1s ease-out, background-color 0.1s ease-out;
+    color: $dark;
+    cursor: pointer;
+
+    &:not(&--active):hover {
+      background: #e4e4e4;
+    }
+
+    &--active {
+      background: #fff;
+      border-color: #e3e3e3;
+      border-right-color: #fff;
+
+      &::before {
+        position: absolute;
+        top: -1px;
+        bottom: -1px;
+        left: 0;
+        width: 3px;
+        background: $primary;
+        content: '';
+      }
+    }
+  }
+}

@@ -5,6 +5,7 @@ import { SelectComponent } from './components/select/select.component';
 import { FieldsGroupComponent } from './components/fields-group/fields-group.component';
 import { AttributeSelectComponent } from './components/attribute-select/attribute-select.component';
 import { NgUnsubscribe } from './directives/ng-unsubscribe/ng-unsubscribe.directive';
+import { TabsComponent } from './components/tabs/tabs.component';
 
 
 @NgModule({
@@ -13,14 +14,16 @@ import { NgUnsubscribe } from './directives/ng-unsubscribe/ng-unsubscribe.direct
     SelectComponent,
     FieldsGroupComponent,
     AttributeSelectComponent,
-    NgUnsubscribe
+    NgUnsubscribe,
+    TabsComponent
   ],
   exports: [
     ClickOutsideDirective,
     SelectComponent,
     FieldsGroupComponent,
     AttributeSelectComponent,
-    NgUnsubscribe
+    NgUnsubscribe,
+    TabsComponent
   ],
   imports: [
     CommonModule
