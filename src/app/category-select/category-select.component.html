@@ -2,6 +2,7 @@
   <button class="field__select select__active-row"
           [class.field__select--active]="isVisible"
           (click)="toggleVisibility()"
+          type="button"
   >
     <span *ngIf="!selectedOptions.length; else optionsTmpl" class="select__placeholder">
       Выбрать...
@@ -28,7 +29,7 @@
 
 <ng-template #treeItem let-option="option">
   <li class="select__option-container">
-    <button class="select__option" (click)="toggleOption(option)">
+    <button class="select__option" (click)="toggleOption(option)" type="button">
       <span class="select__checkbox">
         <i class="ai ai-checkmark select__checkmark" *ngIf="option.isSelected"></i>
       </span>

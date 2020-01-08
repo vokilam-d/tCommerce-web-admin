@@ -1,0 +1,37 @@
+@import "variables";
+
+:host {
+  display: inline-block;
+}
+
+.btn {
+  display: inline-block;
+  padding: 9px 14px;
+  border: 1px solid #adadad;
+  transition: all 0.2s ease;
+  cursor: pointer;
+
+  &--default {
+    background: $controlBg;
+
+    &:not([disabled]):hover {
+      background: darken($controlBg, 5%);
+    }
+
+    &:not([disabled]):active {
+      background: darken($controlBg, 10%);
+    }
+  }
+
+  &--primary {
+    border-color: $primary;
+    background: $primary;
+    color: #fff;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.15);
+
+    &:not([disabled]):hover {
+      border-color: darken($primary, 10%);
+      background: darken($primary, 10%);
+    }
+  }
+}

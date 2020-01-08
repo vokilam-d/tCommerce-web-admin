@@ -4,11 +4,13 @@
     <div class="categories__toolbar">
       <button class="categories__add"
               (click)="addRootCategory()"
+              type="button"
       >
         Добавить корневую категорию
       </button>
       <button class="categories__add"
               (click)="addSubCategory()"
+              type="button"
       >
         Добавить подкатегорию
       </button>
@@ -32,7 +34,7 @@
 
 <ng-template #treeItem let-category="category">
   <li>
-    <button class="categories__list-item" (click)="selectCategory(category)">
+    <button class="categories__list-item" (click)="selectCategory(category)" type="button">
       {{ category.name }}
     </button>
 

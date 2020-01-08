@@ -11,68 +11,248 @@
     </h1>
 
     <div class="header__toolbar">
-      <button class="header__btn toolbar-btn" (click)="goBack()">
+      <button class="header__btn toolbar-btn" (click)="goBack()" type="button">
         <i class="ai ai-arrow-left"></i> назад
       </button>
-      <button class="header__btn toolbar-btn" *ngIf="!isNewCustomer" (click)="delete()">
+      <button class="header__btn toolbar-btn" *ngIf="!isNewCustomer" (click)="delete()" type="button">
         Удалить
       </button>
-      <button class="header__btn toolbar-main-btn" (click)="save()">Сохранить</button>
+      <button class="header__btn toolbar-main-btn" (click)="save()" type="button">Сохранить</button>
     </div>
   </div>
 
-  <form class="customer-form" *ngIf="form" [formGroup]="form">
+  <tabs class="tabs" [labels]="tabsLabels">
+    <ng-template #tabContent>
+      <form class="customer-form" *ngIf="infoForm" [formGroup]="infoForm">
 
-    <div class="customer-form__field field field--required"
-         *ngIf="form.get('firstName') as firstName"
-         [class.field--invalid]="isControlInvalid(firstName)"
-    >
-      <label for="firstName" class="field__label">Имя</label>
-      <span class="field__control">
-        <input class="field__input" [formControl]="firstName" type="text" id="firstName">
-      </span>
-    </div>
+        <div class="customer-form__field field field--required"
+             *ngIf="infoForm.get('firstName') as firstName"
+             [class.field--invalid]="isControlInvalid(firstName)"
+        >
+          <label for="firstName" class="field__label">Имя</label>
+          <span class="field__control">
+            <input class="field__input" [formControl]="firstName" type="text" id="firstName">
+          </span>
+        </div>
 
-    <div class="customer-form__field field field--required"
-         *ngIf="form.get('lastName') as lastName"
-         [class.field--invalid]="isControlInvalid(lastName)"
-    >
-      <label for="lastName" class="field__label">Фамилия</label>
-      <span class="field__control">
-        <input class="field__input" [formControl]="lastName" type="text" id="lastName">
-      </span>
-    </div>
+        <div class="customer-form__field field field--required"
+             *ngIf="infoForm.get('lastName') as lastName"
+             [class.field--invalid]="isControlInvalid(lastName)"
+        >
+          <label for="lastName" class="field__label">Фамилия</label>
+          <span class="field__control">
+            <input class="field__input" [formControl]="lastName" type="text" id="lastName">
+          </span>
+        </div>
 
-    <div class="customer-form__field field"
-         *ngIf="form.get('email') as email"
-         [class.field--invalid]="isControlInvalid(email)"
-    >
-      <label for="email" class="field__label">Email</label>
-      <span class="field__control">
-        <input class="field__input" [formControl]="email" type="text" id="email">
-      </span>
-    </div>
+        <div class="customer-form__field field"
+             *ngIf="infoForm.get('email') as email"
+             [class.field--invalid]="isControlInvalid(email)"
+        >
+          <label for="email" class="field__label">Email</label>
+          <span class="field__control">
+            <input class="field__input" [formControl]="email" type="text" id="email">
+          </span>
+        </div>
 
-    <div class="customer-form__field field"
-         *ngIf="form.get('phoneNumber') as phoneNumber"
-         [class.field--invalid]="isControlInvalid(phoneNumber)"
-    >
-      <label for="phoneNumber" class="field__label">Телефон</label>
-      <span class="field__control">
-        <input class="field__input" [formControl]="phoneNumber" type="text" id="phoneNumber">
-      </span>
-    </div>
+        <div class="customer-form__field field"
+             *ngIf="infoForm.get('phoneNumber') as phoneNumber"
+             [class.field--invalid]="isControlInvalid(phoneNumber)"
+        >
+          <label for="phoneNumber" class="field__label">Телефон</label>
+          <span class="field__control">
+            <input class="field__input" [formControl]="phoneNumber" type="text" id="phoneNumber">
+          </span>
+        </div>
 
-    <div class="customer-form__field field"
-         *ngIf="form.get('note') as note"
-         [class.field--invalid]="isControlInvalid(note)"
-    >
-      <label for="note" class="field__label">Комментарий о покупателе</label>
-      <span class="field__control">
-        <input class="field__input" [formControl]="note" type="text" id="note">
-      </span>
-    </div>
+        <div class="customer-form__field field"
+             *ngIf="infoForm.get('note') as note"
+             [class.field--invalid]="isControlInvalid(note)"
+        >
+          <label for="note" class="field__label">Комментарий о покупателе</label>
+          <span class="field__control">
+            <input class="field__input" [formControl]="note" type="text" id="note">
+          </span>
+        </div>
 
-  </form>
+      </form>
+    </ng-template>
+
+    <ng-template #tabContent>
+      <div class="addresses">
+        <div class="addresses__list" *ngIf="customer.addresses.length; else noAddressesText">
+          <div class="addresses__address address"
+               *ngFor="let address of customer.addresses, index as i"
+               [class.address--disabled]="activeAddress"
+               [class.address--faded]="activeAddress && activeAddress !== address"
+               [class.address--default]="address.isDefault"
+          >
+            <div class="address__block address__block--name">
+              {{ address.firstName }} {{ address.lastName }}
+            </div>
+            <div class="address__block">
+              {{ address.phoneNumber }}
+            </div>
+            <div class="address__block">
+              {{ address.city }}
+            </div>
+            <div class="address__block" *ngIf="address.novaposhtaOffice">
+              № {{ address.novaposhtaOffice }}
+            </div>
+            <div class="address__block" *ngIf="address.streetName">
+              {{ address.streetName }}
+            </div>
+
+            <div class="address__edit-container">
+              <button class="address__edit"
+                      *ngIf="!addressForm"
+                      (click)="editAddress(address)"
+                      type="button"
+              >
+                Изменить адрес
+              </button>
+            </div>
+
+            <div class="address__label" *ngIf="address.isDefault">По умолчанию</div>
+
+            <button class="address__label address__set-default"
+                    *ngIf="!address.isDefault"
+                    (click)="setAsDefaultAddress(address)"
+                    type="button"
+            >
+              Установить по умолчанию
+            </button>
+
+            <button class="address__remove" (click)="removeAddress(i)">
+              <i class="ai ai-delete address__remove-icon"></i>
+            </button>
+          </div>
+        </div>
+
+        <ng-template #noAddressesText>
+          <div class="addresses__empty" *ngIf="!addressForm">
+            Нет адресов
+          </div>
+        </ng-template>
+
+        <app-button class="addresses__add"
+                    *ngIf="!addressForm"
+                    [btnStyle]="'primary'"
+                    (click)="addAddress()"
+        >
+          Добавить адрес
+        </app-button>
+
+        <form class="address-form"
+              *ngIf="addressForm"
+              [formGroup]="addressForm"
+              (ngSubmit)="onAddressFormSubmit()"
+              novalidate
+        >
+
+          <div class="address-form__field field"
+               *ngIf="addressForm.get('isDefault') as isDefault"
+          >
+            <label class="field__label" for="isDefault">По умолчанию</label>
+            <div class="field__control">
+              <label class="switcher">
+                <input class="switcher__input"
+                       [formControl]="isDefault"
+                       type="checkbox"
+                       id="isDefault"
+                >
+                <span class="switcher__control" [class.switcher__control--active]="isDefault.value"></span>
+                <span class="switcher__description">
+                  <ng-container *ngIf="isDefault.value; else isDefaultFalseText">Да</ng-container>
+                  <ng-template #isDefaultFalseText>Нет</ng-template>
+                </span>
+              </label>
+            </div>
+          </div>
+
+          <div class="address-form__field field field--required"
+               *ngIf="addressForm.get('firstName') as firstName"
+               [class.field--invalid]="isControlInvalid(firstName)"
+          >
+            <label for="addr-firstName" class="field__label">Имя</label>
+            <span class="field__control">
+              <input class="field__input" [formControl]="firstName" type="text" id="addr-firstName">
+            </span>
+          </div>
+
+          <div class="address-form__field field field--required"
+               *ngIf="addressForm.get('lastName') as lastName"
+               [class.field--invalid]="isControlInvalid(lastName)"
+          >
+            <label for="addr-lastName" class="field__label">Фамилия</label>
+            <span class="field__control">
+              <input class="field__input" [formControl]="lastName" type="text" id="addr-lastName">
+            </span>
+          </div>
+
+          <div class="address-form__field field field--required"
+               *ngIf="addressForm.get('phoneNumber') as phoneNumber"
+               [class.field--invalid]="isControlInvalid(phoneNumber)"
+          >
+            <label for="addr-phoneNumber" class="field__label">Телефон</label>
+            <span class="field__control">
+              <input class="field__input" [formControl]="phoneNumber" type="text" id="addr-phoneNumber">
+            </span>
+          </div>
+
+          <div class="address-form__field field field--required"
+               *ngIf="addressForm.get('city') as city"
+               [class.field--invalid]="isControlInvalid(city)"
+          >
+            <label for="addr-city" class="field__label">Город</label>
+            <span class="field__control">
+              <input class="field__input" [formControl]="city" type="text" id="addr-city">
+            </span>
+          </div>
+
+          <div class="address-form__field field"
+               *ngIf="addressForm.get('streetName') as streetName"
+               [class.field--invalid]="isControlInvalid(streetName)"
+          >
+            <label for="addr-streetName" class="field__label">Улица</label>
+            <span class="field__control">
+              <input class="field__input" [formControl]="streetName" type="text" id="addr-streetName">
+            </span>
+          </div>
+
+          <div class="address-form__field field"
+               *ngIf="addressForm.get('novaposhtaOffice') as novaposhtaOffice"
+               [class.field--invalid]="isControlInvalid(novaposhtaOffice)"
+          >
+            <label for="addr-novaposhtaOffice" class="field__label">Отделение Новой Почты</label>
+            <span class="field__control">
+              <input class="field__input" [formControl]="novaposhtaOffice" type="text" id="addr-novaposhtaOffice">
+            </span>
+          </div>
+
+          <div class="address-form__field field">
+            <div class="address-form__cancel-label field__label">
+              <app-button type="button" (click)="closeAndResetAddressForm()">
+                Отменить
+              </app-button>
+            </div>
+            <div class="field__control">
+              <app-button btnStyle="primary" type="submit">
+                Сохранить
+              </app-button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </ng-template>
+
+    <ng-template #tabContent>{{ tabsLabels[2] }}</ng-template>
+
+    <ng-template #tabContent>{{ tabsLabels[3] }}</ng-template>
+
+    <ng-template #tabContent>{{ tabsLabels[4] }}</ng-template>
+
+    <ng-template #tabContent>{{ tabsLabels[5] }}</ng-template>
+  </tabs>
 
 </div>

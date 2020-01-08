@@ -8,6 +8,7 @@
     <button class="pagination__page-control"
             [disabled]="pageControl.value <= 1"
             (click)="prevPage()"
+            type="button"
     >
       <i class="ai ai-left pagination__page-icon"></i>
     </button>
@@ -19,6 +20,7 @@
     <button class="pagination__page-control"
             [disabled]="pageControl.value >= pageCount"
             (click)="nextPage()"
+            type="button"
     >
       <i class="ai ai-right pagination__page-icon"></i>
     </button>

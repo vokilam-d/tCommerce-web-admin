@@ -6,6 +6,7 @@ import { FieldsGroupComponent } from './components/fields-group/fields-group.com
 import { AttributeSelectComponent } from './components/attribute-select/attribute-select.component';
 import { NgUnsubscribe } from './directives/ng-unsubscribe/ng-unsubscribe.directive';
 import { TabsComponent } from './components/tabs/tabs.component';
+import { ButtonComponent } from './components/button/button.component';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { TabsComponent } from './components/tabs/tabs.component';
     FieldsGroupComponent,
     AttributeSelectComponent,
     NgUnsubscribe,
-    TabsComponent
+    TabsComponent,
+    ButtonComponent
   ],
   exports: [
     ClickOutsideDirective,
@@ -23,7 +25,8 @@ import { TabsComponent } from './components/tabs/tabs.component';
     FieldsGroupComponent,
     AttributeSelectComponent,
     NgUnsubscribe,
-    TabsComponent
+    TabsComponent,
+    ButtonComponent
   ],
   imports: [
     CommonModule

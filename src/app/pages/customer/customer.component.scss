@@ -1,11 +1,175 @@
-.customer-form {
-  margin: 40px 0 0;
+@import "variables";
 
+.tabs {
+  margin: 40px 0 0;
+}
+
+.customer-form,
+.address-form {
   &__field {
     margin: 30px 0 0;
 
     &:first-child {
       margin-top: 0;
     }
+  }
+}
+
+.address-form {
+  margin: 40px 0 0;
+
+  &__cancel-label {
+    padding-top: 0;
+  }
+}
+
+.addresses {
+  &__empty {
+    margin: 20px 0 0;
+    font-size: 18px;
+  }
+
+  &__add {
+    margin: 40px 0 0;
+  }
+
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  &__address {
+    margin: 0 0 20px 20px;
+
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+}
+
+.address {
+  $address: &;
+
+  position: relative;
+  min-width: 250px;
+  display: flex;
+  flex-direction: column;
+  padding: 18px 10px 15px 20px;
+  border: 2px solid #e2e1e0;
+
+  &--default {
+    &:not(#{$address}--faded) {
+      border-color: $primary;
+    }
+  }
+
+  &--faded {
+    opacity: 0.2;
+  }
+
+  &--disabled {
+    pointer-events: none;
+  }
+
+  &__block {
+    line-height: 1.3;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  &__block--name {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 2px;
+  }
+
+  &__edit-container {
+    margin: auto 0 0;
+    text-align: right;
+  }
+
+  &__edit {
+    margin: 20px 0 0;
+    padding: 5px 10px;
+    font-size: 12px;
+    color: $blue;
+    text-decoration: underline;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: darken($blue, 10%);
+    }
+  }
+
+  &__label {
+    position: absolute;
+    top: 100%;
+    right: -2px;
+    padding: 4px 9px 3px;
+    background: $primary;
+    color: #fff;
+    font-size: 11px;
+
+    #{$address}--faded & {
+      display: none;
+    }
+  }
+
+  &__set-default {
+    background: #e2e1e0;
+    color: $dark;
+    transition: all 0.2s ease;
+    transform: translateY(-100%);
+    opacity: 0;
+
+    &:hover {
+      background: darken(#e2e1e0, 5%);
+    }
+
+    #{$address}:hover & {
+      animation: slideIn 0.1s $cubicBezier forwards;
+    }
+  }
+
+  &__remove {
+    display: none;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    padding: 5px;
+    color: rgba($dark, 0.4);
+    cursor: pointer;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: rgba($dark, 0.8);
+    }
+
+    #{$address}:hover & {
+      display: block;
+      animation: fadeIn 0.2s ease;
+    }
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }

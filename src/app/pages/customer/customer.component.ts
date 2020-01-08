@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NotyService } from '../../noty/noty.service';
 import { EPageAction } from '../../shared/enums/category-page-action.enum';
 import { CustomerDto } from '../../shared/dtos/customer.dto';
+import { CustomerAddressDto } from '../../shared/dtos/customer-address.dto';
 
 @Component({
   selector: 'customer',
@@ -15,7 +16,12 @@ export class CustomerComponent implements OnInit {
 
   isNewCustomer: boolean;
   customer: CustomerDto;
-  form: FormGroup;
+  infoForm: FormGroup;
+
+  activeAddress: CustomerAddressDto = null;
+  addressForm: FormGroup;
+
+  tabsLabels: string[] = ['Информация о покупателе', 'Адреса', 'Заказы', 'Корзина', 'Отзывы о товарах', 'Список желаний'];
 
   constructor(private customersService: CustomerService,
               private formBuilder: FormBuilder,
@@ -32,15 +38,15 @@ export class CustomerComponent implements OnInit {
     this.isNewCustomer = this.route.snapshot.data.action === EPageAction.Add;
     if (this.isNewCustomer) {
       this.customer = new CustomerDto();
-      this.buildForm();
+      this.buildInfoForm();
     } else {
       this.fetchCustomer();
     }
   }
 
   save() {
-    if (this.form.invalid) {
-      this.validateControls();
+    if (this.infoForm.invalid) {
+      this.validateControls(this.infoForm);
       return;
     }
 
@@ -66,23 +72,8 @@ export class CustomerComponent implements OnInit {
       );
   }
 
-  private buildForm() {
-    // const addressesFormArray = this.formBuilder.array([]);
-    //
-    // this.customer.addresses.forEach(address => {
-    //   const group = this.formBuilder.group({
-    //     firstName: [address.firstName, Validators.required],
-    //     lastName: [address.lastName, Validators.required],
-    //     phoneNumber: '',
-    //     city: [address.city, Validators.required],
-    //     streetName: '',
-    //     novaposhtaOffice: ''
-    //   });
-    //
-    //   addressesFormArray.push(group);
-    // });
-
-    this.form = this.formBuilder.group({
+  private buildInfoForm() {
+    this.infoForm = this.formBuilder.group({
       firstName: [this.customer.firstName, Validators.required],
       lastName: [this.customer.lastName, Validators.required],
       email: this.customer.email,
@@ -98,13 +89,13 @@ export class CustomerComponent implements OnInit {
       .subscribe(
         customer => {
           this.customer = customer;
-          this.buildForm();
+          this.buildInfoForm();
         },
         error => console.warn(error)
       );
   }
 
-  private validateControls(form: FormGroup | FormArray = this.form) {
+  private validateControls(form: FormGroup | FormArray) {
     Object.keys(form.controls).forEach(controlName => {
       const control = form.get(controlName);
 
@@ -121,7 +112,7 @@ export class CustomerComponent implements OnInit {
   }
 
   private addNewCustomer() {
-    const dto = { ...this.customer, ...this.form.value };
+    const dto = { ...this.customer, ...this.infoForm.value };
 
     this.customersService.addNewCustomer(dto)
       .pipe(this.notyService.attachNoty({ successText: 'Покупатель успешно добавлен' }))
@@ -134,14 +125,14 @@ export class CustomerComponent implements OnInit {
   }
 
   private updateCustomer() {
-    const dto = { ...this.customer, ...this.form.value };
+    const dto = { ...this.customer, ...this.infoForm.value };
 
     this.customersService.updateCustomer(this.customer.id, dto)
       .pipe(this.notyService.attachNoty({ successText: 'Покупатель успешно обновлён' }))
       .subscribe(
         customer => {
           this.customer = customer;
-          this.buildForm();
+          this.buildInfoForm();
         },
         error => console.warn(error)
       );
@@ -149,5 +140,61 @@ export class CustomerComponent implements OnInit {
 
   goBack() {
     this.router.navigate(['admin', 'customer']);
+  }
+
+  setAsDefaultAddress(addressArg: CustomerAddressDto) {
+    this.customer.addresses.forEach(addr => addr.isDefault = false);
+    addressArg.isDefault = true;
+  }
+
+  addAddress() {
+    this.activeAddress = new CustomerAddressDto();
+    this.buildAddressForm(this.activeAddress);
+  }
+
+  editAddress(address: CustomerAddressDto) {
+    this.activeAddress = address;
+    this.buildAddressForm(this.activeAddress);
+  }
+
+  private buildAddressForm(address: CustomerAddressDto) {
+    this.addressForm = this.formBuilder.group({
+      isDefault: [address.isDefault],
+      firstName: [address.firstName, Validators.required],
+      lastName: [address.lastName, Validators.required],
+      phoneNumber: [address.phoneNumber, Validators.required],
+      city: [address.city, Validators.required],
+      streetName: address.streetName,
+      novaposhtaOffice: address.novaposhtaOffice
+    });
+  }
+
+  onAddressFormSubmit() {
+    if (this.addressForm.invalid) {
+      this.validateControls(this.addressForm);
+      return;
+    }
+
+    if (this.addressForm.value.isDefault) {
+      this.customer.addresses.forEach(addr => addr.isDefault = false);
+    }
+
+    const idx = this.customer.addresses.indexOf(this.activeAddress);
+    if (idx === -1) {
+      this.customer.addresses.push(this.addressForm.value);
+    } else {
+      this.customer.addresses[idx] = this.addressForm.value;
+    }
+
+    this.closeAndResetAddressForm();
+  }
+
+  removeAddress(addressIdx: number) {
+    this.customer.addresses.splice(addressIdx, 1);
+  }
+
+  closeAndResetAddressForm() {
+    this.activeAddress = null;
+    this.addressForm = null;
   }
 }

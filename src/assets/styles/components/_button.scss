@@ -26,16 +26,3 @@
     color: darken($dark, 30%);
   }
 }
-
-.btn {
-  display: inline-block;
-  padding: 9px 14px;
-  border: 1px solid #adadad;
-  background: $controlBg;
-  transition: all 0.2s ease;
-  cursor: pointer;
-
-  &:hover {
-    background: #dbdbdb;
-  }
-}

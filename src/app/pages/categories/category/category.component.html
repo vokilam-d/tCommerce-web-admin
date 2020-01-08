@@ -10,8 +10,8 @@
   </h1>
 
   <div class="header__toolbar">
-    <button class="header__btn toolbar-btn" *ngIf="!isNewCategory" (click)="delete()">Удалить</button>
-    <button class="header__btn toolbar-main-btn" (click)="save()">Сохранить</button>
+    <button class="header__btn toolbar-btn" *ngIf="!isNewCategory" (click)="delete()" type="button">Удалить</button>
+    <button class="header__btn toolbar-main-btn" (click)="save()" type="button">Сохранить</button>
   </div>
 </header>
 
