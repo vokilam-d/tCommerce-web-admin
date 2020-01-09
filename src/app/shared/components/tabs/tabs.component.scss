@@ -29,7 +29,6 @@
     border-left: 0;
     transition: border-color 0.1s ease-out, background-color 0.1s ease-out;
     color: $dark;
-    font-weight: 500;
     cursor: pointer;
 
     &:not(&--active):hover {

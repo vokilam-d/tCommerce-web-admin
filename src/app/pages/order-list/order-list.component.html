@@ -32,7 +32,7 @@
       <div class="grid__body">
         <a class="grid__row order"
            *ngFor="let order of orders"
-           [routerLink]="['edit', order.id]"
+           [routerLink]="['view', order.id]"
         >
           <div class="grid__block order__id">
             {{ order.id }}
