@@ -6,7 +6,7 @@ export class AddOrUpdateCustomerDto {
   email: string = '';
   phoneNumber: string = '';
   password: any = undefined;
-  creationDate: Date = undefined;
+  createdDate: Date = undefined;
   lastLoggedIn: Date = undefined;
   isLocked: boolean = undefined;
   isEmailConfirmed: boolean = undefined;

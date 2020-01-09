@@ -15,9 +15,6 @@ const routes: Routes = [
       {
         path: 'dashboard',
         loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.DashboardModule)
-      }, {
-        path: 'order',
-        loadChildren: () => import('./pages/orders/orders.module').then(m => m.OrdersModule)
       },
       {
         path: 'category',
@@ -64,6 +61,10 @@ const routes: Routes = [
         path: 'customer/edit/:id',
         loadChildren: () => import('./pages/customer/customer.module').then(m => m.CustomerModule),
         data: { action: EPageAction.Edit }
+      },
+      {
+        path: 'order',
+        loadChildren: () => import('./pages/order-list/order-list.module').then(m => m.OrderListModule)
       },
       {
         path: '**',
