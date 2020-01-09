@@ -1,4 +1,4 @@
-export class CustomerAddressDto {
+export class ShippingAddressDto {
   isDefault: boolean = false;
   firstName: string = '';
   lastName: string = '';

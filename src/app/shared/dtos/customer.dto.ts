@@ -1,4 +1,4 @@
-import { CustomerAddressDto } from './customer-address.dto';
+import { ShippingAddressDto } from './shipping-address.dto';
 
 export class AddOrUpdateCustomerDto {
   firstName: string = '';
@@ -12,7 +12,7 @@ export class AddOrUpdateCustomerDto {
   isEmailConfirmed: boolean = undefined;
   isPhoneNumberConfirmed: boolean = undefined;
   note: string = '';
-  addresses: CustomerAddressDto[] = [];
+  addresses: ShippingAddressDto[] = [];
   reviewIds: number[] = [];
   orderIds: number[] = [];
   wishlistProductIds: number[] = [];

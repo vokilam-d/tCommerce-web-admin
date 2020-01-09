@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NotyService } from '../../noty/noty.service';
 import { EPageAction } from '../../shared/enums/category-page-action.enum';
 import { CustomerDto } from '../../shared/dtos/customer.dto';
-import { CustomerAddressDto } from '../../shared/dtos/customer-address.dto';
+import { ShippingAddressDto } from '../../shared/dtos/shipping-address.dto';
 
 @Component({
   selector: 'customer',
@@ -18,7 +18,7 @@ export class CustomerComponent implements OnInit {
   customer: CustomerDto;
   infoForm: FormGroup;
 
-  activeAddress: CustomerAddressDto = null;
+  activeAddress: ShippingAddressDto = null;
   addressForm: FormGroup;
 
   tabsLabels: string[] = ['Информация о клиенте', 'Адреса', 'Заказы', 'Корзина', 'Отзывы о товарах', 'Список желаний'];
@@ -142,22 +142,22 @@ export class CustomerComponent implements OnInit {
     this.router.navigate(['admin', 'customer']);
   }
 
-  setAsDefaultAddress(addressArg: CustomerAddressDto) {
+  setAsDefaultAddress(addressArg: ShippingAddressDto) {
     this.customer.addresses.forEach(addr => addr.isDefault = false);
     addressArg.isDefault = true;
   }
 
   addAddress() {
-    this.activeAddress = new CustomerAddressDto();
+    this.activeAddress = new ShippingAddressDto();
     this.buildAddressForm(this.activeAddress);
   }
 
-  editAddress(address: CustomerAddressDto) {
+  editAddress(address: ShippingAddressDto) {
     this.activeAddress = address;
     this.buildAddressForm(this.activeAddress);
   }
 
-  private buildAddressForm(address: CustomerAddressDto) {
+  private buildAddressForm(address: ShippingAddressDto) {
     this.addressForm = this.formBuilder.group({
       isDefault: [address.isDefault],
       firstName: [address.firstName, Validators.required],
