@@ -1,0 +1,189 @@
+@import "variables";
+
+.selector-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.35);
+  animation: fadeIn 0.2s ease;
+  z-index: 1;
+}
+
+.selector {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 80%;
+  height: 100%;
+  padding: 20px 25px;
+  overflow-y: auto;
+  background: #fff;
+  box-shadow: 0 0 12px 2px rgba(0, 0, 0, 0.35);
+  transform: translateX(100%);
+  opacity: 0;
+  transition: transform 0.3s $cubicBezier, opacity 0.2s ease;
+  z-index: 2;
+
+  &--visible {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__title {
+    font-size: 21px;
+  }
+
+  &__close {
+    padding: 10px;
+    transition: all 0.2s ease;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  &__close-icon {
+    font-size: 18px;
+  }
+
+  &__list-info {
+    margin: 20px 0 0;
+  }
+
+  &__products {
+    margin: 20px 0 0;
+  }
+}
+
+.grid {
+  font-size: 12px;
+
+  &__row {
+    flex-wrap: wrap;
+  }
+
+  &__block {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    box-sizing: border-box;
+  }
+}
+
+.list-info {
+  display: flex;
+  align-items: center;
+
+  &__pagination {
+    margin: 0 0 0 auto;
+  }
+}
+
+.product-container {
+  justify-content: flex-end;
+}
+
+.product {
+  width: 100%;
+  display: flex;
+
+  &__id {
+    position: relative;
+    width: 4%;
+    justify-content: center;
+  }
+
+  &__variant-id {
+    background: #fff;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: -1px;
+    right: -1px;
+    border-right: 1px solid $borderColor;
+  }
+
+  &__thumbnail {
+    width: 9%;
+    justify-content: center;
+  }
+
+  &__thumbnail-img {
+    max-height: 50px;
+  }
+
+  &__name {
+    width: 30%;
+    word-break: break-word;
+  }
+
+  &__sku {
+    width: 9%;
+  }
+
+  &__price {
+    width: 9%;
+  }
+
+  &__qty {
+    width: 15%;
+  }
+
+  &__qty-input {
+    margin: 0 5px 0 0;
+    padding: 5px 0 5px 9px;
+    width: 50px;
+    font-size: 15px;
+    background: #fff;
+    border: 1px solid $borderColor;
+  }
+
+  &__status {
+    width: 9%;
+  }
+
+  &__select {
+    width: 15%;
+
+    &--variant {
+      border-right-style: solid;
+    }
+  }
+
+  &__expand {
+    position: relative;
+    padding: 4px 15px 4px 8px;
+    color: $blue;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 8px;
+      right: 0;
+      border-color: $blue transparent transparent transparent;
+      border-width: 5px 4px 0 4px;
+      border-style: solid;
+      transition: all 0.2s ease;
+    }
+
+    &--opened {
+      &::after {
+        transform: rotate(180deg);
+      }
+    }
+  }
+}
+
+.variants {
+  width: 100%;
+  border-bottom: 1px solid $borderColor;
+  overflow: visible;
+}

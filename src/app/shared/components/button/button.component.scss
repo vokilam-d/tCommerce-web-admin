@@ -6,12 +6,25 @@
 
 .btn {
   display: inline-block;
-  padding: 9px 14px;
   border: 1px solid #adadad;
   transition: all 0.2s ease;
   cursor: pointer;
+  font-size: 14px;
 
-  &--default {
+  &--size-default {
+    padding: 9px 14px;
+  }
+
+  &--size-small {
+    padding: 6px 11px;
+    font-size: 13px;
+  }
+
+  &[disabled] {
+    opacity: 0.5;
+  }
+
+  &--color-default {
     background: $controlBg;
 
     &:not([disabled]):hover {
@@ -23,7 +36,7 @@
     }
   }
 
-  &--primary {
+  &--color-primary {
     border-color: $primary;
     background: $primary;
     color: #fff;

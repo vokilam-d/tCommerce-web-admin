@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CategoriesService } from './categories.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
-import { CategoryTreeItem, ResponseCategoryDto } from '../../shared/dtos/category.dto';
+import { CategoryTreeItem, CategoryDto } from '../../shared/dtos/category.dto';
 import { NotyService } from '../../noty/noty.service';
 
 @Component({
@@ -36,14 +36,14 @@ export class CategoriesComponent implements OnInit, OnDestroy {
     this.categoriesService.fetchCategoriesTree()
       .pipe(this.notyService.attachNoty())
       .subscribe(
-        tree => {
-          this.categories = tree.categories;
+        response => {
+          this.categories = response.data.categories;
         },
         error => console.warn(error)
       );
   }
 
-  selectCategory(category: ResponseCategoryDto) {
+  selectCategory(category: CategoryDto) {
     this.categoriesService.setSelectedCategoryId(category.id);
     this.router.navigate(['edit', category.id], { relativeTo: this.route });
   }

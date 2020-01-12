@@ -1,0 +1,50 @@
+<div class="list-info">
+  <div class="list-info__total-items">
+    Всего клиентов: {{ itemsTotal }}
+  </div>
+  <pagination class="list-info__pagination" [pageCount]="pagesTotal" (change)="fetchCustomers($event)"></pagination>
+</div>
+
+<div class="grid">
+  <div class="grid__container">
+
+    <div class="grid__head customer">
+      <div class="grid__block customer__head-block customer__id">ID</div>
+      <div class="grid__block customer__head-block customer__name">Имя</div>
+      <div class="grid__block customer__head-block customer__email">Email</div>
+      <div class="grid__block customer__head-block customer__phone">Телефон</div>
+      <div class="grid__block customer__head-block customer__city">Город</div>
+      <div class="grid__block customer__head-block customer__create-date">Дата рег-ции</div>
+      <div class="grid__block customer__head-block customer__note">Комментарий о клиенте</div>
+    </div>
+
+    <div class="grid__body">
+      <div class="grid__row customer"
+           *ngFor="let customer of customers"
+           (click)="selectCustomer(customer)"
+      >
+        <div class="grid__block customer__id">
+          {{ customer.id }}
+        </div>
+        <div class="grid__block customer__name">
+          {{ customer.firstName }} {{ customer.lastName }}
+        </div>
+        <div class="grid__block customer__email">
+          {{ customer.email }}
+        </div>
+        <div class="grid__block customer__phone">
+          {{ customer.phoneNumber }}
+        </div>
+        <div class="grid__block customer__city">
+          {{ customer.addresses[0]?.city }}
+        </div>
+        <div class="grid__block customer__create-date">
+          {{ customer.createdDate | date }}
+        </div>
+        <div class="grid__block customer__note">
+          {{ customer.note }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

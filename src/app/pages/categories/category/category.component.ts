@@ -3,7 +3,7 @@ import { CategoriesService } from '../categories.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { EPageAction } from '../../../shared/enums/category-page-action.enum';
-import { AddOrUpdateCategoryDto, ResponseCategoryDto } from '../../../shared/dtos/category.dto';
+import { AddOrUpdateCategoryDto, CategoryDto } from '../../../shared/dtos/category.dto';
 import { NotyService } from '../../../noty/noty.service';
 import { AngularEditorConfig } from '../../../angular-editor/config';
 
@@ -27,7 +27,7 @@ const EMPTY_CATEGORY: AddOrUpdateCategoryDto = {
 })
 export class CategoryComponent implements OnInit {
 
-  category: ResponseCategoryDto;
+  category: CategoryDto;
 
   form: FormGroup;
 
@@ -76,9 +76,9 @@ export class CategoryComponent implements OnInit {
     this.categoriesService.fetchCategory(id)
       .pipe(this.notyService.attachNoty())
       .subscribe(
-        category => {
-          this.category = category;
-          this.categoriesService.setSelectedCategoryId(category.id);
+        response => {
+          this.category = response.data;
+          this.categoriesService.setSelectedCategoryId(this.category.id);
           this.buildForm(this.category);
         },
         error => console.warn(error)
@@ -120,9 +120,9 @@ export class CategoryComponent implements OnInit {
     this.categoriesService.saveCategory(this.form.value, parentId)
       .pipe(this.notyService.attachNoty())
       .subscribe(
-        category => {
+        response => {
           this.categoriesService.categoryUpdated$.next();
-          this.router.navigate(['admin', 'category', 'edit', category.id]);
+          this.router.navigate(['admin', 'category', 'edit', response.data.id]);
         },
         error => console.warn(error)
       );
@@ -137,9 +137,9 @@ export class CategoryComponent implements OnInit {
     this.categoriesService.updateCategory(this.category.id, dto)
       .pipe(this.notyService.attachNoty())
       .subscribe(
-        category => {
+        response => {
           this.categoriesService.categoryUpdated$.next();
-          this.category = category;
+          this.category = response.data;
         },
         error => console.warn(error)
       );

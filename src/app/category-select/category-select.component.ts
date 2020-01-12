@@ -1,7 +1,8 @@
 import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { AdminCategoriesTreeDto, CategoryTreeItem } from '../shared/dtos/category.dto';
+import { CategoriesTreeDto, CategoryTreeItem } from '../shared/dtos/category.dto';
+import { ResponseDto } from '../shared/dtos/response.dto';
 
 type CategorySelectOption = CategoryTreeItem & { isSelected: boolean; children: CategorySelectOption[]; };
 
@@ -56,9 +57,9 @@ export class CategorySelectComponent implements OnInit, ControlValueAccessor {
   }
 
   private init() {
-    this.http.get<AdminCategoriesTreeDto>(`http://localhost:3500/api/v1/admin/categories/tree`).subscribe(
-      tree => {
-        this.options = this.buildOptions(tree.categories);
+    this.http.get<ResponseDto<CategoryTreeItem[]>>(`http://localhost:3500/api/v1/admin/categories/tree`).subscribe(
+      response => {
+        this.options = this.buildOptions(response.data);
       },
       error => console.warn(error)
     );

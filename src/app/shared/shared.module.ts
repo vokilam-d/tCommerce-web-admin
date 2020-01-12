@@ -7,6 +7,7 @@ import { AttributeSelectComponent } from './components/attribute-select/attribut
 import { NgUnsubscribe } from './directives/ng-unsubscribe/ng-unsubscribe.directive';
 import { TabsComponent } from './components/tabs/tabs.component';
 import { ButtonComponent } from './components/button/button.component';
+import { NumberInputDirective } from './directives/number-input/number-input.directive';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { ButtonComponent } from './components/button/button.component';
     AttributeSelectComponent,
     NgUnsubscribe,
     TabsComponent,
-    ButtonComponent
+    ButtonComponent,
+    NumberInputDirective
   ],
   exports: [
     ClickOutsideDirective,
@@ -26,7 +28,8 @@ import { ButtonComponent } from './components/button/button.component';
     AttributeSelectComponent,
     NgUnsubscribe,
     TabsComponent,
-    ButtonComponent
+    ButtonComponent,
+    NumberInputDirective
   ],
   imports: [
     CommonModule

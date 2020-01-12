@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IPagination } from '../../pagination/pagination.interface';
 import { Observable } from 'rxjs';
-import { ResponsePaginationDto } from '../dtos/response.dto';
+import { ResponseDto, ResponsePaginationDto } from '../dtos/response.dto';
 import { AddOrUpdateOrderDto, OrderDto } from '../dtos/order.dto';
 import { toHttpParams } from '../helpers/to-http-params.function';
 
@@ -21,16 +21,16 @@ export class OrderService {
     );
   }
 
-  fetchOrder(id: string | number): Observable<OrderDto> {
-    return this.http.get<OrderDto>(`http://localhost:3500/api/v1/admin/orders/${id}`);
+  fetchOrder(id: string | number): Observable<ResponseDto<OrderDto>> {
+    return this.http.get<ResponseDto<OrderDto>>(`http://localhost:3500/api/v1/admin/orders/${id}`);
   }
 
-  addNewOrder(dto: AddOrUpdateOrderDto): Observable<OrderDto> {
-    return this.http.post<OrderDto>(`http://localhost:3500/api/v1/admin/orders`, dto);
+  addNewOrder(dto: AddOrUpdateOrderDto): Observable<ResponseDto<OrderDto>> {
+    return this.http.post<ResponseDto<OrderDto>>(`http://localhost:3500/api/v1/admin/orders`, dto);
   }
 
-  updateOrder(id: number, dto: AddOrUpdateOrderDto): Observable<OrderDto> {
-    return this.http.put<OrderDto>(`http://localhost:3500/api/v1/admin/orders/${id}`, dto);
+  updateOrder(id: number, dto: AddOrUpdateOrderDto): Observable<ResponseDto<OrderDto>> {
+    return this.http.put<ResponseDto<OrderDto>>(`http://localhost:3500/api/v1/admin/orders/${id}`, dto);
   }
 
   deleteOrder(id: number) {

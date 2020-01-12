@@ -1,0 +1,51 @@
+@import "variables";
+
+.list-info {
+  display: flex;
+  align-items: center;
+
+  &__pagination {
+    margin: 0 0 0 auto;
+  }
+}
+
+.grid {
+  margin: 20px 0 0;
+  font-size: 12px;
+
+  &__block {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+}
+
+.customer {
+  &__id {
+    width: 30px;
+    justify-content: center;
+  }
+
+  &__name {
+    width: 300px;
+  }
+
+  &__email {
+    width: 150px;
+  }
+
+  &__phone {
+    width: 100px;
+  }
+
+  &__city {
+    width: 100px;
+  }
+
+  &__create-date {
+    width: 100px;
+  }
+
+  &__note {
+    width: 150px;
+  }
+}

@@ -1,1 +1,56 @@
-<p>order works!</p>
+<div class="page">
+  <div class="header">
+    <h1 class="header__title" [ngSwitch]="isNewOrder">
+      <ng-container *ngSwitchCase="true">
+        Новый заказ
+      </ng-container>
+
+      <ng-container *ngSwitchCase="false">
+        #{{ order?.id }}
+      </ng-container>
+    </h1>
+
+    <div class="header__toolbar">
+      <button class="header__btn toolbar-btn" (click)="goBack()" type="button">
+        <i class="ai ai-arrow-left"></i> назад
+      </button>
+      <button class="header__btn toolbar-btn" *ngIf="!isNewOrder" (click)="deleteOrder()" type="button">
+        Удалить
+      </button>
+      <button class="header__btn toolbar-main-btn" (click)="save()" type="button">Сохранить</button>
+    </div>
+  </div>
+
+  <div class="order">
+
+    <div class="order__customer" *ngIf="!customer; else orderTmpl">
+      <div class="order__subtitle">
+        Пожалуйста, выберите клиента
+
+        <app-button class="order__subtitle-button" (click)="createNewCustomer()" [btnSize]="'small'">
+          Создать нового клиента
+        </app-button>
+      </div>
+
+      <customer-selector class="order__customer-selector"
+                         (selected)="selectCustomer($event)"
+      ></customer-selector>
+    </div>
+
+    <ng-template #orderTmpl>
+
+      <div class="order__subtitle">
+        Товары в заказе
+
+        <app-button class="order__subtitle-button" (click)="addProducts()" [btnSize]="'small'">
+          Добавить товары
+        </app-button>
+      </div>
+
+    </ng-template>
+
+  </div>
+
+</div>
+
+<product-selector></product-selector>

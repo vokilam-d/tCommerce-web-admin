@@ -1,0 +1,141 @@
+<div class="selector-overlay" *ngIf="isSelectorVisible" (click)="hideSelector()"></div>
+
+<div class="selector" [class.selector--visible]="isSelectorVisible">
+  <header class="selector__header">
+    <div class="selector__title">Добавить товары</div>
+
+    <button class="selector__close" (click)="hideSelector()" type="button">
+      <i class="ai ai-multiply selector__close-icon"></i>
+    </button>
+  </header>
+
+  <div class="selector__list-info list-info">
+    <div class="list-info__total-items">
+      Всего товаров: {{ itemsTotal }}
+    </div>
+    <pagination class="list-info__pagination" [pageCount]="pagesTotal" (change)="fetchProducts($event)"></pagination>
+  </div>
+
+  <div class="selector__products grid">
+    <div class="grid__container">
+
+      <div class="grid__head product">
+        <div class="grid__block product__id">ID</div>
+        <div class="grid__block product__thumbnail">Картинка</div>
+        <div class="grid__block product__name">Название товара</div>
+        <div class="grid__block product__sku">Артикул</div>
+        <div class="grid__block product__price">Цена</div>
+        <div class="grid__block product__qty">Кол-во</div>
+        <div class="grid__block product__status">Статус</div>
+      </div>
+
+      <div class="grid__body">
+        <div class="grid__row product-container" *ngFor="let product of products">
+          <div class="product">
+            <div class="grid__block product__id">
+              {{ product.id }}
+            </div>
+            <div class="grid__block product__thumbnail">
+              <img class="product__thumbnail-img"
+                   *ngIf="product.variants[0].medias[0] as media"
+                   [src]="'http://localhost:3500' + media.variantsUrls.small"
+                   [alt]="media.altText">
+            </div>
+            <div class="grid__block product__name">
+              {{ product.name }}
+            </div>
+            <div class="grid__block product__sku">
+              <ng-container *ngIf="product.isSingleVariant">
+                {{ product.variants[0].sku }}
+              </ng-container>
+            </div>
+            <div class="grid__block product__price">
+              <ng-container *ngIf="product.isSingleVariant">
+                {{ product.variants[0].price }} грн
+              </ng-container>
+            </div>
+            <div class="grid__block product__qty">
+              <ng-container *ngIf="product.isSingleVariant">
+                <input class="product__qty-input"
+                       numberInput
+                       [(ngModel)]="product.variants[0].selectedQty"
+                       [max]="product.variants[0].qty"
+                       min="0"
+                       type="number"
+                > из {{ product.variants[0].qty }}
+              </ng-container>
+            </div>
+            <div class="grid__block product__status" [ngSwitch]="product.isEnabled">
+              <ng-container *ngSwitchCase="true">Включен</ng-container>
+              <ng-container *ngSwitchCase="false">Выключен</ng-container>
+            </div>
+            <div class="grid__block product__select">
+              <app-button class="product__select-btn"
+                          *ngIf="product.isSingleVariant; else expandTmpl"
+                          [disabled]="product.variants[0].selectedQty === 0"
+                          (click)="selectProduct(product, product.variants[0])"
+                          btnSize="small"
+              >
+                Выбрать
+              </app-button>
+
+              <ng-template #expandTmpl>
+                <button class="product__expand"
+                        [class.product__expand--opened]="product.isOpened"
+                        (click)="product.isOpened = !product.isOpened"
+                >
+                  Открыть
+                </button>
+              </ng-template>
+            </div>
+          </div>
+
+          <div class="grid variants" [@slideToggle]="product.isOpened">
+            <div class="grid__row product" *ngFor="let variant of product.variants">
+              <div class="grid__block product__id">
+                <div class="product__variant-id"></div>
+              </div>
+              <div class="grid__block product__thumbnail">
+                <img class="product__thumbnail-img"
+                     *ngIf="variant.medias[0] as media"
+                     [src]="'http://localhost:3500' + media.variantsUrls.small"
+                     [alt]="media.altText">
+              </div>
+              <div class="grid__block product__name">
+                {{ variant.name }}
+              </div>
+              <div class="grid__block product__sku">
+                {{ variant.sku }}
+              </div>
+              <div class="grid__block product__price">
+                {{ variant.price }} грн
+              </div>
+              <div class="grid__block product__qty">
+                <input class="product__qty-input"
+                       numberInput
+                       [(ngModel)]="variant.selectedQty"
+                       [max]="variant.qty"
+                       min="0"
+                       type="number"
+                > из {{ variant.qty }}
+              </div>
+              <div class="grid__block product__status" [ngSwitch]="product.isEnabled">
+                <ng-container *ngSwitchCase="true">Включен</ng-container>
+                <ng-container *ngSwitchCase="false">Выключен</ng-container>
+              </div>
+              <div class="grid__block product__select product__select--variant">
+                <app-button class="product__select-btn"
+                            [disabled]="variant.selectedQty === 0"
+                            (click)="selectProduct(product, variant)"
+                            btnSize="small"
+                >
+                  Выбрать
+                </app-button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

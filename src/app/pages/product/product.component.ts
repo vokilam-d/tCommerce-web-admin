@@ -118,8 +118,8 @@ export class ProductComponent implements OnInit {
     this.productsService.fetchProduct(id)
       .pipe(this.notyService.attachNoty())
       .subscribe(
-        product => {
-          this.product = product;
+        response => {
+          this.product = response.data;
           this.buildForm();
         },
         error => console.warn(error)
@@ -148,8 +148,8 @@ export class ProductComponent implements OnInit {
     this.productsService.addNewProduct(dto)
       .pipe(this.notyService.attachNoty({ successText: 'Товар успешно добавлен' }))
       .subscribe(
-        product => {
-          this.router.navigate(['admin', 'product', 'edit', product.id]);
+        response => {
+          this.router.navigate(['admin', 'product', 'edit', response.data.id]);
         },
         error => console.warn(error)
       );
@@ -161,8 +161,8 @@ export class ProductComponent implements OnInit {
     this.productsService.updateProduct(this.product.id, dto)
       .pipe(this.notyService.attachNoty({ successText: 'Товар успешно обновлён' }))
       .subscribe(
-        product => {
-          this.product = product;
+        response => {
+          this.product = response.data;
           this.buildForm();
         },
         error => console.warn(error)

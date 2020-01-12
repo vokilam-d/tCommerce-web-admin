@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { ProductRoutingModule } from './product-routing.module';
 import { ProductComponent } from './product.component';
-import { ProductService } from '../../shared/services/product.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../../shared/shared.module';
 import { MediaAssetModule } from '../../media-asset/media-asset.module';
@@ -26,8 +25,7 @@ import { AngularEditorModule } from 'src/app/angular-editor/angular-editor.modul
     AngularEditorModule,
     CategorySelectModule
   ],
-  providers: [
-    ProductService
-  ]
+  providers: []
 })
-export class ProductModule { }
+export class ProductModule {
+}

@@ -72,7 +72,7 @@ export class PaginationComponent implements OnInit, OnDestroy {
     this.pageControl.patchValue(page + 1);
   }
 
-  getValue() {
+  getValue(): IPagination {
     return this.form.value;
   }
 }

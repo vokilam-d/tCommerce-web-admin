@@ -87,8 +87,8 @@ export class CustomerComponent implements OnInit {
     this.customersService.fetchCustomer(id)
       .pipe(this.notyService.attachNoty())
       .subscribe(
-        customer => {
-          this.customer = customer;
+        response => {
+          this.customer = response.data;
           this.buildInfoForm();
         },
         error => console.warn(error)
@@ -117,8 +117,8 @@ export class CustomerComponent implements OnInit {
     this.customersService.addNewCustomer(dto)
       .pipe(this.notyService.attachNoty({ successText: 'Клиент успешно добавлен' }))
       .subscribe(
-        customer => {
-          this.router.navigate(['admin', 'customer', 'edit', customer.id]);
+        response => {
+          this.router.navigate(['admin', 'customer', 'edit', response.data.id]);
         },
         error => console.warn(error)
       );
@@ -130,8 +130,8 @@ export class CustomerComponent implements OnInit {
     this.customersService.updateCustomer(this.customer.id, dto)
       .pipe(this.notyService.attachNoty({ successText: 'Клиент успешно обновлён' }))
       .subscribe(
-        customer => {
-          this.customer = customer;
+        response => {
+          this.customer = response.data;
           this.buildInfoForm();
         },
         error => console.warn(error)
