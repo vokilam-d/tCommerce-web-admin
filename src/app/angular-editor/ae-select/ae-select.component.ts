@@ -1,19 +1,21 @@
 import {
-  Attribute,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   EventEmitter,
-  forwardRef, HostBinding,
+  forwardRef,
+  HostBinding,
   HostListener,
-  Input, OnDestroy,
+  Input,
+  OnDestroy,
   OnInit,
   Output,
   Renderer2,
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {isDefined} from '../utils';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { isDefined } from '../utils';
 import { AngularEditorService } from '../angular-editor.service';
 import { Subject } from 'rxjs';
 
@@ -33,7 +35,8 @@ export interface SelectOption {
       useExisting: forwardRef(() => AeSelectComponent),
       multi: true,
     }
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AeSelectComponent implements OnInit, ControlValueAccessor, OnDestroy {
   @Input() options: SelectOption[] = [];
