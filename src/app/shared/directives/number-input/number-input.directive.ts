@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostListener, Input } from '@angular/core';
+import { Directive, ElementRef, HostListener, Input, Optional } from '@angular/core';
 import { NgControl } from '@angular/forms';
 
 @Directive({
@@ -7,10 +7,10 @@ import { NgControl } from '@angular/forms';
 export class NumberInputDirective {
 
   @Input() max: number;
-  @Input() min: number;
+  @Input() min: number = 0;
 
   constructor(private element: ElementRef,
-              private ngControl: NgControl
+              @Optional() private ngControl: NgControl
   ) { }
 
   @HostListener('blur')

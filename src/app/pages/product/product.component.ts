@@ -98,7 +98,8 @@ export class ProductComponent implements OnInit {
           description: variant.metaTags.description,
           keywords: variant.metaTags.keywords
         }),
-        qty: variant.qty
+        qty: variant.qty,
+        isDiscountApplicable: variant.isDiscountApplicable
       });
 
       variantsFormArray.push(group);

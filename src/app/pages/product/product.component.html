@@ -138,6 +138,26 @@
         </attribute-select>
       </ng-container>
 
+      <div class="product__field field"
+           *ngIf="variantForm.get('isDiscountApplicable') as isDiscountApplicable"
+      >
+        <label class="field__label" for="isDiscountApplicable">Накопительные скидки применимы?</label>
+        <div class="field__control">
+          <label class="switcher">
+            <input class="switcher__input"
+                   [formControl]="isDiscountApplicable"
+                   type="checkbox"
+                   id="isDiscountApplicable"
+            >
+            <span class="switcher__control" [class.switcher__control--active]="isDiscountApplicable.value"></span>
+            <span class="switcher__description">
+            <ng-container *ngIf="isDiscountApplicable.value; else isDiscountApplicableFalseText">Да</ng-container>
+            <ng-template #isDiscountApplicableFalseText>Нет</ng-template>
+          </span>
+          </label>
+        </div>
+      </div>
+
       <fields-group class="product__group">
         <div class="group-title">Контент</div>
 

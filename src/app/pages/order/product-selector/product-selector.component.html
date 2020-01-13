@@ -73,7 +73,7 @@
               <app-button class="product__select-btn"
                           *ngIf="product.isSingleVariant; else expandTmpl"
                           [disabled]="product.variants[0].selectedQty === 0"
-                          (click)="selectProduct(product, product.variants[0])"
+                          (click)="selectProduct(product.variants[0])"
                           btnSize="small"
               >
                 Выбрать
@@ -126,7 +126,7 @@
               <div class="grid__block product__select product__select--variant">
                 <app-button class="product__select-btn"
                             [disabled]="variant.selectedQty === 0"
-                            (click)="selectProduct(product, variant)"
+                            (click)="selectProduct(variant)"
                             btnSize="small"
                 >
                   Выбрать

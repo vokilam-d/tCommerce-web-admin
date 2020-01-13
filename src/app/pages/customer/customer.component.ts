@@ -78,7 +78,8 @@ export class CustomerComponent implements OnInit {
       lastName: [this.customer.lastName, Validators.required],
       email: this.customer.email,
       phoneNumber: this.customer.phoneNumber,
-      note: this.customer.note
+      note: this.customer.note,
+      discountPercent: this.customer.discountPercent
     });
   }
 

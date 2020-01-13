@@ -2,7 +2,8 @@
   <div class="header">
     <h1 class="header__title" [ngSwitch]="isNewOrder">
       <ng-container *ngSwitchCase="true">
-        Новый заказ
+        Новый заказ<ng-container *ngIf="customer"> для <ng-container *ngIf="!isNewCustomer; else newCustomerText">{{ customer.firstName }} {{ customer.lastName }}</ng-container></ng-container>
+        <ng-template #newCustomerText>нового клиента</ng-template>
       </ng-container>
 
       <ng-container *ngSwitchCase="false">
@@ -11,19 +12,18 @@
     </h1>
 
     <div class="header__toolbar">
-      <button class="header__btn toolbar-btn" (click)="goBack()" type="button">
+      <button class="header__btn toolbar-btn" *ngIf="isNewOrder && !customer" (click)="navigateToOrderList()" type="button">
         <i class="ai ai-arrow-left"></i> назад
       </button>
-      <button class="header__btn toolbar-btn" *ngIf="!isNewOrder" (click)="deleteOrder()" type="button">
-        Удалить
+      <button class="header__btn toolbar-btn" *ngIf="customer" (click)="cancelEdit()" type="button">
+        Отменить
       </button>
-      <button class="header__btn toolbar-main-btn" (click)="save()" type="button">Сохранить</button>
+      <button class="header__btn toolbar-main-btn" (click)="placeOrder()" type="button">Разместить заказ</button>
     </div>
   </div>
 
-  <div class="order">
-
-    <div class="order__customer" *ngIf="!customer; else orderTmpl">
+  <ng-template #customerTmpl>
+    <div class="customer">
       <div class="order__subtitle">
         Пожалуйста, выберите клиента
 
@@ -36,21 +36,242 @@
                          (selected)="selectCustomer($event)"
       ></customer-selector>
     </div>
+  </ng-template>
 
-    <ng-template #orderTmpl>
+  <div class="order" *ngIf="customer; else customerTmpl">
 
-      <div class="order__subtitle">
-        Товары в заказе
+    <div class="order__subtitle">
+      Товары в заказе
 
-        <app-button class="order__subtitle-button" (click)="addProducts()" [btnSize]="'small'">
-          Добавить товары
-        </app-button>
+      <app-button class="order__subtitle-button" (click)="showProductSelector()" [btnSize]="'small'">
+        Добавить товары
+      </app-button>
+    </div>
+
+    <div class="grid">
+      <div class="grid__container">
+        <div class="order-item order-item--head">
+          <div class="grid__block order-item__name">
+            Название
+          </div>
+          <div class="grid__block order-item__price">
+            Цена
+          </div>
+          <div class="grid__block order-item__qty">
+            Кол-во
+          </div>
+          <div class="grid__block order-item__cost">
+            Стоимость
+          </div>
+          <div class="grid__block order-item__discount">
+            Скидка
+          </div>
+          <div class="grid__block order-item__total-cost">
+            Общая стоимость
+          </div>
+          <div class="grid__block order-item__remove">
+          </div>
+        </div>
+
+        <div class="order-item order-item--no-items" *ngIf="!order.items.length; else itemsTmpl">
+          Выберите товары
+        </div>
+
+        <ng-template #itemsTmpl>
+          <div class="grid__row order-item" *ngFor="let orderItem of order.items, index as i">
+            <div class="grid__block order-item__name">
+              {{ orderItem.name }}
+              <div class="order-item__sku">
+                SKU: {{ orderItem.sku }}
+              </div>
+            </div>
+            <div class="grid__block order-item__price">
+              {{ orderItem.price }} грн
+            </div>
+            <div class="grid__block order-item__qty">
+              <input class="order-item__qty-input"
+                     [value]="orderItem.qty"
+                     (blur)="setOrderItemQty($event.target, orderItem)"
+                     numberInput
+                     min="0"
+                     type="number"
+              >
+            </div>
+            <div class="grid__block order-item__cost">
+              {{ orderItem.cost }} грн
+            </div>
+            <div class="grid__block order-item__discount">
+              {{ orderItem.discountPercent }}%
+            </div>
+            <div class="grid__block order-item__total-cost">
+              {{ orderItem.totalCost }} грн
+            </div>
+            <div class="grid__block order-item__remove">
+              <div class="order-item__remove-btn" (click)="removeOrderItem(i)">
+                Убрать
+              </div>
+            </div>
+          </div>
+        </ng-template>
+
+        <div class="order-item order-item--footer">
+          <div class="grid__block order-item__name">
+            Всего товаров: {{ order.items.length }}
+          </div>
+          <div class="grid__block order-item__price">
+          </div>
+          <div class="grid__block order-item__qty">
+          </div>
+          <div class="grid__block order-item__cost">
+            {{ orderItemsCost }} грн
+          </div>
+          <div class="grid__block order-item__discount">
+          </div>
+          <div class="grid__block order-item__total-cost">
+            {{ orderItemsTotalCost }} грн
+          </div>
+          <div class="grid__block order-item__remove">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="order__subtitle">
+      Информация об аккаунте
+    </div>
+
+    <div class="order__block">
+      <div class="order__field field">
+        <label for="email" class="field__label">Email</label>
+        <span class="field__control">
+          <input class="field__input" [(ngModel)]="order.customerEmail" type="text" id="email">
+        </span>
       </div>
 
-    </ng-template>
+      <div class="order__field field">
+        <label for="phoneNumber" class="field__label">Телефон</label>
+        <span class="field__control">
+          <input class="field__input" [(ngModel)]="order.customerPhoneNumber" type="text" id="phoneNumber">
+        </span>
+      </div>
+    </div>
+
+    <div class="order__subtitle">
+      Доп. информация
+    </div>
+
+    <div class="order__block">
+      <div class="order__field field">
+        <label for="adminNote" class="field__label">Комментарий админа</label>
+        <span class="field__control">
+          <input class="field__input" [(ngModel)]="order.adminNote" type="text" id="adminNote">
+        </span>
+      </div>
+
+      <div class="order__field field">
+        <label for="clientNote" class="field__label">Комментарий клиента</label>
+        <span class="field__control">
+          <input class="field__input" [(ngModel)]="order.clientNote" type="text" id="clientNote">
+        </span>
+      </div>
+
+      <div class="order__field field">
+        <label class="field__label" for="isCallbackNeeded">Нужно ли связываться с клиентом для уточнения заказа?</label>
+        <div class="field__control">
+          <label class="switcher">
+            <input class="switcher__input"
+                   [(ngModel)]="order.isCallbackNeeded"
+                   type="checkbox"
+                   id="isCallbackNeeded"
+            >
+            <span class="switcher__control" [class.switcher__control--active]="order.isCallbackNeeded"></span>
+            <span class="switcher__description">
+              <ng-container *ngIf="order.isCallbackNeeded; else isEnabledFalseText">Да</ng-container>
+              <ng-template #isEnabledFalseText>Нет</ng-template>
+            </span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="order__subtitle">
+      Информация об адресе
+    </div>
+
+    <form class="order__block address" [formGroup]="addressForm" novalidate>
+      <div class="address__field field field--required"
+           *ngIf="addressForm.get('firstName') as firstName"
+           [class.field--invalid]="isControlInvalid(firstName)"
+      >
+        <label for="firstName" class="field__label">Имя</label>
+        <span class="field__control">
+          <input class="field__input" [formControl]="firstName" type="text" id="firstName">
+        </span>
+      </div>
+
+      <div class="address__field field"
+           *ngIf="addressForm.get('lastName') as lastName"
+      >
+        <label for="lastName" class="field__label">Фамилия</label>
+        <span class="field__control">
+          <input class="field__input" [formControl]="lastName" type="text" id="lastName">
+        </span>
+      </div>
+
+      <div class="address__field field"
+           *ngIf="addressForm.get('phoneNumber') as phoneNumber"
+      >
+        <label for="addr-phoneNumber" class="field__label">Телефон</label>
+        <span class="field__control">
+          <input class="field__input" [formControl]="phoneNumber" type="text" id="addr-phoneNumber">
+        </span>
+      </div>
+
+      <div class="address__field field field--required"
+           *ngIf="addressForm.get('city') as city"
+           [class.field--invalid]="isControlInvalid(city)"
+      >
+        <label for="city" class="field__label">Город</label>
+        <span class="field__control">
+          <input class="field__input" [formControl]="city" type="text" id="city">
+        </span>
+      </div>
+
+      <div class="address__field field"
+           *ngIf="addressForm.get('streetName') as streetName"
+      >
+        <label for="streetName" class="field__label">Название улицы</label>
+        <span class="field__control">
+          <input class="field__input" [formControl]="streetName" type="text" id="streetName">
+        </span>
+      </div>
+
+      <div class="address__field field"
+           *ngIf="addressForm.get('novaposhtaOffice') as novaposhtaOffice"
+      >
+        <label for="novaposhtaOffice" class="field__label">Номер отделения Новой Почты</label>
+        <span class="field__control">
+          <input class="field__input" [formControl]="novaposhtaOffice" type="text" id="novaposhtaOffice">
+        </span>
+      </div>
+    </form>
+
+    <div class="order__subtitle">
+      Доставка и оплата
+    </div>
+
+    <div class="order__block">
+    </div>
+
+    <div class="order__subtitle">
+      Итого
+    </div>
+
+    <div class="order__block">
+    </div>
 
   </div>
 
 </div>
 
-<product-selector></product-selector>
+<product-selector (selected)="onProductSelect($event)"></product-selector>

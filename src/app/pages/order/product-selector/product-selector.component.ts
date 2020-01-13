@@ -1,4 +1,12 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import { ProductService } from '../../../shared/services/product.service';
 import { ProductDto } from '../../../shared/dtos/product.dto';
 import { PaginationComponent } from '../../../pagination/pagination.component';
@@ -14,6 +22,11 @@ class ProductForSelector extends ProductDto {
   variants: VariantForSelector[];
   isOpened: boolean;
   isSingleVariant: boolean;
+}
+
+interface ISelectedProduct {
+  variant: ProductVariantDto,
+  qty: number
 }
 
 @Component({
@@ -37,6 +50,8 @@ export class ProductSelectorComponent implements OnInit, AfterViewInit {
   pagesTotal: number = 1;
 
   @ViewChild(PaginationComponent) paginationCmp: PaginationComponent;
+
+  @Output('selected') selectedEmitter: EventEmitter<ISelectedProduct> = new EventEmitter();
 
   constructor(private productService: ProductService) { }
 
@@ -85,8 +100,8 @@ export class ProductSelectorComponent implements OnInit, AfterViewInit {
     })
   }
 
-  selectProduct(product: ProductForSelector, variant: VariantForSelector) {
-    console.log(product);
-    console.log(variant);
+  selectProduct(variant: VariantForSelector) {
+    this.selectedEmitter.emit({ variant, qty: variant.selectedQty });
+    variant.selectedQty = 0;
   }
 }

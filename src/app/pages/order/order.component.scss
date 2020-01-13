@@ -1,11 +1,9 @@
 @import "variables";
 
 .order {
-  margin: 60px 0 0;
-
   &__subtitle {
-    margin: 20px 0 10px;
-    padding: 0 0 10px;
+    margin: 60px 0 0;
+    padding: 0 10px 10px;
     border-bottom: 1px solid $borderColor;
     display: flex;
     justify-content: space-between;
@@ -15,6 +13,91 @@
 
   &__customer-selector {
     display: block;
+    margin: 30px 0 0;
+  }
+
+  &__field {
+    margin: 30px 0 0;
+  }
+}
+
+.grid {
+  &__block {
+    box-sizing: border-box;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+}
+
+.order-item {
+  font-size: 13px;
+
+  &--head,
+  &--footer {
+    display: flex;
+    align-items: center;
+    padding: 6px 10px;
+    border-bottom: 1px solid $borderColor;
+    font-weight: 500;
+  }
+
+  &--footer {
+    background: #f8f8f8;
+  }
+
+  &--no-items {
+    padding: 20px;
+    font-size: 16px;
+  }
+
+  &__name {
+    width: 40%;
+    flex-wrap: wrap;
+  }
+
+  &__sku {
+    width: 100%;
+    margin: 7px 0 0;
+  }
+
+  &__price {
+    width: 10%;
+  }
+
+  &__qty {
+    width: 10%;
+  }
+
+  &__qty-input {
+    width: 40px;
+    padding: 6px 0 5px 8px;
+    border: 1px solid $borderColor;
+  }
+
+  &__cost {
+    width: 10%;
+  }
+
+  &__discount {
+    width: 10%;
+  }
+
+  &__total-cost {
+    width: 10%;
+  }
+
+  &__remove {
+    width: 10%;
+  }
+
+  &__remove-btn {
+    color: $blue;
+    text-decoration: underline;
+  }
+}
+
+.address {
+  &__field {
     margin: 30px 0 0;
   }
 }

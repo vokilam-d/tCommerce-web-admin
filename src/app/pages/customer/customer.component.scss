@@ -15,6 +15,12 @@
   }
 }
 
+.customer-form {
+  &__discount-input {
+    width: 100px;
+  }
+}
+
 .address-form {
   margin: 40px 0 0;
 

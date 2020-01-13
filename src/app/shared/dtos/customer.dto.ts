@@ -16,6 +16,8 @@ export class AddOrUpdateCustomerDto {
   reviewIds: number[] = [];
   orderIds: number[] = [];
   wishlistProductIds: number[] = [];
+  discountPercent: number = 0;
+  totalOrdersCost: number = 0;
 }
 
 export class CustomerDto extends AddOrUpdateCustomerDto {

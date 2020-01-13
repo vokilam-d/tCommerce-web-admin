@@ -75,6 +75,22 @@
           </span>
         </div>
 
+        <div class="customer-form__field field"
+             *ngIf="infoForm.get('discountPercent') as discountPercent"
+        >
+          <label for="discountPercent" class="field__label">Скидка, %</label>
+          <span class="field__control">
+            <input class="field__input customer-form__discount-input"
+                   [formControl]="discountPercent"
+                   numberInput
+                   min="0"
+                   max="100"
+                   type="number"
+                   id="discountPercent"
+            >
+          </span>
+        </div>
+
       </form>
     </ng-template>
 

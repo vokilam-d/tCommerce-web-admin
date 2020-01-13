@@ -15,4 +15,5 @@ export class ProductVariantDto {
   shortDescription: string = '';
   metaTags: MetaTagsDto = new MetaTagsDto();
   qty: number = 0;
+  isDiscountApplicable: boolean = true;
 }
