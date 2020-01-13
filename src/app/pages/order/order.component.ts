@@ -212,37 +212,4 @@ export class OrderComponent implements OnInit {
   isControlInvalid(control: AbstractControl) {
     return !control.valid && control.touched;
   }
-
-
-
-  // deleteOrder() {
-  //   if (!confirm(`Вы действительно хотите удалить заказ ${this.order.id}?`)) {
-  //     return;
-  //   }
-  //
-  //   this.orderService.deleteOrder(this.order.id).subscribe(
-  //     _ => {
-  //       this.goBack();
-  //     },
-  //     error => console.warn(error)
-  //   );
-  // }
-
-  // save() {
-  //   if (this.form.invalid) {
-  //     this.validateAllControls();
-  //     return;
-  //   }
-  //
-  //   if (this.isNewOrder) {
-  //     this.addNewOrder();
-  //   } else {
-  //     this.updateOrder();
-  //   }
-  // }
-
-  // private buildForm() {
-  //   this.form = this.formBuilder.group({
-  //   });
-  // }
 }
