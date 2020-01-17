@@ -1,7 +1,7 @@
 import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { CategoriesTreeDto, CategoryTreeItem } from '../shared/dtos/category.dto';
+import { CategoryTreeItem } from '../shared/dtos/category.dto';
 import { ResponseDto } from '../shared/dtos/response.dto';
 
 type CategorySelectOption = CategoryTreeItem & { isSelected: boolean; children: CategorySelectOption[]; };

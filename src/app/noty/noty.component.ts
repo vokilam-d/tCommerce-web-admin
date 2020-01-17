@@ -30,7 +30,9 @@ export class NotyComponent implements OnInit {
   private showNoty(noty: INoty) {
     this.noties.push(noty);
 
-    if (noty.type !== 'error') {
+    if (noty.type === 'error') {
+      setTimeout(() => this.removeAllNotiesExcept(noty), 300);
+    } else {
       setTimeout(() => this.hideNoty(noty), this.timeToAutoHide);
     }
   }
@@ -44,5 +46,9 @@ export class NotyComponent implements OnInit {
         this.noties.splice(index, 1);
       }
     }, 1000);
+  }
+
+  private removeAllNotiesExcept(notyArg: INoty) {
+    this.noties = this.noties.filter(noty => noty.id === notyArg.id);
   }
 }

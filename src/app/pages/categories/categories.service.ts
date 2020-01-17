@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, Subject } from 'rxjs';
-import { AddOrUpdateCategoryDto, CategoriesTreeDto, CategoryDto } from '../../shared/dtos/category.dto';
+import { Subject } from 'rxjs';
+import { AddOrUpdateCategoryDto, CategoryDto, CategoryTreeItem } from '../../shared/dtos/category.dto';
 import { ResponseDto } from '../../shared/dtos/response.dto';
 
 @Injectable()
@@ -13,8 +13,8 @@ export class CategoriesService {
   constructor(private http: HttpClient) {
   }
 
-  fetchCategoriesTree(): Observable<ResponseDto<CategoriesTreeDto>> {
-    return this.http.get<ResponseDto<CategoriesTreeDto>>(`http://localhost:3500/api/v1/admin/categories/tree`);
+  fetchCategoriesTree() {
+    return this.http.get<ResponseDto<CategoryTreeItem[]>>(`http://localhost:3500/api/v1/admin/categories/tree`);
   }
 
   fetchCategory(id: string) {

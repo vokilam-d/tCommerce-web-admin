@@ -1,0 +1,90 @@
+<div class="page methods">
+  <div class="methods__sidebar list">
+    <app-button class="list__add-btn" (click)="addNewMethod()">
+      Добавить способ оплаты
+    </app-button>
+
+    <div class="list__methods">
+      <div class="list__method"
+           *ngIf="!paymentMethods.length; else hasMethodsTmpl"
+      >
+         Нет способов оплаты
+      </div>
+
+      <ng-template #hasMethodsTmpl>
+        <button class="list__method"
+                *ngFor="let method of paymentMethods"
+                [class.list__method--active]="method === activeMethod"
+                (click)="selectMethod(method)"
+        >
+          <ng-container *ngIf="method.name as name; else newMethodTitle">
+            {{ name }}
+          </ng-container>
+        </button>
+      </ng-template>
+    </div>
+  </div>
+
+  <div class="methods__content" *ngIf="activeMethod">
+
+    <div class="header">
+      <h1 class="header__title">
+        <ng-container *ngIf="activeMethod.id; else newMethodTitle">{{ activeMethod.name }}</ng-container>
+      </h1>
+
+      <div class="header__toolbar">
+        <button class="header__btn toolbar-btn" *ngIf="activeMethod.id" (click)="deleteMethod()" type="button">
+          Удалить
+        </button>
+        <button class="header__btn toolbar-main-btn" (click)="saveMethod()" type="button">
+          Сохранить
+        </button>
+      </div>
+    </div>
+
+    <form class="method-form form" [formGroup]="form" novalidate>
+      <div class="method-form__field field"
+           *ngIf="form.get('isEnabled') as isEnabled"
+      >
+        <label class="field__label" for="isEnabled">Включить способ оплаты</label>
+        <div class="field__control">
+          <label class="switcher">
+            <input class="switcher__input"
+                   [formControl]="isEnabled"
+                   type="checkbox"
+                   id="isEnabled"
+            >
+            <span class="switcher__control" [class.switcher__control--active]="isEnabled.value"></span>
+            <span class="switcher__description">
+              <ng-container *ngIf="isEnabled.value; else isEnabledFalseText">Да</ng-container>
+              <ng-template #isEnabledFalseText>Нет</ng-template>
+            </span>
+          </label>
+        </div>
+      </div>
+
+      <div class="method-form__field field field--required"
+           *ngIf="form.get('name') as name"
+           [class.field--invalid]="isControlInvalid(name)"
+      >
+        <label for="name" class="field__label">Название</label>
+        <span class="field__control">
+          <input class="field__input" [formControl]="name" type="text" id="name">
+        </span>
+      </div>
+
+      <div class="method-form__field field"
+           *ngIf="form.get('sortOrder') as sortOrder"
+           [class.field--invalid]="isControlInvalid(sortOrder)"
+      >
+        <label for="sortOrder" class="field__label">Сортировка</label>
+        <span class="field__control">
+          <input class="field__input" [formControl]="sortOrder" type="text" id="sortOrder">
+        </span>
+      </div>
+    </form>
+
+  </div>
+</div>
+
+<ng-template #newMethodTitle>Новый способ оплаты</ng-template>

@@ -18,7 +18,3 @@ export class CategoryTreeItem {
   name: CategoryDto['name'];
   children: CategoryTreeItem[];
 }
-
-export class CategoriesTreeDto {
-  categories: CategoryTreeItem[];
-}

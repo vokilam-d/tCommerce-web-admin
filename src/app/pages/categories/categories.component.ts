@@ -37,7 +37,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
       .pipe(this.notyService.attachNoty())
       .subscribe(
         response => {
-          this.categories = response.data.categories;
+          this.categories = response.data;
         },
         error => console.warn(error)
       );

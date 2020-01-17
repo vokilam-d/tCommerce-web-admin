@@ -101,6 +101,14 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'shipping-method',
+        loadChildren: () => import('./pages/shipping-method/shipping-method.module').then(m => m.ShippingMethodModule)
+      },
+      {
+        path: 'payment-method',
+        loadChildren: () => import('./pages/payment-method/payment-method.module').then(m => m.PaymentMethodModule)
+      },
+      {
         path: '**',
         loadChildren: () => import('./pages/not-found/not-found.module').then(m => m.NotFoundModule)
       }
