@@ -30,7 +30,7 @@
       </div>
 
       <div class="grid__body">
-        <div class="grid__row product-container" *ngFor="let product of products">
+        <div class="grid__row product-container" *ngFor="let product of products; trackBy: trackById">
           <div class="product">
             <div class="grid__block product__id">
               {{ product.id }}

@@ -33,7 +33,6 @@ interface ISelectedProduct {
   selector: 'product-selector',
   templateUrl: './product-selector.component.html',
   styleUrls: ['./product-selector.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('slideToggle', [
       state('true', style({ 'height': '*', 'padding': '*' })),
@@ -103,5 +102,9 @@ export class ProductSelectorComponent implements OnInit, AfterViewInit {
   selectProduct(variant: VariantForSelector) {
     this.selectedEmitter.emit({ variant, qty: variant.selectedQty });
     variant.selectedQty = 0;
+  }
+
+  trackById(index: number, product: ProductForSelector) {
+    return product.id;
   }
 }
