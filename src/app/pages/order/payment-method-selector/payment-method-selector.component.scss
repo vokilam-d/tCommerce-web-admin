@@ -1,0 +1,17 @@
+.selector {
+  &__title {
+    margin: 0 0 15px;
+    font-size: 18px;
+    font-weight: 500;
+  }
+
+  &__method {
+    margin: 10px 0 0;
+    display: flex;
+    cursor: pointer;
+  }
+
+  &__name {
+    margin: 0 0 0 10px;
+  }
+}

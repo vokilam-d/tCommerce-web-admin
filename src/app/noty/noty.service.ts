@@ -39,7 +39,8 @@ interface IAttachOptions {
 })
 export class NotyService {
 
-  showNoty$ = new Subject<INotyMessage>();
+  private _showNoty$ = new Subject<INotyMessage>();
+  showNoty$ = this._showNoty$.asObservable();
   private defaultOptions: IAttachOptions = {
     successText: null,
     errorText: null,
@@ -91,15 +92,15 @@ export class NotyService {
       })
   }
 
-  private showSuccessNoty(message) {
-    this.showNoty$.next({
+  showSuccessNoty(message) {
+    this._showNoty$.next({
       type: 'success',
       message
     });
   }
 
-  private showErrorNoty(message) {
-    this.showNoty$.next({
+  showErrorNoty(message) {
+    this._showNoty$.next({
       type: 'error',
       message
     });

@@ -137,7 +137,7 @@
     </div>
 
     <div class="order__subtitle">
-      Информация об аккаунте
+      Информация для связи
     </div>
 
     <div class="order__block">
@@ -198,69 +198,25 @@
       Информация об адресе
     </div>
 
-    <form class="order__block address" [formGroup]="addressForm" novalidate>
-      <div class="address__field field field--required"
-           *ngIf="addressForm.get('firstName') as firstName"
-           [class.field--invalid]="isControlInvalid(firstName)"
-      >
-        <label for="firstName" class="field__label">Имя</label>
-        <span class="field__control">
-          <input class="field__input" [formControl]="firstName" type="text" id="firstName">
-        </span>
-      </div>
-
-      <div class="address__field field"
-           *ngIf="addressForm.get('lastName') as lastName"
-      >
-        <label for="lastName" class="field__label">Фамилия</label>
-        <span class="field__control">
-          <input class="field__input" [formControl]="lastName" type="text" id="lastName">
-        </span>
-      </div>
-
-      <div class="address__field field"
-           *ngIf="addressForm.get('phoneNumber') as phoneNumber"
-      >
-        <label for="addr-phoneNumber" class="field__label">Телефон</label>
-        <span class="field__control">
-          <input class="field__input" [formControl]="phoneNumber" type="text" id="addr-phoneNumber">
-        </span>
-      </div>
-
-      <div class="address__field field field--required"
-           *ngIf="addressForm.get('city') as city"
-           [class.field--invalid]="isControlInvalid(city)"
-      >
-        <label for="city" class="field__label">Город</label>
-        <span class="field__control">
-          <input class="field__input" [formControl]="city" type="text" id="city">
-        </span>
-      </div>
-
-      <div class="address__field field"
-           *ngIf="addressForm.get('streetName') as streetName"
-      >
-        <label for="streetName" class="field__label">Название улицы</label>
-        <span class="field__control">
-          <input class="field__input" [formControl]="streetName" type="text" id="streetName">
-        </span>
-      </div>
-
-      <div class="address__field field"
-           *ngIf="addressForm.get('novaposhtaOffice') as novaposhtaOffice"
-      >
-        <label for="novaposhtaOffice" class="field__label">Номер отделения Новой Почты</label>
-        <span class="field__control">
-          <input class="field__input" [formControl]="novaposhtaOffice" type="text" id="novaposhtaOffice">
-        </span>
-      </div>
-    </form>
+    <address-form class="order__address"
+                  [address]="order.address"
+                  [showIsDefault]="false"
+    ></address-form>
 
     <div class="order__subtitle">
       Доставка и оплата
     </div>
 
-    <div class="order__block">
+    <div class="order__block order__shipping-payment">
+      <shipping-method-selector class="order__method"
+                                [activeId]="order.shippingMethodId"
+                                (selected)="onShippingMethodSelect($event)"
+      ></shipping-method-selector>
+
+      <payment-method-selector class="order__method"
+                               [activeId]="order.paymentMethodId"
+                               (selected)="onPaymentMethodSelect($event)"
+      ></payment-method-selector>
     </div>
 
     <div class="order__subtitle">

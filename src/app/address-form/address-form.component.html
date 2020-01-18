@@ -1,0 +1,86 @@
+<form class="address-form"
+      *ngIf="addressForm"
+      [formGroup]="addressForm"
+      novalidate
+>
+
+  <div class="address-form__field field"
+       *ngIf="showIsDefault && addressForm.get('isDefault') as isDefault"
+  >
+    <label class="field__label" for="isDefault">По умолчанию</label>
+    <div class="field__control">
+      <label class="switcher">
+        <input class="switcher__input"
+               [formControl]="isDefault"
+               type="checkbox"
+               id="isDefault"
+        >
+        <span class="switcher__control" [class.switcher__control--active]="isDefault.value"></span>
+        <span class="switcher__description">
+          <ng-container *ngIf="isDefault.value; else isDefaultFalseText">Да</ng-container>
+          <ng-template #isDefaultFalseText>Нет</ng-template>
+        </span>
+      </label>
+    </div>
+  </div>
+
+  <div class="address-form__field field field--required"
+       *ngIf="addressForm.get('firstName') as firstName"
+       [class.field--invalid]="isControlInvalid(firstName)"
+  >
+    <label for="addr-firstName" class="field__label">Имя</label>
+    <span class="field__control">
+      <input class="field__input" [formControl]="firstName" type="text" id="addr-firstName">
+    </span>
+  </div>
+
+  <div class="address-form__field field field--required"
+       *ngIf="addressForm.get('lastName') as lastName"
+       [class.field--invalid]="isControlInvalid(lastName)"
+  >
+    <label for="addr-lastName" class="field__label">Фамилия</label>
+    <span class="field__control">
+      <input class="field__input" [formControl]="lastName" type="text" id="addr-lastName">
+    </span>
+  </div>
+
+  <div class="address-form__field field field--required"
+       *ngIf="addressForm.get('phoneNumber') as phoneNumber"
+       [class.field--invalid]="isControlInvalid(phoneNumber)"
+  >
+    <label for="addr-phoneNumber" class="field__label">Телефон</label>
+    <span class="field__control">
+      <input class="field__input" [formControl]="phoneNumber" type="text" id="addr-phoneNumber">
+    </span>
+  </div>
+
+  <div class="address-form__field field field--required"
+       *ngIf="addressForm.get('city') as city"
+       [class.field--invalid]="isControlInvalid(city)"
+  >
+    <label for="addr-city" class="field__label">Город</label>
+    <span class="field__control">
+      <input class="field__input" [formControl]="city" type="text" id="addr-city">
+    </span>
+  </div>
+
+  <div class="address-form__field field"
+       *ngIf="addressForm.get('streetName') as streetName"
+       [class.field--invalid]="isControlInvalid(streetName)"
+  >
+    <label for="addr-streetName" class="field__label">Улица</label>
+    <span class="field__control">
+      <input class="field__input" [formControl]="streetName" type="text" id="addr-streetName">
+    </span>
+  </div>
+
+  <div class="address-form__field field"
+       *ngIf="addressForm.get('novaposhtaOffice') as novaposhtaOffice"
+       [class.field--invalid]="isControlInvalid(novaposhtaOffice)"
+  >
+    <label for="addr-novaposhtaOffice" class="field__label">Отделение Новой Почты</label>
+    <span class="field__control">
+      <input class="field__input" [formControl]="novaposhtaOffice" type="text" id="addr-novaposhtaOffice">
+    </span>
+  </div>
+</form>

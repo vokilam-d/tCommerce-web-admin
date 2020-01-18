@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { OrderDto } from '../../shared/dtos/order.dto';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { OrderService } from '../../shared/services/order.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotyService } from '../../noty/noty.service';
@@ -8,7 +8,9 @@ import { EPageAction } from '../../shared/enums/category-page-action.enum';
 import { CustomerDto } from '../../shared/dtos/customer.dto';
 import { ProductSelectorComponent } from './product-selector/product-selector.component';
 import { OrderItemDto } from '../../shared/dtos/order-item.dto';
-import { ShippingAddressDto } from '../../shared/dtos/shipping-address.dto';
+import { ShippingMethodDto } from '../../shared/dtos/shipping-method.dto';
+import { PaymentMethodDto } from '../../shared/dtos/payment-method.dto';
+import { AddressFormComponent } from '../../address-form/address-form.component';
 
 @Component({
   selector: 'order',
@@ -21,12 +23,12 @@ export class OrderComponent implements OnInit {
   isNewCustomer: boolean = false;
   order: OrderDto;
   customer: CustomerDto;
-  addressForm: FormGroup;
 
   get orderItemsCost() { return this.order.items.reduce((acc, item) => acc + item.cost, 0); }
   get orderItemsTotalCost() { return this.order.items.reduce((acc, item) => acc + item.totalCost, 0); }
 
   @ViewChild(ProductSelectorComponent) productSelectorCmp: ProductSelectorComponent;
+  @ViewChild(AddressFormComponent) addressFormCmp: AddressFormComponent;
 
   constructor(private formBuilder: FormBuilder,
               private orderService: OrderService,
@@ -82,16 +84,26 @@ export class OrderComponent implements OnInit {
   }
 
   placeOrder() {
-    if (this.addressForm.invalid) {
-      this.validateAllControls();
+    if (!this.addressFormCmp.checkValidity()) {
+      return;
+    }
+
+    if (!this.order.shippingMethodId) {
+      this.notyService.showErrorNoty(`Не выбран ни один способ доставки`);
+      return;
+    }
+    if (!this.order.paymentMethodId) {
+      this.notyService.showErrorNoty(`Не выбран ни один способ оплаты`);
       return;
     }
 
     const dto = {
       ...this.order,
-      address: this.addressForm.value
+      address: this.addressFormCmp.getValue()
     };
 
+    console.log(dto);
+    return;
     if (this.isNewOrder) {
       this.addNewOrder(dto);
     } else {
@@ -130,8 +142,7 @@ export class OrderComponent implements OnInit {
     this.order.customerEmail = customer.email;
     this.order.customerPhoneNumber = customer.phoneNumber;
 
-    const defaultAddress = this.customer.addresses.find(a => a.isDefault) || this.customer.addresses[0];
-    this.buildAddressForm(defaultAddress);
+    this.order.address = this.customer.addresses.find(a => a.isDefault) || this.customer.addresses[0];
   }
 
   createNewCustomer() {
@@ -188,28 +199,13 @@ export class OrderComponent implements OnInit {
     orderItem.totalCost = orderItem.cost - (orderItem.cost * (orderItem.discountPercent / 100));
   }
 
-  private buildAddressForm(address: ShippingAddressDto) {
-    this.addressForm = this.formBuilder.group({
-      firstName: [address.firstName, Validators.required],
-      lastName: address.lastName,
-      phoneNumber: address.phoneNumber,
-      city: [address.city, Validators.required],
-      streetName: address.streetName,
-      novaposhtaOffice: address.novaposhtaOffice
-    });
+  onShippingMethodSelect(shippingMethod: ShippingMethodDto) {
+    this.order.shippingMethodId = shippingMethod.id;
+    this.order.shippingMethodName = shippingMethod.name;
   }
 
-  private validateAllControls() {
-    Object.keys(this.addressForm.controls).forEach(controlName => {
-      const control = this.addressForm.get(controlName);
-
-      if (control instanceof FormControl) {
-        control.markAsTouched({ onlySelf: true });
-      }
-    });
-  }
-
-  isControlInvalid(control: AbstractControl) {
-    return !control.valid && control.touched;
+  onPaymentMethodSelect(paymentMethod: PaymentMethodDto) {
+    this.order.paymentMethodId = paymentMethod.id;
+    this.order.paymentMethodName = paymentMethod.name;
   }
 }

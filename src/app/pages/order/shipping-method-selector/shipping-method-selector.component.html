@@ -1,0 +1,21 @@
+<div class="selector">
+  <div class="selector__title">
+    Способы доставки
+  </div>
+  <div class="selector__empty" *ngIf="!enabledMethods.length; else hasMethods">
+    Нет способов доставки
+  </div>
+  <ng-template #hasMethods>
+    <div class="selector__method" *ngFor="let method of enabledMethods" (click)="selectMethod(method)">
+      <input class="selector__radio"
+             [checked]="method.id === activeMethodId"
+             type="radio"
+             name="shipping-method"
+      >
+
+      <div class="selector__name">
+        {{ method.name }}
+      </div>
+    </div>
+  </ng-template>
+</div>

@@ -7,7 +7,7 @@ export class AddOrUpdateOrderDto {
   customerLastName: string = '';
   customerEmail: string = '';
   customerPhoneNumber: string = '';
-  address: ShippingAddressDto;
+  address: ShippingAddressDto = new ShippingAddressDto();
   createdDate: Date;
   isConfirmationEmailSent: boolean = false;
   paymentMethodId: string;
