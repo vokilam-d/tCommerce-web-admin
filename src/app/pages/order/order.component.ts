@@ -11,6 +11,8 @@ import { OrderItemDto } from '../../shared/dtos/order-item.dto';
 import { ShippingMethodDto } from '../../shared/dtos/shipping-method.dto';
 import { PaymentMethodDto } from '../../shared/dtos/payment-method.dto';
 import { AddressFormComponent } from '../../address-form/address-form.component';
+import { ISelectOption } from '../../shared/components/select/select-option.interface';
+import { ShippingAddressDto } from '../../shared/dtos/shipping-address.dto';
 
 @Component({
   selector: 'order',
@@ -23,9 +25,22 @@ export class OrderComponent implements OnInit {
   isNewCustomer: boolean = false;
   order: OrderDto;
   customer: CustomerDto;
+  private newAddress: ShippingAddressDto = new ShippingAddressDto();
 
   get orderItemsCost() { return this.order.items.reduce((acc, item) => acc + item.cost, 0); }
   get orderItemsTotalCost() { return this.order.items.reduce((acc, item) => acc + item.totalCost, 0); }
+  get orderItemsDiscount() : number { return this.order.items.reduce((acc, item) => acc + this.getOrderItemDiscountValue(item), 0); }
+  get addressSelectOptions(): ISelectOption[] {
+    return [
+      { data: this.newAddress, view: 'Создать новый адрес' },
+      ...this.customer.addresses.map(address => {
+        return {
+          data: address,
+          view: `${address.lastName} ${address.firstName}, ${address.city}, ${address.novaposhtaOffice}, ${address.streetName}`
+        };
+      })
+    ];
+  }
 
   @ViewChild(ProductSelectorComponent) productSelectorCmp: ProductSelectorComponent;
   @ViewChild(AddressFormComponent) addressFormCmp: AddressFormComponent;
@@ -84,10 +99,14 @@ export class OrderComponent implements OnInit {
   }
 
   placeOrder() {
-    if (!this.addressFormCmp.checkValidity()) {
+    if (!this.order.items.length) {
+      this.notyService.showErrorNoty(`Не выбран ни один товар`);
       return;
     }
-
+    if (!this.addressFormCmp.checkValidity()) {
+      this.notyService.showErrorNoty(`Ошибка в форме адреса`);
+      return;
+    }
     if (!this.order.shippingMethodId) {
       this.notyService.showErrorNoty(`Не выбран ни один способ доставки`);
       return;
@@ -102,8 +121,6 @@ export class OrderComponent implements OnInit {
       address: this.addressFormCmp.getValue()
     };
 
-    console.log(dto);
-    return;
     if (this.isNewOrder) {
       this.addNewOrder(dto);
     } else {
@@ -157,46 +174,39 @@ export class OrderComponent implements OnInit {
   onProductSelect({ variant, qty }) {
     const found = this.order.items.find(item => item.sku === variant.sku);
     if (found) {
-      const qtySum = found.qty + qty;
-      if (qtySum > variant.qty) {
-        alert(`Не хватает количества товара. Пытаетесь добавить: ${qtySum}. Всего в наличии: ${variant.qty}.`);
-        return;
-      }
-
-      found.qty += qty;
-      this.calcOrderItemCosts(found);
-
-    } else {
-
-      const orderItem = new OrderItemDto();
-      orderItem.name = variant.name;
-      orderItem.sku = variant.sku;
-      orderItem.price = variant.price;
-      orderItem.qty = qty;
-      orderItem.discountPercent = variant.isDiscountApplicable ? this.customer.discountPercent : 0;
-      this.calcOrderItemCosts(orderItem);
-      this.order.items.push(orderItem);
+      qty += found.qty;
     }
+
+    this.createOrderItem(variant.sku, qty);
   }
 
-  removeOrderItem(index: number) {
-    this.order.items.splice(index, 1);
-  }
-
-  setOrderItemQty(target: any, orderItem: OrderItemDto) {
-    const newValue = target.value;
+  onOrderItemQtyBlur(target: any, orderItem: OrderItemDto) {
+    const newValue = parseInt(target.value);
     if (!newValue) {
       target.value = orderItem.qty;
       return;
     }
 
-    orderItem.qty = newValue;
-    this.calcOrderItemCosts(orderItem);
+    this.createOrderItem(orderItem.sku, newValue);
   }
 
-  private calcOrderItemCosts(orderItem: OrderItemDto) {
-    orderItem.cost = (orderItem.price * orderItem.qty);
-    orderItem.totalCost = orderItem.cost - (orderItem.cost * (orderItem.discountPercent / 100));
+  createOrderItem(sku: string, qty: number) {
+    this.orderService.createOrderItem(sku, qty, this.customer.id)
+      .pipe(this.notyService.attachNoty())
+      .subscribe(
+        response => {
+          const foundIdx = this.order.items.findIndex(item => item.sku === sku);
+          if (foundIdx === -1) {
+            this.order.items.push(response.data);
+          } else {
+            this.order.items[foundIdx] = response.data;
+          }
+        }
+      );
+  }
+
+  removeOrderItem(index: number) {
+    this.order.items.splice(index, 1);
   }
 
   onShippingMethodSelect(shippingMethod: ShippingMethodDto) {
@@ -207,5 +217,13 @@ export class OrderComponent implements OnInit {
   onPaymentMethodSelect(paymentMethod: PaymentMethodDto) {
     this.order.paymentMethodId = paymentMethod.id;
     this.order.paymentMethodName = paymentMethod.name;
+  }
+
+  onAddressSelect(address: ShippingAddressDto) {
+    this.order.address = address;
+  }
+
+  getOrderItemDiscountValue(orderItem: OrderItemDto): number {
+    return Math.round(orderItem.price * orderItem.qty * orderItem.discountPercent / 100);
   }
 }

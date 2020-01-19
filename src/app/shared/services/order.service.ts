@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 import { ResponseDto, ResponsePaginationDto } from '../dtos/response.dto';
 import { AddOrUpdateOrderDto, OrderDto } from '../dtos/order.dto';
 import { toHttpParams } from '../helpers/to-http-params.function';
+import { OrderItemDto } from '../dtos/order-item.dto';
+import { CreateOrderItemDto } from '../dtos/create-order-item.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -35,5 +37,15 @@ export class OrderService {
 
   deleteOrder(id: number) {
     return this.http.delete<any>(`http://localhost:3500/api/v1/admin/orders/${id}`);
+  }
+
+  createOrderItem(sku: string, qty: number, customerId?: number) {
+    const payload: CreateOrderItemDto = {
+      sku,
+      qty,
+      customerId
+    };
+
+    return this.http.post<ResponseDto<OrderItemDto>>(`http://localhost:3500/api/v1/admin/order-items`, payload);
   }
 }

@@ -51,25 +51,25 @@
     <div class="grid">
       <div class="grid__container">
         <div class="order-item order-item--head">
-          <div class="grid__block order-item__name">
+          <div class="grid__block grid__block--head order-item__name">
             Название
           </div>
-          <div class="grid__block order-item__price">
+          <div class="grid__block grid__block--head order-item__price">
             Цена
           </div>
-          <div class="grid__block order-item__qty">
+          <div class="grid__block grid__block--head order-item__qty">
             Кол-во
           </div>
-          <div class="grid__block order-item__cost">
+          <div class="grid__block grid__block--head order-item__cost">
             Стоимость
           </div>
-          <div class="grid__block order-item__discount">
+          <div class="grid__block grid__block--head order-item__discount">
             Скидка
           </div>
-          <div class="grid__block order-item__total-cost">
+          <div class="grid__block grid__block--head order-item__total-cost">
             Общая стоимость
           </div>
-          <div class="grid__block order-item__remove">
+          <div class="grid__block grid__block--head order-item__remove">
           </div>
         </div>
 
@@ -91,9 +91,9 @@
             <div class="grid__block order-item__qty">
               <input class="order-item__qty-input"
                      [value]="orderItem.qty"
-                     (blur)="setOrderItemQty($event.target, orderItem)"
+                     (blur)="onOrderItemQtyBlur($event.target, orderItem)"
                      numberInput
-                     min="0"
+                     min="1"
                      type="number"
               >
             </div>
@@ -101,7 +101,7 @@
               {{ orderItem.cost }} грн
             </div>
             <div class="grid__block order-item__discount">
-              {{ orderItem.discountPercent }}%
+              {{ getOrderItemDiscountValue(orderItem) }} грн ({{ orderItem.discountPercent }}%)
             </div>
             <div class="grid__block order-item__total-cost">
               {{ orderItem.totalCost }} грн
@@ -115,22 +115,23 @@
         </ng-template>
 
         <div class="order-item order-item--footer">
-          <div class="grid__block order-item__name">
+          <div class="grid__block grid__block--footer order-item__name">
             Всего товаров: {{ order.items.length }}
           </div>
-          <div class="grid__block order-item__price">
+          <div class="grid__block grid__block--footer order-item__price">
           </div>
-          <div class="grid__block order-item__qty">
+          <div class="grid__block grid__block--footer order-item__qty">
           </div>
-          <div class="grid__block order-item__cost">
+          <div class="grid__block grid__block--footer order-item__cost">
             {{ orderItemsCost }} грн
           </div>
-          <div class="grid__block order-item__discount">
+          <div class="grid__block grid__block--footer order-item__discount">
+            {{ orderItemsDiscount }} грн
           </div>
-          <div class="grid__block order-item__total-cost">
+          <div class="grid__block grid__block--footer order-item__total-cost">
             {{ orderItemsTotalCost }} грн
           </div>
-          <div class="grid__block order-item__remove">
+          <div class="grid__block grid__block--footer order-item__remove">
           </div>
         </div>
       </div>
@@ -198,10 +199,26 @@
       Информация об адресе
     </div>
 
-    <address-form class="order__address"
-                  [address]="order.address"
-                  [showIsDefault]="false"
-    ></address-form>
+    <div class="order__block">
+      <div class="field">
+        <div class="field__label">
+          Выбрать адрес из существующих:
+        </div>
+        <div class="field__control">
+          <app-select class="order__address-selector"
+                      [options]="addressSelectOptions"
+                      [initialValue]="order.address"
+                      (select)="onAddressSelect($event)"
+          >
+          </app-select>
+        </div>
+      </div>
+
+      <address-form class="order__address"
+                    [address]="order.address"
+                    [showIsDefault]="false"
+      ></address-form>
+    </div>
 
     <div class="order__subtitle">
       Доставка и оплата
@@ -223,7 +240,29 @@
       Итого
     </div>
 
-    <div class="order__block">
+    <div class="order__block order__summary-block">
+      <div class="order__summary summary">
+        <div class="summary__row">
+          <div class="summary__block">Стоимость товаров</div>
+          <div class="summary__block">{{ orderItemsCost }} грн</div>
+        </div>
+        <div class="summary__row">
+          <div class="summary__block">Скидка</div>
+          <div class="summary__block">{{ orderItemsDiscount }} грн</div>
+        </div>
+        <div class="summary__row">
+          <div class="summary__block">Итого к оплате</div>
+          <div class="summary__block">{{ orderItemsTotalCost }} грн</div>
+        </div>
+
+        <app-button class="summary__place-order"
+                    (click)="placeOrder()"
+                    btnStyle="primary"
+                    btnSize="big"
+        >
+          Разместить заказ
+        </app-button>
+      </div>
     </div>
 
   </div>

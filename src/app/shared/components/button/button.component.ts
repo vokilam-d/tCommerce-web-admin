@@ -10,7 +10,7 @@ export class ButtonComponent implements OnInit {
   @Input() btnStyle: 'default' | 'primary' = 'default';
   @Input() type: 'button' | 'submit' = 'button';
   @Input() disabled: boolean = false;
-  @Input() btnSize: 'default' | 'small' = 'default';
+  @Input() btnSize: 'default' | 'small' | 'big' = 'default';
 
   @HostBinding('style.pointer-events') get event() { return this.disabled ? 'none' : 'auto' }
 

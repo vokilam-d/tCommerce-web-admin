@@ -11,9 +11,18 @@
     font-size: 18px;
   }
 
+  &__block {
+    margin: 30px 0 0;
+  }
+
   &__customer-selector {
     display: block;
     margin: 30px 0 0;
+  }
+
+  &__address-selector {
+    display: block;
+    width: 300px;
   }
 
   &__field {
@@ -34,6 +43,15 @@
     width: 50%;
     padding: 0 30px 0 0;
   }
+
+  &__summary-block {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &__summary {
+    width: 40%;
+  }
 }
 
 .grid {
@@ -41,6 +59,12 @@
     box-sizing: border-box;
     padding-top: 10px;
     padding-bottom: 10px;
+
+    &--head,
+    &--footer {
+      padding-top: 16px;
+      padding-bottom: 16px;
+    }
   }
 }
 
@@ -51,18 +75,18 @@
   &--footer {
     display: flex;
     align-items: center;
-    padding: 6px 10px;
     border-bottom: 1px solid $borderColor;
     font-weight: 500;
   }
 
   &--footer {
-    background: #f8f8f8;
+    background: #f3f3f3;
   }
 
   &--no-items {
     padding: 20px;
     font-size: 16px;
+    font-weight: 600;
   }
 
   &__name {
@@ -108,5 +132,36 @@
   &__remove-btn {
     color: $blue;
     text-decoration: underline;
+  }
+}
+
+.summary {
+  width: 400px;
+  text-align: right;
+
+  &__row {
+    display: flex;
+
+    &:nth-child(2n) {
+      background: $controlBg;
+    }
+  }
+
+  &__block {
+    padding: 5px 10px;
+    font-size: 16px;
+
+    &:first-child {
+      width: 70%;
+      text-align: left;
+    }
+
+    &:last-child {
+      width: 30%;
+    }
+  }
+
+  &__place-order {
+    margin: 15px 0 0;
   }
 }

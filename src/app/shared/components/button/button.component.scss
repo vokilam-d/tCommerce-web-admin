@@ -20,6 +20,11 @@
     font-size: 13px;
   }
 
+  &--size-big {
+    padding: 11px 18px 12px;
+    font-size: 16px;
+  }
+
   &[disabled] {
     opacity: 0.5;
   }
