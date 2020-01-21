@@ -85,7 +85,7 @@
         <ng-template #itemsTmpl>
           <div class="grid__row order-item" *ngFor="let orderItem of order.items, index as i">
             <div class="grid__block order-item__img-block">
-              <img class="order-item__img" [src]="'http://localhost:3500' + orderItem.imageUrl">
+              <img class="order-item__img" *ngIf="orderItem.imageUrl" [src]="'http://localhost:3500' + orderItem.imageUrl">
             </div>
             <div class="grid__block order-item__name">
               {{ orderItem.name }}
@@ -97,7 +97,7 @@
               {{ orderItem.price }} грн
             </div>
             <div class="grid__block order-item__qty">
-              <input class="order-item__qty-input"
+              <input class="order-item__number-input"
                      [value]="orderItem.qty"
                      (blur)="onOrderItemQtyBlur($event.target, orderItem)"
                      numberInput
@@ -109,7 +109,12 @@
               {{ orderItem.cost }} грн
             </div>
             <div class="grid__block order-item__discount">
-              {{ getOrderItemDiscountValue(orderItem) }} грн ({{ orderItem.discountPercent }}%)
+              <input class="order-item__number-input order-item__number-input--discount"
+                     [(ngModel)]="orderItem.discountValue"
+                     numberInput
+                     min="0"
+                     type="number"
+              > грн
             </div>
             <div class="grid__block order-item__total-cost">
               {{ orderItem.totalCost }} грн
@@ -123,7 +128,7 @@
         </ng-template>
 
         <div class="order-item order-item--footer">
-          <div class="grid__block grid__block--footer order-item__img-container">
+          <div class="grid__block grid__block--footer order-item__img-block">
           </div>
           <div class="grid__block grid__block--footer order-item__name">
             Всего товаров: {{ order.items.length }}
@@ -267,7 +272,7 @@
         </div>
         <div class="summary__row">
           <div class="summary__block">Скидка</div>
-          <div class="summary__block">{{ orderItemsDiscount }} грн</div>
+          <div class="summary__block">{{ orderItemsDiscount }} грн ({{ customer.discountPercent }}%)</div>
         </div>
         <div class="summary__row">
           <div class="summary__block">Итого к оплате</div>

@@ -29,7 +29,7 @@ export class OrderComponent implements OnInit {
 
   get orderItemsCost() { return this.order.items.reduce((acc, item) => acc + item.cost, 0); }
   get orderItemsTotalCost() { return this.order.items.reduce((acc, item) => acc + item.totalCost, 0); }
-  get orderItemsDiscount() : number { return this.order.items.reduce((acc, item) => acc + this.getOrderItemDiscountValue(item), 0); }
+  get orderItemsDiscount() : number { return this.order.items.reduce((acc, item) => acc + item.discountValue, 0); }
   get addressSelectOptions(): ISelectOption[] {
     return [
       { data: this.newAddress, view: 'Создать новый адрес' },
@@ -226,6 +226,6 @@ export class OrderComponent implements OnInit {
   }
 
   getOrderItemDiscountValue(orderItem: OrderItemDto): number {
-    return Math.round(orderItem.price * orderItem.qty * orderItem.discountPercent / 100);
+    return Math.round(orderItem.price * orderItem.qty * orderItem.discountValue / 100);
   }
 }

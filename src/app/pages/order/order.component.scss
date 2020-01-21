@@ -101,7 +101,7 @@
     font-weight: 600;
   }
 
-  &__img-container {
+  &__img-block {
     width: 5%;
   }
 
@@ -123,10 +123,15 @@
     width: 9%;
   }
 
-  &__qty-input {
+  &__number-input {
     width: 40px;
     padding: 6px 0 5px 8px;
     border: 1px solid $borderColor;
+
+    &--discount {
+      width: 50px;
+      margin-right: 3px;
+    }
   }
 
   &__cost {
