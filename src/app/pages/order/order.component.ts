@@ -224,8 +224,4 @@ export class OrderComponent implements OnInit {
   onAddressSelect(address: ShippingAddressDto) {
     this.order.address = address;
   }
-
-  getOrderItemDiscountValue(orderItem: OrderItemDto): number {
-    return Math.round(orderItem.price * orderItem.qty * orderItem.discountValue / 100);
-  }
 }
