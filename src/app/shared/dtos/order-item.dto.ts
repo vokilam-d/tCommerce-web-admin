@@ -1,5 +1,7 @@
 export class OrderItemDto {
   name: string = '';
+  productId: number = 0;
+  variantId: string = '';
   sku: string = '';
   originalPrice: number = 0;
   price: number = 0;

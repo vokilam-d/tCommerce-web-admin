@@ -18,7 +18,9 @@
       <button class="header__btn toolbar-btn" *ngIf="customer" (click)="cancelEdit()" type="button">
         Отменить
       </button>
-      <button class="header__btn toolbar-main-btn" (click)="placeOrder()" type="button">Разместить заказ</button>
+      <button class="header__btn toolbar-main-btn" *ngIf="customer" (click)="placeOrder()" type="button">
+        Разместить заказ
+      </button>
     </div>
   </div>
 
@@ -200,7 +202,7 @@
     </div>
 
     <div class="order__block">
-      <div class="field">
+      <div class="field" *ngIf="!isNewCustomer">
         <div class="field__label">
           Выбрать адрес из существующих:
         </div>
@@ -211,6 +213,15 @@
                       (select)="onAddressSelect($event)"
           >
           </app-select>
+
+          <label class="order__address-save-container" *ngIf="isNewAddress">
+            <input class="order__address-save"
+                   [(ngModel)]="order.shouldSaveAddress"
+                   type="checkbox"
+            >
+
+            Сохранить в адресную книгу клиента?
+          </label>
         </div>
       </div>
 

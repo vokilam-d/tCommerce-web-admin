@@ -41,6 +41,7 @@ export class OrderComponent implements OnInit {
       })
     ];
   }
+  get isNewAddress(): boolean { return this.order.address === this.newAddress; }
 
   @ViewChild(ProductSelectorComponent) productSelectorCmp: ProductSelectorComponent;
   @ViewChild(AddressFormComponent) addressFormCmp: AddressFormComponent;
@@ -108,11 +109,11 @@ export class OrderComponent implements OnInit {
       return;
     }
     if (!this.order.shippingMethodId) {
-      this.notyService.showErrorNoty(`Не выбран ни один способ доставки`);
+      this.notyService.showErrorNoty(`Не выбран способ доставки`);
       return;
     }
     if (!this.order.paymentMethodId) {
-      this.notyService.showErrorNoty(`Не выбран ни один способ оплаты`);
+      this.notyService.showErrorNoty(`Не выбран способ оплаты`);
       return;
     }
 
@@ -124,7 +125,7 @@ export class OrderComponent implements OnInit {
     if (this.isNewOrder) {
       this.addNewOrder(dto);
     } else {
-      this.updateOrder(dto);
+      this.editOrder(dto);
     }
   }
 
@@ -140,8 +141,8 @@ export class OrderComponent implements OnInit {
       );
   }
 
-  private updateOrder(dto: OrderDto) {
-    this.orderService.updateOrder(this.order.id, dto)
+  private editOrder(dto: OrderDto) {
+    this.orderService.editOrder(this.order.id, dto)
       .pipe(this.notyService.attachNoty({ successText: 'Заказ успешно обновлён' }))
       .subscribe(
         response => {
@@ -165,6 +166,7 @@ export class OrderComponent implements OnInit {
   createNewCustomer() {
     this.isNewCustomer = true;
     this.selectCustomer(new CustomerDto());
+    this.onAddressSelect(this.newAddress);
   }
 
   showProductSelector() {

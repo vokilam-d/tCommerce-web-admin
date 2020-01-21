@@ -31,12 +31,8 @@ export class OrderService {
     return this.http.post<ResponseDto<OrderDto>>(`http://localhost:3500/api/v1/admin/orders`, dto);
   }
 
-  updateOrder(id: number, dto: AddOrUpdateOrderDto): Observable<ResponseDto<OrderDto>> {
+  editOrder(id: number, dto: AddOrUpdateOrderDto): Observable<ResponseDto<OrderDto>> {
     return this.http.put<ResponseDto<OrderDto>>(`http://localhost:3500/api/v1/admin/orders/${id}`, dto);
-  }
-
-  deleteOrder(id: number) {
-    return this.http.delete<any>(`http://localhost:3500/api/v1/admin/orders/${id}`);
   }
 
   createOrderItem(sku: string, qty: number, customerId?: number) {
