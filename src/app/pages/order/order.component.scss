@@ -101,6 +101,10 @@
     font-weight: 600;
   }
 
+  &__img-container {
+    width: 5%;
+  }
+
   &__name {
     width: 40%;
     flex-wrap: wrap;
@@ -112,11 +116,11 @@
   }
 
   &__price {
-    width: 10%;
+    width: 9%;
   }
 
   &__qty {
-    width: 10%;
+    width: 9%;
   }
 
   &__qty-input {
@@ -126,15 +130,15 @@
   }
 
   &__cost {
-    width: 10%;
+    width: 9%;
   }
 
   &__discount {
-    width: 10%;
+    width: 9%;
   }
 
   &__total-cost {
-    width: 10%;
+    width: 9%;
   }
 
   &__remove {

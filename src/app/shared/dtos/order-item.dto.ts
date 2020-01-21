@@ -9,4 +9,5 @@ export class OrderItemDto {
   cost: number = 0;
   discountPercent: number = 0;
   totalCost: number = 0;
+  imageUrl: string = '';
 }
