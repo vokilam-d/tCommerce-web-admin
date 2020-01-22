@@ -62,7 +62,7 @@ export class SelectComponent extends NgUnsubscribe implements OnInit, ControlVal
 
   writeValue(value: any): void {
     this.value = value;
-    this.activeOption = this.options.find(option => option.data === this.value);
+    this.setActiveOption();
     this.onChange(value);
     this.select.emit(value);
   }
@@ -83,6 +83,10 @@ export class SelectComponent extends NgUnsubscribe implements OnInit, ControlVal
     }
 
     this.isVisible = isVisible;
+  }
+
+  setActiveOption() {
+    this.activeOption = this.options.find(option => option.data === this.value);
   }
 
   private getEmptyOption(): ISelectOption {

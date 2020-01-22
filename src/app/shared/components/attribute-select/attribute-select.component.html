@@ -11,7 +11,7 @@
             (click)="toggleVisibility()"
             type="button"
     >
-      {{ activeOption.view || activeOption.data }}
+      {{ activeOption?.view || activeOption?.data }}
     </button>
 
     <div class="select__options" *ngIf="isVisible">

@@ -11,7 +11,7 @@ import { takeUntil } from 'rxjs/operators';
   selector: 'attribute-select',
   templateUrl: './attribute-select.component.html',
   styleUrls: ['./attribute-select.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => AttributeSelectComponent),
@@ -43,6 +43,9 @@ export class AttributeSelectComponent extends SelectComponent implements OnInit,
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(attributes => {
         this.attribute = attributes.find(attr => this.productSelectedAttr.attributeId === attr.id);
+        if (this.attribute) {
+          this.setActiveOption();
+        }
       });
   }
 
