@@ -106,14 +106,21 @@ export class OrderComponent implements OnInit {
   }
 
   cancelEdit() {
-    if (!confirm(`Вы уверены, что хотите отменить этот заказ?`)) {
-      return;
-    }
-
     if (this.isNewOrder) {
+      if (!confirm(`Вы уверены, что хотите отменить этот заказ?`)) {
+        return;
+      }
+
       this.customer = null;
+      this.isNewCustomer = false;
       this.order = new OrderDto();
+
     } else {
+
+      if (!confirm(`Вы уверены, что хотите отменить редактирование этого заказа?`)) {
+        return;
+      }
+
       this.navigateToOrderView();
     }
   }
