@@ -1,14 +1,14 @@
 <div class="page">
   <div class="header">
-    <h1 class="header__title" [ngSwitch]="isNewOrder">
-      <ng-container *ngSwitchCase="true">
-        Новый заказ<ng-container *ngIf="customer"> для <ng-container *ngIf="!isNewCustomer; else newCustomerText">{{ customer.firstName }} {{ customer.lastName }}</ng-container></ng-container>
-        <ng-template #newCustomerText>нового клиента</ng-template>
-      </ng-container>
+    <h1 class="header__title">
+      <ng-container *ngIf="isEditOrder; else newOrderTitle">
+        Редактирование заказа #{{ order?.id }}
+      </ng-container><ng-container *ngIf="customer"> для <ng-container *ngIf="!isNewCustomer; else newCustomerText">{{ customer.firstName }} {{ customer.lastName }}</ng-container></ng-container>
 
-      <ng-container *ngSwitchCase="false">
-        #{{ order?.id }}
-      </ng-container>
+      <ng-template #newOrderTitle>Новый заказ</ng-template>
+
+      <ng-template #newCustomerText>нового клиента</ng-template>
+
     </h1>
 
     <div class="header__toolbar">

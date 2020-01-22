@@ -13,6 +13,7 @@ import { PaymentMethodDto } from '../../shared/dtos/payment-method.dto';
 import { AddressFormComponent } from '../../address-form/address-form.component';
 import { ISelectOption } from '../../shared/components/select/select-option.interface';
 import { ShippingAddressDto } from '../../shared/dtos/shipping-address.dto';
+import { CustomerService } from '../../shared/services/customer.service';
 
 @Component({
   selector: 'order',
@@ -22,6 +23,8 @@ import { ShippingAddressDto } from '../../shared/dtos/shipping-address.dto';
 export class OrderComponent implements OnInit {
 
   isNewOrder: boolean;
+  isReorder: boolean;
+  isEditOrder: boolean;
   isNewCustomer: boolean = false;
   order: OrderDto;
   customer: CustomerDto;
@@ -48,6 +51,7 @@ export class OrderComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private orderService: OrderService,
+              private customerService: CustomerService,
               private router: Router,
               private notyService: NotyService,
               private route: ActivatedRoute) {
@@ -59,6 +63,8 @@ export class OrderComponent implements OnInit {
 
   private init() {
     this.isNewOrder = this.route.snapshot.data.action === EPageAction.Add;
+    this.isReorder = this.route.snapshot.data.action === EPageAction.AddBasedOn;
+    this.isEditOrder = this.route.snapshot.data.action === EPageAction.Edit;
 
     if (this.isNewOrder) {
       this.order = new OrderDto();
@@ -73,9 +79,22 @@ export class OrderComponent implements OnInit {
     this.orderService.fetchOrder(id).subscribe(
       response => {
         this.order = response.data;
+
+        if (this.isReorder || this.isEditOrder) {
+          this.fetchCustomer(this.order.customerId);
+        }
       },
       error => console.warn(error)
     )
+  }
+
+  private fetchCustomer(customerId: number) {
+    this.customerService.fetchCustomer(customerId)
+      .subscribe(
+        response => {
+          this.selectCustomer(response.data);
+        }
+      );
   }
 
   navigateToOrderList() {
@@ -122,9 +141,9 @@ export class OrderComponent implements OnInit {
       address: this.addressFormCmp.getValue()
     };
 
-    if (this.isNewOrder) {
+    if (this.isNewOrder || this.isReorder) {
       this.addNewOrder(dto);
-    } else {
+    } else if (this.isEditOrder) {
       this.editOrder(dto);
     }
   }
