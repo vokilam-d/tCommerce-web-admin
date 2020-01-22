@@ -44,4 +44,20 @@ export class OrderService {
 
     return this.http.post<ResponseDto<OrderItemDto>>(`http://localhost:3500/api/v1/admin/order-items`, payload);
   }
+
+  cancelOrder(id: number) {
+    return this.http.post<ResponseDto<OrderDto>>(`http://localhost:3500/api/v1/admin/orders/${id}/actions/cancel`, {});
+  }
+
+  startOrder(id: number) {
+    return this.http.post<ResponseDto<OrderDto>>(`http://localhost:3500/api/v1/admin/orders/${id}/actions/start`, {});
+  }
+
+  shipOrder(id: number) {
+    return this.http.post<ResponseDto<OrderDto>>(`http://localhost:3500/api/v1/admin/orders/${id}/actions/ship`, {});
+  }
+
+  printOrder(id: number) {
+    return this.http.get<ResponseDto<any>>(`http://localhost:3500/api/v1/admin/orders/${id}/pdf`, {});
+  }
 }

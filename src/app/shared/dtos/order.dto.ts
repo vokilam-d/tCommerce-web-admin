@@ -23,8 +23,6 @@ export class AddOrUpdateOrderDto {
   adminNote: string = '';
   notes: string[] = [];
   orderTotalPrice: number = 0;
-  invoiceIds: number[] = [];
-  shipmentIds: number[] = [];
 }
 
 export class OrderDto extends AddOrUpdateOrderDto {

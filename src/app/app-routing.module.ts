@@ -86,8 +86,18 @@ const routes: Routes = [
           },
           {
             path: 'add',
-            loadChildren: () => import('./pages/order/order.module').then(m => m.OrderModule),
-            data: { action: EPageAction.Add }
+            children: [
+              {
+                path: '',
+                loadChildren: () => import('./pages/order/order.module').then(m => m.OrderModule),
+                data: { action: EPageAction.Add }
+              },
+              {
+                path: 'based-on/:id',
+                loadChildren: () => import('./pages/order/order.module').then(m => m.OrderModule),
+                data: { action: EPageAction.AddBasedOn }
+              }
+            ]
           },
           {
             path: 'edit/:id',
