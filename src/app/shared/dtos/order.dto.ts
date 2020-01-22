@@ -12,9 +12,11 @@ export class AddOrUpdateOrderDto {
   createdDate: Date;
   isConfirmationEmailSent: boolean = false;
   paymentMethodId: string;
-  paymentMethodName: string;
+  paymentMethodAdminName: string;
+  paymentMethodClientName: string;
   shippingMethodId: string;
-  shippingMethodName: string;
+  shippingMethodAdminName: string;
+  shippingMethodClientName: string;
   isCallbackNeeded: boolean = false;
   novaposhtaTrackingId: any;
   items: OrderItemDto[] = [];

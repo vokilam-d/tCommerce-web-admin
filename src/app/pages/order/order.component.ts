@@ -213,12 +213,14 @@ export class OrderComponent implements OnInit {
 
   onShippingMethodSelect(shippingMethod: ShippingMethodDto) {
     this.order.shippingMethodId = shippingMethod.id;
-    this.order.shippingMethodName = shippingMethod.name;
+    this.order.shippingMethodClientName = shippingMethod.clientName;
+    this.order.shippingMethodAdminName = shippingMethod.adminName;
   }
 
   onPaymentMethodSelect(paymentMethod: PaymentMethodDto) {
     this.order.paymentMethodId = paymentMethod.id;
-    this.order.paymentMethodName = paymentMethod.name;
+    this.order.paymentMethodClientName = paymentMethod.clientName;
+    this.order.paymentMethodAdminName = paymentMethod.adminName;
   }
 
   onAddressSelect(address: ShippingAddressDto) {

@@ -17,7 +17,7 @@
                 [class.list__method--active]="method === activeMethod"
                 (click)="selectMethod(method)"
         >
-          <ng-container *ngIf="method.name as name; else newMethodTitle">
+          <ng-container *ngIf="method.adminName as name; else newMethodTitle">
             {{ name }}
           </ng-container>
         </button>
@@ -29,7 +29,7 @@
 
     <div class="header">
       <h1 class="header__title">
-        <ng-container *ngIf="activeMethod.id; else newMethodTitle">{{ activeMethod.name }}</ng-container>
+        <ng-container *ngIf="activeMethod.id; else newMethodTitle">{{ activeMethod.adminName }}</ng-container>
       </h1>
 
       <div class="header__toolbar">
@@ -64,12 +64,22 @@
       </div>
 
       <div class="method-form__field field field--required"
-           *ngIf="form.get('name') as name"
-           [class.field--invalid]="isControlInvalid(name)"
+           *ngIf="form.get('adminName') as adminName"
+           [class.field--invalid]="isControlInvalid(adminName)"
       >
-        <label for="name" class="field__label">Название</label>
+        <label for="adminName" class="field__label">Название для менеджера</label>
         <span class="field__control">
-          <input class="field__input" [formControl]="name" type="text" id="name">
+          <input class="field__input" [formControl]="adminName" type="text" id="adminName">
+        </span>
+      </div>
+
+      <div class="method-form__field field field--required"
+           *ngIf="form.get('clientName') as clientName"
+           [class.field--invalid]="isControlInvalid(clientName)"
+      >
+        <label for="clientName" class="field__label">Название для клиента</label>
+        <span class="field__control">
+          <input class="field__input" [formControl]="clientName" type="text" id="clientName">
         </span>
       </div>
 

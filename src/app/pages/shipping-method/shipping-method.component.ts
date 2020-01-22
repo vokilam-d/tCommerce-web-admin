@@ -44,7 +44,8 @@ export class ShippingMethodComponent implements OnInit {
 
     this.form = this.formBuilder.group({
       isEnabled: shippingMethod.isEnabled,
-      name: [shippingMethod.name, Validators.required],
+      adminName: [shippingMethod.adminName, Validators.required],
+      clientName: [shippingMethod.clientName, Validators.required],
       price: shippingMethod.price,
       sortOrder: shippingMethod.sortOrder
     });
@@ -80,7 +81,7 @@ export class ShippingMethodComponent implements OnInit {
   }
 
   deleteMethod() {
-    if (!this.activeMethod.id || !confirm(`Вы уверены, что хотите удалить '${this.activeMethod.name}'?`)) {
+    if (!this.activeMethod.id || !confirm(`Вы уверены, что хотите удалить '${this.activeMethod.adminName}'?`)) {
       return;
     }
 

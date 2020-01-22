@@ -44,7 +44,8 @@ export class PaymentMethodComponent implements OnInit {
 
     this.form = this.formBuilder.group({
       isEnabled: paymentMethod.isEnabled,
-      name: [paymentMethod.name, Validators.required],
+      adminName: [paymentMethod.adminName, Validators.required],
+      clientName: [paymentMethod.clientName, Validators.required],
       price: paymentMethod.price,
       sortOrder: paymentMethod.sortOrder
     });
@@ -80,7 +81,7 @@ export class PaymentMethodComponent implements OnInit {
   }
 
   deleteMethod() {
-    if (!this.activeMethod.id || !confirm(`Вы уверены, что хотите удалить '${this.activeMethod.name}'?`)) {
+    if (!this.activeMethod.id || !confirm(`Вы уверены, что хотите удалить '${this.activeMethod.adminName}'?`)) {
       return;
     }
 
