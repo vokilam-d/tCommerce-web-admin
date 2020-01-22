@@ -8,7 +8,7 @@
       <button class="header__btn toolbar-btn" (click)="goBack()" type="button">
         <i class="ai ai-arrow-left"></i> назад
       </button>
-      <app-button class="header__btn" (click)="cancelOrder()" type="button">
+      <app-button class="header__btn" *ngIf="isCancelOrderVisible()" (click)="cancelOrder()" type="button">
         Отменить заказ
       </app-button>
       <app-button class="header__btn" (click)="reorder()" type="button">
@@ -23,7 +23,7 @@
       <app-button class="header__btn" (click)="printOrder()" type="button">
         Распечатать PDF
       </app-button>
-      <app-button class="header__btn" (click)="editOrder()" type="button">
+      <app-button class="header__btn" *ngIf="isEditOrderVisible()" (click)="editOrder()" type="button">
         Редактировать
       </app-button>
     </div>

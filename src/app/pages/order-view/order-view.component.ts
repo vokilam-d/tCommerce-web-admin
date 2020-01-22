@@ -65,7 +65,7 @@ export class OrderViewComponent implements OnInit {
   }
 
   reorder() {
-    this.router.navigate(['admin', 'order', 'new', 'based-on', this.order.id]);
+    this.router.navigate(['admin', 'order', 'add', 'based-on', this.order.id]);
   }
 
   startOrder() {
@@ -110,11 +110,19 @@ export class OrderViewComponent implements OnInit {
     this.router.navigate(['admin', 'order', 'edit', this.order.id]);
   }
 
+  isCancelOrderVisible(): boolean {
+    return this.order.status !== 'SHIPPED';
+  }
+
   isStartOrderVisible(): boolean {
     return this.order.status === 'NEW';
   }
 
   isShipOrderVisible(): boolean {
     return this.order.status === 'STARTED';
+  }
+
+  isEditOrderVisible(): boolean {
+    return this.order.status !== 'SHIPPED';
   }
 }
