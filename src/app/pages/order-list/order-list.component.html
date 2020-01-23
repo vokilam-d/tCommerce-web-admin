@@ -23,6 +23,7 @@
         <div class="grid__block order__id">ID</div>
         <div class="grid__block order__create-date">Дата</div>
         <div class="grid__block order__name">Имя</div>
+        <div class="grid__block order__city">Город</div>
         <div class="grid__block order__price">Сумма</div>
         <div class="grid__block order__status">Статус</div>
         <div class="grid__block order__admin-note">Комментарий админа</div>
@@ -41,10 +42,16 @@
             {{ order.createdDate | date }}
           </div>
           <div class="grid__block order__name">
-            {{ order.customerFirstName }} {{ order.customerLastName }}
+            {{ order.address.firstName }} {{ order.address.lastName }}
+            <div class="order__customer-name" *ngIf="order.customerFirstName !== order.address.firstName || order.customerLastName !== order.address.lastName">
+              ({{ order.customerFirstName }} {{ order.customerLastName }})
+            </div>
+          </div>
+          <div class="grid__block order__city">
+            {{ order.address.city }}
           </div>
           <div class="grid__block order__price">
-            {{ order.orderTotalPrice }}
+            {{ order.orderTotalPrice }} грн
           </div>
           <div class="grid__block order__status">
             {{ order.status }}

@@ -9,6 +9,13 @@
   }
 }
 
+.grid {
+  &__block {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+}
+
 .order {
   &__id {
     width: 30px;
@@ -16,15 +23,15 @@
   }
 
   &__name {
-    width: 300px;
+    display: block;
+    width: 250px;
   }
 
-  &__email {
-    width: 150px;
-  }
-
-  &__phone {
-    width: 100px;
+  &__customer-name {
+    margin: 5px 0 0;
+    font-size: 12px;
+    font-weight: 400;
+    color: #999;
   }
 
   &__city {
@@ -35,7 +42,19 @@
     width: 100px;
   }
 
-  &__note {
-    width: 150px;
+  &__price {
+    width: 75px;
+  }
+
+  &__status {
+    width: 65px;
+  }
+
+  &__admin-note {
+    width: 200px;
+  }
+
+  &__client-note {
+    width: 200px;
   }
 }
