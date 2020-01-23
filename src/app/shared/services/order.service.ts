@@ -7,6 +7,7 @@ import { AddOrUpdateOrderDto, OrderDto } from '../dtos/order.dto';
 import { toHttpParams } from '../helpers/to-http-params.function';
 import { OrderItemDto } from '../dtos/order-item.dto';
 import { CreateOrderItemDto } from '../dtos/create-order-item.dto';
+import { ShippingAddressDto } from '../dtos/shipping-address.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +34,10 @@ export class OrderService {
 
   editOrder(id: number, dto: AddOrUpdateOrderDto): Observable<ResponseDto<OrderDto>> {
     return this.http.put<ResponseDto<OrderDto>>(`http://localhost:3500/api/v1/admin/orders/${id}`, dto);
+  }
+
+  updateOrderAddress(id: number, address: ShippingAddressDto) {
+    return this.http.put<ResponseDto<OrderDto>>(`http://localhost:3500/api/v1/admin/orders/${id}/address`, address);
   }
 
   createOrderItem(sku: string, qty: number, customerId?: number) {

@@ -115,11 +115,11 @@
     <div class="order-view__block two-col">
       <div class="two-col__col method">
         <div class="method__title">Способ оплаты</div>
-        <div class="method__name">{{ order.paymentMethodClientName }}</div>
+        <div class="method__name">{{ order.paymentMethodAdminName }}</div>
       </div>
       <div class="two-col__col method">
         <div class="method__title">Способ доставки</div>
-        <div class="method__name">{{ order.shippingMethodClientName }}</div>
+        <div class="method__name">{{ order.shippingMethodAdminName }}</div>
       </div>
     </div>
 
@@ -174,6 +174,28 @@
       <div class="total-order-cost">
         {{ order.orderTotalPrice }} грн
       </div>
+    </div>
+  </div>
+</div>
+
+<div class="address-form" *ngIf="isAddressFormVisible">
+  <div class="address-form__overlay" (click)="closeAddressForm()"></div>
+  <div class="address-form__modal">
+    <div class="address-form__header">
+      <div class="address-form__title">
+        Изменить адрес
+      </div>
+      <div class="address-form__close" (click)="closeAddressForm()">
+        <i class="ai ai-multiply address-form__close-icon"></i>
+      </div>
+    </div>
+
+    <address-form class="address-form__form" [address]="order.address" [showIsDefault]="false"></address-form>
+
+    <div class="address-form__submit-container">
+      <app-button class="address-form__submit" (click)="submitAddressForm()" btnStyle="primary">
+        Сохранить
+      </app-button>
     </div>
   </div>
 </div>

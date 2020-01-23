@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { OrderService } from '../../shared/services/order.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrderDto } from '../../shared/dtos/order.dto';
 import { CustomerDto } from '../../shared/dtos/customer.dto';
 import { CustomerService } from '../../shared/services/customer.service';
 import { NotyService } from '../../noty/noty.service';
+import { AddressFormComponent } from '../../address-form/address-form.component';
 
 @Component({
   selector: 'order-view',
@@ -14,6 +15,9 @@ import { NotyService } from '../../noty/noty.service';
 export class OrderViewComponent implements OnInit {
   order: OrderDto;
   customer: CustomerDto;
+  isAddressFormVisible: boolean = false;
+
+  @ViewChild(AddressFormComponent) addressFormCmp: AddressFormComponent;
 
   constructor(private orderService: OrderService,
               private customerService: CustomerService,
@@ -124,5 +128,29 @@ export class OrderViewComponent implements OnInit {
 
   isEditOrderVisible(): boolean {
     return this.order.status !== 'SHIPPED';
+  }
+
+  openAddressForm() {
+    this.isAddressFormVisible = true;
+  }
+
+  closeAddressForm() {
+    this.isAddressFormVisible = false;
+  }
+
+  submitAddressForm() {
+    if (!this.addressFormCmp.checkValidity()) {
+      return;
+    }
+
+    const address = this.addressFormCmp.getValue();
+    this.orderService.updateOrderAddress(this.order.id, address)
+      .pipe(this.notyService.attachNoty({ successText: 'Адрес в заказе успешно сохранён' }))
+      .subscribe(
+        response => {
+          this.order = response.data;
+          this.closeAddressForm();
+        }
+      );
   }
 }
