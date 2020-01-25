@@ -74,7 +74,7 @@
               (нельзя изменять после сохранения)
             </span>
           </div>
-          <div class="option__name-container">
+          <div class="option__label-container">
             Имя опции
           </div>
         </div>
@@ -109,21 +109,19 @@
           </div>
 
           <div class="option__delete-container">
-            <button class="btn option__delete"
-                    (click)="deleteOption(index)"
-                    type="button"
+            <app-button class="option__delete"
+                        (click)="deleteOption(index)"
             >
               Удалить
-            </button>
+            </app-button>
           </div>
         </div>
 
-        <button class="btn attribute__add-option"
-                (click)="addOption()"
-                type="button"
+        <app-button class="attribute__add-option"
+                    (click)="addOption()"
         >
           Добавить опцию
-        </button>
+        </app-button>
 
       </div>
     </div>

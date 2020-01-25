@@ -61,12 +61,14 @@ export class AttributeComponent implements OnInit {
       return;
     }
 
-    this.attributeService.deleteAttribute(this.attribute.id).subscribe(
-      _ => {
-        this.goBack();
-      },
-      error => console.warn(error)
-    );
+    this.attributeService.deleteAttribute(this.attribute.id)
+      .pipe(this.notyService.attachNoty({ successText: `Атрибут успешно удалён` }))
+      .subscribe(
+        _ => {
+          this.goBack();
+        },
+        error => console.warn(error)
+      );
   }
 
   addOption() {
@@ -123,13 +125,15 @@ export class AttributeComponent implements OnInit {
 
   private addNewAttribute() {
     const dto = this.form.value;
-    this.attributeService.addNewAttribute(dto).subscribe(
-      response => {
-        const attribute = response.data;
-        this.router.navigate(['admin', 'attribute', 'edit', attribute.id]);
-      },
-      error => console.warn(error)
-    );
+    this.attributeService.addNewAttribute(dto)
+      .pipe(this.notyService.attachNoty({ successText: `Атрибут успешно удалён` }))
+      .subscribe(
+        response => {
+          const attribute = response.data;
+          this.router.navigate(['admin', 'attribute', 'edit', attribute.id]);
+        },
+        error => console.warn(error)
+      );
   }
 
   private updateAttribute() {
