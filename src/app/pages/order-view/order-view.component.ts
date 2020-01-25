@@ -103,7 +103,11 @@ export class OrderViewComponent implements OnInit {
   }
 
   printOrder() {
-    this.orderService.printOrder(this.order.id).subscribe();
+    const url = this.orderService.getPrintOrderUrl(this.order.id);
+    const linkEl = document.createElement('a');
+    linkEl.setAttribute('download', '');
+    linkEl.setAttribute('href', url);
+    linkEl.click();
   }
 
   editOrder() {

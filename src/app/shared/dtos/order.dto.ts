@@ -24,7 +24,10 @@ export class AddOrUpdateOrderDto {
   clientNote: string = '';
   adminNote: string = '';
   notes: string[] = [];
-  orderTotalPrice: number = 0;
+  discountPercent: number = 0;
+  discountValue: number = 0;
+  totalItemsCost: number = 0;
+  totalCost: number = 0;
 }
 
 export class OrderDto extends AddOrUpdateOrderDto {

@@ -62,7 +62,7 @@ export class OrderService {
     return this.http.post<ResponseDto<OrderDto>>(`http://localhost:3500/api/v1/admin/orders/${id}/actions/ship`, {});
   }
 
-  printOrder(id: number) {
-    return this.http.get<ResponseDto<any>>(`http://localhost:3500/api/v1/admin/orders/${id}/pdf`, {});
+  getPrintOrderUrl(id: number): string {
+    return `http://localhost:3500/api/v1/admin/orders/${id}/invoice`;
   }
 }
