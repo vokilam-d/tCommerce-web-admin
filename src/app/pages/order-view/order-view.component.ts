@@ -149,7 +149,7 @@ export class OrderViewComponent implements OnInit {
 
     const address = this.addressFormCmp.getValue();
     this.orderService.updateOrderAddress(this.order.id, address)
-      .pipe(this.notyService.attachNoty({ successText: 'Адрес в заказе успешно сохранён' }))
+      .pipe(this.notyService.attachNoty({ successText: 'Адрес в заказе успешно изменён' }))
       .subscribe(
         response => {
           this.order = response.data;
