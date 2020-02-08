@@ -1,18 +1,10 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  OnInit,
-  Output,
-  ViewChild
-} from '@angular/core';
-import { ProductService } from '../../../shared/services/product.service';
-import { ProductDto } from '../../../shared/dtos/product.dto';
-import { PaginationComponent } from '../../../pagination/pagination.component';
-import { IPagination } from '../../../pagination/pagination.interface';
-import { ProductVariantDto } from '../../../shared/dtos/product-variant.dto';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { IPagination } from '../pagination/pagination.interface';
+import { PaginationComponent } from '../pagination/pagination.component';
+import { ProductService } from '../shared/services/product.service';
+import { ProductVariantDto } from '../shared/dtos/product-variant.dto';
+import { ProductDto } from '../shared/dtos/product.dto';
 
 class VariantForSelector extends ProductVariantDto {
   selectedQty: number;
@@ -25,8 +17,9 @@ class ProductForSelector extends ProductDto {
 }
 
 interface ISelectedProduct {
-  variant: ProductVariantDto,
-  qty: number
+  product: ProductDto;
+  variant: ProductVariantDto;
+  qty: number;
 }
 
 @Component({
@@ -48,9 +41,10 @@ export class ProductSelectorComponent implements OnInit, AfterViewInit {
   itemsTotal: number = 0;
   pagesTotal: number = 1;
 
-  @ViewChild(PaginationComponent) paginationCmp: PaginationComponent;
-
+  @Input() showQty: boolean = false;
   @Output('selected') selectedEmitter: EventEmitter<ISelectedProduct> = new EventEmitter();
+
+  @ViewChild(PaginationComponent) paginationCmp: PaginationComponent;
 
   constructor(private productService: ProductService) { }
 
@@ -99,12 +93,16 @@ export class ProductSelectorComponent implements OnInit, AfterViewInit {
     })
   }
 
-  selectProduct(variant: VariantForSelector) {
-    this.selectedEmitter.emit({ variant, qty: variant.selectedQty });
+  selectProduct(product: ProductForSelector, variant: VariantForSelector) {
+    this.selectedEmitter.emit({ product, variant, qty: variant.selectedQty });
     variant.selectedQty = 0;
   }
 
   trackById(index: number, product: ProductForSelector) {
     return product.id;
+  }
+
+  isBtnDisabled(variant: VariantForSelector): boolean {
+    return this.showQty && variant.selectedQty === 0;
   }
 }

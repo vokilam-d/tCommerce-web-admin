@@ -1,0 +1,29 @@
+@import "variables";
+
+.product-review {
+  margin: 40px 0 0;
+
+  &__field {
+    margin: 30px 0 0;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  &__product-name {
+    display: inline-block;
+    margin: 3px 0 0;
+    color: $blue;
+    cursor: pointer;
+  }
+}
+
+.media {
+  display: flex;
+  flex-wrap: wrap;
+
+  &__asset {
+    margin: 0 25px 0 0;
+  }
+}

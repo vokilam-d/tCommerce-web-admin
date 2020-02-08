@@ -119,6 +119,44 @@ const routes: Routes = [
         loadChildren: () => import('./pages/payment-method/payment-method.module').then(m => m.PaymentMethodModule)
       },
       {
+        path: 'store-review',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('./pages/store-review-list/store-review-list.module').then(m => m.StoreReviewListModule)
+          },
+          {
+            path: 'add',
+            loadChildren: () => import('./pages/store-review/store-review.module').then(m => m.StoreReviewModule),
+            data: { action: EPageAction.Add }
+          },
+          {
+            path: 'edit/:id',
+            loadChildren: () => import('./pages/store-review/store-review.module').then(m => m.StoreReviewModule),
+            data: { action: EPageAction.Edit }
+          }
+        ]
+      },
+      {
+        path: 'product-review',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('./pages/product-review-list/product-review-list.module').then(m => m.ProductReviewListModule)
+          },
+          {
+            path: 'add',
+            loadChildren: () => import('./pages/product-review/product-review.module').then(m => m.ProductReviewModule),
+            data: { action: EPageAction.Add }
+          },
+          {
+            path: 'edit/:id',
+            loadChildren: () => import('./pages/product-review/product-review.module').then(m => m.ProductReviewModule),
+            data: { action: EPageAction.Edit }
+          }
+        ]
+      },
+      {
         path: '**',
         loadChildren: () => import('./pages/not-found/not-found.module').then(m => m.NotFoundModule)
       }

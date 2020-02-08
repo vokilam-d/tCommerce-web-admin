@@ -1,6 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import { animate, animation, state, style, transition, trigger } from '@angular/animations';
 
+const animateTiming = '0.4s cubic-bezier(0.25, 0.8, 0.25, 1)';
+const hiddenStyles = { 'height': 0, 'overflow': 'hidden', 'padding': 0 };
+const visibleStyles = { 'height': '*', 'padding': '*' };
 @Component({
   selector: 'fields-group',
   templateUrl: './fields-group.component.html',
@@ -8,9 +11,8 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
   animations: [
     trigger('blockInitialAnimation', [transition(':enter', [])]),
     trigger('slideToggle', [
-      state('true', style({ 'height': '*', 'padding': '*' })),
-      state('false', style({ 'height': 0, 'overflow': 'hidden', 'padding': 0 })),
-      transition('* <=> *', animate('0.4s cubic-bezier(0.25, 0.8, 0.25, 1)'))
+      transition(':enter', animation([ style(hiddenStyles), animate(animateTiming, style(visibleStyles)) ])),
+      transition(':leave', animation([ style(visibleStyles), animate(animateTiming, style(hiddenStyles)) ]))
     ])
   ]
 })

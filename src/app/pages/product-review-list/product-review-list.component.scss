@@ -1,0 +1,24 @@
+@import "variables";
+
+.list-info {
+  display: flex;
+  align-items: center;
+
+  &__pagination {
+    margin: 0 0 0 auto;
+  }
+}
+
+.product-review {
+  &__name {
+    width: 100px;
+  }
+
+  &__text {
+    width: 300px;
+  }
+
+  &__status {
+    width: 100px;
+  }
+}

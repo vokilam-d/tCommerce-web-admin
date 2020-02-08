@@ -25,7 +25,7 @@
         <div class="grid__block product__name">Название товара</div>
         <div class="grid__block product__sku">Артикул</div>
         <div class="grid__block product__price">Цена</div>
-        <div class="grid__block product__qty">Кол-во</div>
+        <div class="grid__block product__qty"><ng-container *ngIf="showQty">Кол-во</ng-container></div>
         <div class="grid__block product__status">Статус</div>
       </div>
 
@@ -55,7 +55,7 @@
               </ng-container>
             </div>
             <div class="grid__block product__qty">
-              <ng-container *ngIf="product.isSingleVariant">
+              <ng-container *ngIf="showQty && product.isSingleVariant">
                 <input class="product__qty-input"
                        numberInput
                        [(ngModel)]="product.variants[0].selectedQty"
@@ -72,8 +72,8 @@
             <div class="grid__block product__select">
               <app-button class="product__select-btn"
                           *ngIf="product.isSingleVariant; else expandTmpl"
-                          [disabled]="product.variants[0].selectedQty === 0"
-                          (click)="selectProduct(product.variants[0])"
+                          [disabled]="isBtnDisabled(product.variants[0])"
+                          (click)="selectProduct(product, product.variants[0])"
                           btnSize="small"
               >
                 Выбрать
@@ -92,41 +92,45 @@
 
           <div class="grid variants" [@slideToggle]="product.isOpened">
             <div class="grid__row product" *ngFor="let variant of product.variants">
+
               <div class="grid__block product__id">
                 <div class="product__variant-id"></div>
               </div>
+
               <div class="grid__block product__thumbnail">
                 <img class="product__thumbnail-img"
                      *ngIf="variant.medias[0] as media"
                      [src]="'http://localhost:3500' + media.variantsUrls.small"
                      [alt]="media.altText">
               </div>
-              <div class="grid__block product__name">
-                {{ variant.name }}
-              </div>
-              <div class="grid__block product__sku">
-                {{ variant.sku }}
-              </div>
-              <div class="grid__block product__price">
-                {{ variant.price }} грн
-              </div>
+
+              <div class="grid__block product__name"> {{ variant.name }} </div>
+
+              <div class="grid__block product__sku"> {{ variant.sku }} </div>
+
+              <div class="grid__block product__price"> {{ variant.price }} грн </div>
+
               <div class="grid__block product__qty">
-                <input class="product__qty-input"
-                       numberInput
-                       [(ngModel)]="variant.selectedQty"
-                       [max]="variant.qty"
-                       min="0"
-                       type="number"
-                > из {{ variant.qty }}
+                <ng-container *ngIf="showQty">
+                  <input class="product__qty-input"
+                         numberInput
+                         [(ngModel)]="variant.selectedQty"
+                         [max]="variant.qty"
+                         min="0"
+                         type="number"
+                  > из {{ variant.qty }}
+                </ng-container>
               </div>
+
               <div class="grid__block product__status" [ngSwitch]="product.isEnabled">
                 <ng-container *ngSwitchCase="true">Включен</ng-container>
                 <ng-container *ngSwitchCase="false">Выключен</ng-container>
               </div>
+
               <div class="grid__block product__select product__select--variant">
                 <app-button class="product__select-btn"
-                            [disabled]="variant.selectedQty === 0"
-                            (click)="selectProduct(variant)"
+                            [disabled]="isBtnDisabled(variant)"
+                            (click)="selectProduct(product, variant)"
                             btnSize="small"
                 >
                   Выбрать

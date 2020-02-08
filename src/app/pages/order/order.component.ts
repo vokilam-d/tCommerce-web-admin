@@ -6,7 +6,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NotyService } from '../../noty/noty.service';
 import { EPageAction } from '../../shared/enums/category-page-action.enum';
 import { CustomerDto } from '../../shared/dtos/customer.dto';
-import { ProductSelectorComponent } from './product-selector/product-selector.component';
 import { OrderItemDto } from '../../shared/dtos/order-item.dto';
 import { ShippingMethodDto } from '../../shared/dtos/shipping-method.dto';
 import { PaymentMethodDto } from '../../shared/dtos/payment-method.dto';
@@ -14,6 +13,7 @@ import { AddressFormComponent } from '../../address-form/address-form.component'
 import { ISelectOption } from '../../shared/components/select/select-option.interface';
 import { ShippingAddressDto } from '../../shared/dtos/shipping-address.dto';
 import { CustomerService } from '../../shared/services/customer.service';
+import { ProductSelectorComponent } from '../../product-selector/product-selector.component';
 
 @Component({
   selector: 'order',

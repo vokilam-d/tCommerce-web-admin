@@ -7,14 +7,14 @@ import { SharedModule } from '../../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CustomerSelectorComponent } from './customer-selector/customer-selector.component';
 import { PaginationModule } from '../../pagination/pagination.module';
-import { ProductSelectorComponent } from './product-selector/product-selector.component';
 import { AddressFormModule } from '../../address-form/address-form.module';
 import { ShippingMethodSelectorComponent } from './shipping-method-selector/shipping-method-selector.component';
 import { PaymentMethodSelectorComponent } from './payment-method-selector/payment-method-selector.component';
+import { ProductSelectorModule } from '../../product-selector/product-selector.module';
 
 
 @NgModule({
-  declarations: [OrderComponent, CustomerSelectorComponent, ProductSelectorComponent, ShippingMethodSelectorComponent, PaymentMethodSelectorComponent],
+  declarations: [OrderComponent, CustomerSelectorComponent, ShippingMethodSelectorComponent, PaymentMethodSelectorComponent],
   imports: [
     CommonModule,
     OrderRoutingModule,
@@ -22,7 +22,8 @@ import { PaymentMethodSelectorComponent } from './payment-method-selector/paymen
     PaginationModule,
     ReactiveFormsModule,
     FormsModule,
-    AddressFormModule
+    AddressFormModule,
+    ProductSelectorModule
   ]
 })
 export class OrderModule { }

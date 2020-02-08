@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { AddOrUpdateProductDto, ProductDto } from '../dtos/product.dto';
 import { IPagination } from '../../pagination/pagination.interface';
 import { toHttpParams } from '../helpers/to-http-params.function';
-import { ResponseDto, ResponsePaginationDto } from '../dtos/response.dto';
+import { ResponseDto } from '../dtos/response.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +14,8 @@ export class ProductService {
   constructor(private http: HttpClient) {
   }
 
-  fetchAllProducts(filter: IPagination): Observable<ResponsePaginationDto<ProductDto[]>> {
-    return this.http.get<ResponsePaginationDto<ProductDto[]>>(
+  fetchAllProducts(filter: IPagination): Observable<ResponseDto<ProductDto[]>> {
+    return this.http.get<ResponseDto<ProductDto[]>>(
       'http://localhost:3500/api/v1/admin/products',
       { params: toHttpParams(filter) }
     );

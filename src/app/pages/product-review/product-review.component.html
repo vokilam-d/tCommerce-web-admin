@@ -1,0 +1,213 @@
+<div class="page">
+  <div class="header">
+    <h1 class="header__title" [ngSwitch]="isNewProductReview">
+      <ng-container *ngSwitchCase="true">
+        Новый отзыв о товаре
+      </ng-container>
+
+      <ng-container *ngSwitchCase="false">
+        Отзыв от {{ productReview?.name }} о товаре {{ productReview.productVariantName }}
+      </ng-container>
+    </h1>
+
+    <div class="header__toolbar">
+      <button class="header__btn toolbar-btn" (click)="goBack()" type="button">
+        <i class="ai ai-arrow-left"></i> назад
+      </button>
+      <button class="header__btn toolbar-btn" *ngIf="!isNewProductReview" (click)="delete()" type="button">
+        Удалить
+      </button>
+      <button class="header__btn toolbar-main-btn" (click)="save()" type="button">Сохранить</button>
+    </div>
+  </div>
+
+  <form class="product-review" *ngIf="reviewForm" [formGroup]="reviewForm">
+
+    <div class="product-review__field field"
+    >
+      <div class="field__label">Товар</div>
+
+      <div class="field__control">
+        <span class="product-review__product-name"
+              *ngIf="productReview.productId; else noProductSelected"
+              (click)="openProductSelector()"
+        >
+          #{{ productReview.productId }} - {{ productReview.productVariantName }}
+        </span>
+
+        <ng-template #noProductSelected>
+          <app-button (click)="openProductSelector()">Выбрать товар</app-button>
+        </ng-template>
+      </div>
+    </div>
+
+    <div class="product-review__field field"
+         *ngIf="reviewForm.get('isEnabled') as isEnabled"
+         [class.field--invalid]="isControlInvalid(isEnabled)"
+    >
+      <label class="field__label" for="isEnabled">Включить отзыв</label>
+      <div class="field__control">
+        <label class="switcher">
+          <input class="switcher__input"
+                 [formControl]="isEnabled"
+                 type="checkbox"
+                 id="isEnabled"
+          >
+          <span class="switcher__control" [class.switcher__control--active]="isEnabled.value"></span>
+          <span class="switcher__description">
+            <ng-container *ngIf="isEnabled.value; else isEnabledFalseText">Да</ng-container>
+            <ng-template #isEnabledFalseText>Нет</ng-template>
+          </span>
+        </label>
+      </div>
+    </div>
+
+    <div class="product-review__field field field--required"
+         *ngIf="reviewForm.get('name') as name"
+         [class.field--invalid]="isControlInvalid(name)"
+    >
+      <label for="name" class="field__label">Имя</label>
+      <span class="field__control">
+        <input class="field__input" [formControl]="name" type="text" id="name">
+      </span>
+    </div>
+
+    <div class="product-review__field field field--required"
+         *ngIf="reviewForm.get('text') as text"
+         [class.field--invalid]="isControlInvalid(text)"
+    >
+      <label for="text" class="field__label">Текст</label>
+      <span class="field__control">
+        <textarea class="field__input" [formControl]="text" type="text" id="text"></textarea>
+      </span>
+    </div>
+
+    <div class="product-review__field field"
+         *ngIf="reviewForm.get('email') as email"
+         [class.field--invalid]="isControlInvalid(email)"
+    >
+      <label for="email" class="field__label">Email</label>
+      <span class="field__control">
+        <input class="field__input" [formControl]="email" type="email" id="email">
+      </span>
+    </div>
+
+    <div class="product-review__field field field--required"
+         *ngIf="reviewForm.get('rating') as rating"
+         [class.field--invalid]="isControlInvalid(rating)"
+    >
+      <div class="field__label">Оценка</div>
+      <span class="field__control">
+        rating
+      </span>
+    </div>
+
+    <div class="product-review__field field"
+         *ngIf="reviewForm.get('sortOrder') as sortOrder"
+         [class.field--invalid]="isControlInvalid(sortOrder)"
+    >
+      <label for="sortOrder" class="field__label">Сортировка</label>
+      <span class="field__control">
+        <input class="field__input" [formControl]="sortOrder" type="number" id="sortOrder">
+      </span>
+    </div>
+
+    <div class="product-review__field field"
+         *ngIf="reviewForm.get('createdAt') as createdAt"
+         [class.field--invalid]="isControlInvalid(createdAt)"
+    >
+      <label for="createdAt" class="field__label">Время</label>
+      <span class="field__control">
+        <input class="field__input" [formControl]="createdAt" type="datetime-local" id="createdAt" step="1">
+      </span>
+    </div>
+
+    <div class="product-review__field field">
+      <div class="field__label">Картинки и видео</div>
+
+      <div class="field__control media" *ngIf="reviewForm.get('medias') as medias">
+        <media-asset class="media__asset"
+                     *ngFor="let media of medias.value"
+                     [media]="media"
+                     (remove)="onMediaRemove(media)"
+        ></media-asset>
+
+        <media-uploader class="media_asset"
+                        [uploadUrl]="getMediaUploadUrl()"
+                        (uploaded)="mediaUploaded($event, medias)"
+        ></media-uploader>
+      </div>
+    </div>
+
+    <ng-container *ngIf="reviewForm.get('comments') as comments">
+      <fields-group class="product-review__comment" *ngFor="let commentForm of commentsFormArray?.controls, index as i">
+        <div fields-group-title>Комментарий от {{ commentForm.get('name')?.value }}: {{ commentForm.get('text')?.value }}</div>
+
+        <div class="product-review__field field"
+             *ngIf="commentForm.get('isEnabled') as isEnabled"
+             [class.field--invalid]="isControlInvalid(isEnabled)"
+        >
+          <label class="field__label" for="isEnabled">Включить отзыв</label>
+          <div class="field__control">
+            <label class="switcher">
+              <input class="switcher__input"
+                     [formControl]="isEnabled"
+                     type="checkbox"
+              >
+              <span class="switcher__control" [class.switcher__control--active]="isEnabled.value"></span>
+              <span class="switcher__description">
+                <ng-container *ngIf="isEnabled.value; else isEnabledFalseText">Да</ng-container>
+                <ng-template #isEnabledFalseText>Нет</ng-template>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <div class="product-review__field field field--required"
+             *ngIf="commentForm.get('name') as name"
+             [class.field--invalid]="isControlInvalid(name)"
+        >
+          <label class="field__label" [for]="'name-' + i">Имя</label>
+          <span class="field__control">
+            <input class="field__input" [formControl]="name" type="text" [id]="'name-' + i">
+          </span>
+        </div>
+
+        <div class="product-review__field field field--required"
+             *ngIf="commentForm.get('text') as text"
+             [class.field--invalid]="isControlInvalid(text)"
+        >
+          <label class="field__label" [for]="'text-' + i">Текст</label>
+          <span class="field__control">
+            <textarea class="field__input" [formControl]="text" type="text" [id]="'text-' + i"></textarea>
+          </span>
+        </div>
+
+        <div class="product-review__field field"
+             *ngIf="commentForm.get('email') as email"
+             [class.field--invalid]="isControlInvalid(email)"
+        >
+          <label class="field__label" [for]="'email-' + i">Email</label>
+          <span class="field__control">
+            <input class="field__input" [formControl]="email" type="email" [id]="'email-' + i">
+          </span>
+        </div>
+
+
+        <div class="product-review__field field"
+             *ngIf="commentForm.get('createdAt') as createdAt"
+             [class.field--invalid]="isControlInvalid(createdAt)"
+        >
+          <label class="field__label" [for]="'createdAt-' + i">Время</label>
+          <span class="field__control">
+            <input class="field__input" [formControl]="createdAt" type="datetime-local" [id]="'createdAt-' + i" step="1">
+          </span>
+        </div>
+      </fields-group>
+    </ng-container>
+
+  </form>
+
+</div>
+
+<product-selector (selected)="onProductSelected($event)"></product-selector>

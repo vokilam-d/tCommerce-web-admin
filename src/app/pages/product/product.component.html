@@ -62,7 +62,7 @@
     </div>
 
     <fields-group class="product__group" [id]="'product-attributes'">
-      <div class="group-title">Атрибуты<span *ngIf="isMultiVariant"> (общие)</span></div>
+      <div fields-group-title>Атрибуты<span *ngIf="isMultiVariant"> (общие)</span></div>
 
       <ng-container *ngIf="form.get('attributes') as attributes">
         <attribute-select class="product__field"
@@ -85,7 +85,7 @@
                   [showHeader]="isMultiVariant"
     >
 
-      <div class="group-title" *ngIf="isMultiVariant">
+      <div fields-group-title *ngIf="isMultiVariant">
         Вариация {{ i + 1 }}<ng-container *ngIf="variantForm.get('name') as name"> - {{ name.value }}</ng-container>
       </div>
 
@@ -159,7 +159,7 @@
       </div>
 
       <fields-group class="product__group">
-        <div class="group-title">Контент</div>
+        <div fields-group-title>Контент</div>
 
         <div class="product__field field"
                *ngIf="variantForm.get('fullDescription') as fullDescription"
@@ -181,7 +181,7 @@
       </fields-group>
 
       <fields-group class="product__group">
-        <div class="group-title">SEO</div>
+        <div fields-group-title>SEO</div>
 
         <div class="product__field field"
                *ngIf="variantForm.get('slug') as slug"
@@ -221,7 +221,7 @@
       </fields-group>
 
       <fields-group class="product__group">
-        <div class="group-title">Картинки и видео</div>
+        <div fields-group-title>Картинки и видео</div>
 
         <div class="product__field media" *ngIf="variantForm.get('medias') as medias">
           <media-asset class="media__asset"
@@ -241,7 +241,7 @@
     </fields-group>
 
     <fields-group class="product__group">
-      <div class="group-title">Отзывы</div>
+      <div fields-group-title>Отзывы</div>
       In progress...
     </fields-group>
 

@@ -1,7 +1,7 @@
 <div class="group" [class.group--no-styles]="!showHeader" @blockInitialAnimation>
   <div class="group__header" *ngIf="showHeader" (click)="toggle()">
     <div class="group__title">
-      <ng-content select=".group-title"></ng-content>
+      <ng-content select="[fields-group-title]"></ng-content>
     </div>
 
     <div class="group__toggle"
@@ -11,7 +11,7 @@
     </div>
   </div>
 
-  <div class="group__content" [@slideToggle]="isOpened">
+  <div class="group__content" *ngIf="isOpened" @slideToggle>
     <ng-content></ng-content>
   </div>
 </div>

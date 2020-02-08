@@ -1,0 +1,47 @@
+<div class="page">
+  <header class="header page__header">
+    <h1 class="header__title">
+      Отзывы о товарах
+    </h1>
+
+    <div class="header__toolbar">
+      <button class="header__btn toolbar-main-btn" (click)="add()">Добавить отзыв</button>
+    </div>
+  </header>
+
+  <div class="page__list-info list-info">
+    <div class="list-info__total-items">
+      Всего отзывов: {{ itemsTotal }}
+    </div>
+    <pagination class="list-info__pagination" [pageCount]="pagesTotal" (change)="fetchProductReviews($event)"></pagination>
+  </div>
+
+  <div class="grid page__grid">
+    <div class="grid__container">
+
+      <div class="grid__head product-review">
+        <div class="grid__block product-review__name">Имя</div>
+        <div class="grid__block product-review__text">Текст</div>
+        <div class="grid__block product-review__status">Статус</div>
+      </div>
+
+      <div class="grid__body">
+        <a class="grid__row productReview"
+           *ngFor="let productReview of productReviews"
+           [routerLink]="['edit', productReview.id]"
+        >
+          <div class="grid__block product-review__name">
+            {{ productReview.name }}
+          </div>
+          <div class="grid__block product-review__text">
+            {{ productReview.text }}
+          </div>
+          <div class="grid__block product-review__status">
+            {{ productReview.isEnabled ? 'Включен' : 'Выключен' }}
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div>
