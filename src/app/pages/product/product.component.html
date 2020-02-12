@@ -241,8 +241,12 @@
     </fields-group>
 
     <fields-group class="product__group">
-      <div fields-group-title>Отзывы</div>
-      In progress...
+      <div fields-group-title>
+        Отзывы
+        <span *ngIf="product.reviewsCount"> ({{ product.reviewsCount }} - ср. оценка {{ product.reviewsAvgRating }})</span>
+      </div>
+
+      <reviews-viewer [productId]="product.id"></reviews-viewer>
     </fields-group>
 
   </form>

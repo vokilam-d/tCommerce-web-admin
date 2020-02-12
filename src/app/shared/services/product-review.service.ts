@@ -21,6 +21,13 @@ export class ProductReviewService {
     );
   }
 
+  fetchProductReviewsByProductId(productId: number): Observable<ResponseDto<ProductReviewDto[]>> {
+    return this.http.get<ResponseDto<ProductReviewDto[]>>(
+      'http://localhost:3500/api/v1/admin/product-reviews',
+      { params: toHttpParams({ productId })  }
+    );
+  }
+
   fetchProductReview(id: string): Observable<ResponseDto<ProductReviewDto>> {
     return this.http.get<ResponseDto<ProductReviewDto>>(`http://localhost:3500/api/v1/admin/product-reviews/${id}`);
   }

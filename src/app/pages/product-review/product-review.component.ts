@@ -181,8 +181,8 @@ export class ProductReviewComponent implements OnInit {
 
   onProductSelected({ product, variant }) {
     this.productReview.productId = product.id;
+    this.productReview.productName = product.name;
     this.productReview.productVariantId = variant.id;
-    this.productReview.productVariantName = variant.name;
     this.productSelectorCmp.hideSelector();
   }
 }

@@ -10,10 +10,11 @@ import { MediaUploaderModule } from '../../media-uploader/media-uploader.module'
 import { CategorySelectModule } from '../../category-select/category-select.module';
 import { AttributesEditorComponent } from './attribute-editor/attributes-editor.component';
 import { AngularEditorModule } from 'src/app/angular-editor/angular-editor.module';
+import { ReviewsViewerComponent } from './reviews-viewer/reviews-viewer.component';
 
 
 @NgModule({
-  declarations: [ProductComponent, AttributesEditorComponent],
+  declarations: [ProductComponent, AttributesEditorComponent, ReviewsViewerComponent],
   imports: [
     CommonModule,
     ProductRoutingModule,

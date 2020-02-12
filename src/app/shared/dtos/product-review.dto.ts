@@ -12,8 +12,8 @@ export class ProductReviewCommentDto {
 
 export class ProductReviewDto {
   productId: number;
+  productName: string;
   productVariantId: string;
-  productVariantName: string;
   id: string = '';
   isEnabled: boolean = true;
   name: string = '';

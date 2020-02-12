@@ -1,0 +1,8 @@
+<a class="review"
+   *ngFor="let review of reviews"
+   [routerLink]="['/admin/product-review/edit', review.id]"
+   target="_blank"
+>
+  Отзыв от <span class="review__name">{{ review.name }}</span>:
+  <div class="review__text">{{ review.text }}</div>
+</a>

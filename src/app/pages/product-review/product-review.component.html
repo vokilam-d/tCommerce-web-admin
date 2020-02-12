@@ -6,7 +6,7 @@
       </ng-container>
 
       <ng-container *ngSwitchCase="false">
-        Отзыв от {{ productReview?.name }} о товаре {{ productReview.productVariantName }}
+        Отзыв от {{ productReview?.name }} о товаре {{ productReview?.productName }}
       </ng-container>
     </h1>
 
@@ -32,7 +32,7 @@
               *ngIf="productReview.productId; else noProductSelected"
               (click)="openProductSelector()"
         >
-          #{{ productReview.productId }} - {{ productReview.productVariantName }}
+          #{{ productReview.productId }} - {{ productReview.productName }}
         </span>
 
         <ng-template #noProductSelected>

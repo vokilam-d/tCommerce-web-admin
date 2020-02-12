@@ -8,6 +8,8 @@ export class AddOrUpdateProductDto {
   attributes: ProductSelectedAttributeDto[] = [];
   variants: ProductVariantDto[] = [new ProductVariantDto()];
   sortOrder: number = 0;
+  reviewsCount: number;
+  reviewsAvgRating: number;
 }
 
 export class ProductDto extends AddOrUpdateProductDto {
