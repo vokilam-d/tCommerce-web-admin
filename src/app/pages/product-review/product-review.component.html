@@ -28,15 +28,26 @@
       <div class="field__label">Товар</div>
 
       <div class="field__control">
-        <span class="product-review__product-name"
-              *ngIf="productReview.productId; else noProductSelected"
-              (click)="openProductSelector()"
-        >
-          #{{ productReview.productId }} - {{ productReview.productName }}
-        </span>
+        <ng-container *ngIf="isNewProductReview; else updateReviewProductName">
+          <span class="product-review__product-name"
+                *ngIf="productReview.productId; else noProductSelected"
+                (click)="openProductSelector()"
+          >
+            #{{ productReview.productId }} - {{ productReview.productName }}
+          </span>
 
-        <ng-template #noProductSelected>
-          <app-button (click)="openProductSelector()">Выбрать товар</app-button>
+          <ng-template #noProductSelected>
+            <app-button (click)="openProductSelector()">Выбрать товар</app-button>
+          </ng-template>
+        </ng-container>
+
+        <ng-template #updateReviewProductName>
+          <a class="product-review__product-name"
+             [routerLink]="['/admin/product/edit', productReview.productId]"
+             target="_blank"
+          >
+            #{{ productReview.productId }} - {{ productReview.productName }}
+          </a>
         </ng-template>
       </div>
     </div>
