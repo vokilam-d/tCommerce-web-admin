@@ -16,4 +16,5 @@ export class ProductVariantDto {
   metaTags: MetaTagsDto = new MetaTagsDto();
   qty: number = 0;
   isDiscountApplicable: boolean = true;
+  salesCount: number;
 }
