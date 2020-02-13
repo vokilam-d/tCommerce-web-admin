@@ -1,12 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component, EventEmitter,
-  forwardRef,
-  Input,
-  OnInit,
-  Output
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
 import { ISelectOption } from './select-option.interface';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NgUnsubscribe } from '../../directives/ng-unsubscribe/ng-unsubscribe.directive';

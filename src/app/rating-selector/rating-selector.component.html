@@ -1,0 +1,11 @@
+<div class="rating">
+  <div class="rating__value"
+       *ngFor="let ratingValue of [5, 4, 3, 2, 1]"
+       [class.rating__value--disabled]="disabled"
+       [class.rating__value--selected]="ratingValue <= value"
+       [class.rating__value--small]="size === 'small'"
+       (click)="selectRating(ratingValue)"
+  >
+    ★
+  </div>
+</div>

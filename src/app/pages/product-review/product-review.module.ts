@@ -9,6 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../../shared/shared.module';
 import { OrderModule } from '../order/order.module';
 import { ProductSelectorModule } from '../../product-selector/product-selector.module';
+import { RatingSelectorModule } from '../../rating-selector/rating-selector.module';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { ProductSelectorModule } from '../../product-selector/product-selector.m
     ReactiveFormsModule,
     SharedModule,
     OrderModule,
-    ProductSelectorModule
+    ProductSelectorModule,
+    RatingSelectorModule
   ]
 })
 export class ProductReviewModule { }

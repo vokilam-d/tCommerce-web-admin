@@ -76,8 +76,9 @@ export class StoreReviewComponent implements OnInit {
       email: this.storeReview.email,
       sortOrder: this.storeReview.sortOrder,
       managerComment: this.storeReview.managerComment,
+      rating: [this.storeReview.rating],
       createdAt: formatDate(this.storeReview.createdAt, 'yyyy-MM-ddThh:mm:ss', 'en'),
-      medias: [this.storeReview.medias],
+      medias: [this.storeReview.medias]
     });
   }
 

@@ -11,6 +11,7 @@ import { CategorySelectModule } from '../../category-select/category-select.modu
 import { AttributesEditorComponent } from './attribute-editor/attributes-editor.component';
 import { AngularEditorModule } from 'src/app/angular-editor/angular-editor.module';
 import { ReviewsViewerComponent } from './reviews-viewer/reviews-viewer.component';
+import { RatingSelectorModule } from '../../rating-selector/rating-selector.module';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { ReviewsViewerComponent } from './reviews-viewer/reviews-viewer.componen
     MediaAssetModule,
     MediaUploaderModule,
     AngularEditorModule,
-    CategorySelectModule
+    CategorySelectModule,
+    RatingSelectorModule
   ],
   providers: []
 })

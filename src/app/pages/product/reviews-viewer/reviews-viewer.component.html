@@ -4,5 +4,8 @@
    target="_blank"
 >
   Отзыв от <span class="review__name">{{ review.name }}</span>:
+
+  <rating-selector class="review__rating" [(ngModel)]="review.rating" [disabled]="true" size="small"></rating-selector>
+
   <div class="review__text">{{ review.text }}</div>
 </a>

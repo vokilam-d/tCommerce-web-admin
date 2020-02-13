@@ -1,0 +1,33 @@
+@import "variables";
+
+.rating {
+  width: fit-content;
+  display: flex;
+  flex-direction: row-reverse;
+
+  &__value {
+    font-size: 20px;
+    padding: 3px 2px;
+    transition: color 0.2s ease;
+    cursor: pointer;
+    color: $dark;
+
+    &:last-child {
+      margin-left: 0;
+    }
+
+    &--small {
+      font-size: 14px;
+      padding: 0;
+    }
+
+    &:not(&--disabled):hover,
+    &:not(&--disabled):hover ~ & {
+      color: $primary;
+    }
+
+    &--selected {
+      color: $primary;
+    }
+  }
+}

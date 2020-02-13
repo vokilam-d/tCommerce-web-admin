@@ -6,6 +6,7 @@ import { StoreReviewComponent } from './store-review.component';
 import { MediaAssetModule } from '../../media-asset/media-asset.module';
 import { MediaUploaderModule } from '../../media-uploader/media-uploader.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RatingSelectorModule } from '../../rating-selector/rating-selector.module';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     StoreReviewRoutingModule,
     MediaAssetModule,
     MediaUploaderModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RatingSelectorModule
   ]
 })
 export class StoreReviewModule { }

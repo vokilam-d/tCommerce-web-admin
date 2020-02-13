@@ -94,6 +94,7 @@ export class ProductReviewComponent implements OnInit {
       email: this.productReview.email,
       sortOrder: this.productReview.sortOrder,
       medias: [this.productReview.medias],
+      rating: [this.productReview.rating],
       createdAt: formatDate(this.productReview.createdAt, 'yyyy-MM-ddThh:mm:ss', 'en'),
       comments: commentsFormArray
     });
