@@ -15,12 +15,14 @@
   }
 
   &__thumbnail {
+    padding: 10px 5px;
     width: 95px;
     text-align: center;
+    justify-content: center;
   }
 
   &__thumbnail-img {
-    max-height: 50px;
+    max-height: 40px;
   }
 
   &__name {

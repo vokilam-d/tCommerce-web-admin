@@ -23,6 +23,7 @@
         <div class="grid__block store-review__name">Имя</div>
         <div class="grid__block store-review__text">Текст</div>
         <div class="grid__block store-review__status">Статус</div>
+        <div class="grid__block store-review__comment">Ответ менеджера</div>
       </div>
 
       <div class="grid__body">
@@ -38,6 +39,9 @@
           </div>
           <div class="grid__block store-review__status">
             {{ storeReview.isEnabled ? 'Включен' : 'Выключен' }}
+          </div>
+          <div class="grid__block store-review__comment">
+            {{ storeReview.managerComment }}
           </div>
         </a>
       </div>
