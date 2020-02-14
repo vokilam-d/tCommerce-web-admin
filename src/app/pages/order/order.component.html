@@ -192,20 +192,9 @@
       </div>
 
       <div class="order__field field">
-        <label class="field__label" for="isCallbackNeeded">Нужно ли связываться с клиентом для подтверждения заказа?</label>
+        <label class="field__label">Нужно ли связываться с клиентом для подтверждения заказа?</label>
         <div class="field__control">
-          <label class="switcher">
-            <input class="switcher__input"
-                   [(ngModel)]="order.isCallbackNeeded"
-                   type="checkbox"
-                   id="isCallbackNeeded"
-            >
-            <span class="switcher__control" [class.switcher__control--active]="order.isCallbackNeeded"></span>
-            <span class="switcher__description">
-              <ng-container *ngIf="order.isCallbackNeeded; else isEnabledFalseText">Да</ng-container>
-              <ng-template #isEnabledFalseText>Нет</ng-template>
-            </span>
-          </label>
+          <toggle [(ngModel)]="order.isCallbackNeeded"></toggle>
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-<div class="media">
+<div class="media" (click)="showDetails()">
   <img class="media__img" [src]="'http://localhost:3500' + media.variantsUrls.original" [alt]="media.altText">
 
   <div class="media__remove" (click)="remove()">
@@ -7,5 +7,47 @@
 
   <div class="media__info">
     {{ media.dimensions }}, {{ media.size }}
+  </div>
+
+  <div class="media__is-hidden" *ngIf="media.isHidden">Скрыто</div>
+</div>
+
+<div class="details-overlay" *ngIf="isDetailsVisible" (click)="hideDetails()"></div>
+<div class="details" *ngIf="isDetailsVisible">
+  <header class="details__header">
+    <div class="details__title">Детали</div>
+
+    <button class="details__close" (click)="hideDetails()" type="button">
+      <i class="ai ai-multiply details__close-icon"></i>
+    </button>
+  </header>
+
+  <div class="details__container">
+    <div class="details__img-container">
+      <img class="details__img" [src]="'http://localhost:3500' + media.variantsUrls.original" [alt]="media.altText">
+    </div>
+
+    <div class="details__info">
+      <label class="details__row">
+        <span class="details__label">Alt text</span>
+        <span class="details__value">
+          <textarea class="field__textarea" [(ngModel)]="media.altText"></textarea>
+        </span>
+      </label>
+      <div class="details__row">
+        <div class="details__label">Вес</div>
+        <div class="details__value">{{ media.size }}</div>
+      </div>
+      <div class="details__row">
+        <div class="details__label">Размеры</div>
+        <div class="details__value">{{ media.dimensions }}</div>
+      </div>
+      <div class="details__row">
+        <div class="details__label">Скрыть со страницы товара?</div>
+        <div class="details__value">
+          <toggle [(ngModel)]="media.isHidden"></toggle>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

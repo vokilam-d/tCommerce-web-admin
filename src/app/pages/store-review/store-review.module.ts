@@ -7,6 +7,7 @@ import { MediaAssetModule } from '../../media-asset/media-asset.module';
 import { MediaUploaderModule } from '../../media-uploader/media-uploader.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RatingSelectorModule } from '../../rating-selector/rating-selector.module';
+import { SharedModule } from '../../shared/shared.module';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { RatingSelectorModule } from '../../rating-selector/rating-selector.modu
     MediaAssetModule,
     MediaUploaderModule,
     ReactiveFormsModule,
-    RatingSelectorModule
+    RatingSelectorModule,
+    SharedModule
   ]
 })
 export class StoreReviewModule { }

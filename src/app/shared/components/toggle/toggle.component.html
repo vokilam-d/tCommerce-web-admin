@@ -1,0 +1,8 @@
+<div class="toggle">
+  <span class="toggle__control" [class.toggle__control--active]="value" (click)="toggleValue()"></span>
+
+  <span class="toggle__description">
+    <ng-container *ngIf="value; else isDefaultFalseText">Да</ng-container>
+    <ng-template #isDefaultFalseText>Нет</ng-template>
+  </span>
+</div>

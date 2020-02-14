@@ -8,6 +8,7 @@ import { MediaDto } from '../shared/dtos/media.dto';
 })
 export class MediaAssetComponent implements OnInit {
 
+  isDetailsVisible: boolean = false;
   @Input() media: MediaDto;
   @Output('remove') removeEmitter = new EventEmitter<MediaDto>();
 
@@ -18,5 +19,13 @@ export class MediaAssetComponent implements OnInit {
 
   remove() {
     this.removeEmitter.emit(this.media);
+  }
+
+  showDetails() {
+    this.isDetailsVisible = true;
+  }
+
+  hideDetails() {
+    this.isDetailsVisible = false;
   }
 }

@@ -7,6 +7,7 @@ import { CategoryComponent } from './category/category.component';
 import { CategoriesService } from './categories.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularEditorModule } from '../../angular-editor/angular-editor.module';
+import { SharedModule } from '../../shared/shared.module';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { AngularEditorModule } from '../../angular-editor/angular-editor.module'
     CategoriesRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-    AngularEditorModule
+    AngularEditorModule,
+    SharedModule
   ],
   providers: [
     CategoriesService

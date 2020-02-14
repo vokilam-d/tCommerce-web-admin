@@ -46,20 +46,9 @@
       <div class="method-form__field field"
            *ngIf="form.get('isEnabled') as isEnabled"
       >
-        <label class="field__label" for="isEnabled">Включить способ доставки</label>
+        <label class="field__label">Включить способ доставки</label>
         <div class="field__control">
-          <label class="switcher">
-            <input class="switcher__input"
-                   [formControl]="isEnabled"
-                   type="checkbox"
-                   id="isEnabled"
-            >
-            <span class="switcher__control" [class.switcher__control--active]="isEnabled.value"></span>
-            <span class="switcher__description">
-              <ng-container *ngIf="isEnabled.value; else isEnabledFalseText">Да</ng-container>
-              <ng-template #isEnabledFalseText>Нет</ng-template>
-            </span>
-          </label>
+          <toggle [formControl]="isEnabled"></toggle>
         </div>
       </div>
 

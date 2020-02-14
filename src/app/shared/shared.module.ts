@@ -8,6 +8,7 @@ import { NgUnsubscribe } from './directives/ng-unsubscribe/ng-unsubscribe.direct
 import { TabsComponent } from './components/tabs/tabs.component';
 import { ButtonComponent } from './components/button/button.component';
 import { NumberInputDirective } from './directives/number-input/number-input.directive';
+import { ToggleComponent } from './components/toggle/toggle.component';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { NumberInputDirective } from './directives/number-input/number-input.dir
     NgUnsubscribe,
     TabsComponent,
     ButtonComponent,
-    NumberInputDirective
+    NumberInputDirective,
+    ToggleComponent
   ],
   exports: [
     ClickOutsideDirective,
@@ -29,7 +31,8 @@ import { NumberInputDirective } from './directives/number-input/number-input.dir
     NgUnsubscribe,
     TabsComponent,
     ButtonComponent,
-    NumberInputDirective
+    NumberInputDirective,
+    ToggleComponent
   ],
   imports: [
     CommonModule

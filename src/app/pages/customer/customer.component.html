@@ -169,20 +169,9 @@
           <div class="address-form__field field"
                *ngIf="addressForm.get('isDefault') as isDefault"
           >
-            <label class="field__label" for="isDefault">По умолчанию</label>
+            <label class="field__label">По умолчанию</label>
             <div class="field__control">
-              <label class="switcher">
-                <input class="switcher__input"
-                       [formControl]="isDefault"
-                       type="checkbox"
-                       id="isDefault"
-                >
-                <span class="switcher__control" [class.switcher__control--active]="isDefault.value"></span>
-                <span class="switcher__description">
-                  <ng-container *ngIf="isDefault.value; else isDefaultFalseText">Да</ng-container>
-                  <ng-template #isDefaultFalseText>Нет</ng-template>
-                </span>
-              </label>
+              <toggle [formControl]="isDefault"></toggle>
             </div>
           </div>
 

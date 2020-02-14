@@ -2,19 +2,18 @@ import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
-  selector: 'rating-selector',
-  templateUrl: './rating-selector.component.html',
-  styleUrls: ['./rating-selector.component.scss'],
+  selector: 'toggle',
+  templateUrl: './toggle.component.html',
+  styleUrls: ['./toggle.component.scss'],
   providers: [{
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => RatingSelectorComponent),
+    useExisting: forwardRef(() => ToggleComponent),
     multi: true
   }]
 })
-export class RatingSelectorComponent implements OnInit, ControlValueAccessor {
+export class ToggleComponent implements OnInit, ControlValueAccessor {
 
-  value: number;
-  @Input() size: 'default' | 'small' = 'default';
+  value: boolean;
   @Input() disabled: boolean = false;
 
   constructor() { }
@@ -43,12 +42,11 @@ export class RatingSelectorComponent implements OnInit, ControlValueAccessor {
     this.onChange(value);
   }
 
-  selectRating(rating: number) {
+  toggleValue() {
     if (this.disabled) {
       return;
     }
-    this.writeValue(rating);
+    this.writeValue(!this.value);
     this.onTouched();
   }
-
 }

@@ -1,13 +1,10 @@
-.switcher {
+@import "variables";
+
+.toggle {
   display: flex;
   align-items: center;
-  cursor: pointer;
 
-  .switcher__input {
-    display: none;
-  }
-
-  .switcher__control {
+  &__control {
     position: relative;
     display: inline-block;
     width: 37px;
@@ -15,6 +12,7 @@
     background: $controlBg;
     border: 1px solid #bbb;
     border-radius: 40px;
+    cursor: pointer;
 
     &::after {
       position: absolute;
@@ -40,6 +38,7 @@
   }
 
   &__description {
+    display: inline-block;
     margin: 0 0 0 10px;
   }
 }

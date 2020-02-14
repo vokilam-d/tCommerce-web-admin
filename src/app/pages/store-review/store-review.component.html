@@ -27,20 +27,9 @@
          *ngIf="reviewForm.get('isEnabled') as isEnabled"
          [class.field--invalid]="isControlInvalid(isEnabled)"
     >
-      <label class="field__label" for="isEnabled">Включить отзыв</label>
+      <label class="field__label">Включить отзыв</label>
       <div class="field__control">
-        <label class="switcher">
-          <input class="switcher__input"
-                 [formControl]="isEnabled"
-                 type="checkbox"
-                 id="isEnabled"
-          >
-          <span class="switcher__control" [class.switcher__control--active]="isEnabled.value"></span>
-          <span class="switcher__description">
-            <ng-container *ngIf="isEnabled.value; else isEnabledFalseText">Да</ng-container>
-            <ng-template #isEnabledFalseText>Нет</ng-template>
-          </span>
-        </label>
+        <toggle [formControl]="isEnabled"></toggle>
       </div>
     </div>
 
