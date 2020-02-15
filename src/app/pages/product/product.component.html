@@ -144,7 +144,7 @@
         >
           <label class="field__label" [for]="'desc-' + i">Описание</label>
           <span class="field__control">
-            <angular-editor [formControl]="fullDescription" [config]="editorConfig" [id]="'desc-' + i"></angular-editor>
+            <quill-editor [formControl]="fullDescription" [id]="'desc-' + i" [modules]="quillModules"></quill-editor>
           </span>
         </div>
 

@@ -28,6 +28,7 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/quill/dist/quill.snow.css",
               "src/assets/styles/main.scss"
             ],
             "stylePreprocessorOptions": {
@@ -35,7 +36,9 @@
                 "src/assets/styles/abstracts"
               ]
             },
-            "scripts": []
+            "scripts": [
+              "node_modules/quill/dist/quill.min.js"
+            ]
           },
           "configurations": {
             "production": {

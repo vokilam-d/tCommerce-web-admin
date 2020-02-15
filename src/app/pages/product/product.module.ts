@@ -12,6 +12,7 @@ import { AttributesEditorComponent } from './attribute-editor/attributes-editor.
 import { AngularEditorModule } from 'src/app/angular-editor/angular-editor.module';
 import { ReviewsViewerComponent } from './reviews-viewer/reviews-viewer.component';
 import { RatingSelectorModule } from '../../rating-selector/rating-selector.module';
+import { QuillModule } from 'ngx-quill';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { RatingSelectorModule } from '../../rating-selector/rating-selector.modu
     MediaUploaderModule,
     AngularEditorModule,
     CategorySelectModule,
-    RatingSelectorModule
+    RatingSelectorModule,
+    QuillModule
   ],
   providers: []
 })

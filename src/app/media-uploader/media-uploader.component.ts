@@ -2,6 +2,7 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild }
 import { HttpClient } from '@angular/common/http';
 import { finalize } from 'rxjs/operators';
 import { MediaDto } from '../shared/dtos/media.dto';
+import { inputMediaAcceptTypes } from '../shared/constants/constants';
 
 @Component({
   selector: 'media-uploader',
@@ -13,11 +14,15 @@ export class MediaUploaderComponent implements OnInit {
   @Input() uploadUrl: string;
   @Output('uploaded') uploadedEmitter = new EventEmitter<MediaDto>();
   @ViewChild('input') inputRef: ElementRef<HTMLInputElement>;
+  acceptTypes: string = inputMediaAcceptTypes;
 
   constructor(private http: HttpClient) {
   }
 
   ngOnInit() {
+    if (!this.uploadUrl) {
+      throw new Error(`Input property 'uploadUrl' is mandatory`);
+    }
   }
 
   onInputChange(files: FileList) {

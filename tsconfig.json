@@ -14,9 +14,7 @@
     "typeRoots": [
       "node_modules/@types"
     ],
-    "paths": {
-      "@shared/*": ["../shared/*"]
-    },
+    "allowSyntheticDefaultImports": true,
     "lib": [
       "es2018",
       "dom"

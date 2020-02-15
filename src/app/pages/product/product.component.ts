@@ -7,6 +7,8 @@ import { MediaDto } from '../../shared/dtos/media.dto';
 import { ProductDto } from '../../shared/dtos/product.dto';
 import { NotyService } from '../../noty/noty.service';
 import { AngularEditorConfig } from '../../angular-editor/config';
+import { QuillHelperService } from '../../shared/services/quill-helper.service';
+import { QuillModules } from 'ngx-quill';
 
 @Component({
   selector: 'product',
@@ -18,13 +20,7 @@ export class ProductComponent implements OnInit {
   isNewProduct: boolean;
   product: ProductDto;
   form: FormGroup;
-  editorConfig: AngularEditorConfig = {
-    editable: true,
-    minHeight: '5rem',
-    outline: false,
-    showToolbar: true,
-    toolbarHiddenButtons: [['subscript', 'superscript', 'indent', 'outdent', 'fontName', 'textColor', 'backgroundColor', 'customClasses']]
-  };
+  quillModules: QuillModules = this.quillHelperService.getEditorModules();
 
   get variantsFormArray() { return this.form.get('variants') as FormArray; }
   get isMultiVariant(): boolean { return this.variantsFormArray.controls.length > 1 }
@@ -32,6 +28,7 @@ export class ProductComponent implements OnInit {
   constructor(private productsService: ProductService,
               private formBuilder: FormBuilder,
               private router: Router,
+              private quillHelperService: QuillHelperService,
               private notyService: NotyService,
               private route: ActivatedRoute) {
   }
@@ -112,6 +109,10 @@ export class ProductComponent implements OnInit {
       attributes: [this.product.attributes],
       variants: variantsFormArray
     });
+
+    this.form.valueChanges.subscribe(value => {
+      console.log(value.variants[0].fullDescription);
+    })
   }
 
   private fetchProduct() {
