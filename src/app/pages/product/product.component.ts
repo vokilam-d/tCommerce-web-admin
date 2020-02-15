@@ -109,10 +109,6 @@ export class ProductComponent implements OnInit {
       attributes: [this.product.attributes],
       variants: variantsFormArray
     });
-
-    this.form.valueChanges.subscribe(value => {
-      console.log(value.variants[0].fullDescription);
-    })
   }
 
   private fetchProduct() {
