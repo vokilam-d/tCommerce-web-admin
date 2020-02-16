@@ -157,6 +157,10 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'emails-test',
+        loadChildren: () => import('./pages/emails-test/emails-test.module').then(m => m.EmailsTestModule)
+      },
+      {
         path: '**',
         loadChildren: () => import('./pages/not-found/not-found.module').then(m => m.NotFoundModule)
       }
