@@ -22,11 +22,12 @@
       <div class="grid__head product-review">
         <div class="grid__block product-review__name">Имя</div>
         <div class="grid__block product-review__text">Текст</div>
+        <div class="grid__block product-review__rating">Оценка</div>
         <div class="grid__block product-review__status">Статус</div>
       </div>
 
       <div class="grid__body">
-        <a class="grid__row productReview"
+        <a class="grid__row product-review"
            *ngFor="let productReview of productReviews"
            [routerLink]="['edit', productReview.id]"
         >
@@ -35,6 +36,9 @@
           </div>
           <div class="grid__block product-review__text">
             {{ productReview.text }}
+          </div>
+          <div class="grid__block product-review__rating">
+            {{ productReview.rating }}
           </div>
           <div class="grid__block product-review__status">
             {{ productReview.isEnabled ? 'Включен' : 'Выключен' }}

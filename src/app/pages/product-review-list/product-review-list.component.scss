@@ -15,10 +15,14 @@
   }
 
   &__text {
-    width: 300px;
+    width: 400px;
+  }
+
+  &__rating {
+    width: 50px;
   }
 
   &__status {
-    width: 100px;
+    width: 80px;
   }
 }
