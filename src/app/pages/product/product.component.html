@@ -92,7 +92,7 @@
            *ngIf="variantForm.get('sku') as sku"
            [class.field--invalid]="isControlInvalid(sku)"
       >
-        <label class="field__label" [for]="'sku-' + i">Артикул</label>
+        <label class="field__label" [for]="'sku-' + i">Код</label>
         <span class="field__control">
           <input class="field__input" [formControl]="sku" [id]="'sku-' + i" type="text">
         </span>
@@ -103,8 +103,21 @@
              [class.field--invalid]="isControlInvalid(price)"
       >
         <label class="field__label" [for]="'price-' + i">Цена</label>
-        <span class="field__control">
-          <input class="field__input" [formControl]="price" [id]="'price-' + i" type="text">
+        <span class="field__control price">
+          <input class="field__input price__input" [formControl]="price" [id]="'price-' + i" type="text">
+
+          <select class="price__currency"
+                  *ngIf="variantForm.get('currency') as currency"
+                  [formControl]="currency"
+                  name="currency"
+          >
+            <option [value]="currencies.UAH">грн</option>
+            <option [value]="currencies.EUR">€</option>
+          </select>
+
+          <span class="price__default-currency" *ngIf="!isDefaultCurrency(i)">
+            {{ product.variants[0].priceInDefaultCurrency }} грн
+          </span>
         </span>
       </div>
 
@@ -114,6 +127,36 @@
         <label class="field__label" [for]="'qty-' + i">Количество</label>
         <span class="field__control">
           <input class="field__input" [formControl]="qty" [id]="'qty-' + i" type="number">
+        </span>
+      </div>
+
+      <div class="product__field field"
+           *ngIf="variantForm.get('vendorCode') as vendorCode"
+           [class.field--invalid]="isControlInvalid(vendorCode)"
+      >
+        <label class="field__label" [for]="'vendorCode-' + i">Артикул</label>
+        <span class="field__control">
+          <input class="field__input" [formControl]="vendorCode" [id]="'vendorCode-' + i" type="text">
+        </span>
+      </div>
+
+      <div class="product__field field"
+           *ngIf="variantForm.get('gtin') as gtin"
+           [class.field--invalid]="isControlInvalid(gtin)"
+      >
+        <label class="field__label" [for]="'gtin-' + i">GTIN</label>
+        <span class="field__control">
+          <input class="field__input" [formControl]="gtin" [id]="'gtin-' + i" type="text">
+        </span>
+      </div>
+
+      <div class="product__field field"
+           *ngIf="variantForm.get('googleAdsProductTitle') as googleAdsProductTitle"
+           [class.field--invalid]="isControlInvalid(googleAdsProductTitle)"
+      >
+        <label class="field__label" [for]="'googleAdsProductTitle-' + i">Google product ads название товара</label>
+        <span class="field__control">
+          <input class="field__input" [formControl]="googleAdsProductTitle" [id]="'googleAdsProductTitle-' + i" type="text">
         </span>
       </div>
 

@@ -6,9 +6,9 @@ import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Valida
 import { MediaDto } from '../../shared/dtos/media.dto';
 import { ProductDto } from '../../shared/dtos/product.dto';
 import { NotyService } from '../../noty/noty.service';
-import { AngularEditorConfig } from '../../angular-editor/config';
 import { QuillHelperService } from '../../shared/services/quill-helper.service';
 import { QuillModules } from 'ngx-quill';
+import { DEFAULT_CURRENCY, ECurrency } from '../../shared/enums/currency.enum';
 
 @Component({
   selector: 'product',
@@ -20,6 +20,7 @@ export class ProductComponent implements OnInit {
   isNewProduct: boolean;
   product: ProductDto;
   form: FormGroup;
+  currencies = ECurrency;
   quillModules: QuillModules = this.quillHelperService.getEditorModules();
 
   get variantsFormArray() { return this.form.get('variants') as FormArray; }
@@ -87,6 +88,10 @@ export class ProductComponent implements OnInit {
         attributes: [variant.attributes],
         isEnabled: variant.isEnabled,
         price: [variant.price, Validators.required],
+        currency: [variant.currency],
+        vendorCode: [variant.vendorCode],
+        gtin: [variant.gtin],
+        googleAdsProductTitle: [variant.googleAdsProductTitle],
         medias: [variant.medias],
         fullDescription: variant.fullDescription,
         shortDescription: variant.shortDescription,
@@ -193,5 +198,9 @@ export class ProductComponent implements OnInit {
 
   goBack() {
     this.router.navigate(['admin', 'product']);
+  }
+
+  isDefaultCurrency(variantIdx: number): boolean {
+    return this.product.variants[variantIdx].currency === DEFAULT_CURRENCY;
   }
 }

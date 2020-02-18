@@ -1,3 +1,5 @@
+@import "variables";
+
 .product {
   margin: 40px 0 0;
 
@@ -28,5 +30,23 @@
 
   &__asset {
     margin: 0 25px 0 0;
+  }
+}
+
+.price {
+  display: flex;
+  align-items: center;
+
+  &__input {
+    width: 100px;
+  }
+
+  &__currency {
+    margin: 0 0 0 10px;
+  }
+
+  &__default-currency {
+    margin: 0 0 0 20px;
+    color: rgba($dark, 0.6);
   }
 }
