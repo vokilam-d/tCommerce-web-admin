@@ -1,0 +1,70 @@
+<div class="page currencies">
+  <div class="currencies__sidebar list">
+    <app-button class="list__add-btn" (click)="updateExchangeRates()">
+      Обновить курс валют
+    </app-button>
+
+    <div class="list__currencies">
+      <div class="list__currency"
+           *ngIf="!currencies.length; else hasCurrencysTmpl"
+      >
+        Нет способов доставки
+      </div>
+
+      <ng-template #hasCurrencysTmpl>
+        <button class="list__currency"
+                *ngFor="let currency of currencies"
+                [class.list__currency--active]="currency === activeCurrency"
+                (click)="selectCurrency(currency)"
+        >
+          {{ currency.id }}
+        </button>
+      </ng-template>
+    </div>
+  </div>
+
+  <div class="currencies__content" *ngIf="activeCurrency">
+
+    <div class="header">
+      <h1 class="header__title">
+        Валюта {{ activeCurrency.id }}
+      </h1>
+
+      <div class="header__toolbar">
+        <button class="header__btn toolbar-main-btn" (click)="updateCurrency()" type="button">
+          Сохранить
+        </button>
+      </div>
+    </div>
+
+    <div class="currency form">
+      <div class="currency__field field">
+        <label class="field__label">Код</label>
+        <div class="field__control currency__code">
+          {{ activeCurrency.id }}
+        </div>
+      </div>
+
+      <div class="currency__field field">
+        <label class="field__label" for="rate">Курс</label>
+        <div class="field__control">
+          <input class="field__input currency__rate"
+                 [(ngModel)]="activeCurrency.exchangeRate"
+                 type="number"
+                 min="0"
+                 id="rate"
+          >
+        </div>
+      </div>
+
+      <div class="currency__field field">
+        <div class="field__label">Последнее обновление:</div>
+        <div class="field__control currency__update-date">
+          {{ activeCurrency.updatedAt | date:'d MMM y, HH:mm:ss' }}
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

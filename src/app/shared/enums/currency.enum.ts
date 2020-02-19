@@ -1,7 +1,7 @@
-export enum ECurrency {
-  UAH = 'UAH',
-  EUR = 'EUR',
-  USD = 'USD'
+export enum ECurrencyCode {
+  UAH = 'uah',
+  EUR = 'eur',
+  USD = 'usd'
 }
 
-export const DEFAULT_CURRENCY: ECurrency = ECurrency.UAH;
+export const DEFAULT_CURRENCY_CODE: ECurrencyCode = ECurrencyCode.UAH;

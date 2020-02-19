@@ -8,7 +8,7 @@ import { ProductDto } from '../../shared/dtos/product.dto';
 import { NotyService } from '../../noty/noty.service';
 import { QuillHelperService } from '../../shared/services/quill-helper.service';
 import { QuillModules } from 'ngx-quill';
-import { DEFAULT_CURRENCY, ECurrency } from '../../shared/enums/currency.enum';
+import { DEFAULT_CURRENCY_CODE, ECurrencyCode } from '../../shared/enums/currency.enum';
 
 @Component({
   selector: 'product',
@@ -20,7 +20,7 @@ export class ProductComponent implements OnInit {
   isNewProduct: boolean;
   product: ProductDto;
   form: FormGroup;
-  currencies = ECurrency;
+  currencies = ECurrencyCode;
   quillModules: QuillModules = this.quillHelperService.getEditorModules();
 
   get variantsFormArray() { return this.form.get('variants') as FormArray; }
@@ -201,6 +201,6 @@ export class ProductComponent implements OnInit {
   }
 
   isDefaultCurrency(variantIdx: number): boolean {
-    return this.product.variants[variantIdx].currency === DEFAULT_CURRENCY;
+    return this.product.variants[variantIdx].currency === DEFAULT_CURRENCY_CODE;
   }
 }

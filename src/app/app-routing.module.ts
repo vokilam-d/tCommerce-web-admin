@@ -161,6 +161,10 @@ const routes: Routes = [
         loadChildren: () => import('./pages/emails-test/emails-test.module').then(m => m.EmailsTestModule)
       },
       {
+        path: 'currency',
+        loadChildren: () => import('./pages/currency/currency.module').then(m => m.CurrencyModule)
+      },
+      {
         path: '**',
         loadChildren: () => import('./pages/not-found/not-found.module').then(m => m.NotFoundModule)
       }
