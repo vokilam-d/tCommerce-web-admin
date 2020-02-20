@@ -5,6 +5,7 @@ import { ProductDto } from '../../shared/dtos/product.dto';
 import { NotyService } from '../../noty/noty.service';
 import { IPagination } from '../../pagination/pagination.interface';
 import { PaginationComponent } from '../../pagination/pagination.component';
+import { saveFile } from '../../shared/helpers/save-file.function';
 
 @Component({
   selector: 'product-list',
@@ -48,5 +49,15 @@ export class ProductListComponent implements OnInit, AfterViewInit {
         },
         error => console.warn(error)
       );
+  }
+
+  downloadShoppingFeed() {
+    const url = this.productsService.getGoogleShoppingFeedUrl();
+    saveFile(url);
+  }
+
+  downloadReviewsFeed() {
+    const url = this.productsService.getGoogleReviewsFeedUrl();
+    saveFile(url);
   }
 }

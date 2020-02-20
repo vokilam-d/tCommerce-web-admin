@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ProductListRoutingModule } from './product-list-routing.module';
 import { ProductListComponent } from './product-list.component';
 import { PaginationModule } from '../../pagination/pagination.module';
+import { SharedModule } from '../../shared/shared.module';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { PaginationModule } from '../../pagination/pagination.module';
   imports: [
     CommonModule,
     ProductListRoutingModule,
-    PaginationModule
+    PaginationModule,
+    SharedModule
   ],
   providers: []
 })

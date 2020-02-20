@@ -36,4 +36,12 @@ export class ProductService {
   deleteProduct(id: number) {
     return this.http.delete<any>(`http://localhost:3500/api/v1/admin/products/${id}`);
   }
+
+  getGoogleShoppingFeedUrl(): string {
+    return `http://localhost:3500/api/v1/admin/google/shopping-feed`;
+  }
+
+  getGoogleReviewsFeedUrl(): string {
+    return `http://localhost:3500/api/v1/admin/google/reviews-feed`;
+  }
 }
