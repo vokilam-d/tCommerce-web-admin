@@ -6,6 +6,7 @@ import { CustomerDto } from '../../shared/dtos/customer.dto';
 import { CustomerService } from '../../shared/services/customer.service';
 import { NotyService } from '../../noty/noty.service';
 import { AddressFormComponent } from '../../address-form/address-form.component';
+import { saveFile } from '../../shared/helpers/save-file.function';
 
 @Component({
   selector: 'order-view',
@@ -104,10 +105,7 @@ export class OrderViewComponent implements OnInit {
 
   printOrder() {
     const url = this.orderService.getPrintOrderUrl(this.order.id);
-    const linkEl = document.createElement('a');
-    linkEl.setAttribute('download', '');
-    linkEl.setAttribute('href', url);
-    linkEl.click();
+    saveFile(url);
   }
 
   editOrder() {

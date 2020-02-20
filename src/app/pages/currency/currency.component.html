@@ -6,12 +6,12 @@
 
     <div class="list__currencies">
       <div class="list__currency"
-           *ngIf="!currencies.length; else hasCurrencysTmpl"
+           *ngIf="!currencies.length; else hasCurrenciesTmpl"
       >
-        Нет способов доставки
+        Нет курсов валют
       </div>
 
-      <ng-template #hasCurrencysTmpl>
+      <ng-template #hasCurrenciesTmpl>
         <button class="list__currency"
                 *ngFor="let currency of currencies"
                 [class.list__currency--active]="currency === activeCurrency"

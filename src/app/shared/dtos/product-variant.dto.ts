@@ -1,7 +1,7 @@
 import { ProductSelectedAttributeDto } from './selected-attribute.dto';
 import { MediaDto } from './media.dto';
 import { MetaTagsDto } from './meta-tags.dto';
-import { ECurrencyCode } from '../enums/currency.enum';
+import { DEFAULT_CURRENCY_CODE, ECurrencyCode } from '../enums/currency.enum';
 
 export class ProductVariantDto {
   id: string = '';
@@ -13,7 +13,7 @@ export class ProductVariantDto {
   attributes: ProductSelectedAttributeDto[] = [];
   isEnabled: boolean = false;
   price: number = 0;
-  currency: ECurrencyCode;
+  currency: ECurrencyCode = DEFAULT_CURRENCY_CODE;
   priceInDefaultCurrency: number;
   medias: MediaDto[] = [];
   fullDescription: string = '';
