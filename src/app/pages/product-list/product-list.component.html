@@ -5,65 +5,42 @@
     </h1>
 
     <div class="header__toolbar">
-      <app-button class="header__btn toolbar-btn" (click)="downloadShoppingFeed()">Скачать Shopping Products feed</app-button>
-      <app-button class="header__btn toolbar-btn" (click)="downloadReviewsFeed()">Скачать Reviews feed</app-button>
+      <app-button class="header__btn" (click)="downloadShoppingFeed()">Скачать Shopping Products feed</app-button>
+      <app-button class="header__btn" (click)="downloadReviewsFeed()">Скачать Reviews feed</app-button>
       <button class="header__btn toolbar-main-btn" (click)="add()" type="button">Добавить товар</button>
     </div>
   </header>
 
-  <div class="page__list-info list-info">
-    <div class="list-info__total-items">
-      Всего товаров: {{ itemsTotal }}
-    </div>
-    <pagination class="list-info__pagination" [pageCount]="pagesTotal" (change)="fetchProducts($event)"></pagination>
-  </div>
+  <grid class="page__grid"
+        [cells]="gridCells"
+        [itemsArray]="products"
+        [linkUrl]="gridLinkUrl"
+        [pagesTotal]="pagesTotal"
+        [isLoading]="isGridLoading"
+        (gridChange)="onGridChange($event)"
+        linkFieldName="id"
+        gridName="product-list"
+  >
+    <span grid-total-items>Всего товаров: {{ itemsTotal }}</span>
+    <span grid-no-items>Товары не найдены</span>
 
-  <div class="grid page__grid">
-    <div class="grid__container">
-
-      <div class="grid__head product">
-        <div class="grid__block product__id">ID</div>
-        <div class="grid__block product__thumbnail">Фото</div>
-        <div class="grid__block product__name">Название товара</div>
-        <div class="grid__block product__sku">Артикул</div>
-        <div class="grid__block product__price">Цена</div>
-        <div class="grid__block product__qty">Кол-во</div>
-        <div class="grid__block product__status">Статус</div>
-      </div>
-
-      <div class="grid__body">
-        <a class="grid__row product"
-           *ngFor="let product of products"
-           [routerLink]="['edit', product.id]"
-        >
-          <div class="grid__block product__id">
-            {{ product.id }}
-          </div>
-          <div class="grid__block product__thumbnail">
-            <img class="product__thumbnail-img"
-                 *ngIf="product.variants[0].medias[0] as media"
-                 [src]="'http://localhost:3500' + media.variantsUrls.small"
-                 [alt]="media.altText">
-          </div>
-          <div class="grid__block product__name">
-            {{ product.name || product.variants[0].name }}
-          </div>
-          <div class="grid__block product__sku">
-            {{ product.variants[0].sku }}
-          </div>
-          <div class="grid__block product__price">
-            {{ product.variants[0].price }} грн
-          </div>
-          <div class="grid__block product__qty">
-            {{ product.variants[0].qty }}
-          </div>
-          <div class="grid__block product__status" [ngSwitch]="product.isEnabled">
-            <ng-container *ngSwitchCase="true">Включен</ng-container>
-            <ng-container *ngSwitchCase="false">Выключен</ng-container>
-          </div>
-        </a>
-      </div>
-    </div>
-  </div>
-
+    <ng-template #cellContent let-product="item">{{ product.id }}</ng-template>
+    <ng-template #cellContent let-product="item">
+      <img class="product-thumbnail"
+           *ngIf="product.variants[0].medias[0] as media"
+           [src]="'http://localhost:3500' + media.variantsUrls.small"
+           [alt]="media.altText"
+      >
+    </ng-template>
+    <ng-template #cellContent let-product="item">{{ product.name }}</ng-template>
+    <ng-template #cellContent let-product="item">{{ getProductSkus(product) }}</ng-template>
+    <ng-template #cellContent let-product="item">{{ product.variants[0].price }} {{ product.variants[0].currency | readableCurrency }}</ng-template>
+    <ng-template #cellContent let-product="item">{{ product.variants[0].qty }}</ng-template>
+    <ng-template #cellContent let-product="item">
+      <ng-container [ngSwitch]="product.isEnabled">
+        <ng-container *ngSwitchCase="true">Включен</ng-container>
+        <ng-container *ngSwitchCase="false">Выключен</ng-container>
+      </ng-container>
+    </ng-template>
+  </grid>
 </div>

@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { ProductListRoutingModule } from './product-list-routing.module';
 import { ProductListComponent } from './product-list.component';
-import { PaginationModule } from '../../pagination/pagination.module';
 import { SharedModule } from '../../shared/shared.module';
+import { GridModule } from '../../grid/grid.module';
 
 
 @NgModule({
@@ -12,8 +12,8 @@ import { SharedModule } from '../../shared/shared.module';
   imports: [
     CommonModule,
     ProductListRoutingModule,
-    PaginationModule,
-    SharedModule
+    SharedModule,
+    GridModule
   ],
   providers: []
 })

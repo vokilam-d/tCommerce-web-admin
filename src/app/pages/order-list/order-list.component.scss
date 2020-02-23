@@ -23,11 +23,12 @@
   }
 
   &__name {
-    display: block;
+    flex-wrap: wrap;
     width: 250px;
   }
 
   &__customer-name {
+    width: 100%;
     margin: 5px 0 0;
     font-size: 12px;
     font-weight: 400;

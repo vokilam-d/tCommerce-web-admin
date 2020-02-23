@@ -18,6 +18,5 @@ export class TabsComponent implements OnInit {
 
   ngOnInit() {
     if (!this.labels) { throw new Error(`Input property 'labels' is mandatory`); }
-
   }
 }

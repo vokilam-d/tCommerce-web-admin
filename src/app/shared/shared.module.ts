@@ -9,6 +9,7 @@ import { TabsComponent } from './components/tabs/tabs.component';
 import { ButtonComponent } from './components/button/button.component';
 import { NumberInputDirective } from './directives/number-input/number-input.directive';
 import { ToggleComponent } from './components/toggle/toggle.component';
+import { ReadableCurrencyPipe } from './pipes/readable-currency.pipe';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { ToggleComponent } from './components/toggle/toggle.component';
     TabsComponent,
     ButtonComponent,
     NumberInputDirective,
-    ToggleComponent
+    ToggleComponent,
+    ReadableCurrencyPipe
   ],
   exports: [
     ClickOutsideDirective,
@@ -32,7 +34,8 @@ import { ToggleComponent } from './components/toggle/toggle.component';
     TabsComponent,
     ButtonComponent,
     NumberInputDirective,
-    ToggleComponent
+    ToggleComponent,
+    ReadableCurrencyPipe
   ],
   imports: [
     CommonModule

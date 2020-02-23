@@ -1,48 +1,7 @@
-@import "variables";
+@import "mixins";
 
-.list-info {
-  display: flex;
-  align-items: center;
+.product-thumbnail {
+  max-height: 40px;
 
-  &__pagination {
-    margin: 0 0 0 auto;
-  }
-}
-
-.product {
-  &__id {
-    width: 30px;
-  }
-
-  &__thumbnail {
-    padding: 10px 5px;
-    width: 95px;
-    text-align: center;
-    justify-content: center;
-  }
-
-  &__thumbnail-img {
-    max-height: 40px;
-  }
-
-  &__name {
-    width: 500px;
-    word-break: break-word;
-  }
-
-  &__sku {
-    width: 70px;
-  }
-
-  &__price {
-    width: 70px;
-  }
-
-  &__qty {
-    width: 55px;
-  }
-
-  &__status {
-    width: 70px;
-  }
+  @include appear('my-name');
 }

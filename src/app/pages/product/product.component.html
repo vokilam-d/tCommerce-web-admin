@@ -111,8 +111,8 @@
                   [formControl]="currency"
                   name="currency"
           >
-            <option [value]="currencies.UAH">грн</option>
-            <option [value]="currencies.EUR">€</option>
+            <option [value]="currencies.UAH">{{ currencies.UAH | readableCurrency }}</option>
+            <option [value]="currencies.EUR">{{ currencies.EUR | readableCurrency }}</option>
           </select>
 
           <span class="price__default-currency" *ngIf="!isDefaultCurrency(i)">

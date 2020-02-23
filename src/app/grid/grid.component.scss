@@ -1,6 +1,16 @@
 @import "variables";
 
+.list-info {
+  display: flex;
+  align-items: center;
+
+  &__pagination {
+    margin: 0 0 0 auto;
+  }
+}
+
 .grid {
+  margin: 20px 0 0;
   overflow-x: auto;
 
   &__container {
@@ -44,12 +54,33 @@
     box-sizing: border-box;
   }
 
+  &__body {
+    position: relative;
+    min-height: 20vh;
+  }
+
   &__block {
     padding: 17px 10px;
     flex-shrink: 0;
     box-sizing: content-box;
     display: flex;
     align-items: center;
+    word-break: break-word;
+
+    &--sortable {
+      transition: background-color 0.15s ease;
+      cursor: pointer;
+
+      &:hover {
+        background: #5f564f;
+      }
+    }
+
+    &--image {
+      padding: 10px 5px;
+      justify-content: center;
+      text-align: center;
+    }
   }
 
   &__head &__block {
@@ -65,5 +96,34 @@
   &__search &__block {
     padding-top: 8px;
     padding-bottom: 8px;
+  }
+
+  &__no-items {
+    padding: 40px 60px;
+    background: #f9f9f9;
+    text-align: center;
+    font-size: 16px;
+    color: rgba($dark, 0.6);
+  }
+}
+
+.sorting {
+  position: relative;
+
+  &::after {
+    content: '\2191';
+    position: absolute;
+    top: calc(50% - 2px);
+    right: 5px;
+    transition: transform 0.2s ease;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: #fff;
+  }
+
+  &--desc {
+    &::after {
+      content: '\2193';
+    }
   }
 }
