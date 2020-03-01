@@ -3,22 +3,22 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { IPagination } from '../pagination/pagination.interface';
 import { PaginationComponent } from '../pagination/pagination.component';
 import { ProductService } from '../shared/services/product.service';
-import { ProductVariantDto } from '../shared/dtos/product-variant.dto';
-import { ProductDto } from '../shared/dtos/product.dto';
+import { ProductListItemDto, ProductVariantListItemDto } from '../shared/dtos/product.dto';
+import { DEFAULT_CURRENCY_CODE } from '../shared/enums/currency.enum';
 
-class VariantForSelector extends ProductVariantDto {
+class VariantForSelector extends ProductVariantListItemDto {
   selectedQty: number;
 }
 
-class ProductForSelector extends ProductDto {
+class ProductForSelector extends ProductListItemDto {
   variants: VariantForSelector[];
   isOpened: boolean;
   isSingleVariant: boolean;
 }
 
 interface ISelectedProduct {
-  product: ProductDto;
-  variant: ProductVariantDto;
+  product: ProductListItemDto;
+  variant: ProductVariantListItemDto;
   qty: number;
 }
 
@@ -40,6 +40,7 @@ export class ProductSelectorComponent implements OnInit, AfterViewInit {
   products: ProductForSelector[] = [];
   itemsTotal: number = 0;
   pagesTotal: number = 1;
+  defaultCurrency = DEFAULT_CURRENCY_CODE;
 
   @Input() showQty: boolean = false;
   @Output('selected') selectedEmitter: EventEmitter<ISelectedProduct> = new EventEmitter();
@@ -65,7 +66,7 @@ export class ProductSelectorComponent implements OnInit, AfterViewInit {
   }
 
   fetchProducts(pagination: IPagination) {
-    this.productService.fetchAllProducts(pagination)
+    this.productService.fetchAllProducts(pagination, true)
       .subscribe(
         response => {
           this.products = this.transformProducts(response.data);
@@ -75,7 +76,7 @@ export class ProductSelectorComponent implements OnInit, AfterViewInit {
       );
   }
 
-  private transformProducts(products: ProductDto[]): ProductForSelector[] {
+  private transformProducts(products: ProductListItemDto[]): ProductForSelector[] {
     return products.map(product => {
       const variants = product.variants.map(variant => {
         return {

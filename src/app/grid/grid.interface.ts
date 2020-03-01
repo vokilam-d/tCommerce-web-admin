@@ -7,7 +7,7 @@ export interface IGridFilter {
 
 export interface IGridValue extends IPagination {
   sort?: string;
-  filters: IGridFilter[];
+  filters?: IGridFilter[]; // rm '?'
 }
 
 export interface IGridCell {

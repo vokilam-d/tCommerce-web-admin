@@ -1,6 +1,7 @@
 <div class="list-info">
   <div class="list-info__total-items">
     <ng-content select="[grid-total-items]"></ng-content>
+    <span class="list-info__filtered-items" *ngIf="itemsFiltered >= 0">; отфильтровано: {{ itemsFiltered }}</span>
   </div>
 
   <pagination class="list-info__pagination" [pageCount]="pagesTotal" (change)="emitChange()"></pagination>

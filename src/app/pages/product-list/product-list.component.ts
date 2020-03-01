@@ -1,13 +1,14 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ProductService } from '../../shared/services/product.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProductDto } from '../../shared/dtos/product.dto';
+import { ProductListItemDto } from '../../shared/dtos/product.dto';
 import { NotyService } from '../../noty/noty.service';
 import { saveFileFromUrl } from '../../shared/helpers/save-file.function';
 import { IGridCell, IGridValue } from '../../grid/grid.interface';
 import { GridComponent } from '../../grid/grid.component';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
+import { getPropertyOf } from '../../shared/helpers/get-property-of.function';
 
 @Component({
   selector: 'product-list',
@@ -17,9 +18,10 @@ import { finalize } from 'rxjs/operators';
 export class ProductListComponent implements OnInit, AfterViewInit {
 
   private fetchAllSub: Subscription;
-  products: ProductDto[];
+  products: ProductListItemDto[];
 
   itemsTotal: number = 0;
+  itemsFiltered: number;
   pagesTotal: number = 1;
   gridLinkUrl: string = 'edit';
   isGridLoading: boolean = false;
@@ -48,13 +50,15 @@ export class ProductListComponent implements OnInit, AfterViewInit {
     if (this.fetchAllSub) { this.fetchAllSub.unsubscribe(); }
 
     this.isGridLoading = true;
-    this.fetchAllSub = this.productsService.fetchAllProducts(gridValue)
+    this.fetchAllSub = this.productsService.fetchAllProducts(gridValue, false)
       .pipe(this.notyService.attachNoty(), finalize(() => this.isGridLoading = false))
       .subscribe(
         response => {
           this.products = response.data;
           this.itemsTotal = response.itemsTotal;
+          this.itemsFiltered = response.itemsFiltered;
           this.pagesTotal = response.pagesTotal;
+          console.log((response as any).body && (response as any).body.hits.hits[0]);
         },
         error => console.warn(error)
       );
@@ -70,10 +74,6 @@ export class ProductListComponent implements OnInit, AfterViewInit {
     saveFileFromUrl(url);
   }
 
-  getProductSkus(product: ProductDto): string {
-    return product.variants.map(variant => variant.sku).join(', ');
-  }
-
   onGridChange(evt: IGridValue) {
     this.fetchProducts(evt);
   }
@@ -87,7 +87,7 @@ const productGridCells: IGridCell[] = [
     align: 'center',
     isImage: false,
     isSortable: true,
-    fieldName: 'id'
+    fieldName: getPropertyOf<ProductListItemDto>('id')
   },
   {
     isSearchable: false,
@@ -96,7 +96,7 @@ const productGridCells: IGridCell[] = [
     align: 'center',
     isImage: true,
     isSortable: false,
-    fieldName: 'media'
+    fieldName: getPropertyOf<ProductListItemDto>('mediaUrl')
   },
   {
     isSearchable: true,
@@ -105,7 +105,7 @@ const productGridCells: IGridCell[] = [
     align: 'left',
     isImage: false,
     isSortable: true,
-    fieldName: 'name'
+    fieldName: getPropertyOf<ProductListItemDto>('name')
   },
   {
     isSearchable: true,
@@ -114,16 +114,16 @@ const productGridCells: IGridCell[] = [
     align: 'left',
     isImage: false,
     isSortable: false,
-    fieldName: 'sku'
+    fieldName: getPropertyOf<ProductListItemDto>('skus')
   },
   {
-    isSearchable: true,
+    isSearchable: false,
     label: 'Цена',
     initialWidth: 70,
     align: 'left',
     isImage: false,
     isSortable: false,
-    fieldName: 'price'
+    fieldName: getPropertyOf<ProductListItemDto>('prices')
   },
   {
     isSearchable: false,
@@ -132,7 +132,7 @@ const productGridCells: IGridCell[] = [
     align: 'left',
     isImage: false,
     isSortable: false,
-    fieldName: 'qty'
+    fieldName: getPropertyOf<ProductListItemDto>('quantities')
   },
   {
     isSearchable: false,
@@ -141,6 +141,6 @@ const productGridCells: IGridCell[] = [
     align: 'left',
     isImage: false,
     isSortable: true,
-    fieldName: 'status'
+    fieldName: getPropertyOf<ProductListItemDto>('isEnabled')
   }
 ];

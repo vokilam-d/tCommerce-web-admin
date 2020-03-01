@@ -45,6 +45,7 @@ export class GridComponent extends NgUnsubscribe implements OnInit {
   @Input() linkUrl: string;
   @Input() linkFieldName: string;
   @Input() pagesTotal: number;
+  @Input() itemsFiltered: number;
   @Output('gridChange') changeEmitter = new EventEmitter<IGridValue>();
 
   @ViewChild(PaginationComponent) paginationCmp: PaginationComponent;

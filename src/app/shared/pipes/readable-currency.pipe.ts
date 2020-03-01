@@ -6,15 +6,11 @@ import { ECurrencyCode } from '../enums/currency.enum';
 })
 export class ReadableCurrencyPipe implements PipeTransform {
 
-  transform(value: ECurrencyCode): string {
-    switch (value) {
-      case ECurrencyCode.EUR:
-        return '€';
-      case ECurrencyCode.UAH:
-        return 'грн';
-      case ECurrencyCode.USD:
-        return '$';
-    }
+  transform(value: string = ''): string {
+    return value
+      .replace(ECurrencyCode.EUR, '€')
+      .replace(ECurrencyCode.UAH, 'грн')
+      .replace(ECurrencyCode.USD, '$');
   }
 
 }

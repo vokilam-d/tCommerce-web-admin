@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AddOrUpdateProductDto, ProductDto } from '../dtos/product.dto';
+import { AddOrUpdateProductDto, ProductListItemDto, ProductDto } from '../dtos/product.dto';
 import { toHttpParams } from '../helpers/to-http-params.function';
 import { ResponseDto } from '../dtos/response.dto';
 import { IGridValue } from '../../grid/grid.interface';
@@ -14,10 +14,13 @@ export class ProductService {
   constructor(private http: HttpClient) {
   }
 
-  fetchAllProducts(filter: IGridValue): Observable<ResponseDto<ProductDto[]>> {
-    return this.http.get<ResponseDto<ProductDto[]>>(
+  fetchAllProducts(filter: IGridValue, withVariants: boolean): Observable<ResponseDto<ProductListItemDto[]>> {
+    const params: any = filter;
+    params.withVariants = withVariants;
+
+    return this.http.get<ResponseDto<ProductListItemDto[]>>(
       'http://localhost:3500/api/v1/admin/products',
-      { params: toHttpParams(filter) }
+      { params: toHttpParams(params) }
     );
   }
 

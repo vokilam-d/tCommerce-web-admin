@@ -14,6 +14,7 @@
   <grid class="page__grid"
         [cells]="gridCells"
         [itemsArray]="products"
+        [itemsFiltered]="itemsFiltered"
         [linkUrl]="gridLinkUrl"
         [pagesTotal]="pagesTotal"
         [isLoading]="isGridLoading"
@@ -27,15 +28,14 @@
     <ng-template #cellContent let-product="item">{{ product.id }}</ng-template>
     <ng-template #cellContent let-product="item">
       <img class="product-thumbnail"
-           *ngIf="product.variants[0].medias[0] as media"
-           [src]="'http://localhost:3500' + media.variantsUrls.small"
-           [alt]="media.altText"
+           *ngIf="product.mediaUrl as media"
+           [src]="'http://localhost:3500' + media"
       >
     </ng-template>
     <ng-template #cellContent let-product="item">{{ product.name }}</ng-template>
-    <ng-template #cellContent let-product="item">{{ getProductSkus(product) }}</ng-template>
-    <ng-template #cellContent let-product="item">{{ product.variants[0].price }} {{ product.variants[0].currency | readableCurrency }}</ng-template>
-    <ng-template #cellContent let-product="item">{{ product.variants[0].qty }}</ng-template>
+    <ng-template #cellContent let-product="item">{{ product.skus }}</ng-template>
+    <ng-template #cellContent let-product="item">{{ product.prices | readableCurrency }}</ng-template>
+    <ng-template #cellContent let-product="item">{{ product.quantities }}</ng-template>
     <ng-template #cellContent let-product="item">
       <ng-container [ngSwitch]="product.isEnabled">
         <ng-container *ngSwitchCase="true">Включен</ng-container>
