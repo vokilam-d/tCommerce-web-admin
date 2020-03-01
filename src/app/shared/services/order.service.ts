@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IPagination } from '../../pagination/pagination.interface';
 import { Observable } from 'rxjs';
 import { ResponseDto } from '../dtos/response.dto';
 import { AddOrUpdateOrderDto, OrderDto } from '../dtos/order.dto';
@@ -8,6 +7,7 @@ import { toHttpParams } from '../helpers/to-http-params.function';
 import { OrderItemDto } from '../dtos/order-item.dto';
 import { CreateOrderItemDto } from '../dtos/create-order-item.dto';
 import { ShippingAddressDto } from '../dtos/shipping-address.dto';
+import { IGridValue } from '../../grid/grid.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,7 @@ export class OrderService {
   constructor(private http: HttpClient) {
   }
 
-  fetchAllOrders(filter: IPagination): Observable<ResponseDto<OrderDto[]>> {
+  fetchAllOrders(filter: IGridValue): Observable<ResponseDto<OrderDto[]>> {
     return this.http.get<ResponseDto<OrderDto[]>>(
       'http://localhost:3500/api/v1/admin/orders',
       { params: toHttpParams(filter) }

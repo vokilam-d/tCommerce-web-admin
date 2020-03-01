@@ -9,62 +9,33 @@
     </div>
   </header>
 
-  <div class="page__list-info list-info">
-    <div class="list-info__total-items">
-      Всего заказов: {{ itemsTotal }}
-    </div>
-    <pagination class="list-info__pagination" [pageCount]="pagesTotal" (change)="fetchOrders($event)"></pagination>
-  </div>
+  <grid class="page__grid"
+        [cells]="gridCells"
+        [itemsArray]="orders"
+        [itemsFiltered]="itemsFiltered"
+        [linkUrl]="gridLinkUrl"
+        [pagesTotal]="pagesTotal"
+        [isLoading]="isGridLoading"
+        (gridChange)="fetchOrders($event)"
+        linkFieldName="id"
+        gridName="order-list"
+  >
+    <span grid-total-items>Всего заказов: {{ itemsTotal }}</span>
+    <span grid-no-items>Заказы не найдены</span>
 
-  <div class="grid page__grid">
-    <div class="grid__container">
-
-      <div class="grid__head order">
-        <div class="grid__block order__id">ID</div>
-        <div class="grid__block order__create-date">Дата</div>
-        <div class="grid__block order__name">Имя</div>
-        <div class="grid__block order__city">Город</div>
-        <div class="grid__block order__price">Сумма</div>
-        <div class="grid__block order__status">Статус</div>
-        <div class="grid__block order__admin-note">Комментарий админа</div>
-        <div class="grid__block order__client-note">Комментарий клиента</div>
+    <ng-template #cellContent let-order="item">{{ order.id }}</ng-template>
+    <ng-template #cellContent let-order="item">{{ order.createdAt | date }}</ng-template>
+    <ng-template #cellContent let-order="item">
+      {{ order.address.firstName }} {{ order.address.lastName }}
+      <div class="order__customer-name" *ngIf="order.customerFirstName !== order.address.firstName || order.customerLastName !== order.address.lastName">
+        ({{ order.customerFirstName }} {{ order.customerLastName }})
       </div>
-
-      <div class="grid__body">
-        <a class="grid__row order"
-           *ngFor="let order of orders"
-           [routerLink]="['view', order.id]"
-        >
-          <div class="grid__block order__id">
-            {{ order.id }}
-          </div>
-          <div class="grid__block order__create-date">
-            {{ order.createdDate | date }}
-          </div>
-          <div class="grid__block order__name">
-            {{ order.address.firstName }} {{ order.address.lastName }}
-            <div class="order__customer-name" *ngIf="order.customerFirstName !== order.address.firstName || order.customerLastName !== order.address.lastName">
-              ({{ order.customerFirstName }} {{ order.customerLastName }})
-            </div>
-          </div>
-          <div class="grid__block order__city">
-            {{ order.address.city }}
-          </div>
-          <div class="grid__block order__price">
-            {{ order.totalCost }} грн
-          </div>
-          <div class="grid__block order__status">
-            {{ order.status }}
-          </div>
-          <div class="grid__block order__admin-note">
-            {{ order.adminNote }}
-          </div>
-          <div class="grid__block order__client-note">
-            {{ order.clientNote }}
-          </div>
-        </a>
-      </div>
-    </div>
-  </div>
+    </ng-template>
+    <ng-template #cellContent let-order="item">{{ order.address.city }}</ng-template>
+    <ng-template #cellContent let-order="item">{{ order.totalCost }} {{ defaultCurrency | readableCurrency }}</ng-template>
+    <ng-template #cellContent let-order="item">{{ order.status }}</ng-template>
+    <ng-template #cellContent let-order="item">{{ order.adminNote }}</ng-template>
+    <ng-template #cellContent let-order="item">{{ order.clientNote }}</ng-template>
+  </grid>
 
 </div>

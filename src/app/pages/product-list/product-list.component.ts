@@ -58,7 +58,6 @@ export class ProductListComponent implements OnInit, AfterViewInit {
           this.itemsTotal = response.itemsTotal;
           this.itemsFiltered = response.itemsFiltered;
           this.pagesTotal = response.pagesTotal;
-          console.log((response as any).body && (response as any).body.hits.hits[0]);
         },
         error => console.warn(error)
       );

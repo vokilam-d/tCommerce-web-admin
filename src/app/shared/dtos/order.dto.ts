@@ -9,7 +9,7 @@ export class AddOrUpdateOrderDto {
   customerPhoneNumber: string = '';
   address: ShippingAddressDto = new ShippingAddressDto();
   shouldSaveAddress: boolean = false;
-  createdDate: Date;
+  createdAt: Date;
   isConfirmationEmailSent: boolean = false;
   paymentMethodId: string;
   paymentMethodAdminName: string;

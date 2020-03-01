@@ -117,7 +117,7 @@ export class OrderViewComponent implements OnInit {
   }
 
   isCancelOrderVisible(): boolean {
-    return this.order.status !== 'SHIPPED';
+    return this.order.status === 'STARTED' || this.order.status === 'NEW';
   }
 
   isStartOrderVisible(): boolean {
@@ -129,7 +129,7 @@ export class OrderViewComponent implements OnInit {
   }
 
   isEditOrderVisible(): boolean {
-    return this.order.status !== 'SHIPPED';
+    return this.order.status === 'STARTED' || this.order.status === 'NEW';
   }
 
   openAddressForm() {

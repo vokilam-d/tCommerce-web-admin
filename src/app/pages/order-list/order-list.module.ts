@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { OrderListRoutingModule } from './order-list-routing.module';
 import { OrderListComponent } from './order-list.component';
-import { PaginationModule } from '../../pagination/pagination.module';
+import { GridModule } from '../../grid/grid.module';
+import { SharedModule } from '../../shared/shared.module';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { PaginationModule } from '../../pagination/pagination.module';
   imports: [
     CommonModule,
     OrderListRoutingModule,
-    PaginationModule
+    GridModule,
+    SharedModule
   ]
 })
 export class OrderListModule { }
