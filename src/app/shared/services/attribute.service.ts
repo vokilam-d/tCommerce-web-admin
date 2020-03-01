@@ -4,6 +4,8 @@ import { AttributeDto, CreateAttributeDto, UpdateAttributeDto } from '../dtos/at
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ResponseDto } from '../dtos/response.dto';
 import { tap } from 'rxjs/operators';
+import { IGridValue } from '../../grid/grid.interface';
+import { toHttpParams } from '../helpers/to-http-params.function';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +26,13 @@ export class AttributeService {
           this._attributes$.next(response.data);
         }
       );
+  }
+
+  fetchAttributes(gridValue: IGridValue): Observable<ResponseDto<AttributeDto[]>> {
+    return this.http.get<ResponseDto<AttributeDto[]>>(
+      `http://localhost:3500/api/v1/admin/attributes`,
+      { params: toHttpParams(gridValue) }
+    );
   }
 
   fetchAttribute(id: string): Observable<ResponseDto<AttributeDto>> {

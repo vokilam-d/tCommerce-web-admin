@@ -3,31 +3,26 @@
     <h1 class="header__title">Атрибуты</h1>
 
     <div class="header__toolbar">
-      <button class="header__btn toolbar-main-btn" (click)="add()" type="button">Добавить атрибут</button>
+      <app-button (click)="add()" btnStyle="primary" btnSize="big">Добавить атрибут</app-button>
     </div>
   </div>
 
-  <div class="grid page__grid">
-    <div class="grid__container">
+  <grid class="page__grid"
+        [cells]="gridCells"
+        [itemsArray]="attributes"
+        [itemsFiltered]="itemsFiltered"
+        [pagesTotal]="pagesTotal"
+        [isLoading]="isGridLoading"
+        [linkFieldName]="gridLinkFieldName"
+        (gridChange)="fetchAttributes($event)"
+        trackByFieldName="id"
+        linkUrlSuffix="edit"
+        gridName="attribute-list"
+  >
+    <span grid-total-items>Всего атрибутов: {{ itemsTotal }}</span>
+    <span grid-no-items>Атрибуты не найдены</span>
 
-      <div class="grid__head attribute">
-        <div class="grid__block attribute__id">ID</div>
-        <div class="grid__block attribute__label">Label</div>
-      </div>
-
-      <div class="grid__body">
-        <a class="grid__row attribute"
-           *ngFor="let attribute of attributes"
-           [routerLink]="['edit', attribute.id]"
-        >
-          <div class="grid__block attribute__id">
-            {{ attribute.id }}
-          </div>
-          <div class="grid__block attribute__label">
-            {{ attribute.label }}
-          </div>
-        </a>
-      </div>
-    </div>
-  </div>
+    <ng-template #cellContent let-attribute="item">{{ attribute.id }}</ng-template>
+    <ng-template #cellContent let-attribute="item">{{ attribute.label }}</ng-template>
+  </grid>
 </div>

@@ -54,7 +54,7 @@ export class GridComponent<T extends { isOpened?: boolean } = any> extends NgUns
   @Input() itemsArray: T[] = [];
   @Input() isLoading: boolean = false;
   @Input() size: 'default' | 'small' = 'default';
-  @Input() linkUrl: string;
+  @Input() linkUrlSuffix: string;
   @Input() linkFieldName: string;
   @Input() subItemsFieldName: string;
   @Input() trackByFieldName: string;
@@ -120,11 +120,11 @@ export class GridComponent<T extends { isOpened?: boolean } = any> extends NgUns
   }
 
   getRouterLinkUrl(item: T): string[] | null {
-    if (!this.linkUrl || !this.linkFieldName) {
+    if (!this.linkUrlSuffix || !this.linkFieldName) {
       return null;
     }
 
-    return [this.linkUrl, item[this.linkFieldName]];
+    return [this.linkUrlSuffix, item[this.linkFieldName]];
   }
 
   onItemSelect(item: T) {

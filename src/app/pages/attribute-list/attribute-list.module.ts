@@ -4,13 +4,15 @@ import { CommonModule } from '@angular/common';
 import { AttributeListRoutingModule } from './attribute-list-routing.module';
 import { AttributeListComponent } from './attribute-list.component';
 import { SharedModule } from '../../shared/shared.module';
+import { GridModule } from '../../grid/grid.module';
 
 
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
-    AttributeListRoutingModule
+    AttributeListRoutingModule,
+    GridModule
   ],
   declarations: [AttributeListComponent],
 })
