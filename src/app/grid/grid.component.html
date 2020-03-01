@@ -7,7 +7,7 @@
   <pagination class="list-info__pagination" [pageCount]="pagesTotal" (change)="emitChange()"></pagination>
 </div>
 
-<div class="grid">
+<div class="grid" [class.grid--small]="size === 'small'">
   <div class="grid__container">
     <div class="grid__head">
       <div class="grid__block"
@@ -20,7 +20,8 @@
              'grid__block--center': cell.align === 'center',
              'grid__block--right': cell.align === 'right',
              'sorting': activeSorting && cell.fieldName === activeSorting.fieldName,
-             'sorting--desc': activeSorting && cell.fieldName === activeSorting.fieldName && activeSorting.isDescOrder
+             'sorting--desc': activeSorting && cell.fieldName === activeSorting.fieldName && activeSorting.isDescOrder,
+             'disabled': filtersMap.size > 0
            }"
            [style.width.px]="cell.initialWidth"
       >
@@ -37,8 +38,8 @@
         <input class="grid__search-input"
                *ngIf="cell.isSearchable"
                (input)="onSearchInput(cell, $event)"
-               #searchInput
                type="text"
+               autocomplete="none"
         >
       </div>
     </div>
@@ -52,19 +53,43 @@
       </div>
 
       <ng-template #hasItems>
+        <a class="grid__row"
+           *ngFor="let item of itemsArray; trackBy: trackBy"
+           [class.grid__row--has-sub]="subItemsFieldName"
+           [routerLink]="getRouterLinkUrl(item)"
+           (click)="onItemSelect(item)"
+           @blockInitialAnimation
+        >
+          <div class="grid__item">
+            <div class="grid__block"
+                 *ngFor="let cell of cells, index as i"
+                 [ngClass]="{
+                   'grid__block--image': cell.isImage,
+                   'grid__block--left': cell.align === 'left',
+                   'grid__block--center': cell.align === 'center',
+                   'grid__block--right': cell.align === 'right'
+                 }"
+                 [style.width.px]="cell.initialWidth"
+            >
+              <ng-container *ngTemplateOutlet="cellContentsArray[i]; context: { item: item }"></ng-container>
+            </div>
+          </div>
 
-        <a class="grid__row" *ngFor="let item of itemsArray" [routerLink]="[linkUrl, item[linkFieldName]]">
-          <div class="grid__block"
-               *ngFor="let cell of cells, index as i"
-               [ngClass]="{
-                 'grid__block--image': cell.isImage,
-                 'grid__block--left': cell.align === 'left',
-                 'grid__block--center': cell.align === 'center',
-                 'grid__block--right': cell.align === 'right'
-               }"
-               [style.width.px]="cell.initialWidth"
-          >
-            <ng-container *ngTemplateOutlet="cellContentsArray[i]; context: { item: item }"></ng-container>
+          <div class="grid__sub-item" *ngIf="subItemsFieldName" [@slideToggle]="item.isOpened">
+            <div class="grid__row" *ngFor="let subItem of item[subItemsFieldName]">
+              <div class="grid__block"
+                   *ngFor="let cell of cells, index as subIdx"
+                   [ngClass]="{
+                     'grid__block--image': cell.isImage,
+                     'grid__block--left': cell.align === 'left',
+                     'grid__block--center': cell.align === 'center',
+                     'grid__block--right': cell.align === 'right'
+                   }"
+                   [style.width.px]="cell.initialWidth"
+              >
+                <ng-container *ngTemplateOutlet="subCellContentsArray[subIdx]; context: { item: item, subItem: subItem }"></ng-container>
+              </div>
+            </div>
           </div>
         </a>
 

@@ -6,11 +6,11 @@ import { OrderComponent } from './order.component';
 import { SharedModule } from '../../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CustomerSelectorComponent } from './customer-selector/customer-selector.component';
-import { PaginationModule } from '../../pagination/pagination.module';
 import { AddressFormModule } from '../../address-form/address-form.module';
 import { ShippingMethodSelectorComponent } from './shipping-method-selector/shipping-method-selector.component';
 import { PaymentMethodSelectorComponent } from './payment-method-selector/payment-method-selector.component';
 import { ProductSelectorModule } from '../../product-selector/product-selector.module';
+import { GridModule } from '../../grid/grid.module';
 
 
 @NgModule({
@@ -19,10 +19,10 @@ import { ProductSelectorModule } from '../../product-selector/product-selector.m
     CommonModule,
     OrderRoutingModule,
     SharedModule,
-    PaginationModule,
     ReactiveFormsModule,
     FormsModule,
     AddressFormModule,
+    GridModule,
     ProductSelectorModule
   ]
 })

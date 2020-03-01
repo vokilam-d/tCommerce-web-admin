@@ -5,12 +5,15 @@ import { ECurrencyCode } from '../enums/currency.enum';
   name: 'readableCurrency'
 })
 export class ReadableCurrencyPipe implements PipeTransform {
+  private eurRegex = new RegExp(ECurrencyCode.EUR, 'g');
+  private uahRegex = new RegExp(ECurrencyCode.UAH, 'g');
+  private usdRegex = new RegExp(ECurrencyCode.USD, 'g');
 
   transform(value: string = ''): string {
     return value
-      .replace(ECurrencyCode.EUR, '€')
-      .replace(ECurrencyCode.UAH, 'грн')
-      .replace(ECurrencyCode.USD, '$');
+      .replace(this.eurRegex, '€')
+      .replace(this.uahRegex, 'грн')
+      .replace(this.usdRegex, '$');
   }
 
 }

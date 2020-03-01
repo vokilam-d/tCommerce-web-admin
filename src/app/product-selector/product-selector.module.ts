@@ -3,8 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ProductSelectorComponent } from './product-selector.component';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
-import { PaginationModule } from '../pagination/pagination.module';
-
+import { GridModule } from '../grid/grid.module';
 
 
 @NgModule({
@@ -13,7 +12,7 @@ import { PaginationModule } from '../pagination/pagination.module';
     CommonModule,
     FormsModule,
     SharedModule,
-    PaginationModule
+    GridModule
   ],
   exports: [ProductSelectorComponent]
 })

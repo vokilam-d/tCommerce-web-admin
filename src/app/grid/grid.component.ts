@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   ContentChildren,
   EventEmitter,
@@ -9,11 +10,12 @@ import {
   TemplateRef,
   ViewChild
 } from '@angular/core';
-import { IGridCell, IGridValue, IGridFilter } from './grid.interface';
+import { IGridCell, IGridFilter, IGridValue } from './grid.interface';
 import { PaginationComponent } from '../pagination/pagination.component';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { NgUnsubscribe } from '../shared/directives/ng-unsubscribe/ng-unsubscribe.directive';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 
 type fieldName = string;
@@ -30,9 +32,18 @@ interface ISavedGridInfo {
 @Component({
   selector: 'grid',
   templateUrl: './grid.component.html',
-  styleUrls: ['./grid.component.scss']
+  styleUrls: ['./grid.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
+    trigger('blockInitialAnimation', [transition(':enter', [])]),
+    trigger('slideToggle', [
+      state('true', style({ 'height': '*', 'padding': '*' })),
+      state('false', style({ 'height': 0, 'overflow': 'hidden', 'padding': 0, 'margin': 0, 'border-color': 'transparent' })),
+      transition('* <=> *', animate('0.4s cubic-bezier(0.25, 0.8, 0.25, 1)'))
+    ])
+  ]
 })
-export class GridComponent extends NgUnsubscribe implements OnInit {
+export class GridComponent<T extends { isOpened?: boolean } = any> extends NgUnsubscribe implements OnInit {
 
   activeSorting: IGridSorting = null;
   private filtersMap = new Map<fieldName, string>();
@@ -40,17 +51,23 @@ export class GridComponent extends NgUnsubscribe implements OnInit {
 
   @Input() gridName: string;
   @Input() cells: IGridCell[] = [];
-  @Input() itemsArray: any[] = [];
+  @Input() itemsArray: T[] = [];
   @Input() isLoading: boolean = false;
+  @Input() size: 'default' | 'small' = 'default';
   @Input() linkUrl: string;
   @Input() linkFieldName: string;
+  @Input() subItemsFieldName: string;
+  @Input() trackByFieldName: string;
   @Input() pagesTotal: number;
   @Input() itemsFiltered: number;
   @Output('gridChange') changeEmitter = new EventEmitter<IGridValue>();
+  @Output('itemSelect') itemSelectEmitter = new EventEmitter<T>();
 
   @ViewChild(PaginationComponent) paginationCmp: PaginationComponent;
   @ContentChildren('cellContent') cellContents: QueryList<TemplateRef<any>>;
+  @ContentChildren('subCellContent') subCellContents: QueryList<TemplateRef<any>>;
   get cellContentsArray(): TemplateRef<any>[] { return this.cellContents.toArray(); }
+  get subCellContentsArray(): TemplateRef<any>[] { return this.subCellContents.toArray(); }
 
   constructor() {
     super();
@@ -102,6 +119,22 @@ export class GridComponent extends NgUnsubscribe implements OnInit {
     this.search$.next({ fieldName: cell.fieldName, value: (evt.target as HTMLInputElement).value })
   }
 
+  getRouterLinkUrl(item: T): string[] | null {
+    if (!this.linkUrl || !this.linkFieldName) {
+      return null;
+    }
+
+    return [this.linkUrl, item[this.linkFieldName]];
+  }
+
+  onItemSelect(item: T) {
+    this.itemSelectEmitter.emit(item);
+  }
+
+  trackBy(index: number, item: T) {
+    return this.trackByFieldName ? item[this.trackByFieldName] : index;
+  }
+
   private setActiveSorting() {
     const savedInfo = this.getSavedInfo();
     if (savedInfo && savedInfo.sorting) {
@@ -139,7 +172,11 @@ export class GridComponent extends NgUnsubscribe implements OnInit {
       .pipe( takeUntil(this.ngUnsubscribe), debounceTime(100) )
       .subscribe(
         evt => {
-          this.filtersMap.set(evt.fieldName, evt.value);
+          if (evt.value) {
+            this.filtersMap.set(evt.fieldName, evt.value);
+          } else {
+            this.filtersMap.delete(evt.fieldName);
+          }
           this.emitChange();
         }
       );

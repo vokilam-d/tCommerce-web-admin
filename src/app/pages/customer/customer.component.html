@@ -107,7 +107,7 @@
               {{ address.firstName }} {{ address.lastName }}
             </div>
             <div class="address__block">
-              {{ address.phoneNumber }}
+              {{ address.phoneNumber | normalizedPhone }}
             </div>
             <div class="address__block">
               {{ address.city }}

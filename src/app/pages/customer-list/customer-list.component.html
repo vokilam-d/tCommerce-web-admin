@@ -44,13 +44,13 @@
             {{ customer.email }}
           </div>
           <div class="grid__block customer__phone">
-            {{ customer.phoneNumber }}
+            {{ customer.phoneNumber | normalizedPhone }}
           </div>
           <div class="grid__block customer__city">
             {{ customer.addresses[0]?.city }}
           </div>
           <div class="grid__block customer__create-date">
-            {{ customer.createdDate | date }}
+            {{ customer.createdAt | date }}
           </div>
           <div class="grid__block customer__note">
             {{ customer.note }}

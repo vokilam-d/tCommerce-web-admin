@@ -90,9 +90,9 @@
             </div>
           </div>
           <div class="address-table__block address-table__block--phone">
-            {{ order.address.phoneNumber }}
+            {{ order.address.phoneNumber | normalizedPhone }}
             <div class="address-table__customer" *ngIf="order.address.phoneNumber !== customer.phoneNumber">
-              ({{ customer.phoneNumber }})
+              ({{ customer.phoneNumber | normalizedPhone }})
             </div>
           </div>
           <div class="address-table__block address-table__block--city">

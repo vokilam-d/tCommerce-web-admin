@@ -17,6 +17,7 @@
         [pagesTotal]="pagesTotal"
         [isLoading]="isGridLoading"
         (gridChange)="fetchOrders($event)"
+        trackByFieldName="id"
         linkFieldName="id"
         gridName="order-list"
   >

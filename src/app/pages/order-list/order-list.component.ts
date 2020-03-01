@@ -27,8 +27,9 @@ export class OrderListComponent implements OnInit, AfterViewInit {
   isGridLoading: boolean = false;
   gridLinkUrl: string = 'view';
   gridCells: IGridCell[] = orderGridCells;
-  @ViewChild(GridComponent) gridCmp: GridComponent;
   defaultCurrency = DEFAULT_CURRENCY_CODE;
+
+  @ViewChild(GridComponent) gridCmp: GridComponent;
 
   constructor(private ordersService: OrderService,
               private route: ActivatedRoute,

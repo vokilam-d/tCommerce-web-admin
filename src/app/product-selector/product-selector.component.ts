@@ -1,10 +1,13 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { animate, state, style, transition, trigger } from '@angular/animations';
-import { IPagination } from '../pagination/pagination.interface';
-import { PaginationComponent } from '../pagination/pagination.component';
 import { ProductService } from '../shared/services/product.service';
 import { ProductListItemDto, ProductVariantListItemDto } from '../shared/dtos/product.dto';
 import { DEFAULT_CURRENCY_CODE } from '../shared/enums/currency.enum';
+import { Subscription } from 'rxjs';
+import { IGridCell, IGridValue } from '../grid/grid.interface';
+import { GridComponent } from '../grid/grid.component';
+import { NotyService } from '../noty/noty.service';
+import { finalize } from 'rxjs/operators';
+import { getPropertyOf } from '../shared/helpers/get-property-of.function';
 
 class VariantForSelector extends ProductVariantListItemDto {
   selectedQty: number;
@@ -25,36 +28,34 @@ interface ISelectedProduct {
 @Component({
   selector: 'product-selector',
   templateUrl: './product-selector.component.html',
-  styleUrls: ['./product-selector.component.scss'],
-  animations: [
-    trigger('slideToggle', [
-      state('true', style({ 'height': '*', 'padding': '*' })),
-      state('false', style({ 'height': 0, 'overflow': 'hidden', 'padding': 0, 'margin': 0, 'border-color': 'transparent' })),
-      transition('* <=> *', animate('0.4s cubic-bezier(0.25, 0.8, 0.25, 1)'))
-    ])
-  ]
+  styleUrls: ['./product-selector.component.scss']
 })
 export class ProductSelectorComponent implements OnInit, AfterViewInit {
 
+  private fetchAllSub: Subscription;
   isSelectorVisible: boolean = false;
   products: ProductForSelector[] = [];
   itemsTotal: number = 0;
+  itemsFiltered: number;
   pagesTotal: number = 1;
+  isGridLoading: boolean = false;
+  gridCells: IGridCell[] = productGridCells;
+  variantsFieldName = getPropertyOf<ProductForSelector>('variants');
   defaultCurrency = DEFAULT_CURRENCY_CODE;
 
   @Input() showQty: boolean = false;
   @Output('selected') selectedEmitter: EventEmitter<ISelectedProduct> = new EventEmitter();
+  @ViewChild(GridComponent) gridCmp: GridComponent;
 
-  @ViewChild(PaginationComponent) paginationCmp: PaginationComponent;
-
-  constructor(private productService: ProductService) { }
+  constructor(private productService: ProductService,
+              private notyService: NotyService) { }
 
   ngOnInit() {
   }
 
   ngAfterViewInit(): void {
-    const pagination = this.paginationCmp.getValue();
-    this.fetchProducts(pagination);
+    const gridValue = this.gridCmp.getValue();
+    this.fetchProducts(gridValue);
   }
 
   showSelector() {
@@ -65,8 +66,12 @@ export class ProductSelectorComponent implements OnInit, AfterViewInit {
     this.isSelectorVisible = false;
   }
 
-  fetchProducts(pagination: IPagination) {
-    this.productService.fetchAllProducts(pagination, true)
+  fetchProducts(gridValue: IGridValue) {
+    if (this.fetchAllSub) { this.fetchAllSub.unsubscribe(); }
+
+    this.isGridLoading = true;
+    this.fetchAllSub = this.productService.fetchAllProducts(gridValue, true)
+      .pipe(this.notyService.attachNoty(), finalize(() => this.isGridLoading = false))
       .subscribe(
         response => {
           this.products = this.transformProducts(response.data);
@@ -99,11 +104,82 @@ export class ProductSelectorComponent implements OnInit, AfterViewInit {
     variant.selectedQty = 0;
   }
 
-  trackById(index: number, product: ProductForSelector) {
-    return product.id;
-  }
-
   isBtnDisabled(variant: VariantForSelector): boolean {
     return this.showQty && variant.selectedQty === 0;
   }
 }
+
+const productGridCells: IGridCell[] = [
+  {
+    isSearchable: false,
+    label: 'ID',
+    initialWidth: 30,
+    align: 'center',
+    isImage: false,
+    isSortable: true,
+    fieldName: getPropertyOf<ProductForSelector>('id')
+  },
+  {
+    isSearchable: false,
+    label: 'Фото',
+    initialWidth: 60,
+    align: 'left',
+    isImage: true,
+    isSortable: false,
+    fieldName: getPropertyOf<ProductForSelector>('mediaUrl')
+  },
+  {
+    isSearchable: true,
+    label: 'Название товара',
+    initialWidth: 250,
+    align: 'left',
+    isImage: false,
+    isSortable: true,
+    fieldName: getPropertyOf<ProductForSelector>('name')
+  },
+  {
+    isSearchable: true,
+    label: 'Артикул',
+    initialWidth: 50,
+    align: 'left',
+    isImage: false,
+    isSortable: true,
+    fieldName: `${getPropertyOf<ProductForSelector>('variants')}.${getPropertyOf<VariantForSelector>('sku')}`
+  },
+  {
+    isSearchable: true,
+    label: 'Цена',
+    initialWidth: 60,
+    align: 'left',
+    isImage: false,
+    isSortable: true,
+    fieldName: `${getPropertyOf<ProductForSelector>('variants')}.${getPropertyOf<VariantForSelector>('price')}`
+  },
+  {
+    isSearchable: true,
+    label: 'Кол-во',
+    initialWidth: 110,
+    align: 'left',
+    isImage: false,
+    isSortable: true,
+    fieldName: `${getPropertyOf<ProductForSelector>('variants')}.${getPropertyOf<VariantForSelector>('qty')}`
+  },
+  {
+    isSearchable: false,
+    label: 'Статус',
+    initialWidth: 70,
+    align: 'left',
+    isImage: false,
+    isSortable: true,
+    fieldName: getPropertyOf<ProductForSelector>('isEnabled')
+  },
+  {
+    isSearchable: false,
+    label: '',
+    initialWidth: 100,
+    align: 'left',
+    isImage: false,
+    isSortable: false,
+    fieldName: ''
+  }
+];
