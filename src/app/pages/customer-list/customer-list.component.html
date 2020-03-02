@@ -9,55 +9,27 @@
     </div>
   </header>
 
-  <div class="page__list-info list-info">
-    <div class="list-info__total-items">
-      Всего клиентов: {{ itemsTotal }}
-    </div>
-    <pagination class="list-info__pagination" [pageCount]="pagesTotal" (change)="fetchCustomers($event)"></pagination>
-  </div>
+  <grid [cells]="gridCells"
+        [itemsArray]="customers"
+        [itemsFiltered]="itemsFiltered"
+        [pagesTotal]="pagesTotal"
+        [isLoading]="isGridLoading"
+        (gridChange)="fetchCustomers($event)"
+        [linkFieldName]="idFieldName"
+        linkUrlSuffix="edit"
+        trackByFieldName="id"
+        size="small"
+        gridName="customer-list"
+  >
+    <span grid-total-items>Всего клиентов: {{ itemsTotal }}</span>
+    <span grid-no-items>Клиенты не найдены</span>
 
-  <div class="grid page__grid">
-    <div class="grid__container">
-
-      <div class="grid__head customer">
-        <div class="grid__block customer__id">ID</div>
-        <div class="grid__block customer__name">Имя</div>
-        <div class="grid__block customer__email">Email</div>
-        <div class="grid__block customer__phone">Телефон</div>
-        <div class="grid__block customer__city">Город</div>
-        <div class="grid__block customer__create-date">Дата рег-ции</div>
-        <div class="grid__block customer__note">Комментарий о клиенте</div>
-      </div>
-
-      <div class="grid__body">
-        <a class="grid__row customer"
-           *ngFor="let customer of customers"
-           [routerLink]="['edit', customer.id]"
-        >
-          <div class="grid__block customer__id">
-            {{ customer.id }}
-          </div>
-          <div class="grid__block customer__name">
-            {{ customer.firstName }} {{ customer.lastName }}
-          </div>
-          <div class="grid__block customer__email">
-            {{ customer.email }}
-          </div>
-          <div class="grid__block customer__phone">
-            {{ customer.phoneNumber | normalizedPhone }}
-          </div>
-          <div class="grid__block customer__city">
-            {{ customer.addresses[0]?.city }}
-          </div>
-          <div class="grid__block customer__create-date">
-            {{ customer.createdAt | date }}
-          </div>
-          <div class="grid__block customer__note">
-            {{ customer.note }}
-          </div>
-        </a>
-      </div>
-    </div>
-  </div>
-
+    <ng-template #cellContent let-customer="item">{{ customer.id }}</ng-template>
+    <ng-template #cellContent let-customer="item">{{ customer.firstName }} {{ customer.lastName }}</ng-template>
+    <ng-template #cellContent let-customer="item">{{ customer.email }}</ng-template>
+    <ng-template #cellContent let-customer="item">{{ customer.phoneNumber | normalizedPhone }}</ng-template>
+    <ng-template #cellContent let-customer="item">{{ customer.addresses[0]?.city }}</ng-template>
+    <ng-template #cellContent let-customer="item">{{ customer.createdAt | date }}</ng-template>
+    <ng-template #cellContent let-customer="item">{{ customer.note }}</ng-template>
+  </grid>
 </div>

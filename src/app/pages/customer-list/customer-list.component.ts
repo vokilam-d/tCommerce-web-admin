@@ -5,6 +5,13 @@ import { CustomerService } from '../../shared/services/customer.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotyService } from '../../noty/noty.service';
 import { IPagination } from '../../pagination/pagination.interface';
+import { IGridCell, IGridValue } from '../../grid/grid.interface';
+import { getPropertyOf } from '../../shared/helpers/get-property-of.function';
+import { ShippingAddressDto } from '../../shared/dtos/shipping-address.dto';
+import { finalize } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+import { GridComponent } from '../../grid/grid.component';
+import { AttributeDto } from '../../shared/dtos/attribute.dto';
 
 
 @Component({
@@ -14,13 +21,19 @@ import { IPagination } from '../../pagination/pagination.interface';
 })
 export class CustomerListComponent implements OnInit, AfterViewInit {
 
+  private fetchAllSub: Subscription;
+
   customers: CustomerDto[] = [];
   itemsTotal: number = 0;
+  itemsFiltered: number;
   pagesTotal: number = 1;
+  isGridLoading: boolean = false;
+  idFieldName = getPropertyOf<AttributeDto>('id');
+  gridCells: IGridCell[] = customerGridCells;
 
-  @ViewChild(PaginationComponent) paginationCmp: PaginationComponent;
+  @ViewChild(GridComponent) gridCmp: GridComponent;
 
-  constructor(private customersService: CustomerService,
+  constructor(private customerService: CustomerService,
               private route: ActivatedRoute,
               private notyService: NotyService,
               private router: Router) {
@@ -29,25 +42,94 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
   ngOnInit() {
   }
 
-  ngAfterViewInit(): void {
-    const pagination = this.paginationCmp.getValue();
-    this.fetchCustomers(pagination);
+  ngAfterViewInit() {
+    const gridValue = this.gridCmp.getValue();
+    this.fetchCustomers(gridValue);
   }
 
-  add() {
-    this.router.navigate(['add'], { relativeTo: this.route });
-  }
+  fetchCustomers(gridValue: IGridValue) {
+    if (this.fetchAllSub) { this.fetchAllSub.unsubscribe(); }
 
-  fetchCustomers(pagination: IPagination) {
-    this.customersService.fetchAllCustomers(pagination)
-      .pipe(this.notyService.attachNoty())
+    this.isGridLoading = true;
+    this.fetchAllSub = this.customerService.fetchAllCustomers(gridValue)
+      .pipe(this.notyService.attachNoty(), finalize(() => this.isGridLoading = false))
       .subscribe(
         response => {
           this.customers = response.data;
           this.itemsTotal = response.itemsTotal;
           this.pagesTotal = response.pagesTotal;
-        },
-        error => console.warn(error)
+          this.itemsFiltered = response.itemsFiltered;
+        }
       );
   }
+
+  add() {
+    this.router.navigate(['add'], { relativeTo: this.route });
+  }
 }
+
+const customerGridCells: IGridCell[] = [
+  {
+    isSearchable: false,
+    label: 'ID',
+    initialWidth: 50,
+    align: 'center',
+    isImage: false,
+    isSortable: true,
+    fieldName: getPropertyOf<CustomerDto>('id')
+  },
+  {
+    isSearchable: true,
+    label: 'Имя',
+    initialWidth: 200,
+    align: 'left',
+    isImage: false,
+    isSortable: false,
+    fieldName: `${getPropertyOf<CustomerDto>('firstName')}|${getPropertyOf<CustomerDto>('lastName')}`
+  },
+  {
+    isSearchable: true,
+    label: 'Email',
+    initialWidth: 250,
+    align: 'left',
+    isImage: false,
+    isSortable: false,
+    fieldName: getPropertyOf<CustomerDto>('email')
+  },
+  {
+    isSearchable: true,
+    label: 'Телефон',
+    initialWidth: 100,
+    align: 'left',
+    isImage: false,
+    isSortable: false,
+    fieldName: getPropertyOf<CustomerDto>('phoneNumber')
+  },
+  {
+    isSearchable: true,
+    label: 'Город',
+    initialWidth: 100,
+    align: 'left',
+    isImage: false,
+    isSortable: false,
+    fieldName: `${getPropertyOf<CustomerDto>('addresses')}.${getPropertyOf<ShippingAddressDto>('city')}`
+  },
+  {
+    isSearchable: false,
+    label: 'Дата рег-ции',
+    initialWidth: 100,
+    align: 'left',
+    isImage: false,
+    isSortable: true,
+    fieldName: getPropertyOf<CustomerDto>('createdAt')
+  },
+  {
+    isSearchable: true,
+    label: 'Комментарий о клиенте',
+    initialWidth: 150,
+    align: 'left',
+    isImage: false,
+    isSortable: false,
+    fieldName: getPropertyOf<CustomerDto>('note')
+  }
+];
