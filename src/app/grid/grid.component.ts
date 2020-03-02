@@ -139,12 +139,6 @@ export class GridComponent<T extends { isOpened?: boolean } = any> extends NgUns
     const savedInfo = this.getSavedInfo();
     if (savedInfo && savedInfo.sorting) {
       this.activeSorting = savedInfo.sorting;
-
-    } else {
-      const firstSortableCell = this.cells.find(cell => cell.isSortable);
-      if (firstSortableCell) {
-        this.activeSorting = { fieldName: firstSortableCell.fieldName, isDescOrder: true };
-      }
     }
   }
 

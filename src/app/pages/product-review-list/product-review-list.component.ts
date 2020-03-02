@@ -1,10 +1,13 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PaginationComponent } from '../../pagination/pagination.component';
 import { NotyService } from '../../noty/noty.service';
-import { IPagination } from '../../pagination/pagination.interface';
 import { ProductReviewDto } from '../../shared/dtos/product-review.dto';
 import { ProductReviewService } from '../../shared/services/product-review.service';
+import { IGridCell, IGridValue } from '../../grid/grid.interface';
+import { getPropertyOf } from '../../shared/helpers/get-property-of.function';
+import { Subscription } from 'rxjs';
+import { GridComponent } from '../../grid/grid.component';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'product-review-list',
@@ -13,11 +16,17 @@ import { ProductReviewService } from '../../shared/services/product-review.servi
 })
 export class ProductReviewListComponent implements OnInit, AfterViewInit {
 
+  private fetchAllSub: Subscription;
+
   productReviews: ProductReviewDto[] = [];
   itemsTotal: number = 0;
+  itemsFiltered: number;
   pagesTotal: number = 1;
+  isGridLoading: boolean = false;
+  idFieldName = getPropertyOf<ProductReviewDto>('id');
+  gridCells: IGridCell[] = storeReviewsGridCells;
 
-  @ViewChild(PaginationComponent) paginationCmp: PaginationComponent;
+  @ViewChild(GridComponent) gridCmp: GridComponent;
 
   constructor(private productReviewsService: ProductReviewService,
               private route: ActivatedRoute,
@@ -29,17 +38,20 @@ export class ProductReviewListComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    const pagination = this.paginationCmp.getValue();
-    this.fetchProductReviews(pagination);
+    const gridValue = this.gridCmp.getValue();
+    this.fetchProductReviews(gridValue);
   }
 
   add() {
     this.router.navigate(['add'], { relativeTo: this.route });
   }
 
-  fetchProductReviews(pagination: IPagination) {
-    this.productReviewsService.fetchAllProductReviews(pagination)
-      .pipe(this.notyService.attachNoty())
+  fetchProductReviews(gridValue: IGridValue) {
+    if (this.fetchAllSub) { this.fetchAllSub.unsubscribe(); }
+
+    this.isGridLoading = true;
+    this.fetchAllSub = this.productReviewsService.fetchAllProductReviews(gridValue)
+      .pipe(this.notyService.attachNoty(), finalize(() => this.isGridLoading = false))
       .subscribe(
         response => {
           this.productReviews = response.data;
@@ -50,3 +62,69 @@ export class ProductReviewListComponent implements OnInit, AfterViewInit {
       );
   }
 }
+
+const storeReviewsGridCells: IGridCell[] = [
+  {
+    isSearchable: false,
+    label: 'Дата',
+    initialWidth: 100,
+    align: 'left',
+    isImage: false,
+    isSortable: true,
+    fieldName: getPropertyOf<ProductReviewDto>('createdAt')
+  },
+  {
+    isSearchable: true,
+    label: 'ID товара',
+    initialWidth: 60,
+    align: 'left',
+    isImage: false,
+    isSortable: true,
+    fieldName: getPropertyOf<ProductReviewDto>('productId')
+  },
+  {
+    isSearchable: true,
+    label: 'Название товара',
+    initialWidth: 250,
+    align: 'left',
+    isImage: false,
+    isSortable: true,
+    fieldName: getPropertyOf<ProductReviewDto>('productName')
+  },
+  {
+    isSearchable: true,
+    label: 'Имя',
+    initialWidth: 100,
+    align: 'left',
+    isImage: false,
+    isSortable: false,
+    fieldName: getPropertyOf<ProductReviewDto>('name')
+  },
+  {
+    isSearchable: true,
+    label: 'Текст',
+    initialWidth: 350,
+    align: 'left',
+    isImage: false,
+    isSortable: false,
+    fieldName: getPropertyOf<ProductReviewDto>('text')
+  },
+  {
+    isSearchable: true,
+    label: 'Оценка',
+    initialWidth: 70,
+    align: 'left',
+    isImage: false,
+    isSortable: true,
+    fieldName: getPropertyOf<ProductReviewDto>('rating')
+  },
+  {
+    isSearchable: false,
+    label: 'Статус',
+    initialWidth: 100,
+    align: 'left',
+    isImage: false,
+    isSortable: true,
+    fieldName: getPropertyOf<ProductReviewDto>('isEnabled')
+  }
+];

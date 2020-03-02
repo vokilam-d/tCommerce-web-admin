@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { ProductReviewListRoutingModule } from './product-review-list-routing.module';
 import { ProductReviewListComponent } from './product-review-list.component';
-import { PaginationModule } from '../../pagination/pagination.module';
+import { GridModule } from '../../grid/grid.module';
 
 
 @NgModule({
@@ -11,7 +11,7 @@ import { PaginationModule } from '../../pagination/pagination.module';
   imports: [
     CommonModule,
     ProductReviewListRoutingModule,
-    PaginationModule
+    GridModule
   ]
 })
 export class ProductReviewListModule { }

@@ -20,7 +20,10 @@ export class AttributeService {
   }
 
   setAttributes() {
-    this.http.get<ResponseDto<AttributeDto[]>>('http://localhost:3500/api/v1/admin/attributes')
+    this.http.get<ResponseDto<AttributeDto[]>>(
+      'http://localhost:3500/api/v1/admin/attributes',
+      { params: toHttpParams({ limit: 0 }) }
+    )
       .subscribe(
         response => {
           this._attributes$.next(response.data);

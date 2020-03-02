@@ -9,7 +9,8 @@
     </div>
   </header>
 
-  <grid [cells]="gridCells"
+  <grid class="page__grid"
+        [cells]="gridCells"
         [itemsArray]="customers"
         [itemsFiltered]="itemsFiltered"
         [pagesTotal]="pagesTotal"
@@ -18,7 +19,6 @@
         [linkFieldName]="idFieldName"
         linkUrlSuffix="edit"
         trackByFieldName="id"
-        size="small"
         gridName="customer-list"
   >
     <span grid-total-items>Всего клиентов: {{ itemsTotal }}</span>
