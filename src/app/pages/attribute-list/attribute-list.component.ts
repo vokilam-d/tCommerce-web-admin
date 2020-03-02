@@ -39,11 +39,6 @@ export class AttributeListComponent extends NgUnsubscribe implements OnInit, Aft
   }
 
   ngOnInit() {
-    this.attributeService.attributes$
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(attributes => {
-        this.attributes = attributes;
-      });
   }
 
   ngAfterViewInit() {
