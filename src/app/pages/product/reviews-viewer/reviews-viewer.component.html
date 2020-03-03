@@ -1,3 +1,7 @@
+<div class="no-reviews" *ngIf="!reviews.length">
+  Нет отзывов
+</div>
+
 <a class="review"
    *ngFor="let review of reviews"
    [routerLink]="['/admin/product-review/edit', review.id]"

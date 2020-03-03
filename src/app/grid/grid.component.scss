@@ -147,7 +147,7 @@
   position: relative;
 
   &::after {
-    content: '\2191';
+    content: '\2193';
     position: absolute;
     top: calc(50% - 2px);
     right: 5px;
@@ -159,7 +159,7 @@
 
   &--desc {
     &::after {
-      content: '\2193';
+      content: '\2191';
     }
   }
 

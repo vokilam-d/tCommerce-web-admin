@@ -91,7 +91,7 @@ const productGridCells: IGridCell[] = [
   {
     isSearchable: false,
     label: 'Фото',
-    initialWidth: 95,
+    initialWidth: 60,
     align: 'center',
     isImage: true,
     isSortable: false,
