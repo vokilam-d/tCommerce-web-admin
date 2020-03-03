@@ -8,6 +8,7 @@ import { OrderItemDto } from '../dtos/order-item.dto';
 import { CreateOrderItemDto } from '../dtos/create-order-item.dto';
 import { ShippingAddressDto } from '../dtos/shipping-address.dto';
 import { IGridValue } from '../../grid/grid.interface';
+import { getPropertyOf } from '../helpers/get-property-of.function';
 
 @Injectable({
   providedIn: 'root'
@@ -17,10 +18,16 @@ export class OrderService {
   constructor(private http: HttpClient) {
   }
 
-  fetchAllOrders(filter: IGridValue): Observable<ResponseDto<OrderDto[]>> {
+  fetchOrders(filter: IGridValue, customerId?: number): Observable<ResponseDto<OrderDto[]>> {
+    const customerIdProp = getPropertyOf<OrderDto>('customerId');
+    const params = toHttpParams({
+      ...filter,
+      ...(customerId ? { [customerIdProp]: customerId } : {})
+    });
+
     return this.http.get<ResponseDto<OrderDto[]>>(
       'http://localhost:3500/api/v1/admin/orders',
-      { params: toHttpParams(filter) }
+      { params }
     );
   }
 

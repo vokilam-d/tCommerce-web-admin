@@ -251,13 +251,15 @@
       </div>
     </ng-template>
 
-    <ng-template #tabContent>{{ tabsLabels[2] }}</ng-template>
+    <ng-template #tabContent>
+      <order-list-viewer [customerId]="customer.id"></order-list-viewer>
+    </ng-template>
 
-    <ng-template #tabContent>{{ tabsLabels[3] }}</ng-template>
+    <ng-template #tabContent>In progress...</ng-template>
 
-    <ng-template #tabContent>{{ tabsLabels[4] }}</ng-template>
+    <ng-template #tabContent>In progress...</ng-template>
 
-    <ng-template #tabContent>{{ tabsLabels[5] }}</ng-template>
+    <ng-template #tabContent>In progress...</ng-template>
   </tabs>
 
 </div>

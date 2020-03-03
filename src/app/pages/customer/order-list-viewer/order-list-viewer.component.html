@@ -1,0 +1,26 @@
+<grid class="page__grid"
+      [cells]="gridCells"
+      [itemsArray]="orders"
+      [itemsFiltered]="itemsFiltered"
+      [linkUrlSuffix]="gridLinkUrl"
+      [pagesTotal]="pagesTotal"
+      [isLoading]="isGridLoading"
+      (gridChange)="fetchOrders($event)"
+      trackByFieldName="id"
+      linkFieldName="id"
+      linkTarget="_blank"
+      size="small"
+      gridName="order-list-viewer"
+>
+  <span grid-total-items>Всего заказов: {{ itemsTotal }}</span>
+  <span grid-no-items>Заказы не найдены</span>
+
+  <ng-template #cellContent let-order="item">{{ order.id }}</ng-template>
+  <ng-template #cellContent let-order="item">{{ order.createdAt | date }}</ng-template>
+  <ng-template #cellContent let-order="item">{{ order.address.city }}</ng-template>
+  <ng-template #cellContent let-order="item">{{ order.totalCost }} {{ defaultCurrency | readableCurrency }}</ng-template>
+  <ng-template #cellContent let-order="item">{{ order.status }}</ng-template>
+  <ng-template #cellContent let-order="item">{{ order.adminNote }}</ng-template>
+  <ng-template #cellContent let-order="item">{{ order.novaposhtaTrackingId }}</ng-template>
+  <ng-template #cellContent let-order="item">{{ order.clientNote }}</ng-template>
+</grid>

@@ -1,22 +1,22 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { OrderDto } from '../../shared/dtos/order.dto';
-import { OrderService } from '../../shared/services/order.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { NotyService } from '../../noty/noty.service';
-import { IGridCell, IGridValue } from '../../grid/grid.interface';
-import { GridComponent } from '../../grid/grid.component';
-import { getPropertyOf } from '../../shared/helpers/get-property-of.function';
-import { ShippingAddressDto } from '../../shared/dtos/shipping-address.dto';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { OrderDto } from '../../../shared/dtos/order.dto';
+import { IGridCell, IGridValue } from '../../../grid/grid.interface';
+import { DEFAULT_CURRENCY_CODE } from '../../../shared/enums/currency.enum';
+import { GridComponent } from '../../../grid/grid.component';
+import { OrderService } from '../../../shared/services/order.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NotyService } from '../../../noty/noty.service';
 import { finalize } from 'rxjs/operators';
-import { DEFAULT_CURRENCY_CODE } from '../../shared/enums/currency.enum';
+import { getPropertyOf } from '../../../shared/helpers/get-property-of.function';
+import { ShippingAddressDto } from '../../../shared/dtos/shipping-address.dto';
 
 @Component({
-  selector: 'order-list',
-  templateUrl: './order-list.component.html',
-  styleUrls: ['./order-list.component.scss']
+  selector: 'order-list-viewer',
+  templateUrl: './order-list-viewer.component.html',
+  styleUrls: ['./order-list-viewer.component.scss']
 })
-export class OrderListComponent implements OnInit, AfterViewInit {
+export class OrderListViewerComponent implements OnInit, AfterViewInit {
 
   private fetchAllSub: Subscription;
 
@@ -29,12 +29,12 @@ export class OrderListComponent implements OnInit, AfterViewInit {
   gridCells: IGridCell[] = orderGridCells;
   defaultCurrency = DEFAULT_CURRENCY_CODE;
 
+  @Input() customerId: number;
   @ViewChild(GridComponent) gridCmp: GridComponent;
 
   constructor(private ordersService: OrderService,
               private route: ActivatedRoute,
-              private notyService: NotyService,
-              private router: Router) {
+              private notyService: NotyService) {
   }
 
   ngOnInit() {
@@ -45,15 +45,11 @@ export class OrderListComponent implements OnInit, AfterViewInit {
     this.fetchOrders(gridValue);
   }
 
-  add() {
-    this.router.navigate(['add'], { relativeTo: this.route });
-  }
-
   fetchOrders(gridValue: IGridValue) {
     if (this.fetchAllSub) { this.fetchAllSub.unsubscribe(); }
 
     this.isGridLoading = true;
-    this.fetchAllSub = this.ordersService.fetchOrders(gridValue)
+    this.fetchAllSub = this.ordersService.fetchOrders(gridValue, this.customerId)
       .pipe(this.notyService.attachNoty(), finalize(() => this.isGridLoading = false))
       .subscribe(
         response => {
@@ -86,15 +82,6 @@ const orderGridCells: IGridCell[] = [
     isImage: false,
     isSortable: true,
     fieldName: getPropertyOf<OrderDto>('createdAt')
-  },
-  {
-    isSearchable: true,
-    label: 'Имя',
-    initialWidth: 200,
-    align: 'left',
-    isImage: false,
-    isSortable: false,
-    fieldName: `${addressProp}.${getPropertyOf<ShippingAddressDto>('lastName')}|${addressProp}.${getPropertyOf<ShippingAddressDto>('firstName')}`
   },
   {
     isSearchable: true,

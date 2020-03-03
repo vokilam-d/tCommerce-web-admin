@@ -56,6 +56,7 @@ export class GridComponent<T extends { isOpened?: boolean } = any> extends NgUns
   @Input() size: 'default' | 'small' = 'default';
   @Input() linkUrlSuffix: string;
   @Input() linkFieldName: string;
+  @Input() linkTarget: '_self' | '_blank' = '_self';
   @Input() subItemsFieldName: string;
   @Input() trackByFieldName: string;
   @Input() pagesTotal: number;
