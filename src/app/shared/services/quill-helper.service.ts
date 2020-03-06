@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { QuillModules } from 'ngx-quill';
 import Quill from 'quill';
 import { inputMediaAcceptTypes } from '../constants/constants';
-import { MediaDto } from '../dtos/media.dto';
 
 @Injectable({
   providedIn: 'root'

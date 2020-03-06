@@ -50,6 +50,15 @@
       </span>
     </div>
 
+    <div class="product__field field"
+         *ngIf="form.get('sortOrder') as sortOrder"
+    >
+      <label class="field__label" for="sortOrder">Порядок сортировки</label>
+      <span class="field__control">
+        <input class="field__input" [formControl]="sortOrder" id="sortOrder" type="number" min="0">
+      </span>
+    </div>
+
     <fields-group class="product__group" [id]="'product-attributes'">
       <div fields-group-title>Атрибуты<span *ngIf="isMultiVariant"> (общие)</span></div>
 
@@ -218,7 +227,7 @@
         >
           <label class="field__label" [for]="'metaTitle-' + i">Meta заголовок</label>
           <span class="field__control">
-            <input class="field__input" [formControl]="metaTitle" [id]="'metaTitle-' + i" type="text">
+            <textarea class="field__input" [formControl]="metaTitle" [id]="'metaTitle-' + i"></textarea>
           </span>
         </div>
 

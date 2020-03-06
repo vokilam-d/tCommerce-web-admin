@@ -112,6 +112,7 @@ export class ProductComponent implements OnInit {
       name: [this.product.name, Validators.required],
       categoryIds: [this.product.categoryIds],
       attributes: [this.product.attributes],
+      sortOrder: [this.product.sortOrder],
       variants: variantsFormArray
     });
   }
