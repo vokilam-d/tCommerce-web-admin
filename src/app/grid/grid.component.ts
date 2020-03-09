@@ -117,7 +117,10 @@ export class GridComponent<T extends { isOpened?: boolean } = any> extends NgUns
   }
 
   onSearchInput(cell: IGridCell, evt: Event) {
-    this.search$.next({ fieldName: cell.fieldName, value: (evt.target as HTMLInputElement).value })
+    let value = (evt.target as HTMLInputElement).value;
+    value = value.replace(/,/g, ''); // ',' sign is reserved as array delimiter
+
+    this.search$.next({ fieldName: cell.fieldName, value })
   }
 
   getRouterLinkUrl(item: T): string[] | null {
