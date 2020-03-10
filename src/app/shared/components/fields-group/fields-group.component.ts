@@ -4,6 +4,7 @@ import { animate, animation, state, style, transition, trigger } from '@angular/
 const animateTiming = '0.4s cubic-bezier(0.25, 0.8, 0.25, 1)';
 const hiddenStyles = { 'height': 0, 'overflow': 'hidden', 'padding': 0 };
 const visibleStyles = { 'height': '*', 'padding': '*' };
+
 @Component({
   selector: 'fields-group',
   templateUrl: './fields-group.component.html',
