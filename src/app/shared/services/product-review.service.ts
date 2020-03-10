@@ -28,7 +28,7 @@ export class ProductReviewService {
     );
   }
 
-  fetchProductReview(id: string): Observable<ResponseDto<ProductReviewDto>> {
+  fetchProductReview(id: number): Observable<ResponseDto<ProductReviewDto>> {
     return this.http.get<ResponseDto<ProductReviewDto>>(`http://localhost:3500/api/v1/admin/product-reviews/${id}`);
   }
 
@@ -36,11 +36,11 @@ export class ProductReviewService {
     return this.http.post<ResponseDto<ProductReviewDto>>(`http://localhost:3500/api/v1/admin/product-reviews`, dto);
   }
 
-  updateProductReview(id: string, dto: ProductReviewDto): Observable<ResponseDto<ProductReviewDto>> {
+  updateProductReview(id: number, dto: ProductReviewDto): Observable<ResponseDto<ProductReviewDto>> {
     return this.http.put<ResponseDto<ProductReviewDto>>(`http://localhost:3500/api/v1/admin/product-reviews/${id}`, dto);
   }
 
-  deleteProductReview(id: string) {
+  deleteProductReview(id: number) {
     return this.http.delete<any>(`http://localhost:3500/api/v1/admin/product-reviews/${id}`);
   }
 }

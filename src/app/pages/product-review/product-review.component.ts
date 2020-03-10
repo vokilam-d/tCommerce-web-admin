@@ -102,7 +102,7 @@ export class ProductReviewComponent implements OnInit {
 
   private fetchProductReview() {
     const id = this.route.snapshot.paramMap.get('id');
-    this.productReviewService.fetchProductReview(id)
+    this.productReviewService.fetchProductReview(parseInt(id))
       .pipe(this.notyService.attachNoty())
       .subscribe(
         response => {

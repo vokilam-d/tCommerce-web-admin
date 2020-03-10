@@ -14,7 +14,7 @@ export class ProductReviewDto {
   productId: number;
   productName: string;
   productVariantId: string;
-  id: string = '';
+  id: number;
   isEnabled: boolean = true;
   votesCount: number;
   name: string = '';
