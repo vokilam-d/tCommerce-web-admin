@@ -186,4 +186,8 @@ export class ProductReviewComponent implements OnInit {
     this.productReview.productVariantId = variant.id;
     this.productSelectorCmp.hideSelector();
   }
+
+  removeComment(commentIdx: number) {
+    this.commentsFormArray.removeAt(commentIdx);
+  }
 }

@@ -147,7 +147,7 @@
              *ngIf="commentForm.get('isEnabled') as isEnabled"
              [class.field--invalid]="isControlInvalid(isEnabled)"
         >
-          <label class="field__label">Включить отзыв</label>
+          <label class="field__label">Включить комментарий</label>
           <div class="field__control">
             <toggle [formControl]="isEnabled"></toggle>
           </div>
@@ -191,6 +191,14 @@
           <label class="field__label" [for]="'createdAt-' + i">Время</label>
           <span class="field__control">
             <input class="field__input" [formControl]="createdAt" type="datetime-local" [id]="'createdAt-' + i" step="1">
+          </span>
+        </div>
+
+
+        <div class="product-review__field field">
+          <div class="field__label"></div>
+          <span class="field__control">
+            <app-button (click)="removeComment(i)">Удалить комментарий</app-button>
           </span>
         </div>
       </fields-group>
