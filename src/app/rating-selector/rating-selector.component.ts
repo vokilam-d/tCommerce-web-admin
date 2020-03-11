@@ -50,5 +50,4 @@ export class RatingSelectorComponent implements OnInit, ControlValueAccessor {
     this.writeValue(rating);
     this.onTouched();
   }
-
 }

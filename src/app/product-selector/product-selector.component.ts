@@ -76,6 +76,7 @@ export class ProductSelectorComponent implements OnInit, AfterViewInit {
         response => {
           this.products = this.transformProducts(response.data);
           this.itemsTotal = response.itemsTotal;
+          this.itemsFiltered = response.itemsFiltered;
           this.pagesTotal = response.pagesTotal;
         }
       );
