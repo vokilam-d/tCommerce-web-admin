@@ -196,7 +196,7 @@
         >
           <label class="field__label" [for]="'desc-' + i">Описание</label>
           <span class="field__control">
-            <quill-editor [formControl]="fullDescription" [id]="'desc-' + i" [modules]="quillModules"></quill-editor>
+            <quill-editor [formControl]="fullDescription" [strict]="false" [id]="'desc-' + i" [modules]="quillModules"></quill-editor>
           </span>
         </div>
 

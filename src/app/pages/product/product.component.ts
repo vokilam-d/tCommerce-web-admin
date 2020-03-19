@@ -204,4 +204,8 @@ export class ProductComponent implements OnInit {
   isDefaultCurrency(variantIdx: number): boolean {
     return this.product.variants[variantIdx].currency === DEFAULT_CURRENCY_CODE;
   }
+
+  log() {
+    console.log('log!');
+  }
 }

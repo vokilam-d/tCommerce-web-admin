@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { animate, animation, state, style, transition, trigger } from '@angular/animations';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 const animateTiming = '0.4s cubic-bezier(0.25, 0.8, 0.25, 1)';
 const hiddenStyles = { 'height': 0, 'overflow': 'hidden', 'padding': 0 };
@@ -12,8 +12,10 @@ const visibleStyles = { 'height': '*', 'padding': '*' };
   animations: [
     trigger('blockInitialAnimation', [transition(':enter', [])]),
     trigger('slideToggle', [
-      transition(':enter', animation([ style(hiddenStyles), animate(animateTiming, style(visibleStyles)) ])),
-      transition(':leave', animation([ style(visibleStyles), animate(animateTiming, style(hiddenStyles)) ]))
+      state('true', style(visibleStyles)),
+      state('false', style(hiddenStyles)),
+      transition('* => true', animate(animateTiming, style(visibleStyles))),
+      transition('* => false', animate(animateTiming, style(hiddenStyles)))
     ])
   ]
 })

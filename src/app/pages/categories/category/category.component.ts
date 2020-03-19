@@ -104,7 +104,7 @@ export class CategoryComponent implements OnInit {
     }
 
     this.categoriesService.deleteCategory(this.category.id)
-      .pipe(this.notyService.attachNoty())
+      .pipe(this.notyService.attachNoty({ successText: 'Категория успешно удалена' }))
       .subscribe(
         _ => {
           this.router.navigate(['admin', 'category']);
@@ -118,7 +118,7 @@ export class CategoryComponent implements OnInit {
     const parentId = this.route.snapshot.paramMap.get('parentId');
 
     this.categoriesService.saveCategory(this.form.value, parentId)
-      .pipe(this.notyService.attachNoty())
+      .pipe(this.notyService.attachNoty({ successText: 'Категория успешно создана' }))
       .subscribe(
         response => {
           this.categoriesService.categoryUpdated$.next();
@@ -135,7 +135,7 @@ export class CategoryComponent implements OnInit {
     };
 
     this.categoriesService.updateCategory(this.category.id, dto)
-      .pipe(this.notyService.attachNoty())
+      .pipe(this.notyService.attachNoty({ successText: 'Категория успешно изменена' }))
       .subscribe(
         response => {
           this.categoriesService.categoryUpdated$.next();
