@@ -38,11 +38,11 @@ export function app() {
 }
 
 function run() {
-  const port = process.env.PORT || 3001;
+  const port = +process.env.PORT || 3001;
 
   // Start up the Node server
   const server = app();
-  server.listen(port, () => {
+  server.listen(port, '0.0.0.0', () => {
     console.log(`Node Express server listening on http://localhost:${port}`);
   });
 }
