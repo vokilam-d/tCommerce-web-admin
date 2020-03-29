@@ -2,9 +2,7 @@
   "name": "web-admin",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
-    "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points",
-    "serve": "ng serve --disable-host-check"
+    "serve": "ng run web-admin:serve"
   },
   "private": true,
   "dependencies": {

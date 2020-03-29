@@ -76,6 +76,7 @@
           "options": {
             "browserTarget": "web-admin:build",
             "open": true,
+            "disableHostCheck": true,
             "port": 4002,
             "aot": false,
             "liveReload": true
