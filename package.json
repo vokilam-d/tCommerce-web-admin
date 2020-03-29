@@ -4,8 +4,8 @@
   "scripts": {
     "serve": "ng run web-admin:serve",
     "dev:ssr": "ng run web-admin:serve-ssr",
-    "start:prod": "node dist/web-admin/server/main.js",
-    "build:prod": "ng run web-admin:build:production && ng run web-admin:server:production"
+    "build:prod": "ng run web-admin:build:production && ng run web-admin:server:production",
+    "start:prod": "node dist/web-admin/server/main.js"
   },
   "private": true,
   "dependencies": {
