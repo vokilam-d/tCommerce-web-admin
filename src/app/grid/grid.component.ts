@@ -46,7 +46,7 @@ interface ISavedGridInfo {
 export class GridComponent<T extends { isOpened?: boolean } = any> extends NgUnsubscribe implements OnInit {
 
   activeSorting: IGridSorting = null;
-  private filtersMap = new Map<fieldName, string>();
+  filtersMap = new Map<fieldName, string>();
   private search$ = new Subject<IGridFilter>();
 
   @Input() gridName: string;

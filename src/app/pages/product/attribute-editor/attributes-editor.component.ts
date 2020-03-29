@@ -55,7 +55,7 @@ export class AttributesEditorComponent extends NgUnsubscribe implements OnInit {
   @Input() initialFormValue: ProductDto;
   @Output('generated') generatedEmitter = new EventEmitter<ProductDto>();
 
-  constructor(private attributeService: AttributeService) {
+  constructor(public attributeService: AttributeService) {
     super();
   }
 

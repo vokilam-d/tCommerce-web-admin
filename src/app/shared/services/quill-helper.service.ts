@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { QuillModules } from 'ngx-quill';
-import Quill from 'quill';
+// import Quill from 'quill';
 import { inputMediaAcceptTypes } from '../constants/constants';
 
 @Injectable({
@@ -31,7 +31,7 @@ export class QuillHelperService {
     }
   }
 
-  private imageUploadHandler(quill: Quill) {
+  private imageUploadHandler(quill: any) {
     const fileInput = document.createElement('input');
     fileInput.setAttribute('type', 'file');
     fileInput.setAttribute('accept', inputMediaAcceptTypes);

@@ -10,7 +10,7 @@ const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: '/dashboard'
+        redirectTo: 'dashboard'
       },
       {
         path: 'dashboard',
@@ -169,14 +169,20 @@ const routes: Routes = [
         loadChildren: () => import('./pages/not-found/not-found.module').then(m => m.NotFoundModule)
       }
     ]
+  },
+
+  {
+    path: '**',
+    redirectTo: 'admin'
   }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, {
     relativeLinkResolution: 'corrected',
-    scrollPositionRestoration: 'enabled'
-  })],
+    scrollPositionRestoration: 'enabled',
+    initialNavigation: 'enabled'
+})],
   exports: [RouterModule]
 })
 export class AppRoutingModule {
