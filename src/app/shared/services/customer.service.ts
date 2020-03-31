@@ -5,6 +5,7 @@ import { ResponseDto } from '../dtos/response.dto';
 import { AddOrUpdateCustomerDto, CustomerDto } from '../dtos/customer.dto';
 import { toHttpParams } from '../helpers/to-http-params.function';
 import { IGridValue } from '../../grid/grid.interface';
+import { API_HOST } from '../constants/constants';
 
 @Injectable({
   providedIn: 'root'
@@ -16,24 +17,24 @@ export class CustomerService {
 
   fetchAllCustomers(gridValue: IGridValue): Observable<ResponseDto<CustomerDto[]>> {
     return this.http.get<ResponseDto<CustomerDto[]>>(
-      'http://localhost:3500/api/v1/admin/customers',
+      `${API_HOST}/api/v1/admin/customers`,
       { params: toHttpParams(gridValue) }
     );
   }
 
   fetchCustomer(id: string | number): Observable<ResponseDto<CustomerDto>> {
-    return this.http.get<ResponseDto<CustomerDto>>(`http://localhost:3500/api/v1/admin/customers/${id}`);
+    return this.http.get<ResponseDto<CustomerDto>>(`${API_HOST}/api/v1/admin/customers/${id}`);
   }
 
   addNewCustomer(dto: AddOrUpdateCustomerDto): Observable<ResponseDto<CustomerDto>> {
-    return this.http.post<ResponseDto<CustomerDto>>(`http://localhost:3500/api/v1/admin/customers`, dto);
+    return this.http.post<ResponseDto<CustomerDto>>(`${API_HOST}/api/v1/admin/customers`, dto);
   }
 
   updateCustomer(id: number, dto: AddOrUpdateCustomerDto): Observable<ResponseDto<CustomerDto>> {
-    return this.http.put<ResponseDto<CustomerDto>>(`http://localhost:3500/api/v1/admin/customers/${id}`, dto);
+    return this.http.put<ResponseDto<CustomerDto>>(`${API_HOST}/api/v1/admin/customers/${id}`, dto);
   }
 
   deleteCustomer(id: number) {
-    return this.http.delete<any>(`http://localhost:3500/api/v1/admin/customers/${id}`);
+    return this.http.delete<any>(`${API_HOST}/api/v1/admin/customers/${id}`);
   }
 }

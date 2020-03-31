@@ -29,7 +29,7 @@
     <ng-template #cellContent let-product="item">
       <img class="product__thumbnail-img"
            *ngIf="product.mediaUrl as media"
-           [src]="'http://localhost:3500' + media"
+           [src]="uploadedHost + media"
       >
     </ng-template>
 
@@ -92,7 +92,7 @@
     <ng-template #subCellContent let-variant="subItem">
       <img class="product__thumbnail-img"
            *ngIf="variant.mediaUrl as media"
-           [src]="'http://localhost:3500' + media"
+           [src]="uploadedHost + media"
       >
     </ng-template>
 

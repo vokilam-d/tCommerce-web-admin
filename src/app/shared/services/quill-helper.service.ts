@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { QuillModules } from 'ngx-quill';
-// import Quill from 'quill';
-import { inputMediaAcceptTypes } from '../constants/constants';
+import { API_HOST, inputMediaAcceptTypes } from '../constants/constants';
 
 @Injectable({
   providedIn: 'root'
@@ -48,7 +47,7 @@ export class QuillHelperService {
         .subscribe(
           url => {
             const range = quill.getSelection(true);
-            quill.insertEmbed(range.index, 'image', `http://localhost:3500${url}`, 'user');
+            quill.insertEmbed(range.index, 'image', `${API_HOST}${url}`, 'user');
             quill.setSelection(range.index + 1, 0, 'silent');
           },
           error => console.warn(error)
@@ -57,6 +56,6 @@ export class QuillHelperService {
   }
 
   getMediaUploadUrl() {
-    return `http://localhost:3500/api/v1/admin/wysiwyg/media`;
+    return `${API_HOST}/api/v1/admin/wysiwyg/media`;
   }
 }

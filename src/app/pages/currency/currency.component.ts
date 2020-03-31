@@ -4,6 +4,7 @@ import { CurrencyDto } from '../../shared/dtos/currency.dto';
 import { ResponseDto } from '../../shared/dtos/response.dto';
 import { NotyService } from '../../noty/noty.service';
 import { DEFAULT_CURRENCY_CODE } from '../../shared/enums/currency.enum';
+import { API_HOST } from '../../shared/constants/constants';
 
 @Component({
   selector: 'currency',
@@ -24,7 +25,7 @@ export class CurrencyComponent implements OnInit {
 
   private init() {
     this.activeCurrency = null;
-    this.http.get<ResponseDto<CurrencyDto[]>>(`http://localhost:3500/api/v1/admin/currencies`)
+    this.http.get<ResponseDto<CurrencyDto[]>>(`${API_HOST}/api/v1/admin/currencies`)
       .pipe(this.notyService.attachNoty())
       .subscribe(
         response => {
@@ -48,7 +49,7 @@ export class CurrencyComponent implements OnInit {
 
   updateCurrency() {
     this.http.put<ResponseDto<CurrencyDto>>(
-      `http://localhost:3500/api/v1/admin/currencies/${this.activeCurrency.id}`,
+      `${API_HOST}/api/v1/admin/currencies/${this.activeCurrency.id}`,
       this.activeCurrency
     )
       .pipe(this.notyService.attachNoty({ successText: 'Валюта успешно обновлена' }))
@@ -60,7 +61,7 @@ export class CurrencyComponent implements OnInit {
   }
 
   updateExchangeRates() {
-    this.http.post<ResponseDto<CurrencyDto[]>>(`http://localhost:3500/api/v1/admin/currencies/update-rates`, {})
+    this.http.post<ResponseDto<CurrencyDto[]>>(`${API_HOST}/api/v1/admin/currencies/update-rates`, {})
       .pipe(this.notyService.attachNoty({ successText: 'Курс валют успешно обновлён' }))
       .subscribe(
         response => {

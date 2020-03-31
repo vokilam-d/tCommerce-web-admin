@@ -14,6 +14,7 @@ import { ISelectOption } from '../../shared/components/select/select-option.inte
 import { ShippingAddressDto } from '../../shared/dtos/shipping-address.dto';
 import { CustomerService } from '../../shared/services/customer.service';
 import { ProductSelectorComponent } from '../../product-selector/product-selector.component';
+import { API_HOST } from '../../shared/constants/constants';
 
 @Component({
   selector: 'order',
@@ -22,6 +23,7 @@ import { ProductSelectorComponent } from '../../product-selector/product-selecto
 })
 export class OrderComponent implements OnInit {
 
+  uploadedHost = API_HOST;
   isNewOrder: boolean;
   isReorder: boolean;
   isEditOrder: boolean;

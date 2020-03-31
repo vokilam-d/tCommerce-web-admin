@@ -9,6 +9,7 @@ import { NotyService } from '../../noty/noty.service';
 import { QuillHelperService } from '../../shared/services/quill-helper.service';
 import { QuillModules } from 'ngx-quill';
 import { DEFAULT_CURRENCY_CODE, ECurrencyCode } from '../../shared/enums/currency.enum';
+import { API_HOST } from '../../shared/constants/constants';
 
 @Component({
   selector: 'product',
@@ -174,7 +175,7 @@ export class ProductComponent implements OnInit {
   }
 
   getMediaUploadUrl() {
-    return `http://localhost:3500/api/v1/admin/products/media`;
+    return `${API_HOST}/api/v1/admin/products/media`;
   }
 
   mediaUploaded(media: MediaDto, mediasControl: AbstractControl) {

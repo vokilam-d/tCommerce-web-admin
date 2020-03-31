@@ -17,8 +17,9 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/web-admin/browser",
+            "outputPath": "dist/web-admin/browser/admin",
             "index": "src/index.html",
+            "deployUrl": "admin/",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
@@ -165,26 +166,14 @@
           "builder": "@nguniversal/builders:ssr-dev-server",
           "options": {
             "browserTarget": "web-admin:build",
-            "serverTarget": "web-admin:server"
+            "serverTarget": "web-admin:server",
+            "open": true
           },
           "configurations": {
             "production": {
               "browserTarget": "web-admin:build:production",
               "serverTarget": "web-admin:server:production"
             }
-          }
-        },
-        "prerender": {
-          "builder": "@nguniversal/builders:prerender",
-          "options": {
-            "browserTarget": "web-admin:build:production",
-            "serverTarget": "web-admin:server:production",
-            "routes": [
-              "/"
-            ]
-          },
-          "configurations": {
-            "production": {}
           }
         }
       }

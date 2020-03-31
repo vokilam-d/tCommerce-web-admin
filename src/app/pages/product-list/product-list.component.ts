@@ -9,6 +9,7 @@ import { GridComponent } from '../../grid/grid.component';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { getPropertyOf } from '../../shared/helpers/get-property-of.function';
+import { API_HOST } from '../../shared/constants/constants';
 
 @Component({
   selector: 'product-list',
@@ -17,6 +18,7 @@ import { getPropertyOf } from '../../shared/helpers/get-property-of.function';
 })
 export class ProductListComponent implements OnInit, AfterViewInit {
 
+  uploadedHost = API_HOST;
   private fetchAllSub: Subscription;
   products: ProductListItemDto[];
 

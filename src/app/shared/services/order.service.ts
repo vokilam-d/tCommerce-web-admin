@@ -9,6 +9,7 @@ import { CreateOrderItemDto } from '../dtos/create-order-item.dto';
 import { ShippingAddressDto } from '../dtos/shipping-address.dto';
 import { IGridValue } from '../../grid/grid.interface';
 import { getPropertyOf } from '../helpers/get-property-of.function';
+import { API_HOST } from '../constants/constants';
 
 @Injectable({
   providedIn: 'root'
@@ -26,25 +27,25 @@ export class OrderService {
     });
 
     return this.http.get<ResponseDto<OrderDto[]>>(
-      'http://localhost:3500/api/v1/admin/orders',
+      `${API_HOST}/api/v1/admin/orders`,
       { params }
     );
   }
 
   fetchOrder(id: string | number): Observable<ResponseDto<OrderDto>> {
-    return this.http.get<ResponseDto<OrderDto>>(`http://localhost:3500/api/v1/admin/orders/${id}`);
+    return this.http.get<ResponseDto<OrderDto>>(`${API_HOST}/api/v1/admin/orders/${id}`);
   }
 
   addNewOrder(dto: AddOrUpdateOrderDto): Observable<ResponseDto<OrderDto>> {
-    return this.http.post<ResponseDto<OrderDto>>(`http://localhost:3500/api/v1/admin/orders`, dto);
+    return this.http.post<ResponseDto<OrderDto>>(`${API_HOST}/api/v1/admin/orders`, dto);
   }
 
   editOrder(id: number, dto: AddOrUpdateOrderDto): Observable<ResponseDto<OrderDto>> {
-    return this.http.put<ResponseDto<OrderDto>>(`http://localhost:3500/api/v1/admin/orders/${id}`, dto);
+    return this.http.put<ResponseDto<OrderDto>>(`${API_HOST}/api/v1/admin/orders/${id}`, dto);
   }
 
   updateOrderAddress(id: number, address: ShippingAddressDto) {
-    return this.http.put<ResponseDto<OrderDto>>(`http://localhost:3500/api/v1/admin/orders/${id}/address`, address);
+    return this.http.put<ResponseDto<OrderDto>>(`${API_HOST}/api/v1/admin/orders/${id}/address`, address);
   }
 
   createOrderItem(sku: string, qty: number, customerId?: number) {
@@ -54,22 +55,22 @@ export class OrderService {
       customerId
     };
 
-    return this.http.post<ResponseDto<OrderItemDto>>(`http://localhost:3500/api/v1/admin/order-items`, payload);
+    return this.http.post<ResponseDto<OrderItemDto>>(`${API_HOST}/api/v1/admin/order-items`, payload);
   }
 
   cancelOrder(id: number) {
-    return this.http.post<ResponseDto<OrderDto>>(`http://localhost:3500/api/v1/admin/orders/${id}/actions/cancel`, {});
+    return this.http.post<ResponseDto<OrderDto>>(`${API_HOST}/api/v1/admin/orders/${id}/actions/cancel`, {});
   }
 
   startOrder(id: number) {
-    return this.http.post<ResponseDto<OrderDto>>(`http://localhost:3500/api/v1/admin/orders/${id}/actions/start`, {});
+    return this.http.post<ResponseDto<OrderDto>>(`${API_HOST}/api/v1/admin/orders/${id}/actions/start`, {});
   }
 
   shipOrder(id: number) {
-    return this.http.post<ResponseDto<OrderDto>>(`http://localhost:3500/api/v1/admin/orders/${id}/actions/ship`, {});
+    return this.http.post<ResponseDto<OrderDto>>(`${API_HOST}/api/v1/admin/orders/${id}/actions/ship`, {});
   }
 
   getPrintOrderUrl(id: number): string {
-    return `http://localhost:3500/api/v1/admin/orders/${id}/invoice`;
+    return `${API_HOST}/api/v1/admin/orders/${id}/invoice`;
   }
 }

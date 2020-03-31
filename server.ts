@@ -12,7 +12,8 @@ import { existsSync } from 'fs';
 export function app() {
   const server = express();
   const distFolder = join(process.cwd(), 'dist/web-admin/browser');
-  const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
+  let indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
+  indexHtml = join('admin', indexHtml);
 
   // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
   server.engine('html', ngExpressEngine({

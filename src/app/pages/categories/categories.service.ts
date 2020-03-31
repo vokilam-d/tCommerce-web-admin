@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { AddOrUpdateCategoryDto, CategoryDto, CategoryTreeItem } from '../../shared/dtos/category.dto';
 import { ResponseDto } from '../../shared/dtos/response.dto';
+import { API_HOST } from '../../shared/constants/constants';
 
 @Injectable()
 export class CategoriesService {
@@ -14,11 +15,11 @@ export class CategoriesService {
   }
 
   fetchCategoriesTree() {
-    return this.http.get<ResponseDto<CategoryTreeItem[]>>(`http://localhost:3500/api/v1/admin/categories/tree`);
+    return this.http.get<ResponseDto<CategoryTreeItem[]>>(`${API_HOST}/api/v1/admin/categories/tree`);
   }
 
   fetchCategory(id: string) {
-    return this.http.get<ResponseDto<CategoryDto>>(`http://localhost:3500/api/v1/admin/categories/${id}`);
+    return this.http.get<ResponseDto<CategoryDto>>(`${API_HOST}/api/v1/admin/categories/${id}`);
   }
 
   setSelectedCategoryId(id: number) {
@@ -35,14 +36,14 @@ export class CategoriesService {
       parentId: parseInt(parentId)
     };
 
-    return this.http.post<ResponseDto<CategoryDto>>(`http://localhost:3500/api/v1/admin/categories`, categoryDto);
+    return this.http.post<ResponseDto<CategoryDto>>(`${API_HOST}/api/v1/admin/categories`, categoryDto);
   }
 
   updateCategory(id: number, categoryDto: CategoryDto) {
-    return this.http.put<ResponseDto<CategoryDto>>(`http://localhost:3500/api/v1/admin/categories/${id}`, categoryDto);
+    return this.http.put<ResponseDto<CategoryDto>>(`${API_HOST}/api/v1/admin/categories/${id}`, categoryDto);
   }
 
   deleteCategory(id: number) {
-    return this.http.delete(`http://localhost:3500/api/v1/admin/categories/${id}`);
+    return this.http.delete(`${API_HOST}/api/v1/admin/categories/${id}`);
   }
 }

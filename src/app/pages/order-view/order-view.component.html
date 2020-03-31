@@ -148,7 +148,7 @@
             <td class="items-table__block items-table__block--img">
               <img class="items-table__img"
                    *ngIf="item.imageUrl"
-                   [src]="'http://localhost:3500' + item.imageUrl">
+                   [src]="uploadedHost + item.imageUrl">
             </td>
             <td class="items-table__block items-table__block--name">
               {{ item.name }}

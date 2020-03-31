@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { NotyService } from '../../noty/noty.service';
+import { API_HOST } from '../../shared/constants/constants';
 
 @Component({
   selector: 'emails-test',
@@ -10,7 +11,7 @@ import { NotyService } from '../../noty/noty.service';
 export class EmailsTestComponent implements OnInit {
 
   email: string = '';
-  private emailTestApi = 'admin/email-test';
+  private apiPrefix = 'admin/email-test';
 
   constructor(private http: HttpClient,
               private notyService: NotyService) { }
@@ -22,7 +23,7 @@ export class EmailsTestComponent implements OnInit {
   sendEmailConfirmationEmail() {
     if (!this.checkEmail()) { return; }
 
-    const apiUrl = `http://localhost:3500/api/v1/${this.emailTestApi}/email-confirmation`;
+    const apiUrl = `${API_HOST}/api/v1/${this.apiPrefix}/email-confirmation`;
     this.http.post(apiUrl, { email: this.email })
       .pipe(this.notyService.attachNoty({ successText: 'Письмо успешно отправлено' }))
       .subscribe();
@@ -31,7 +32,7 @@ export class EmailsTestComponent implements OnInit {
   sendSuccessfulRegistrationEmail() {
     if (!this.checkEmail()) { return; }
 
-    const apiUrl = `http://localhost:3500/api/v1/${this.emailTestApi}/registration-success`;
+    const apiUrl = `${API_HOST}/api/v1/${this.apiPrefix}/registration-success`;
     this.http.post(apiUrl, { email: this.email })
       .pipe(this.notyService.attachNoty({ successText: 'Письмо успешно отправлено' }))
       .subscribe();
@@ -43,7 +44,7 @@ export class EmailsTestComponent implements OnInit {
     const orderId = prompt(`Введите ID заказа`);
     if (!orderId) { return; }
 
-    const apiUrl = `http://localhost:3500/api/v1/${this.emailTestApi}/order-confirmation/${orderId}`;
+    const apiUrl = `${API_HOST}/api/v1/${this.apiPrefix}/order-confirmation/${orderId}`;
     this.http.post(apiUrl, { email: this.email })
       .pipe(this.notyService.attachNoty({ successText: 'Письмо успешно отправлено' }))
       .subscribe();

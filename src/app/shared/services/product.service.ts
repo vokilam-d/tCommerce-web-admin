@@ -5,6 +5,7 @@ import { AddOrUpdateProductDto, ProductListItemDto, ProductDto } from '../dtos/p
 import { toHttpParams } from '../helpers/to-http-params.function';
 import { ResponseDto } from '../dtos/response.dto';
 import { IGridValue } from '../../grid/grid.interface';
+import { API_HOST } from '../constants/constants';
 
 @Injectable({
   providedIn: 'root'
@@ -19,32 +20,32 @@ export class ProductService {
     params.withVariants = withVariants;
 
     return this.http.get<ResponseDto<ProductListItemDto[]>>(
-      'http://localhost:3500/api/v1/admin/products',
+      `${API_HOST}/api/v1/admin/products`,
       { params: toHttpParams(params) }
     );
   }
 
   fetchProduct(id: string | number): Observable<ResponseDto<ProductDto>> {
-    return this.http.get<ResponseDto<ProductDto>>(`http://localhost:3500/api/v1/admin/products/${id}`);
+    return this.http.get<ResponseDto<ProductDto>>(`${API_HOST}/api/v1/admin/products/${id}`);
   }
 
   addNewProduct(dto: AddOrUpdateProductDto): Observable<ResponseDto<ProductDto>> {
-    return this.http.post<ResponseDto<ProductDto>>(`http://localhost:3500/api/v1/admin/products`, dto);
+    return this.http.post<ResponseDto<ProductDto>>(`${API_HOST}/api/v1/admin/products`, dto);
   }
 
   updateProduct(id: number, dto: AddOrUpdateProductDto): Observable<ResponseDto<ProductDto>> {
-    return this.http.put<ResponseDto<ProductDto>>(`http://localhost:3500/api/v1/admin/products/${id}`, dto);
+    return this.http.put<ResponseDto<ProductDto>>(`${API_HOST}/api/v1/admin/products/${id}`, dto);
   }
 
   deleteProduct(id: number) {
-    return this.http.delete<any>(`http://localhost:3500/api/v1/admin/products/${id}`);
+    return this.http.delete<any>(`${API_HOST}/api/v1/admin/products/${id}`);
   }
 
   getGoogleShoppingFeedUrl(): string {
-    return `http://localhost:3500/api/v1/admin/google/shopping-feed`;
+    return `${API_HOST}/api/v1/admin/google/shopping-feed`;
   }
 
   getGoogleReviewsFeedUrl(): string {
-    return `http://localhost:3500/api/v1/admin/google/reviews-feed`;
+    return `${API_HOST}/api/v1/admin/google/reviews-feed`;
   }
 }

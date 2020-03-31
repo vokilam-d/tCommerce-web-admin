@@ -1,5 +1,5 @@
 <div class="media" (click)="showDetails()">
-  <img class="media__img" [src]="'http://localhost:3500' + media.variantsUrls.original" [alt]="media.altText">
+  <img class="media__img" [src]="uploadedHost + media.variantsUrls.original" [alt]="media.altText">
 
   <div class="media__remove" (click)="remove()">
     <i class="ai ai-trash media__remove-icon"></i>
@@ -24,7 +24,7 @@
 
   <div class="details__container">
     <div class="details__img-container">
-      <img class="details__img" [src]="'http://localhost:3500' + media.variantsUrls.original" [alt]="media.altText">
+      <img class="details__img" [src]="uploadedHost + media.variantsUrls.original" [alt]="media.altText">
     </div>
 
     <div class="details__info">

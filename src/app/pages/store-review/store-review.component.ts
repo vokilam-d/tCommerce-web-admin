@@ -7,6 +7,7 @@ import { StoreReviewDto } from '../../shared/dtos/store-review.dto';
 import { StoreReviewService } from '../../shared/services/store-review.service';
 import { MediaDto } from '../../shared/dtos/media.dto';
 import { formatDate } from '@angular/common';
+import { API_HOST } from '../../shared/constants/constants';
 
 @Component({
   selector: 'store-review',
@@ -151,7 +152,7 @@ export class StoreReviewComponent implements OnInit {
   }
 
   getMediaUploadUrl() {
-    return `http://localhost:3500/api/v1/admin/store-reviews/media`;
+    return `${API_HOST}/api/v1/admin/store-reviews/media`;
   }
 
   mediaUploaded(media: MediaDto, mediasControl: AbstractControl) {

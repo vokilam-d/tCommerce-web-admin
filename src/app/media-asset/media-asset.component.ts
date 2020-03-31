@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MediaDto } from '../shared/dtos/media.dto';
+import { API_HOST } from '../shared/constants/constants';
 
 @Component({
   selector: 'media-asset',
@@ -8,6 +9,7 @@ import { MediaDto } from '../shared/dtos/media.dto';
 })
 export class MediaAssetComponent implements OnInit {
 
+  uploadedHost = API_HOST;
   isDetailsVisible: boolean = false;
   @Input() media: MediaDto;
   @Output('remove') removeEmitter = new EventEmitter<MediaDto>();

@@ -8,6 +8,7 @@ import { ProductReviewService } from '../../shared/services/product-review.servi
 import { MediaDto } from '../../shared/dtos/media.dto';
 import { formatDate } from '@angular/common';
 import { ProductSelectorComponent } from '../../product-selector/product-selector.component';
+import { API_HOST } from '../../shared/constants/constants';
 
 @Component({
   selector: 'product-review',
@@ -169,7 +170,7 @@ export class ProductReviewComponent implements OnInit {
   }
 
   getMediaUploadUrl() {
-    return `http://localhost:3500/api/v1/admin/product-reviews/media`;
+    return `${API_HOST}/api/v1/admin/product-reviews/media`;
   }
 
   mediaUploaded(media: MediaDto, mediasControl: AbstractControl) {

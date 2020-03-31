@@ -7,6 +7,7 @@ import { CustomerService } from '../../shared/services/customer.service';
 import { NotyService } from '../../noty/noty.service';
 import { AddressFormComponent } from '../../address-form/address-form.component';
 import { saveFileFromUrl } from '../../shared/helpers/save-file.function';
+import { API_HOST } from '../../shared/constants/constants';
 
 @Component({
   selector: 'order-view',
@@ -14,6 +15,8 @@ import { saveFileFromUrl } from '../../shared/helpers/save-file.function';
   styleUrls: ['./order-view.component.scss']
 })
 export class OrderViewComponent implements OnInit {
+
+  uploadedHost = API_HOST;
   order: OrderDto;
   customer: CustomerDto;
   isAddressFormVisible: boolean = false;
