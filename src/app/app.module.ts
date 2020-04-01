@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { Inject, NgModule, PLATFORM_ID } from '@angular/core';
+import { Inject, LOCALE_ID, NgModule, PLATFORM_ID } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -8,11 +8,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { NotyModule } from './noty/noty.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { QuillModule } from 'ngx-quill';
-import { isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser, registerLocaleData } from '@angular/common';
+import localeRu from '@angular/common/locales/ru';
 
 declare const require: any;
 let Quill: any = null;
 let ImageResize: any = null;
+
+registerLocaleData(localeRu);
 
 @NgModule({
   declarations: [
@@ -27,7 +30,9 @@ let ImageResize: any = null;
     NotyModule,
     QuillModule.forRoot()
   ],
-  providers: [],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'ru' }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

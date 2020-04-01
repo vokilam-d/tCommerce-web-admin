@@ -53,6 +53,7 @@ export class ProductComponent implements OnInit {
 
   save() {
     if (this.form.invalid) {
+      this.notyService.showErrorNoty(`Ошибка в форме`);
       this.validateControls();
       return;
     }

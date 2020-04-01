@@ -86,6 +86,7 @@ export class CategoryComponent implements OnInit {
 
   save() {
     if (this.form.invalid) {
+      this.notyService.showErrorNoty(`Ошибка в форме`);
       this.validateAllControls();
       return;
     }

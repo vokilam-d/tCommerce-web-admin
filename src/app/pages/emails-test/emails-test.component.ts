@@ -54,7 +54,7 @@ export class EmailsTestComponent implements OnInit {
     if (this.email) {
       return true;
     } else {
-      alert('Не указан email для тестирования');
+      this.notyService.showErrorNoty(`Не указан email для тестирования`);
       return false;
     }
   }

@@ -85,7 +85,8 @@ const orderGridCells: IGridCell[] = [
     align: 'left',
     isImage: false,
     isSortable: true,
-    fieldName: getPropertyOf<OrderDto>('createdAt')
+    fieldName: getPropertyOf<OrderDto>('createdAt'),
+    isDisplayBlock: true
   },
   {
     isSearchable: true,

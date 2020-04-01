@@ -7,7 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class PreloaderComponent implements OnInit {
 
-  @Input() hasOverlay: boolean = true;
+  @Input() hasOverlay: boolean = false;
 
   constructor() { }
 

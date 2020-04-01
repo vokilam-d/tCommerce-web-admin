@@ -45,6 +45,7 @@ export class StoreReviewComponent implements OnInit {
 
   save() {
     if (this.reviewForm.invalid) {
+      this.notyService.showErrorNoty(`Ошибка в форме`);
       this.validateControls(this.reviewForm);
       return;
     }

@@ -45,7 +45,7 @@
 
   <div class="grid__body">
 
-    <preloader *ngIf="isLoading"></preloader>
+    <preloader *ngIf="isLoading" [hasOverlay]="true"></preloader>
 
     <div class="grid__no-items" *ngIf="!isLoading && (!itemsArray || !itemsArray.length); else hasItems">
       <ng-content select="[grid-no-items]"></ng-content>
@@ -67,7 +67,8 @@
                  'grid__block--image': cell.isImage,
                  'grid__block--left': cell.align === 'left',
                  'grid__block--center': cell.align === 'center',
-                 'grid__block--right': cell.align === 'right'
+                 'grid__block--right': cell.align === 'right',
+                 'grid__block--display-block': cell.isDisplayBlock === true
                }"
                [style.width.px]="cell.initialWidth"
           >

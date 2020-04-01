@@ -18,8 +18,8 @@
 
     <div class="categories__list-title">Категории:</div>
 
-    <div class="categories__preloader">
-      <preloader *ngIf="isLoading" [hasOverlay]="false"></preloader>
+    <div class="categories__preloader" *ngIf="isLoading">
+      <preloader></preloader>
     </div>
 
     <ul class="categories__list">

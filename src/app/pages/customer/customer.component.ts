@@ -48,6 +48,7 @@ export class CustomerComponent implements OnInit {
 
   save() {
     if (this.infoForm.invalid) {
+      this.notyService.showErrorNoty(`Ошибка в форме`);
       this.validateControls(this.infoForm);
       return;
     }

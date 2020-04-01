@@ -18,4 +18,5 @@ export interface IGridCell {
   isSearchable: boolean;
   initialWidth: number;
   isImage: boolean;
+  isDisplayBlock?: boolean;
 }

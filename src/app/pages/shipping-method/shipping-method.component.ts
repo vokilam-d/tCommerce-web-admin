@@ -64,6 +64,7 @@ export class ShippingMethodComponent implements OnInit {
 
   saveMethod() {
     if (this.form.invalid) {
+      this.notyService.showErrorNoty(`Ошибка в форме`);
       this.validateControls();
       return;
     }
