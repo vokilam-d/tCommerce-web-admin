@@ -5,6 +5,7 @@ import { ResponseDto } from '../../shared/dtos/response.dto';
 import { NotyService } from '../../noty/noty.service';
 import { DEFAULT_CURRENCY_CODE } from '../../shared/enums/currency.enum';
 import { API_HOST } from '../../shared/constants/constants';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'currency',
@@ -15,6 +16,7 @@ export class CurrencyComponent implements OnInit {
 
   currencies: CurrencyDto[] = [];
   activeCurrency: CurrencyDto = null;
+  isLoading: boolean = false;
 
   constructor(private http: HttpClient,
               private notyService: NotyService) { }
@@ -25,8 +27,9 @@ export class CurrencyComponent implements OnInit {
 
   private init() {
     this.activeCurrency = null;
+    this.isLoading = true;
     this.http.get<ResponseDto<CurrencyDto[]>>(`${API_HOST}/api/v1/admin/currencies`)
-      .pipe(this.notyService.attachNoty())
+      .pipe(this.notyService.attachNoty(), finalize(() => this.isLoading = false))
       .subscribe(
         response => {
           this.setCurrencies(response.data);

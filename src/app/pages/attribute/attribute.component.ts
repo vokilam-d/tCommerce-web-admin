@@ -6,6 +6,7 @@ import { AttributeDto, AttributeValueDto } from '../../shared/dtos/attribute.dto
 import { AttributeService } from '../../shared/services/attribute.service';
 import { urlFriendlyCodeRegex } from '../../shared/constants/constants';
 import { NotyService } from 'src/app/noty/noty.service';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'attribute',
@@ -17,6 +18,7 @@ export class AttributeComponent implements OnInit {
   isNewAttribute: boolean;
   attribute: AttributeDto;
   form: FormGroup;
+  isLoading: boolean = false;
 
   constructor(private formBuilder: FormBuilder,
               private attributeService: AttributeService,
@@ -100,13 +102,16 @@ export class AttributeComponent implements OnInit {
   private fetchAttribute() {
     const id = this.route.snapshot.paramMap.get('id');
 
-    this.attributeService.fetchAttribute(id).subscribe(
-      response => {
-        this.attribute = response.data;
-        this.buildForm(this.attribute);
-      },
-      error => console.warn(error)
-    )
+    this.isLoading = true;
+    this.attributeService.fetchAttribute(id)
+      .pipe( finalize(() => this.isLoading = false))
+      .subscribe(
+        response => {
+          this.attribute = response.data;
+          this.buildForm(this.attribute);
+        },
+        error => console.warn(error)
+      );
   }
 
   private validateAllControls() {

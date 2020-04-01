@@ -10,6 +10,8 @@
   </div>
 
   <div class="tabs__content">
+    <preloader class="tabs__preloader" *ngIf="isLoading" [hasOverlay]="false"></preloader>
+
     <ng-container [ngTemplateOutlet]="tabContentsArray[activeLabelIdx]"></ng-container>
   </div>
 </div>

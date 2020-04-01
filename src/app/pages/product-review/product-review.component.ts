@@ -9,6 +9,7 @@ import { MediaDto } from '../../shared/dtos/media.dto';
 import { formatDate } from '@angular/common';
 import { ProductSelectorComponent } from '../../product-selector/product-selector.component';
 import { API_HOST } from '../../shared/constants/constants';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'product-review',
@@ -20,6 +21,7 @@ export class ProductReviewComponent implements OnInit {
   isNewProductReview: boolean;
   productReview: ProductReviewDto;
   reviewForm: FormGroup;
+  isLoading: boolean = false;
   get commentsFormArray() { return this.reviewForm.get('comments') as FormArray; }
 
   @ViewChild(ProductSelectorComponent) productSelectorCmp: ProductSelectorComponent;
@@ -103,8 +105,9 @@ export class ProductReviewComponent implements OnInit {
 
   private fetchProductReview() {
     const id = this.route.snapshot.paramMap.get('id');
+    this.isLoading = true;
     this.productReviewService.fetchProductReview(parseInt(id))
-      .pipe(this.notyService.attachNoty())
+      .pipe(this.notyService.attachNoty(), finalize(() => this.isLoading = false))
       .subscribe(
         response => {
           this.productReview = response.data;

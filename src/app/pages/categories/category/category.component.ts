@@ -28,7 +28,6 @@ const EMPTY_CATEGORY: AddOrUpdateCategoryDto = {
 export class CategoryComponent implements OnInit {
 
   category: CategoryDto;
-
   form: FormGroup;
 
   get isEnabled() { return this.form && this.form.get('isEnabled') as FormControl; }

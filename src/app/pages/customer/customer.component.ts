@@ -6,6 +6,7 @@ import { NotyService } from '../../noty/noty.service';
 import { EPageAction } from '../../shared/enums/category-page-action.enum';
 import { CustomerDto } from '../../shared/dtos/customer.dto';
 import { ShippingAddressDto } from '../../shared/dtos/shipping-address.dto';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'customer',
@@ -17,6 +18,7 @@ export class CustomerComponent implements OnInit {
   isNewCustomer: boolean;
   customer: CustomerDto;
   infoForm: FormGroup;
+  isLoading: boolean = false;
 
   activeAddress: ShippingAddressDto = null;
   addressForm: FormGroup;
@@ -85,8 +87,9 @@ export class CustomerComponent implements OnInit {
 
   private fetchCustomer() {
     const id = this.route.snapshot.paramMap.get('id');
+    this.isLoading = true;
     this.customersService.fetchCustomer(id)
-      .pipe(this.notyService.attachNoty())
+      .pipe(this.notyService.attachNoty(), finalize(() => this.isLoading = false))
       .subscribe(
         response => {
           this.customer = response.data;

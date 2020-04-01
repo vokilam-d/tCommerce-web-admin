@@ -10,6 +10,7 @@ import { QuillHelperService } from '../../shared/services/quill-helper.service';
 import { QuillModules } from 'ngx-quill';
 import { DEFAULT_CURRENCY_CODE, ECurrencyCode } from '../../shared/enums/currency.enum';
 import { API_HOST } from '../../shared/constants/constants';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'product',
@@ -23,6 +24,7 @@ export class ProductComponent implements OnInit {
   form: FormGroup;
   currencies = ECurrencyCode;
   quillModules: QuillModules = this.quillHelperService.getEditorModules();
+  isLoading: boolean = false;
 
   get variantsFormArray() { return this.form.get('variants') as FormArray; }
   get isMultiVariant(): boolean { return this.variantsFormArray.controls.length > 1 }
@@ -120,8 +122,10 @@ export class ProductComponent implements OnInit {
 
   private fetchProduct() {
     const id = this.route.snapshot.paramMap.get('id');
+
+    this.isLoading = true;
     this.productsService.fetchProduct(id)
-      .pipe(this.notyService.attachNoty())
+      .pipe(this.notyService.attachNoty(), finalize(() => this.isLoading = false))
       .subscribe(
         response => {
           this.product = response.data;

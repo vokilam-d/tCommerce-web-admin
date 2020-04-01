@@ -21,7 +21,7 @@
     </div>
   </div>
 
-  <form class="attribute" *ngIf="form" [formGroup]="form">
+  <form class="attribute" *ngIf="form; else preloaderTmpl" [formGroup]="form">
 
     <div class="attribute__field field field--required"
            *ngIf="form.get('id') as id"
@@ -126,7 +126,9 @@
       </div>
     </div>
 
-
-
   </form>
+
+  <ng-template #preloaderTmpl>
+    <preloader class="preloader" [hasOverlay]="false"></preloader>
+  </ng-template>
 </div>

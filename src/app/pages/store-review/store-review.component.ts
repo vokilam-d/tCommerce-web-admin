@@ -8,6 +8,7 @@ import { StoreReviewService } from '../../shared/services/store-review.service';
 import { MediaDto } from '../../shared/dtos/media.dto';
 import { formatDate } from '@angular/common';
 import { API_HOST } from '../../shared/constants/constants';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'store-review',
@@ -19,6 +20,7 @@ export class StoreReviewComponent implements OnInit {
   isNewStoreReview: boolean;
   storeReview: StoreReviewDto;
   reviewForm: FormGroup;
+  isLoading: boolean = false;
 
   constructor(private storeReviewService: StoreReviewService,
               private formBuilder: FormBuilder,
@@ -85,8 +87,9 @@ export class StoreReviewComponent implements OnInit {
 
   private fetchStoreReview() {
     const id = this.route.snapshot.paramMap.get('id');
+    this.isLoading = true;
     this.storeReviewService.fetchStoreReview(id)
-      .pipe(this.notyService.attachNoty())
+      .pipe(this.notyService.attachNoty(), finalize(() => this.isLoading = false))
       .subscribe(
         response => {
           this.storeReview = response.data;

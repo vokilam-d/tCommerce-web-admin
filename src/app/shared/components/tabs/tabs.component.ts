@@ -9,6 +9,7 @@ import { Component, ContentChildren, Input, OnInit, QueryList, TemplateRef } fro
 export class TabsComponent implements OnInit {
 
   @Input() labels: string[];
+  @Input() isLoading: boolean = false;
   activeLabelIdx: number = 0;
 
   @ContentChildren('tabContent') tabContents: QueryList<TemplateRef<any>>;

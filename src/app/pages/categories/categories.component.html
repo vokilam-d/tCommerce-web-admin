@@ -18,6 +18,10 @@
 
     <div class="categories__list-title">Категории:</div>
 
+    <div class="categories__preloader">
+      <preloader *ngIf="isLoading" [hasOverlay]="false"></preloader>
+    </div>
+
     <ul class="categories__list">
       <ng-container *ngFor="let category of categories">
         <ng-container *ngTemplateOutlet="treeItem; context: { category: category }"></ng-container>

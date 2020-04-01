@@ -5,6 +5,7 @@ import { AttributeRoutingModule } from './attribute-routing.module';
 import { AttributeComponent } from './attribute.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../../shared/shared.module';
+import { PreloaderModule } from '../../preloader/preloader.module';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { SharedModule } from '../../shared/shared.module';
     AttributeRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    PreloaderModule
   ]
 })
 export class AttributeModule { }

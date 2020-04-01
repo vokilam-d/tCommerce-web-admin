@@ -8,6 +8,7 @@ import { CategoriesService } from './categories.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularEditorModule } from '../../angular-editor/angular-editor.module';
 import { SharedModule } from '../../shared/shared.module';
+import { PreloaderModule } from '../../preloader/preloader.module';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { SharedModule } from '../../shared/shared.module';
     ReactiveFormsModule,
     FormsModule,
     AngularEditorModule,
-    SharedModule
+    SharedModule,
+    PreloaderModule
   ],
   providers: [
     CategoriesService

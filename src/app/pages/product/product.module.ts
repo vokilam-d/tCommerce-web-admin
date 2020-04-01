@@ -13,6 +13,7 @@ import { AngularEditorModule } from 'src/app/angular-editor/angular-editor.modul
 import { ReviewsViewerComponent } from './reviews-viewer/reviews-viewer.component';
 import { RatingSelectorModule } from '../../rating-selector/rating-selector.module';
 import { QuillModule } from 'ngx-quill';
+import { PreloaderModule } from '../../preloader/preloader.module';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { QuillModule } from 'ngx-quill';
     AngularEditorModule,
     CategorySelectModule,
     RatingSelectorModule,
-    QuillModule
+    QuillModule,
+    PreloaderModule
   ],
   providers: []
 })

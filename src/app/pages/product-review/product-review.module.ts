@@ -10,6 +10,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { OrderModule } from '../order/order.module';
 import { ProductSelectorModule } from '../../product-selector/product-selector.module';
 import { RatingSelectorModule } from '../../rating-selector/rating-selector.module';
+import { PreloaderModule } from '../../preloader/preloader.module';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { RatingSelectorModule } from '../../rating-selector/rating-selector.modu
     SharedModule,
     OrderModule,
     ProductSelectorModule,
-    RatingSelectorModule
+    RatingSelectorModule,
+    PreloaderModule
   ]
 })
 export class ProductReviewModule { }

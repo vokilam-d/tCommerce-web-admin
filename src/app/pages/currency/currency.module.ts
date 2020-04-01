@@ -5,6 +5,7 @@ import { CurrencyRoutingModule } from './currency-routing.module';
 import { CurrencyComponent } from './currency.component';
 import { SharedModule } from '../../shared/shared.module';
 import { FormsModule } from '@angular/forms';
+import { PreloaderModule } from '../../preloader/preloader.module';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     CurrencyRoutingModule,
     SharedModule,
-    FormsModule
+    FormsModule,
+    PreloaderModule
   ]
 })
 export class CurrencyModule { }

@@ -4,21 +4,24 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { CategoryTreeItem, CategoryDto } from '../../shared/dtos/category.dto';
 import { NotyService } from '../../noty/noty.service';
+import { finalize } from 'rxjs/operators';
+import { NgUnsubscribe } from '../../shared/directives/ng-unsubscribe/ng-unsubscribe.directive';
 
 @Component({
   selector: 'categories',
   templateUrl: './categories.component.html',
   styleUrls: ['./categories.component.scss']
 })
-export class CategoriesComponent implements OnInit, OnDestroy {
+export class CategoriesComponent extends NgUnsubscribe implements OnInit, OnDestroy {
 
   categories: CategoryTreeItem[];
-  ngUnsubscribe = new Subject();
+  isLoading: boolean = false;
 
   constructor(private categoriesService: CategoriesService,
               private router: Router,
               private notyService: NotyService,
               private route: ActivatedRoute) {
+    super();
   }
 
   ngOnInit() {
@@ -27,14 +30,14 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    super.ngOnDestroy();
     this.categoriesService.removeSelectedCategoryId();
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
   }
 
   fetchCategoriesTree() {
+    this.isLoading = true;
     this.categoriesService.fetchCategoriesTree()
-      .pipe(this.notyService.attachNoty())
+      .pipe(this.notyService.attachNoty(), finalize(() => this.isLoading = false))
       .subscribe(
         response => {
           this.categories = response.data;

@@ -8,6 +8,7 @@ import { MediaUploaderModule } from '../../media-uploader/media-uploader.module'
 import { ReactiveFormsModule } from '@angular/forms';
 import { RatingSelectorModule } from '../../rating-selector/rating-selector.module';
 import { SharedModule } from '../../shared/shared.module';
+import { PreloaderModule } from '../../preloader/preloader.module';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { SharedModule } from '../../shared/shared.module';
     MediaUploaderModule,
     ReactiveFormsModule,
     RatingSelectorModule,
-    SharedModule
+    SharedModule,
+    PreloaderModule
   ]
 })
 export class StoreReviewModule { }

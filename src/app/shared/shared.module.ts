@@ -11,6 +11,7 @@ import { NumberInputDirective } from './directives/number-input/number-input.dir
 import { ToggleComponent } from './components/toggle/toggle.component';
 import { ReadableCurrencyPipe } from './pipes/readable-currency.pipe';
 import { NormalizedPhonePipe } from './pipes/normalized-phone.pipe';
+import { PreloaderModule } from '../preloader/preloader.module';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { NormalizedPhonePipe } from './pipes/normalized-phone.pipe';
     NormalizedPhonePipe
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    PreloaderModule
   ]
 })
 export class SharedModule {

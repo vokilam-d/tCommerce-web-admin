@@ -21,7 +21,7 @@
     </div>
   </div>
 
-  <tabs class="tabs" [labels]="tabsLabels">
+  <tabs class="tabs" [labels]="tabsLabels" [isLoading]="isLoading">
     <ng-template #tabContent>
       <form class="customer-form" *ngIf="infoForm" [formGroup]="infoForm">
 

@@ -1,4 +1,4 @@
-<div class="page" *ngIf="order">
+<div class="page">
   <div class="header">
     <h1 class="header__title">
       Заказ №{{ order?.id }}
@@ -8,28 +8,31 @@
       <button class="header__btn toolbar-btn" (click)="goBack()" type="button">
         <i class="ai ai-arrow-left"></i> назад
       </button>
-      <app-button class="header__btn" *ngIf="isCancelOrderVisible()" (click)="cancelOrder()" type="button">
-        Отменить заказ
-      </app-button>
-      <app-button class="header__btn" (click)="reorder()" type="button">
-        Повторить заказ
-      </app-button>
-      <app-button class="header__btn" *ngIf="isStartOrderVisible()" (click)="startOrder()" type="button">
-        Принять в работу
-      </app-button>
-      <app-button class="header__btn" *ngIf="isShipOrderVisible()" (click)="shipOrder()" type="button">
-        Отправить заказ
-      </app-button>
-      <app-button class="header__btn" (click)="printOrder()" type="button">
-        Распечатать PDF
-      </app-button>
-      <app-button class="header__btn" *ngIf="isEditOrderVisible()" (click)="editOrder()" type="button">
-        Редактировать
-      </app-button>
+
+      <ng-container *ngIf="order">
+        <app-button class="header__btn" *ngIf="isCancelOrderVisible()" (click)="cancelOrder()" type="button">
+          Отменить заказ
+        </app-button>
+        <app-button class="header__btn" (click)="reorder()" type="button">
+          Повторить заказ
+        </app-button>
+        <app-button class="header__btn" *ngIf="isStartOrderVisible()" (click)="startOrder()" type="button">
+          Принять в работу
+        </app-button>
+        <app-button class="header__btn" *ngIf="isShipOrderVisible()" (click)="shipOrder()" type="button">
+          Отправить заказ
+        </app-button>
+        <app-button class="header__btn" (click)="printOrder()" type="button">
+          Распечатать PDF
+        </app-button>
+        <app-button class="header__btn" *ngIf="isEditOrderVisible()" (click)="editOrder()" type="button">
+          Редактировать
+        </app-button>
+      </ng-container>
     </div>
   </div>
 
-  <div class="order-view" *ngIf="customer">
+  <div class="order-view" *ngIf="customer; else loadingTmpl">
     <div class="order-view__subtitle">
       Заказ
     </div>
@@ -56,7 +59,7 @@
         </div>
         <div class="info-table__row">
           <div class="info-table__block">Нужно ли связываться с клиентом для подтверждения заказа?</div>
-          <div class="info-table__block">{{ order.isCallbackNeeded }}</div>
+          <div class="info-table__block">{{ order.isCallbackNeeded ? 'Да' : 'Нет' }}</div>
         </div>
         <div class="info-table__row">
           <div class="info-table__block">Комментарий клиента</div>
@@ -176,6 +179,10 @@
       </div>
     </div>
   </div>
+
+  <ng-template #loadingTmpl>
+    <preloader class="preloader" [hasOverlay]="false"></preloader>
+  </ng-template>
 </div>
 
 <div class="address-form" *ngIf="isAddressFormVisible">

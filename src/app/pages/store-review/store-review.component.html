@@ -21,7 +21,7 @@
     </div>
   </div>
 
-  <form class="store-review" *ngIf="reviewForm" [formGroup]="reviewForm">
+  <form class="store-review" *ngIf="reviewForm; else preloaderTmpl" [formGroup]="reviewForm">
 
     <div class="store-review__field field"
          *ngIf="reviewForm.get('isEnabled') as isEnabled"
@@ -121,5 +121,9 @@
     </div>
 
   </form>
+
+  <ng-template #preloaderTmpl>
+    <preloader class="preloader" [hasOverlay]="false"></preloader>
+  </ng-template>
 
 </div>

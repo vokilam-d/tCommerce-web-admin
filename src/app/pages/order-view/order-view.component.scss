@@ -205,6 +205,10 @@
   }
 }
 
+.preloader {
+  margin: 15vh 0 0;
+}
+
 @keyframes slideInFromRight {
   from {
     transform: translateX(100%);

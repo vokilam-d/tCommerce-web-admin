@@ -4,6 +4,7 @@ import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Valida
 import { PaymentMethodService } from '../../shared/services/payment-method.service';
 import { NotyService } from '../../noty/noty.service';
 import { Router } from '@angular/router';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'payment-method',
@@ -15,6 +16,7 @@ export class PaymentMethodComponent implements OnInit {
   paymentMethods: PaymentMethodDto[] = [];
   activeMethod: PaymentMethodDto;
   form: FormGroup;
+  isLoading: boolean = false;
 
   constructor(private paymentMethodService: PaymentMethodService,
               private notyService: NotyService,
@@ -28,15 +30,18 @@ export class PaymentMethodComponent implements OnInit {
 
   private init() {
     this.activeMethod = null;
-    this.paymentMethodService.fetchAllMethods().subscribe(
-      response => {
-        this.paymentMethods = response.data;
+    this.isLoading = true;
+    this.paymentMethodService.fetchAllMethods()
+      .pipe( finalize(() => this.isLoading = false) )
+      .subscribe(
+        response => {
+          this.paymentMethods = response.data;
 
-        if (this.paymentMethods[0]) {
-          this.selectMethod(this.paymentMethods[0]);
+          if (this.paymentMethods[0]) {
+            this.selectMethod(this.paymentMethods[0]);
+          }
         }
-      }
-    );
+      );
   }
 
   selectMethod(paymentMethod: PaymentMethodDto) {

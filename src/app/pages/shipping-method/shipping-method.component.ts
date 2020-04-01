@@ -4,6 +4,7 @@ import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Valida
 import { ShippingMethodDto } from '../../shared/dtos/shipping-method.dto';
 import { NotyService } from '../../noty/noty.service';
 import { Router } from '@angular/router';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'shipping-method',
@@ -15,6 +16,7 @@ export class ShippingMethodComponent implements OnInit {
   shippingMethods: ShippingMethodDto[] = [];
   activeMethod: ShippingMethodDto;
   form: FormGroup;
+  isLoading: boolean = false;
 
   constructor(private shippingMethodService: ShippingMethodService,
               private notyService: NotyService,
@@ -28,15 +30,18 @@ export class ShippingMethodComponent implements OnInit {
 
   private init() {
     this.activeMethod = null;
-    this.shippingMethodService.fetchAllMethods().subscribe(
-      response => {
-        this.shippingMethods = response.data;
+    this.isLoading = true;
+    this.shippingMethodService.fetchAllMethods()
+      .pipe( finalize(() => this.isLoading = false) )
+      .subscribe(
+        response => {
+          this.shippingMethods = response.data;
 
-        if (this.shippingMethods[0]) {
-          this.selectMethod(this.shippingMethods[0]);
+          if (this.shippingMethods[0]) {
+            this.selectMethod(this.shippingMethods[0]);
+          }
         }
-      }
-    );
+      );
   }
 
   selectMethod(shippingMethod: ShippingMethodDto) {

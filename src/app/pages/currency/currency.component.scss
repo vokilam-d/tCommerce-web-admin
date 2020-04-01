@@ -8,8 +8,13 @@
   }
 
   &__content {
+    position: relative;
     width: calc(100% - 300px);
     padding: 0 0 0 40px;
+  }
+
+  &__preloader {
+    margin: 15vh 0 0;
   }
 }
 

@@ -5,6 +5,7 @@ import { ShippingMethodRoutingModule } from './shipping-method-routing.module';
 import { ShippingMethodComponent } from './shipping-method.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../../shared/shared.module';
+import { PreloaderModule } from '../../preloader/preloader.module';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { SharedModule } from '../../shared/shared.module';
     CommonModule,
     ShippingMethodRoutingModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    PreloaderModule
   ]
 })
 export class ShippingMethodModule { }

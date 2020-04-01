@@ -5,6 +5,7 @@ import { PaymentMethodRoutingModule } from './payment-method-routing.module';
 import { PaymentMethodComponent } from './payment-method.component';
 import { SharedModule } from '../../shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { PreloaderModule } from '../../preloader/preloader.module';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     PaymentMethodRoutingModule,
     SharedModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    PreloaderModule
   ]
 })
 export class PaymentMethodModule { }
