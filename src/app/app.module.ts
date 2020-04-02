@@ -44,7 +44,7 @@ export class AppModule {
 
   initQuill(): void {
     Quill = require('quill');
-    ImageResize = require('quill-image-resize-module');
+    ImageResize = require('quill-image-resize-module').default;
 
     const BaseImageFormat = Quill.import('formats/image');
     const ImageFormatAttributesList = [

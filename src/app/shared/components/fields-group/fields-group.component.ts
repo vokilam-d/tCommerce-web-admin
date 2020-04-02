@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { isPlatformBrowser } from '@angular/common';
 
 const animateTiming = '0.4s cubic-bezier(0.25, 0.8, 0.25, 1)';
 const hiddenStyles = { 'height': 0, 'overflow': 'hidden', 'padding': 0 };
@@ -28,7 +29,7 @@ export class FieldsGroupComponent implements OnInit {
 
   get storageKey(): string { return `fields_group_${this.id}`; }
 
-  constructor() { }
+  constructor(@Inject(PLATFORM_ID) private platformId: any) { }
 
   ngOnInit() {
     this.setInitialState();
@@ -46,6 +47,11 @@ export class FieldsGroupComponent implements OnInit {
     }
 
     if (this.id === 'default') {
+      this.isOpened = false;
+      return;
+    }
+
+    if (!isPlatformBrowser(this.platformId)) {
       this.isOpened = false;
       return;
     }
