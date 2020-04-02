@@ -2,10 +2,10 @@ import {
   ChangeDetectionStrategy,
   Component,
   ContentChildren,
-  EventEmitter,
+  EventEmitter, Inject,
   Input,
   OnInit,
-  Output,
+  Output, PLATFORM_ID,
   QueryList,
   TemplateRef,
   ViewChild
@@ -16,6 +16,7 @@ import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { NgUnsubscribe } from '../shared/directives/ng-unsubscribe/ng-unsubscribe.directive';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { isPlatformBrowser } from '@angular/common';
 
 
 type fieldName = string;
@@ -70,7 +71,7 @@ export class GridComponent<T extends { isOpened?: boolean } = any> extends NgUns
   get cellContentsArray(): TemplateRef<any>[] { return this.cellContents.toArray(); }
   get subCellContentsArray(): TemplateRef<any>[] { return this.subCellContents.toArray(); }
 
-  constructor() {
+  constructor(@Inject(PLATFORM_ID) private platformId: any) {
     super();
   }
 
@@ -147,7 +148,7 @@ export class GridComponent<T extends { isOpened?: boolean } = any> extends NgUns
   }
 
   private getSavedInfo(): ISavedGridInfo | null {
-    if (!this.gridName) {
+    if (!this.gridName || !isPlatformBrowser(this.platformId)) {
       return null;
     }
 
@@ -155,7 +156,7 @@ export class GridComponent<T extends { isOpened?: boolean } = any> extends NgUns
   }
 
   private setSavedInfo() {
-    if (!this.gridName) {
+    if (!this.gridName || !isPlatformBrowser(this.platformId)) {
       return;
     }
 

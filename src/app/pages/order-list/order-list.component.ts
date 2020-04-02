@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { OrderDto } from '../../shared/dtos/order.dto';
 import { OrderService } from '../../shared/services/order.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -33,6 +33,7 @@ export class OrderListComponent implements OnInit, AfterViewInit {
 
   constructor(private ordersService: OrderService,
               private route: ActivatedRoute,
+              private cdr: ChangeDetectorRef,
               private notyService: NotyService,
               private router: Router) {
   }
@@ -53,6 +54,7 @@ export class OrderListComponent implements OnInit, AfterViewInit {
     if (this.fetchAllSub) { this.fetchAllSub.unsubscribe(); }
 
     this.isGridLoading = true;
+    this.cdr.detectChanges();
     this.fetchAllSub = this.ordersService.fetchOrders(gridValue)
       .pipe(this.notyService.attachNoty(), finalize(() => this.isGridLoading = false))
       .subscribe(
@@ -64,6 +66,13 @@ export class OrderListComponent implements OnInit, AfterViewInit {
         },
         error => console.warn(error)
       );
+  }
+
+  hasDifferentName(order: OrderDto): string {
+    if (!order.customerFirstName && !order.customerLastName) { return; }
+    if (order.customerFirstName === order.address.firstName && order.customerLastName === order.address.lastName) { return; }
+
+    return `${order.customerFirstName} ${order.customerLastName}`;
   }
 }
 

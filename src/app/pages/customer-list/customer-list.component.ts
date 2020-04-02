@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { CustomerDto } from '../../shared/dtos/customer.dto';
 import { PaginationComponent } from '../../pagination/pagination.component';
 import { CustomerService } from '../../shared/services/customer.service';
@@ -35,6 +35,7 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
 
   constructor(private customerService: CustomerService,
               private route: ActivatedRoute,
+              private cdr: ChangeDetectorRef,
               private notyService: NotyService,
               private router: Router) {
   }
@@ -51,6 +52,7 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
     if (this.fetchAllSub) { this.fetchAllSub.unsubscribe(); }
 
     this.isGridLoading = true;
+    this.cdr.detectChanges();
     this.fetchAllSub = this.customerService.fetchAllCustomers(gridValue)
       .pipe(this.notyService.attachNoty(), finalize(() => this.isGridLoading = false))
       .subscribe(

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotyService } from '../../noty/noty.service';
 import { ProductReviewDto } from '../../shared/dtos/product-review.dto';
@@ -30,6 +30,7 @@ export class ProductReviewListComponent implements OnInit, AfterViewInit {
 
   constructor(private productReviewsService: ProductReviewService,
               private route: ActivatedRoute,
+              private cdr: ChangeDetectorRef,
               private notyService: NotyService,
               private router: Router) {
   }
@@ -50,6 +51,7 @@ export class ProductReviewListComponent implements OnInit, AfterViewInit {
     if (this.fetchAllSub) { this.fetchAllSub.unsubscribe(); }
 
     this.isGridLoading = true;
+    this.cdr.detectChanges();
     this.fetchAllSub = this.productReviewsService.fetchAllProductReviews(gridValue)
       .pipe(this.notyService.attachNoty(), finalize(() => this.isGridLoading = false))
       .subscribe(

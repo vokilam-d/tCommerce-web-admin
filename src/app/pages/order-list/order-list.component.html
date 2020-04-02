@@ -26,16 +26,16 @@
 
     <ng-template #cellContent let-order="item">{{ order.id }}</ng-template>
     <ng-template #cellContent let-order="item">
-      {{ order.createdAt | date }}<br>
+      {{ order.createdAt | date }}
       <span class="order-time">{{ order.createdAt | date:'HH:mm:ss' }}</span>
     </ng-template>
     <ng-template #cellContent let-order="item">
       <div class="order__name">
         {{ order.address.firstName }} {{ order.address.lastName }}
         <div class="order__customer-name"
-             *ngIf="order.customerFirstName !== order.address.firstName || order.customerLastName !== order.address.lastName"
+             *ngIf="hasDifferentName(order) as differentName"
         >
-          ({{ order.customerFirstName }} {{ order.customerLastName }})
+          {{ differentName }}
         </div>
       </div>
     </ng-template>

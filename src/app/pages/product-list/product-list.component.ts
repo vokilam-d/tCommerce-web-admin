@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { ProductService } from '../../shared/services/product.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductListItemDto } from '../../shared/dtos/product.dto';
@@ -32,6 +32,7 @@ export class ProductListComponent implements OnInit, AfterViewInit {
 
   constructor(private productsService: ProductService,
               private route: ActivatedRoute,
+              private cdr: ChangeDetectorRef,
               private notyService: NotyService,
               private router: Router) {
   }
@@ -52,6 +53,7 @@ export class ProductListComponent implements OnInit, AfterViewInit {
     if (this.fetchAllSub) { this.fetchAllSub.unsubscribe(); }
 
     this.isGridLoading = true;
+    this.cdr.detectChanges();
     this.fetchAllSub = this.productsService.fetchAllProducts(gridValue, false)
       .pipe(this.notyService.attachNoty(), finalize(() => this.isGridLoading = false))
       .subscribe(

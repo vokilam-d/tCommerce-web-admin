@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotyService } from '../../noty/noty.service';
 import { StoreReviewDto } from '../../shared/dtos/store-review.dto';
@@ -29,6 +29,7 @@ export class StoreReviewListComponent implements OnInit, AfterViewInit {
   @ViewChild(GridComponent) gridCmp: GridComponent;
 
   constructor(private storeReviewsService: StoreReviewService,
+              private cdr: ChangeDetectorRef,
               private route: ActivatedRoute,
               private notyService: NotyService,
               private router: Router) {
@@ -46,6 +47,7 @@ export class StoreReviewListComponent implements OnInit, AfterViewInit {
     if (this.fetchAllSub) { this.fetchAllSub.unsubscribe(); }
 
     this.isGridLoading = true;
+    this.cdr.detectChanges();
     this.fetchAllSub = this.storeReviewsService.fetchAllStoreReviews(gridValue)
       .pipe(this.notyService.attachNoty(), finalize(() => this.isGridLoading = false))
       .subscribe(

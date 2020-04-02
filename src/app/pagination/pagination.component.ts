@@ -1,9 +1,10 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnDestroy, OnInit, Output, PLATFORM_ID } from '@angular/core';
 import { IPagination } from './pagination.interface';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ISelectOption } from '../shared/components/select/select-option.interface';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'pagination',
@@ -24,7 +25,8 @@ export class PaginationComponent implements OnInit, OnDestroy {
   @Input() pageCount: IPagination['pageCount'] = 1;
   @Output('change') changeEmitter = new EventEmitter<IPagination>();
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder,
+              @Inject(PLATFORM_ID) private platformId: any) {
   }
 
   ngOnInit() {
@@ -47,10 +49,14 @@ export class PaginationComponent implements OnInit, OnDestroy {
   }
 
   private getInitialLimit(): number {
+    if (!isPlatformBrowser(this.platformId)) { return; }
+
     return JSON.parse(localStorage.getItem(this.storageKey)) || 50;
   }
 
   private saveLimit(limit: number) {
+    if (!isPlatformBrowser(this.platformId)) { return; }
+
     localStorage.setItem(this.storageKey, limit.toString());
   }
 

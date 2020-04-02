@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AttributeDto } from '../../shared/dtos/attribute.dto';
 import { AttributeService } from '../../shared/services/attribute.service';
@@ -32,6 +32,7 @@ export class AttributeListComponent extends NgUnsubscribe implements OnInit, Aft
   @ViewChild(GridComponent) gridCmp: GridComponent;
 
   constructor(private attributeService: AttributeService,
+              private cdr: ChangeDetectorRef,
               private notyService: NotyService,
               private route: ActivatedRoute,
               private router: Router) {
@@ -50,6 +51,7 @@ export class AttributeListComponent extends NgUnsubscribe implements OnInit, Aft
     if (this.fetchAllSub) { this.fetchAllSub.unsubscribe(); }
 
     this.isGridLoading = true;
+    this.cdr.detectChanges();
     this.fetchAllSub = this.attributeService.fetchAttributes(gridValue)
       .pipe(this.notyService.attachNoty(), finalize(() => this.isGridLoading = false))
       .subscribe(

@@ -6,7 +6,7 @@ export function toHttpParams(obj: IGridValue | { [key: string]: any }): HttpPara
 
   Object.keys(obj).forEach(key => {
     let value = obj[key];
-    if (value === undefined) { return; }
+    if (value === undefined || value === null) { return; }
 
     if (key === 'filters') {
       value = (value as IGridFilter[])

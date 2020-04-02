@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { OrderDto } from '../../../shared/dtos/order.dto';
 import { IGridCell, IGridValue } from '../../../grid/grid.interface';
@@ -33,6 +33,7 @@ export class OrderListViewerComponent implements OnInit, AfterViewInit {
   @ViewChild(GridComponent) gridCmp: GridComponent;
 
   constructor(private ordersService: OrderService,
+              private cdr: ChangeDetectorRef,
               private route: ActivatedRoute,
               private notyService: NotyService) {
   }
@@ -49,6 +50,7 @@ export class OrderListViewerComponent implements OnInit, AfterViewInit {
     if (this.fetchAllSub) { this.fetchAllSub.unsubscribe(); }
 
     this.isGridLoading = true;
+    this.cdr.detectChanges();
     this.fetchAllSub = this.ordersService.fetchOrders(gridValue, this.customerId)
       .pipe(this.notyService.attachNoty(), finalize(() => this.isGridLoading = false))
       .subscribe(

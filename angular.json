@@ -167,6 +167,7 @@
           "options": {
             "browserTarget": "web-admin:build",
             "serverTarget": "web-admin:server",
+            "port": 4001,
             "open": true
           },
           "configurations": {

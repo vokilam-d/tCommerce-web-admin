@@ -1,4 +1,13 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import { ProductService } from '../shared/services/product.service';
 import { ProductListItemDto, ProductVariantListItemDto } from '../shared/dtos/product.dto';
 import { DEFAULT_CURRENCY_CODE } from '../shared/enums/currency.enum';
@@ -50,6 +59,7 @@ export class ProductSelectorComponent implements OnInit, AfterViewInit {
   @ViewChild(GridComponent) gridCmp: GridComponent;
 
   constructor(private productService: ProductService,
+              private cdr: ChangeDetectorRef,
               private notyService: NotyService) { }
 
   ngOnInit() {
@@ -72,6 +82,7 @@ export class ProductSelectorComponent implements OnInit, AfterViewInit {
     if (this.fetchAllSub) { this.fetchAllSub.unsubscribe(); }
 
     this.isGridLoading = true;
+    this.cdr.detectChanges();
     this.fetchAllSub = this.productService.fetchAllProducts(gridValue, true)
       .pipe(this.notyService.attachNoty(), finalize(() => this.isGridLoading = false))
       .subscribe(

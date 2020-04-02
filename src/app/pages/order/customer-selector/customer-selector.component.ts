@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { CustomerDto } from '../../../shared/dtos/customer.dto';
 import { CustomerService } from '../../../shared/services/customer.service';
 import { IGridCell, IGridValue } from '../../../grid/grid.interface';
@@ -29,6 +29,7 @@ export class CustomerSelectorComponent implements OnInit, AfterViewInit {
   @Output('selected') selectedEmitter: EventEmitter<CustomerDto> = new EventEmitter();
 
   constructor(private customerService: CustomerService,
+              private cdr: ChangeDetectorRef,
               private notyService: NotyService) {
   }
 
@@ -44,6 +45,7 @@ export class CustomerSelectorComponent implements OnInit, AfterViewInit {
     if (this.fetchAllSub) { this.fetchAllSub.unsubscribe(); }
 
     this.isGridLoading = true;
+    this.cdr.detectChanges();
     this.fetchAllSub = this.customerService.fetchAllCustomers(gridValue)
       .pipe(this.notyService.attachNoty(), finalize(() => this.isGridLoading = false))
       .subscribe(
