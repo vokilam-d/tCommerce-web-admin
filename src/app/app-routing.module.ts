@@ -170,6 +170,14 @@ const routes: Routes = [
         loadChildren: () => import('./pages/currency/currency.module').then(m => m.CurrencyModule)
       },
       {
+        path: 'login',
+        loadChildren: () => import('./pages/login/login.module').then(m => m.LoginModule)
+      },
+      {
+        path: 'users',
+        loadChildren: () => import('./pages/users/users.module').then(m => m.UsersModule)
+      },
+      {
         path: '**',
         loadChildren: () => import('./pages/not-found/not-found.module').then(m => m.NotFoundModule)
       }
@@ -186,7 +194,7 @@ const routes: Routes = [
     relativeLinkResolution: 'corrected',
     scrollPositionRestoration: 'enabled',
     initialNavigation: 'enabled'
-})],
+  })],
   exports: [RouterModule]
 })
 export class AppRoutingModule {
