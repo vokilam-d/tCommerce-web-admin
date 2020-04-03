@@ -1,5 +1,9 @@
-<div class="media" (click)="showDetails()">
-  <img class="media__img" [src]="uploadedHost + media.variantsUrls.original" [alt]="media.altText">
+<div class="media">
+  <img class="media__img"
+       (click)="showDetails()"
+       [src]="uploadedHost + media.variantsUrls.original"
+       [alt]="media.altText"
+  >
 
   <div class="media__remove" (click)="remove()">
     <i class="ai ai-trash media__remove-icon"></i>

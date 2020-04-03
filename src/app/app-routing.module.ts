@@ -33,6 +33,11 @@ const routes: Routes = [
             data: { action: EPageAction.Add }
           },
           {
+            path: 'add/:id',
+            loadChildren: () => import('./pages/product/product.module').then(m => m.ProductModule),
+            data: { action: EPageAction.Add }
+          },
+          {
             path: 'edit/:id',
             loadChildren: () => import('./pages/product/product.module').then(m => m.ProductModule),
             data: { action: EPageAction.Edit }

@@ -43,15 +43,17 @@ export class ProductComponent implements OnInit {
 
   private init() {
     this.isNewProduct = this.route.snapshot.data.action === EPageAction.Add;
-    if (this.isNewProduct) {
+    const id = this.route.snapshot.paramMap.get('id');
+
+    if (id) {
+      this.fetchProductAndBuildForm(id);
+    } else {
       this.product = new ProductDto();
       this.buildForm();
-    } else {
-      this.fetchProduct();
     }
   }
 
-  save() {
+  save(needToDuplicate: boolean = false) {
     if (this.form.invalid) {
       this.notyService.showErrorNoty(`Ошибка в форме`);
       this.validateControls();
@@ -59,9 +61,9 @@ export class ProductComponent implements OnInit {
     }
 
     if (this.isNewProduct) {
-      this.addNewProduct();
+      this.addNewProduct(needToDuplicate);
     } else {
-      this.updateProduct();
+      this.updateProduct(needToDuplicate);
     }
   }
 
@@ -121,9 +123,7 @@ export class ProductComponent implements OnInit {
     });
   }
 
-  private fetchProduct() {
-    const id = this.route.snapshot.paramMap.get('id');
-
+  private fetchProductAndBuildForm(id: string) {
     this.isLoading = true;
     this.productsService.fetchProduct(id)
       .pipe(this.notyService.attachNoty(), finalize(() => this.isLoading = false))
@@ -152,28 +152,37 @@ export class ProductComponent implements OnInit {
     return !control.valid && control.touched;
   }
 
-  private addNewProduct() {
+  private addNewProduct(needToDuplicate: boolean = false) {
     const dto = { ...this.product, ...this.form.value };
 
+    const successText: string = needToDuplicate
+      ? 'Товар успешно добавлен. Вы перенаправлены на страницу создания нового товара'
+      : 'Товар успешно добавлен';
+    const successUrlCommand: string = needToDuplicate ? 'add' : 'edit';
+
     this.productsService.addNewProduct(dto)
-      .pipe(this.notyService.attachNoty({ successText: 'Товар успешно добавлен' }))
+      .pipe(this.notyService.attachNoty({ successText }))
       .subscribe(
         response => {
-          this.router.navigate(['admin', 'product', 'edit', response.data.id]);
+          this.router.navigate(['admin', 'product', successUrlCommand, response.data.id]);
         },
         error => console.warn(error)
       );
   }
 
-  private updateProduct() {
+  private updateProduct(needToDuplicate: boolean = false) {
     const dto = { ...this.product, ...this.form.value };
 
     this.productsService.updateProduct(this.product.id, dto)
       .pipe(this.notyService.attachNoty({ successText: 'Товар успешно обновлён' }))
       .subscribe(
         response => {
-          this.product = response.data;
-          this.buildForm();
+          if (needToDuplicate) {
+            this.router.navigate(['admin', 'product', 'add', response.data.id]);
+          } else  {
+            this.product = response.data;
+            this.buildForm();
+          }
         },
         error => console.warn(error)
       );
@@ -187,8 +196,8 @@ export class ProductComponent implements OnInit {
     mediasControl.value.push(media);
   }
 
-  onMediaRemove(media: MediaDto) {
-    const controlValue = this.form.get('medias').value as MediaDto[];
+  onMediaRemove(media: MediaDto, mediasControl: AbstractControl) {
+    const controlValue = mediasControl.value as MediaDto[];
     const index = controlValue.findIndex(value => value.variantsUrls.original === media.variantsUrls.original);
     if (index !== -1) {
       controlValue.splice(index, 1);
@@ -209,9 +218,5 @@ export class ProductComponent implements OnInit {
 
   isDefaultCurrency(variantIdx: number): boolean {
     return this.product.variants[variantIdx].currency === DEFAULT_CURRENCY_CODE;
-  }
-
-  log() {
-    console.log('log!');
   }
 }
