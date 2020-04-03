@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { QuillModule } from 'ngx-quill';
 import { isPlatformBrowser, registerLocaleData } from '@angular/common';
 import localeRu from '@angular/common/locales/ru';
+import { TransferHttpCacheModule } from '@nguniversal/common';
 
 declare const require: any;
 let Quill: any = null;
@@ -23,6 +24,7 @@ registerLocaleData(localeRu);
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    TransferHttpCacheModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     NavbarModule,
