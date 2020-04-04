@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { Inject, LOCALE_ID, NgModule, PLATFORM_ID } from '@angular/core';
+import { APP_INITIALIZER, Inject, LOCALE_ID, NgModule, PLATFORM_ID } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -12,6 +12,8 @@ import { isPlatformBrowser, registerLocaleData } from '@angular/common';
 import localeRu from '@angular/common/locales/ru';
 import { TransferHttpCacheModule } from '@nguniversal/common';
 import { AuthInterceptor } from './shared/interceptors/auth.interceptor';
+import { UserService } from './shared/services/user.service';
+import { authInitFactory } from './shared/services/auth-init.factory';
 
 declare const require: any;
 let Quill: any = null;
@@ -35,6 +37,7 @@ registerLocaleData(localeRu);
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'ru' },
+    { provide: APP_INITIALIZER, useFactory: authInitFactory, deps: [UserService], multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
