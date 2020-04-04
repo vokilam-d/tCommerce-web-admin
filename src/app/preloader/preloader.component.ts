@@ -8,6 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class PreloaderComponent implements OnInit {
 
   @Input() hasOverlay: boolean = false;
+  @Input() hasMargins: boolean = true;
 
   constructor() { }
 

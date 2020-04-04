@@ -12,6 +12,7 @@ import { ToggleComponent } from './components/toggle/toggle.component';
 import { ReadableCurrencyPipe } from './pipes/readable-currency.pipe';
 import { NormalizedPhonePipe } from './pipes/normalized-phone.pipe';
 import { PreloaderModule } from '../preloader/preloader.module';
+import { AutofocusDirective } from './directives/autofocus.directive';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { PreloaderModule } from '../preloader/preloader.module';
     NumberInputDirective,
     ToggleComponent,
     ReadableCurrencyPipe,
-    NormalizedPhonePipe
+    NormalizedPhonePipe,
+    AutofocusDirective
   ],
   exports: [
     ClickOutsideDirective,
@@ -39,7 +41,8 @@ import { PreloaderModule } from '../preloader/preloader.module';
     NumberInputDirective,
     ToggleComponent,
     ReadableCurrencyPipe,
-    NormalizedPhonePipe
+    NormalizedPhonePipe,
+    AutofocusDirective
   ],
   imports: [
     CommonModule,

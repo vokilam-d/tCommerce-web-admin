@@ -1,11 +1,13 @@
 @import "variables";
 
 :host {
+  position: relative;
   display: inline-block;
 }
 
 .btn {
-  display: inline-block;
+  display: block;
+  width: 100%;
   border: 1px solid #adadad;
   transition: all 0.2s ease;
   cursor: pointer;

@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { UserService } from '../../shared/services/user.service';
+import { LoginDto } from '../../shared/dtos/login.dto';
+import { finalize } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'login',
@@ -7,9 +12,39 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  constructor() { }
+  form: FormGroup;
+  isLoading: boolean = false;
+  formError: string;
+
+  constructor(private formBuilder: FormBuilder,
+              private router: Router,
+              private userService: UserService) { }
 
   ngOnInit(): void {
+    this.buildForm();
   }
 
+  submit() {
+    if (this.form.invalid) { return; }
+
+    const dto: LoginDto = this.form.value;
+    this.isLoading = true;
+    this.userService.login(dto)
+      .pipe( finalize(() => this.isLoading = false) )
+      .subscribe(
+        response => {
+          this.router.navigate(['/']);
+        },
+        error => {
+          this.formError = error.error?.message || JSON.stringify(error.error || error);
+        }
+      );
+  }
+
+  private buildForm() {
+    this.form = this.formBuilder.group({
+      login: '',
+      password: ''
+    });
+  }
 }

@@ -8,7 +8,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NotyModule } from './noty/noty.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { QuillModule } from 'ngx-quill';
-import { isPlatformBrowser, registerLocaleData } from '@angular/common';
+import { isPlatformBrowser, Location, registerLocaleData } from '@angular/common';
 import localeRu from '@angular/common/locales/ru';
 import { TransferHttpCacheModule } from '@nguniversal/common';
 import { AuthInterceptor } from './shared/interceptors/auth.interceptor';
@@ -37,7 +37,7 @@ registerLocaleData(localeRu);
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'ru' },
-    { provide: APP_INITIALIZER, useFactory: authInitFactory, deps: [UserService], multi: true },
+    { provide: APP_INITIALIZER, useFactory: authInitFactory, deps: [UserService, Location], multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]

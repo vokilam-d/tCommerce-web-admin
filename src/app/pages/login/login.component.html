@@ -1,1 +1,42 @@
-<p>login works!</p>
+<div class="login">
+  <form class="login__form" [formGroup]="form" ngNativeValidate>
+
+    <div class="login__control">
+      <label class="login__label" for="login">Логин</label>
+      <input class="login__input"
+             formControlName="login"
+             id="login"
+             type="text"
+             autofocus
+             required
+      >
+    </div>
+
+    <div class="login__control">
+      <label class="login__label" for="password">Пароль</label>
+      <input class="login__input"
+             formControlName="password"
+             id="password"
+             type="password"
+             required
+      >
+    </div>
+
+    <div class="login__error" *ngIf="formError as error">
+      {{ error }}
+    </div>
+
+    <app-button class="login__submit"
+                [class.login__submit--loading]="isLoading"
+                (click)="submit()"
+                btnStyle="primary"
+                btnSize="big"
+                type="submit"
+    >
+      Войти
+
+      <preloader class="login__submit-preloader" *ngIf="isLoading" [hasMargins]="false"></preloader>
+    </app-button>
+  </form>
+
+</div>

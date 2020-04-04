@@ -1,0 +1,70 @@
+@import "variables";
+
+.login {
+  min-height: 100vh;
+  display: flex;
+  background: #373330;
+
+  &__form {
+    width: 400px;
+    margin: auto;
+    padding: 50px 80px;
+    background: #fff;
+    box-shadow: 0 5px 30px 0 #000;
+  }
+
+  &__control {
+    margin: 25px 0 0;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+
+  &__label {
+  }
+
+  &__input {
+    margin: 7px 0 0;
+    padding: 6px 8px;
+    display: block;
+    width: 100%;
+    border: 1px solid rgba($dark, 0.3);
+    font-size: 16px;
+    transition: border-color 0.2s ease;
+
+    &:focus {
+      border-color: rgba($dark, 0.8);
+    }
+  }
+
+
+  &__error {
+    margin: 15px 0 0;
+    color: $red;
+  }
+
+  &__submit {
+    margin: 25px 0 0;
+    display: block;
+    transition: color 0.2s ease;
+
+    &--loading {
+      &::after {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(#fff, 0.6);
+      }
+    }
+  }
+
+  &__submit-preloader {
+    top: 13px;
+  }
+}

@@ -1,6 +1,6 @@
 <div class="overlay" *ngIf="hasOverlay"></div>
 
-<div class="preloader">
+<div class="preloader" [class.preloader--with-margins]="hasMargins">
   <div></div>
   <div></div>
   <div></div>
