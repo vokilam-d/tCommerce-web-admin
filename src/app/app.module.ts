@@ -4,13 +4,14 @@ import { Inject, LOCALE_ID, NgModule, PLATFORM_ID } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarModule } from './navbar/navbar.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NotyModule } from './noty/noty.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { QuillModule } from 'ngx-quill';
 import { isPlatformBrowser, registerLocaleData } from '@angular/common';
 import localeRu from '@angular/common/locales/ru';
 import { TransferHttpCacheModule } from '@nguniversal/common';
+import { AuthInterceptor } from './shared/interceptors/auth.interceptor';
 
 declare const require: any;
 let Quill: any = null;
@@ -33,7 +34,8 @@ registerLocaleData(localeRu);
     QuillModule.forRoot()
   ],
   providers: [
-    { provide: LOCALE_ID, useValue: 'ru' }
+    { provide: LOCALE_ID, useValue: 'ru' },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
