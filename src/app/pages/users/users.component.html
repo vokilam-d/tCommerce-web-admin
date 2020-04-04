@@ -1,1 +1,96 @@
-<p>users works!</p>
+<div class="page users">
+
+  <preloader class="preloader" *ngIf="isLoading"></preloader>
+
+  <div class="users__sidebar list">
+    <app-button class="list__add-btn" (click)="addNewUser()">
+      Добавить юзера
+    </app-button>
+
+    <div class="list__users">
+      <div class="list__user"
+           *ngIf="!users.length; else hasUsersTmpl"
+      >
+        Нет юзеров
+      </div>
+
+      <ng-template #hasUsersTmpl>
+        <button class="list__user"
+                *ngFor="let user of users"
+                [class.list__user--active]="user === activeUser"
+                (click)="selectUser(user)"
+        >
+          <ng-container *ngIf="user.login as login; else newUserTitle">
+            {{ login }}
+          </ng-container>
+        </button>
+      </ng-template>
+    </div>
+
+    <app-button class="list__logout" (click)="logout()">
+      Выйти из аккаунта
+    </app-button>
+  </div>
+
+  <div class="users__content" *ngIf="activeUser">
+
+    <div class="header">
+      <h1 class="header__title">
+        <ng-container *ngIf="activeUser.id; else newUserTitle">{{ activeUser.login }}</ng-container>
+      </h1>
+
+      <div class="header__toolbar">
+        <button class="header__btn toolbar-btn" *ngIf="activeUser.id" (click)="deleteUser()" type="button">
+          Удалить
+        </button>
+        <button class="header__btn toolbar-main-btn" (click)="saveUser()" type="button">
+          Сохранить
+        </button>
+      </div>
+    </div>
+
+    <form class="user-form form" [formGroup]="form" novalidate>
+      <div class="user-form__field field field--required"
+           *ngIf="form.get('login') as login"
+           [class.field--invalid]="isControlInvalid(login)"
+      >
+        <label for="login" class="field__label">Логин</label>
+        <span class="field__control">
+          <input class="field__input" [formControl]="login" type="text" id="login">
+        </span>
+      </div>
+
+      <div class="user-form__field field field--required"
+           *ngIf="form.get('password') as password"
+           [class.field--invalid]="isControlInvalid(password)"
+      >
+        <label for="password" class="field__label">Новый пароль</label>
+        <span class="field__control">
+          <input class="field__input" [formControl]="password" type="password" id="password" required>
+
+          <span class="field__error" *ngIf="isControlInvalid(password)">
+            Пароль должен быть не менее 6 символов, состоять из цифр и латинских букв, в том числе заглавных
+          </span>
+        </span>
+      </div>
+
+      <div class="user-form__field field field--required"
+           *ngIf="form.get('passwordConfirm') as passwordConfirm"
+           [class.field--invalid]="isControlInvalid(passwordConfirm)"
+      >
+        <label for="passwordConfirm" class="field__label">Подтвердите пароль</label>
+        <span class="field__control">
+          <input class="field__input" [formControl]="passwordConfirm" type="password" id="passwordConfirm">
+
+          <span class="field__error" *ngIf="isControlInvalid(passwordConfirm)">
+            Пароли не совпадают
+          </span>
+        </span>
+      </div>
+
+    </form>
+
+  </div>
+</div>
+
+<ng-template #newUserTitle>Новый юзер</ng-template>

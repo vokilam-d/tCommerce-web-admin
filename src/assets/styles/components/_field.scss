@@ -113,4 +113,11 @@ $fieldBorderColorFocus: $blue;
       transform: rotate(180deg);
     }
   }
+
+  &__error {
+    display: block;
+    margin: 4px 0 0;
+    color: $red;
+    font-size: 13px;
+  }
 }
