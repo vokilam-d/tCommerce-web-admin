@@ -1,7 +1,7 @@
 import { Inject, Injectable, Optional } from '@angular/core';
 import { HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { REQUEST } from '@nguniversal/express-engine/tokens';
@@ -21,14 +21,16 @@ export class AuthInterceptor implements HttpInterceptor {
 
     return next.handle(cloned)
       .pipe(
-        tap({
-          error: (err) => {
-            const isUnauthorized = err.error?.statusCode === 401 || err.status === 401;
-            if (isUnauthorized) {
-              this.router.navigate(['/', 'admin', 'login']);
-              this.userService.user = null;
-            }
+        catchError(err => {
+          const isUnauthorized = err.error?.statusCode === 401 || err.status === 401;
+          if (isUnauthorized) {
+            this.router.navigate(['/', 'admin', 'login']);
+            this.userService.user = null;
+
+            return of(err);
           }
+
+          throw err;
         })
       );
   }

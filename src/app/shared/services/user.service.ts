@@ -30,15 +30,6 @@ export class UserService {
   fetchUser() {
     return this.http.get<ResponseDto<UserDto>>(`${API_HOST}/api/v1/admin/user`)
       .pipe( tap(response => this.user = response.data) );
-      // .pipe( tap(
-      //   response => {
-      //     this.user = response.data
-      //   },
-      //   error => {
-      //     // console.log(this.req.headers);
-      //     // console.log(error);
-      //   }
-      // ) );
   }
 
   fetchAllUsers() {
