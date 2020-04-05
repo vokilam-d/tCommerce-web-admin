@@ -28,7 +28,8 @@ export class ProductVariantListItemDto {
   price: number;
   currency: ECurrencyCode;
   priceInDefaultCurrency: number;
-  qty: number;
+  qtyInStock: number;
+  sellableQty: number;
 }
 
 export class ProductListItemDto {
@@ -37,7 +38,8 @@ export class ProductListItemDto {
   name: string;
   skus: string;
   prices: string;
-  quantities: string;
+  quantitiesInStock: string;
+  sellableQuantities: string;
   isEnabled: boolean;
   variants?: ProductVariantListItemDto[];
 }

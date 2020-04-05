@@ -106,7 +106,7 @@ export class ProductComponent implements OnInit {
           description: variant.metaTags.description,
           keywords: variant.metaTags.keywords
         }),
-        qty: variant.qty,
+        qtyInStock: variant.qtyInStock,
         isDiscountApplicable: variant.isDiscountApplicable
       });
 
@@ -218,5 +218,9 @@ export class ProductComponent implements OnInit {
 
   isDefaultCurrency(variantIdx: number): boolean {
     return this.product.variants[variantIdx].currency === DEFAULT_CURRENCY_CODE;
+  }
+
+  getSellableQty(index: number): number {
+    return this.product.variants[index].sellableQty;
   }
 }

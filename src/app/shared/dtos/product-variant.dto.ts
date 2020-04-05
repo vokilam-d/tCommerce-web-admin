@@ -19,7 +19,8 @@ export class ProductVariantDto {
   fullDescription: string = '';
   shortDescription: string = '';
   metaTags: MetaTagsDto = new MetaTagsDto();
-  qty: number = 0;
+  qtyInStock: number = 0;
+  sellableQty: number = 0;
   isDiscountApplicable: boolean = true;
   salesCount: number = 0;
   googleAdsProductTitle: string = '';

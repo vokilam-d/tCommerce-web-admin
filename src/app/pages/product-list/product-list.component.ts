@@ -130,12 +130,21 @@ const productGridCells: IGridCell[] = [
   },
   {
     isSearchable: false,
-    label: 'Кол-во',
+    label: 'Кол-во на складе',
     initialWidth: 55,
     align: 'left',
     isImage: false,
     isSortable: false,
-    fieldName: getPropertyOf<ProductListItemDto>('quantities')
+    fieldName: getPropertyOf<ProductListItemDto>('quantitiesInStock')
+  },
+  {
+    isSearchable: false,
+    label: 'Кол-во доступно',
+    initialWidth: 55,
+    align: 'left',
+    isImage: false,
+    isSortable: false,
+    fieldName: getPropertyOf<ProductListItemDto>('sellableQuantities')
   },
   {
     isSearchable: false,

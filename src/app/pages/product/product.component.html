@@ -140,11 +140,13 @@
         </div>
 
         <div class="product__field field"
-               *ngIf="variantForm.get('qty') as qty"
+               *ngIf="variantForm.get('qtyInStock') as qtyInStock"
         >
-          <label class="field__label" [for]="'qty-' + i">Количество</label>
+          <label class="field__label" [for]="'qtyInStock-' + i">Количество всего на складе</label>
           <span class="field__control">
-            <input class="field__input" [formControl]="qty" [id]="'qty-' + i" type="number" required>
+            <input class="field__input" [formControl]="qtyInStock" [id]="'qtyInStock-' + i" type="number" required>
+
+            <span class="sellable-qty">Количество, доступное для продажи: <span class="sellable-qty__count">{{ getSellableQty(i) }}</span></span>
           </span>
         </div>
 

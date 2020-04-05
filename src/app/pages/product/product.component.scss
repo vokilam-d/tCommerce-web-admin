@@ -54,3 +54,14 @@
     color: rgba($dark, 0.6);
   }
 }
+
+.sellable-qty {
+  display: block;
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: rgba($dark, 0.6);
+
+  .sellable-qty__count {
+    font-weight: 600;
+  }
+}
