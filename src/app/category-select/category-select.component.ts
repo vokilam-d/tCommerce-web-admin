@@ -54,7 +54,7 @@ export class CategorySelectComponent implements OnInit, ControlValueAccessor {
   }
 
   ngOnInit() {
-    this.init();
+    setTimeout(() => this.init());
   }
 
   private init() {

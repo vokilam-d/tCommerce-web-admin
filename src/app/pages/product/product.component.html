@@ -93,106 +93,110 @@
         Вариация {{ i + 1 }}<ng-container *ngIf="variantForm.get('name') as name"> - {{ name.value }}</ng-container>
       </div>
 
-      <div class="product__field field field--required"
-           *ngIf="variantForm.get('name') as name"
-           [class.field--invalid]="isControlInvalid(name)"
-      >
-        <label class="field__label" [for]="'name-' + i">Название товара</label>
-        <span class="field__control">
-          <input class="field__input" [formControl]="name" type="text" [id]="'name-' + i">
-        </span>
-      </div>
+      <fields-group class="product__group" [id]="'product-info' + i">
+        <div fields-group-title>Инфо</div>
 
-      <div class="product__field field field--required"
-           *ngIf="variantForm.get('sku') as sku"
-           [class.field--invalid]="isControlInvalid(sku)"
-      >
-        <label class="field__label" [for]="'sku-' + i">Код</label>
-        <span class="field__control">
-          <input class="field__input" [formControl]="sku" [id]="'sku-' + i" type="text">
-        </span>
-      </div>
-
-      <div class="product__field field field--required"
-             *ngIf="variantForm.get('price') as price"
-             [class.field--invalid]="isControlInvalid(price)"
-      >
-        <label class="field__label" [for]="'price-' + i">Цена</label>
-        <span class="field__control price">
-          <input class="field__input price__input" [formControl]="price" [id]="'price-' + i" type="text">
-
-          <select class="price__currency"
-                  *ngIf="variantForm.get('currency') as currency"
-                  [formControl]="currency"
-                  name="currency"
-          >
-            <option [value]="currencies.UAH">{{ currencies.UAH | readableCurrency }}</option>
-            <option [value]="currencies.EUR">{{ currencies.EUR | readableCurrency }}</option>
-          </select>
-
-          <span class="price__default-currency" *ngIf="!isDefaultCurrency(i)">
-            {{ product.variants[0].priceInDefaultCurrency }} грн
-          </span>
-        </span>
-      </div>
-
-      <div class="product__field field"
-             *ngIf="variantForm.get('qty') as qty"
-      >
-        <label class="field__label" [for]="'qty-' + i">Количество</label>
-        <span class="field__control">
-          <input class="field__input" [formControl]="qty" [id]="'qty-' + i" type="number">
-        </span>
-      </div>
-
-      <div class="product__field field"
-           *ngIf="variantForm.get('vendorCode') as vendorCode"
-           [class.field--invalid]="isControlInvalid(vendorCode)"
-      >
-        <label class="field__label" [for]="'vendorCode-' + i">Артикул</label>
-        <span class="field__control">
-          <input class="field__input" [formControl]="vendorCode" [id]="'vendorCode-' + i" type="text">
-        </span>
-      </div>
-
-      <div class="product__field field"
-           *ngIf="variantForm.get('gtin') as gtin"
-           [class.field--invalid]="isControlInvalid(gtin)"
-      >
-        <label class="field__label" [for]="'gtin-' + i">GTIN</label>
-        <span class="field__control">
-          <input class="field__input" [formControl]="gtin" [id]="'gtin-' + i" type="text">
-        </span>
-      </div>
-
-      <div class="product__field field"
-           *ngIf="variantForm.get('googleAdsProductTitle') as googleAdsProductTitle"
-           [class.field--invalid]="isControlInvalid(googleAdsProductTitle)"
-      >
-        <label class="field__label" [for]="'googleAdsProductTitle-' + i">Google product ads название товара</label>
-        <span class="field__control">
-          <input class="field__input" [formControl]="googleAdsProductTitle" [id]="'googleAdsProductTitle-' + i" type="text">
-        </span>
-      </div>
-
-      <ng-container *ngIf="variantForm.get('attributes') as attributes">
-        <attribute-select class="product__field"
-                          *ngFor="let attribute of attributes.value"
-                          [selectedAttr]="attribute"
-                          [ngModelOptions]="{standalone: true}"
-                          [(ngModel)]="attribute.valueId"
+        <div class="product__field field field--required"
+             *ngIf="variantForm.get('name') as name"
+             [class.field--invalid]="isControlInvalid(name)"
         >
-        </attribute-select>
-      </ng-container>
-
-      <div class="product__field field"
-           *ngIf="variantForm.get('isDiscountApplicable') as isDiscountApplicable"
-      >
-        <label class="field__label">Накопительные скидки применимы?</label>
-        <div class="field__control">
-          <toggle [formControl]="isDiscountApplicable"></toggle>
+          <label class="field__label" [for]="'name-' + i">Название товара</label>
+          <span class="field__control">
+            <input class="field__input" [formControl]="name" type="text" [id]="'name-' + i">
+          </span>
         </div>
-      </div>
+
+        <div class="product__field field field--required"
+             *ngIf="variantForm.get('sku') as sku"
+             [class.field--invalid]="isControlInvalid(sku)"
+        >
+          <label class="field__label" [for]="'sku-' + i">Код</label>
+          <span class="field__control">
+            <input class="field__input" [formControl]="sku" [id]="'sku-' + i" type="text">
+          </span>
+        </div>
+
+        <div class="product__field field field--required"
+               *ngIf="variantForm.get('price') as price"
+               [class.field--invalid]="isControlInvalid(price)"
+        >
+          <label class="field__label" [for]="'price-' + i">Цена</label>
+          <span class="field__control price">
+            <input class="field__input price__input" [formControl]="price" [id]="'price-' + i" type="text">
+
+            <select class="price__currency"
+                    *ngIf="variantForm.get('currency') as currency"
+                    [formControl]="currency"
+                    name="currency"
+            >
+              <option [value]="currencies.UAH">{{ currencies.UAH | readableCurrency }}</option>
+              <option [value]="currencies.EUR">{{ currencies.EUR | readableCurrency }}</option>
+            </select>
+
+            <span class="price__default-currency" *ngIf="!isDefaultCurrency(i)">
+              {{ product.variants[0].priceInDefaultCurrency }} грн
+            </span>
+          </span>
+        </div>
+
+        <div class="product__field field"
+               *ngIf="variantForm.get('qty') as qty"
+        >
+          <label class="field__label" [for]="'qty-' + i">Количество</label>
+          <span class="field__control">
+            <input class="field__input" [formControl]="qty" [id]="'qty-' + i" type="number" required>
+          </span>
+        </div>
+
+        <div class="product__field field"
+             *ngIf="variantForm.get('vendorCode') as vendorCode"
+             [class.field--invalid]="isControlInvalid(vendorCode)"
+        >
+          <label class="field__label" [for]="'vendorCode-' + i">Артикул</label>
+          <span class="field__control">
+            <input class="field__input" [formControl]="vendorCode" [id]="'vendorCode-' + i" type="text">
+          </span>
+        </div>
+
+        <div class="product__field field"
+             *ngIf="variantForm.get('gtin') as gtin"
+             [class.field--invalid]="isControlInvalid(gtin)"
+        >
+          <label class="field__label" [for]="'gtin-' + i">GTIN</label>
+          <span class="field__control">
+            <input class="field__input" [formControl]="gtin" [id]="'gtin-' + i" type="text">
+          </span>
+        </div>
+
+        <div class="product__field field"
+             *ngIf="variantForm.get('googleAdsProductTitle') as googleAdsProductTitle"
+             [class.field--invalid]="isControlInvalid(googleAdsProductTitle)"
+        >
+          <label class="field__label" [for]="'googleAdsProductTitle-' + i">Google product ads название товара</label>
+          <span class="field__control">
+            <input class="field__input" [formControl]="googleAdsProductTitle" [id]="'googleAdsProductTitle-' + i" type="text">
+          </span>
+        </div>
+
+        <ng-container *ngIf="variantForm.get('attributes') as attributes">
+          <attribute-select class="product__field"
+                            *ngFor="let attribute of attributes.value"
+                            [selectedAttr]="attribute"
+                            [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="attribute.valueId"
+          >
+          </attribute-select>
+        </ng-container>
+
+        <div class="product__field field"
+             *ngIf="variantForm.get('isDiscountApplicable') as isDiscountApplicable"
+        >
+          <label class="field__label">Накопительные скидки применимы?</label>
+          <div class="field__control">
+            <toggle [formControl]="isDiscountApplicable"></toggle>
+          </div>
+        </div>
+      </fields-group>
 
       <fields-group class="product__group">
         <div fields-group-title>Контент</div>

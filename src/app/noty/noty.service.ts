@@ -133,6 +133,8 @@ export class NotyService {
         }
 
         errors.push(errorMsg);
+      } else if (typeof validationError === 'string') {
+        errors.push(validationError);
       }
 
       if (Array.isArray(validationError.children) && validationError.children.length > 0) {
