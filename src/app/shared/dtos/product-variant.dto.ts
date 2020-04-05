@@ -13,8 +13,10 @@ export class ProductVariantDto {
   attributes: ProductSelectedAttributeDto[] = [];
   isEnabled: boolean = false;
   price: number = 0;
+  oldPrice: number;
   currency: ECurrencyCode = DEFAULT_CURRENCY_CODE;
   priceInDefaultCurrency: number;
+  oldPriceInDefaultCurrency: number;
   medias: MediaDto[] = [];
   fullDescription: string = '';
   shortDescription: string = '';

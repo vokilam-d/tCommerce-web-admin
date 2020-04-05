@@ -122,7 +122,7 @@
         >
           <label class="field__label" [for]="'price-' + i">Цена</label>
           <span class="field__control price">
-            <input class="field__input price__input" [formControl]="price" [id]="'price-' + i" type="text">
+            <input class="field__input price__input" [formControl]="price" [id]="'price-' + i" type="number">
 
             <select class="price__currency"
                     *ngIf="variantForm.get('currency') as currency"
@@ -134,7 +134,21 @@
             </select>
 
             <span class="price__default-currency" *ngIf="!isDefaultCurrency(i)">
-              {{ product.variants[0].priceInDefaultCurrency }} грн
+              {{ product.variants[i].priceInDefaultCurrency }} грн
+            </span>
+          </span>
+        </div>
+
+        <div class="product__field field"
+               *ngIf="variantForm.get('oldPrice') as oldPrice"
+               [class.field--invalid]="isControlInvalid(oldPrice)"
+        >
+          <label class="field__label" [for]="'oldPrice-' + i">Cтарая цена</label>
+          <span class="field__control price">
+            <input class="field__input price__input" [formControl]="oldPrice" [id]="'oldPrice-' + i" type="number">
+
+            <span class="price__default-currency" *ngIf="!isDefaultCurrency(i) && product.variants[i].oldPriceInDefaultCurrency as oldDefaultPrice">
+              {{ oldDefaultPrice }} грн
             </span>
           </span>
         </div>
@@ -146,7 +160,7 @@
           <span class="field__control">
             <input class="field__input" [formControl]="qtyInStock" [id]="'qtyInStock-' + i" type="number" required>
 
-            <span class="sellable-qty">Количество, доступное для продажи: <span class="sellable-qty__count">{{ getSellableQty(i) }}</span></span>
+            <span class="sellable-qty">Количество, доступное для продажи: <span class="sellable-qty__count">{{ product.variants[i].sellableQty }}</span></span>
           </span>
         </div>
 

@@ -11,6 +11,7 @@ import { QuillModules } from 'ngx-quill';
 import { DEFAULT_CURRENCY_CODE, ECurrencyCode } from '../../shared/enums/currency.enum';
 import { API_HOST } from '../../shared/constants/constants';
 import { finalize } from 'rxjs/operators';
+import { ProductVariantDto } from '../../shared/dtos/product-variant.dto';
 
 @Component({
   selector: 'product',
@@ -86,7 +87,7 @@ export class ProductComponent implements OnInit {
     const variantsFormArray = this.formBuilder.array([]);
 
     this.product.variants.forEach(variant => {
-      const group = this.formBuilder.group({
+      const variantControls: Partial<Record<keyof ProductVariantDto, any>> = {
         id: [variant.id],
         name: [variant.name, Validators.required],
         sku: [variant.sku, Validators.required],
@@ -94,6 +95,7 @@ export class ProductComponent implements OnInit {
         attributes: [variant.attributes],
         isEnabled: variant.isEnabled,
         price: [variant.price, Validators.required],
+        oldPrice: [variant.oldPrice],
         currency: [variant.currency],
         vendorCode: [variant.vendorCode],
         gtin: [variant.gtin],
@@ -108,19 +110,19 @@ export class ProductComponent implements OnInit {
         }),
         qtyInStock: variant.qtyInStock,
         isDiscountApplicable: variant.isDiscountApplicable
-      });
-
-      variantsFormArray.push(group);
+      };
+      variantsFormArray.push(this.formBuilder.group(variantControls));
     });
 
-    this.form = this.formBuilder.group({
+    const productControls: Partial<Record<keyof ProductDto, any>> = {
       isEnabled: this.product.isEnabled,
       name: [this.product.name, Validators.required],
       categoryIds: [this.product.categoryIds],
       attributes: [this.product.attributes],
       sortOrder: [this.product.sortOrder],
       variants: variantsFormArray
-    });
+    }
+    this.form = this.formBuilder.group(productControls);
   }
 
   private fetchProductAndBuildForm(id: string) {
@@ -218,9 +220,5 @@ export class ProductComponent implements OnInit {
 
   isDefaultCurrency(variantIdx: number): boolean {
     return this.product.variants[variantIdx].currency === DEFAULT_CURRENCY_CODE;
-  }
-
-  getSellableQty(index: number): number {
-    return this.product.variants[index].sellableQty;
   }
 }

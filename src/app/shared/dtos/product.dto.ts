@@ -26,8 +26,10 @@ export class ProductVariantListItemDto {
   name: string;
   sku: string;
   price: number;
+  oldPrice: number;
   currency: ECurrencyCode;
   priceInDefaultCurrency: number;
+  oldPriceInDefaultCurrency: number;
   qtyInStock: number;
   sellableQty: number;
 }
