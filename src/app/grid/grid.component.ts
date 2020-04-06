@@ -93,7 +93,11 @@ export class GridComponent<T extends { isOpened?: boolean } = any> extends NgUns
   }
 
   emitChange() {
-    const value = this.getValue();
+    let value = this.getValue();
+    if (value.filters?.length) {
+      const { sort, ...rest } = value;
+      value = rest;
+    }
     this.changeEmitter.emit(value);
     this.setSavedInfo();
   }

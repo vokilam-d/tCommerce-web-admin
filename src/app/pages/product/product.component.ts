@@ -43,7 +43,7 @@ export class ProductComponent implements OnInit {
   }
 
   private init() {
-    this.isNewProduct = this.route.snapshot.data.action === EPageAction.Add;
+    this.isNewProduct = this.route?.snapshot.data.action === EPageAction.Add;
     const id = this.route.snapshot.paramMap.get('id');
 
     if (id) {
