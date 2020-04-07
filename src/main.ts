@@ -9,6 +9,6 @@ if (environment.production) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  platformBrowserDynamic().bootstrapModule(AppModule)
+  platformBrowserDynamic().bootstrapModule(AppModule, { ngZoneEventCoalescing: false })
   .catch(err => console.error(err));
 });
