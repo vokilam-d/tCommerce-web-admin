@@ -4,7 +4,8 @@
   display: flex;
 
   &__sidebar {
-    width: 350px;
+    position: relative;
+    width: 300px;
     flex-shrink: 0;
   }
 
@@ -14,8 +15,19 @@
   }
 
   &__preloader {
-    position: relative;
-    margin: 10vh 0 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(#fff, 0.6);
+    display: flex;
+    justify-content: center;
+    z-index: 1;
+  }
+
+  &__preloader-cmp {
+    margin: 12vh 0 0;
   }
 
   &__add {
@@ -41,6 +53,7 @@
   }
 
   &__list {
+    position: relative;
     margin: 15px 0 0;
   }
 

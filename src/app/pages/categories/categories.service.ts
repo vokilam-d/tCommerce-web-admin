@@ -1,9 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
-import { AddOrUpdateCategoryDto, CategoryDto, CategoryTreeItem } from '../../shared/dtos/category.dto';
+import {
+  AddOrUpdateCategoryDto,
+  CategoryDto,
+  CategoryTreeItem,
+  ReorderDto
+} from '../../shared/dtos/category.dto';
 import { ResponseDto } from '../../shared/dtos/response.dto';
 import { API_HOST } from '../../shared/constants/constants';
+import { DragDropPosition } from '../../shared/directives/draggable-item/draggable-item.directive';
+import { EReorderPosition } from '../../shared/enums/reorder-position.enum';
 
 @Injectable()
 export class CategoriesService {
@@ -16,6 +23,16 @@ export class CategoriesService {
 
   fetchCategoriesTree() {
     return this.http.get<ResponseDto<CategoryTreeItem[]>>(`${API_HOST}/api/v1/admin/categories/tree`);
+  }
+
+  reorderCategory(category: CategoryTreeItem, target: CategoryTreeItem, position: EReorderPosition) {
+    const reorderDto: ReorderDto = {
+      id: category.id,
+      targetId: target.id,
+      position
+    };
+
+    return this.http.post<ResponseDto<CategoryTreeItem[]>>(`${API_HOST}/api/v1/admin/categories/action/reorder`, reorderDto);
   }
 
   fetchCategory(id: string) {

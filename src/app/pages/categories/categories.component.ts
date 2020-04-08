@@ -6,7 +6,11 @@ import { CategoryTreeItem, CategoryDto } from '../../shared/dtos/category.dto';
 import { NotyService } from '../../noty/noty.service';
 import { finalize } from 'rxjs/operators';
 import { NgUnsubscribe } from '../../shared/directives/ng-unsubscribe/ng-unsubscribe.directive';
-import { DraggableItemDirective } from '../../shared/directives/draggable-item/draggable-item.directive';
+import {
+  DragDropPosition,
+  DraggableItemDirective, IDraggedEvent
+} from '../../shared/directives/draggable-item/draggable-item.directive';
+import { EReorderPosition } from '../../shared/enums/reorder-position.enum';
 
 @Component({
   selector: 'categories',
@@ -63,5 +67,17 @@ export class CategoriesComponent extends NgUnsubscribe implements OnInit, OnDest
   private addCategory(id: string | number) {
     this.categoriesService.removeSelectedCategoryId();
     this.router.navigate(['add', 'parent', id], { relativeTo: this.route });
+  }
+
+  onReorder(draggedEvt: IDraggedEvent) {
+    this.isLoading = true;
+    this.categoriesService.reorderCategory(draggedEvt.item, draggedEvt.targetItem, draggedEvt.position)
+      .pipe(this.notyService.attachNoty(), finalize(() => this.isLoading = false))
+      .subscribe(
+        response => {
+          this.categories = response.data;
+        },
+        error => console.warn(error)
+      );
   }
 }

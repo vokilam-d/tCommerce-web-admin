@@ -37,3 +37,54 @@ textarea {
 quill-editor {
   display: block;
 }
+
+.draggable-item {
+  &--is-dragging {
+    background-color: rgba($red, 0.2) !important;
+  }
+
+  &--body-hovered {
+    background-color: rgba($dark, 0.2) !important;
+  }
+
+  &--start-hovered,
+  &--end-hovered {
+    position: relative;
+    &::before {
+      content: '';
+      position: absolute;
+    }
+  }
+  &--vertical#{&}--start-hovered {
+    &::before {
+      left: 0;
+      right: 0;
+      top: -1px;
+      border-top: 2px dashed rgba($red, 0.7);
+    }
+  }
+  &--vertical#{&}--end-hovered {
+    &::before {
+      left: 0;
+      right: 0;
+      bottom: -1px;
+      border-bottom: 2px dashed rgba($red, 0.7);
+    }
+  }
+  &--horizontal#{&}--start-hovered {
+    &::before {
+      top: 0;
+      bottom: 0;
+      left: -1px;
+      border-left: 2px dashed rgba($red, 0.7);
+    }
+  }
+  &--horizontal#{&}--end-hovered {
+    &::before {
+      top: 0;
+      bottom: 0;
+      right: -1px;
+      border-right: 2px dashed rgba($red, 0.7);
+    }
+  }
+}
