@@ -108,7 +108,7 @@ export class ProductComponent implements OnInit {
           description: variant.metaTags.description,
           keywords: variant.metaTags.keywords
         }),
-        qtyInStock: variant.qtyInStock,
+        qtyInStock: [variant.qtyInStock, Validators.required],
         isDiscountApplicable: variant.isDiscountApplicable
       };
       variantsFormArray.push(this.formBuilder.group(variantControls));
@@ -117,9 +117,8 @@ export class ProductComponent implements OnInit {
     const productControls: Partial<Record<keyof ProductDto, any>> = {
       isEnabled: this.product.isEnabled,
       name: [this.product.name, Validators.required],
-      categoryIds: [this.product.categoryIds],
+      categories: [this.product.categories],
       attributes: [this.product.attributes],
-      sortOrder: [this.product.sortOrder],
       variants: variantsFormArray
     }
     this.form = this.formBuilder.group(productControls);

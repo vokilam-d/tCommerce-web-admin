@@ -37,7 +37,7 @@
     </span>
   </label>
 
-  <label class="category__field field">
+  <label class="category__field field" *ngIf="!isNewCategory">
     <span class="field__label">Товары в этой категории</span>
     <span class="field__control">
       <app-button (click)="openItemSorter()">Отсортировать</app-button>
@@ -76,9 +76,10 @@
     </label>
   </fields-group>
 
-  <product-item-sorter [categoryId]="category.id"></product-item-sorter>
 </form>
 
 <ng-template #preloaderTmpl>
   <preloader class="preloader"></preloader>
 </ng-template>
+
+<product-item-sorter *ngIf="category?.id as id" [categoryId]="id"></product-item-sorter>

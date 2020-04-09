@@ -11,7 +11,7 @@ export class ProductVariantDto {
   gtin: string = '';
   slug: string = '';
   attributes: ProductSelectedAttributeDto[] = [];
-  isEnabled: boolean = false;
+  isEnabled: boolean = true;
   price: number = 0;
   oldPrice: number;
   currency: ECurrencyCode = DEFAULT_CURRENCY_CODE;

@@ -66,8 +66,8 @@ export class ProductItemSorterComponent implements OnInit {
 
   private getFetchProductsParams() {
     return {
-      filters: [{ fieldName: 'categoryIds', value: `${this.categoryId}` }],
-      sort: '-sortOrder',
+      filters: [{ fieldName: 'categories.id', value: `${this.categoryId}` }],
+      sort: '-categories.sortOrder',
       limit: 1000,
       page: 1
     };

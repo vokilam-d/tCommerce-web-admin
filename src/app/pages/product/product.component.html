@@ -49,19 +49,10 @@
       </span>
     </div>
 
-    <div class="product__field field" *ngIf="form.get('categoryIds') as categoryIds">
+    <div class="product__field field" *ngIf="form.get('categories') as categories">
       <label class="field__label">Категории</label>
       <span class="field__control">
-        <category-select [formControl]="categoryIds"></category-select>
-      </span>
-    </div>
-
-    <div class="product__field field"
-         *ngIf="form.get('sortOrder') as sortOrder"
-    >
-      <label class="field__label" for="sortOrder">Порядок сортировки</label>
-      <span class="field__control">
-        <input class="field__input" [formControl]="sortOrder" id="sortOrder" type="number" min="0">
+        <category-select [formControl]="categories"></category-select>
       </span>
     </div>
 

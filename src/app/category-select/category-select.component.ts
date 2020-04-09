@@ -4,6 +4,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CategoryTreeItem } from '../shared/dtos/category.dto';
 import { ResponseDto } from '../shared/dtos/response.dto';
 import { API_HOST } from '../shared/constants/constants';
+import { ProductCategoryDto } from '../shared/dtos/product.dto';
 
 type CategorySelectOption = CategoryTreeItem & { isSelected: boolean; children: CategorySelectOption[]; };
 
@@ -37,11 +38,11 @@ export class CategorySelectComponent implements OnInit, ControlValueAccessor {
     return selected;
   }
 
-  private _value: number[];
-  get value(): number[] {
-    return this.selectedOptions.map(option => option.id);
+  private _value: ProductCategoryDto[];
+  get value(): ProductCategoryDto[] {
+    return this.selectedOptions.map(option => ({ id: option.id }));
   }
-  set value(categoryIds: number[]) {
+  set value(categoryIds: ProductCategoryDto[]) {
     this._value = categoryIds;
     this.setOptionsSelectedState(this.options);
     this.onChange(categoryIds);
@@ -82,13 +83,13 @@ export class CategorySelectComponent implements OnInit, ControlValueAccessor {
     this.isDisabled = isDisabled;
   }
 
-  writeValue(value: number[]): void {
+  writeValue(value: ProductCategoryDto[]): void {
     if (value === null) {
       value = [];
     }
 
     if (!Array.isArray(value)) {
-      throw new Error(`Value for ${CategorySelectComponent.name} must be array of numbers`);
+      throw new Error(`Value for ${CategorySelectComponent.name} must be an array`);
     }
 
     this.value = value;
@@ -113,18 +114,19 @@ export class CategorySelectComponent implements OnInit, ControlValueAccessor {
 
   private buildOptions(categories: CategoryTreeItem[]): CategorySelectOption[] {
     return categories.map(({ id, name, children }) => {
+      const isSelected = !!this._value.find(category => category.id === id);
       return {
         id,
         name,
         children: this.buildOptions(children),
-        isSelected: this._value.includes(id)
+        isSelected
       }
     });
   }
 
   private setOptionsSelectedState(options: CategorySelectOption[]): void {
     options.forEach(option => {
-      option.isSelected = this._value.includes(option.id);
+      option.isSelected = !!this._value.find(category => category.id === option.id);
       this.setOptionsSelectedState(option.children);
     });
   }

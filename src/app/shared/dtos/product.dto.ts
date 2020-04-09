@@ -3,14 +3,20 @@ import { ProductSelectedAttributeDto } from './selected-attribute.dto';
 import { ProductBreadcrumbDto } from './product-breadcrumb.dto';
 import { ECurrencyCode } from '../enums/currency.enum';
 
+export class ProductCategoryDto {
+  id: number;
+  name?: string;
+  slug?: string;
+  sortOrder?: number;
+}
+
 export class AddOrUpdateProductDto {
   isEnabled: boolean = true;
   name: string = '';
-  categoryIds: number[] = [];
+  categories: ProductCategoryDto[] = [];
   breadcrumbs: ProductBreadcrumbDto[] = [];
   attributes: ProductSelectedAttributeDto[] = [];
   variants: ProductVariantDto[] = [new ProductVariantDto()];
-  sortOrder: number = 0;
   reviewsCount: number;
   reviewsAvgRating: number;
 }
