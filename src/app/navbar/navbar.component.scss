@@ -25,7 +25,7 @@
 
     &--logo {
       position: relative;
-      padding: 12px 0 22px;
+      padding: 20px 0 22px;
 
       &::after {
         content: '';
@@ -42,7 +42,9 @@
   &__logo {
     display: block;
     margin: 0 auto;
-
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
   }
 
   &__icon {
