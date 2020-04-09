@@ -77,7 +77,6 @@ export class CategoryComponent implements OnInit {
       .subscribe(
         response => {
           this.category = response.data;
-          this.categoriesService.setSelectedCategoryId(this.category.id);
           this.buildForm(this.category);
         },
         error => console.warn(error)

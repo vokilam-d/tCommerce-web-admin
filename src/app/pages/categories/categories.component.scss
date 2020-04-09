@@ -62,13 +62,18 @@
   }
 
   &__list-item {
-    padding: 1px 0 1px 20px;
+    display: inline-block;
+    padding: 1px 2px 1px 20px;
     color: lighten($dark, 15%);
     transition: color 0.1s ease;
-    background: url('https://klondike.com.ua/static/adminhtml/Magento/backend/ru_RU/extjs/resources/images/magento/tree/folder.gif') left center no-repeat;
+    background: url('../../../assets/images/folder.gif') left center no-repeat;
 
     &:hover {
       color: darken($dark, 30%);
+    }
+
+    &--active {
+      background-color: rgba($red, 0.1);
     }
   }
 }

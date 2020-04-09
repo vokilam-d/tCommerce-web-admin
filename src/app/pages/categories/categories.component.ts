@@ -31,7 +31,6 @@ export class CategoriesComponent extends NgUnsubscribe implements OnInit, OnDest
 
   ngOnDestroy(): void {
     super.ngOnDestroy();
-    this.categoriesService.removeSelectedCategoryId();
   }
 
   fetchCategoriesTree() {
@@ -46,22 +45,18 @@ export class CategoriesComponent extends NgUnsubscribe implements OnInit, OnDest
       );
   }
 
-  selectCategory(category: CategoryDto) {
-    this.categoriesService.setSelectedCategoryId(category.id);
-    this.router.navigate(['edit', category.id], { relativeTo: this.route });
-  }
-
   addRootCategory() {
     this.addCategory(0);
   }
 
   addSubCategory() {
-    this.addCategory(this.categoriesService.selectedCategoryId);
+    const [ childRoute ] = this.route.children;
+    const activeCategoryId = childRoute?.snapshot.paramMap.get('id') || 0;
+    this.addCategory(activeCategoryId);
   }
 
-  private addCategory(id: string | number) {
-    this.categoriesService.removeSelectedCategoryId();
-    this.router.navigate(['add', 'parent', id], { relativeTo: this.route });
+  private addCategory(parentId: string | number) {
+    this.router.navigate(['add', 'parent', parentId], { relativeTo: this.route });
   }
 
   onReorder(draggedEvt: IDraggedEvent) {

@@ -37,15 +37,16 @@
 
 <ng-template #treeItem let-category="category">
   <li>
-    <button class="categories__list-item"
-            (click)="selectCategory(category)"
-            [draggable-item]="category"
-            draggable-item-type="category"
-            (dragged)="onReorder($event)"
-            type="button"
+    <a class="categories__list-item"
+       [routerLink]="['edit', category.id]"
+       [routerLinkActive]="'categories__list-item--active'"
+       [draggable-item]="category"
+       [draggable-item-type]="'category'"
+       (dragged)="onReorder($event)"
+       draggable="false"
     >
       {{ category.name }}
-    </button>
+    </a>
 
     <ul class="categories__list categories__sublist" *ngIf="category.children.length">
       <ng-container *ngFor="let subCategory of category.children">
