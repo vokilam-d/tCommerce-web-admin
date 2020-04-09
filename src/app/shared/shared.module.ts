@@ -12,8 +12,7 @@ import { ToggleComponent } from './components/toggle/toggle.component';
 import { ReadableCurrencyPipe } from './pipes/readable-currency.pipe';
 import { NormalizedPhonePipe } from './pipes/normalized-phone.pipe';
 import { PreloaderModule } from '../preloader/preloader.module';
-import { AutofocusDirective } from './directives/autofocus.directive';
-import { DraggableListDirective } from './directives/draggable-list/draggable-list.directive';
+import { AutofocusDirective } from './directives/autofocus/autofocus.directive';
 import { DraggableItemDirective } from './directives/draggable-item/draggable-item.directive';
 
 
@@ -31,7 +30,6 @@ import { DraggableItemDirective } from './directives/draggable-item/draggable-it
     ReadableCurrencyPipe,
     NormalizedPhonePipe,
     AutofocusDirective,
-    DraggableListDirective,
     DraggableItemDirective
   ],
   exports: [
@@ -47,7 +45,6 @@ import { DraggableItemDirective } from './directives/draggable-item/draggable-it
     ReadableCurrencyPipe,
     NormalizedPhonePipe,
     AutofocusDirective,
-    DraggableListDirective,
     DraggableItemDirective
   ],
   imports: [

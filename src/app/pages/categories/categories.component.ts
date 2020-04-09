@@ -1,16 +1,11 @@
-import { Component, ContentChildren, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CategoriesService } from './categories.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject } from 'rxjs';
-import { CategoryTreeItem, CategoryDto } from '../../shared/dtos/category.dto';
+import { CategoryDto, CategoryTreeItem } from '../../shared/dtos/category.dto';
 import { NotyService } from '../../noty/noty.service';
 import { finalize } from 'rxjs/operators';
 import { NgUnsubscribe } from '../../shared/directives/ng-unsubscribe/ng-unsubscribe.directive';
-import {
-  DragDropPosition,
-  DraggableItemDirective, IDraggedEvent
-} from '../../shared/directives/draggable-item/draggable-item.directive';
-import { EReorderPosition } from '../../shared/enums/reorder-position.enum';
+import { IDraggedEvent } from '../../shared/directives/draggable-item/draggable-item.directive';
 
 @Component({
   selector: 'categories',
