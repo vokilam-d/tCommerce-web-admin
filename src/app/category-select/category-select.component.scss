@@ -1,5 +1,4 @@
 @import "variables";
-@import "keyframes";
 
 .select {
   position: relative;
@@ -83,5 +82,14 @@
       left: 17px;
       bottom: 0;
     }
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.3);
+  }
+  to {
+    transform: scale(1);
   }
 }

@@ -61,6 +61,7 @@ export class DraggableItemDirective implements AfterViewInit, OnDestroy {
     const mouseUpUnlisten = this.renderer.listen('window', 'mouseup', _ => {
       this.isDragging = false;
       this.dragService.removeDraggingItem();
+      this.resetHovered();
 
       if (mouseUpUnlisten) { mouseUpUnlisten(); }
       if (this.mouseMoveUnlisten) { this.mouseMoveUnlisten(); }
@@ -79,6 +80,8 @@ export class DraggableItemDirective implements AfterViewInit, OnDestroy {
         position: this.getPosition(mouseUpEvt)
       });
     }
+
+    this.resetHovered();
   }
 
   @HostListener('mousemove', ['$event'])
@@ -115,12 +118,23 @@ export class DraggableItemDirective implements AfterViewInit, OnDestroy {
   }
 
   private getPosition(mouseEvt: MouseEvent): EReorderPosition {
-    const heightQuarter = this.elementRef.nativeElement.offsetHeight / 4;
-    const offsetY = Math.abs(mouseEvt.offsetY);
+    let dimension;
+    let offset;
+    let section;
 
-    if (offsetY <= heightQuarter) {
+    if (this.direction === 'vertical') {
+      dimension = this.elementRef.nativeElement.offsetHeight;
+      offset = Math.abs(mouseEvt.offsetY);
+      section = dimension / 4;
+    } else if (this.direction === 'horizontal') {
+      dimension = this.elementRef.nativeElement.offsetWidth;
+      offset = Math.abs(mouseEvt.offsetX);
+      section = dimension / 2;
+    }
+
+    if (offset <= section) {
       return EReorderPosition.Start;
-    } else if (offsetY <= (this.elementRef.nativeElement.offsetHeight - heightQuarter)) {
+    } else if (offset <= (dimension - section)) {
       return EReorderPosition.Inside;
     } else {
       return EReorderPosition.End;

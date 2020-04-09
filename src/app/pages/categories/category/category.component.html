@@ -37,33 +37,46 @@
     </span>
   </label>
 
-  <label class="category__field field" [class.field--invalid]="isControlInvalid(slug)">
-    <span class="field__label">URL адрес</span>
+  <label class="category__field field">
+    <span class="field__label">Товары в этой категории</span>
     <span class="field__control">
-      <input class="field__input" [formControl]="slug" type="text">
+      <app-button (click)="openItemSorter()">Отсортировать</app-button>
     </span>
   </label>
 
-  <label class="category__field field" [class.field--invalid]="isControlInvalid(metaTitle)">
-    <span class="field__label">Meta заголовок</span>
-    <span class="field__control">
-      <textarea class="field__input" [formControl]="metaTitle"></textarea>
-    </span>
-  </label>
+  <fields-group id="category-seo">
+    <div fields-group-title>SEO</div>
 
-  <label class="category__field field" [class.field--invalid]="isControlInvalid(metaDescription)">
-    <span class="field__label">Meta описание</span>
-    <span class="field__control">
-      <textarea class="field__textarea" [formControl]="metaDescription"></textarea>
-    </span>
-  </label>
+    <label class="category__field field" [class.field--invalid]="isControlInvalid(slug)">
+      <span class="field__label">URL адрес</span>
+      <span class="field__control">
+        <input class="field__input" [formControl]="slug" type="text">
+      </span>
+    </label>
 
-  <label class="category__field field" [class.field--invalid]="isControlInvalid(metaKeywords)">
-    <span class="field__label">Meta ключевые слова</span>
-    <span class="field__control">
-      <textarea class="field__textarea" [formControl]="metaKeywords"></textarea>
-    </span>
-  </label>
+    <label class="category__field field" [class.field--invalid]="isControlInvalid(metaTitle)">
+      <span class="field__label">Meta заголовок</span>
+      <span class="field__control">
+        <textarea class="field__input" [formControl]="metaTitle"></textarea>
+      </span>
+    </label>
+
+    <label class="category__field field" [class.field--invalid]="isControlInvalid(metaDescription)">
+      <span class="field__label">Meta описание</span>
+      <span class="field__control">
+        <textarea class="field__textarea" [formControl]="metaDescription"></textarea>
+      </span>
+    </label>
+
+    <label class="category__field field" [class.field--invalid]="isControlInvalid(metaKeywords)">
+      <span class="field__label">Meta ключевые слова</span>
+      <span class="field__control">
+        <textarea class="field__textarea" [formControl]="metaKeywords"></textarea>
+      </span>
+    </label>
+  </fields-group>
+
+  <product-item-sorter [categoryId]="category.id"></product-item-sorter>
 </form>
 
 <ng-template #preloaderTmpl>

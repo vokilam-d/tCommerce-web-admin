@@ -19,13 +19,14 @@ export class CategoriesService {
   }
 
   reorderCategory(category: CategoryTreeItem, target: CategoryTreeItem, position: EReorderPosition) {
+    const apiUrl = `${API_HOST}/api/v1/admin/categories/action/reorder`;
     const reorderDto: ReorderDto = {
       id: category.id,
       targetId: target.id,
       position
     };
 
-    return this.http.post<ResponseDto<CategoryTreeItem[]>>(`${API_HOST}/api/v1/admin/categories/action/reorder`, reorderDto);
+    return this.http.post<ResponseDto<CategoryTreeItem[]>>(apiUrl, reorderDto);
   }
 
   fetchCategory(id: string) {

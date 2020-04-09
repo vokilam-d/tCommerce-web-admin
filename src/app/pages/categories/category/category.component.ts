@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CategoriesService } from '../categories.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -6,6 +6,7 @@ import { EPageAction } from '../../../shared/enums/category-page-action.enum';
 import { AddOrUpdateCategoryDto, CategoryDto } from '../../../shared/dtos/category.dto';
 import { NotyService } from '../../../noty/noty.service';
 import { AngularEditorConfig } from '../../../angular-editor/config';
+import { ProductItemSorterComponent } from '../product-item-sorter/product-item-sorter.component';
 
 const EMPTY_CATEGORY: AddOrUpdateCategoryDto = {
   isEnabled: true,
@@ -37,7 +38,6 @@ export class CategoryComponent implements OnInit {
   get metaTitle() { return this.form && this.form.get('metaTags.title') as FormControl; }
   get metaDescription() { return this.form && this.form.get('metaTags.description') as FormControl; }
   get metaKeywords() { return this.form && this.form.get('metaTags.keywords') as FormControl; }
-
   get isNewCategory(): boolean { return this.route.snapshot.data.action === EPageAction.Add; }
 
   editorConfig: AngularEditorConfig = {
@@ -45,6 +45,8 @@ export class CategoryComponent implements OnInit {
     minHeight: '5rem',
     outline: false
   };
+
+  @ViewChild(ProductItemSorterComponent) sorterCmp: ProductItemSorterComponent;
 
   constructor(private categoriesService: CategoriesService,
               private formBuilder: FormBuilder,
@@ -170,5 +172,9 @@ export class CategoryComponent implements OnInit {
 
   isControlInvalid(control: FormControl) {
     return !control.valid && control.touched;
+  }
+
+  openItemSorter() {
+    this.sorterCmp.openModal();
   }
 }

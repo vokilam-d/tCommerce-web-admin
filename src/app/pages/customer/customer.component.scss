@@ -1,5 +1,4 @@
 @import "variables";
-@import "keyframes";
 
 .tabs {
   margin: 40px 0 0;
@@ -136,7 +135,7 @@
     }
 
     #{$address}:hover & {
-      animation: slideIn 0.1s $cubicBezier forwards;
+      animation: slideInCustomer 0.1s $cubicBezier forwards;
     }
   }
 
@@ -161,7 +160,7 @@
   }
 }
 
-@keyframes slideIn {
+@keyframes slideInCustomer {
   from {
     transform: translateY(-100%);
     opacity: 0;

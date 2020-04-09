@@ -9,12 +9,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularEditorModule } from '../../angular-editor/angular-editor.module';
 import { SharedModule } from '../../shared/shared.module';
 import { PreloaderModule } from '../../preloader/preloader.module';
+import { ProductItemSorterComponent } from './product-item-sorter/product-item-sorter.component';
 
 
 @NgModule({
   declarations: [
     CategoriesComponent,
-    CategoryComponent
+    CategoryComponent,
+    ProductItemSorterComponent
   ],
   imports: [
     CommonModule,
