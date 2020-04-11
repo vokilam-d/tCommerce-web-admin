@@ -53,6 +53,7 @@ export class ProductItemSorterComponent implements OnInit {
       draggedEvt.item,
       draggedEvt.targetItem,
       draggedEvt.position,
+      this.categoryId,
       this.getFetchProductsParams()
     )
       .pipe(this.notyService.attachNoty(), finalize(() => this.isLoading = false))

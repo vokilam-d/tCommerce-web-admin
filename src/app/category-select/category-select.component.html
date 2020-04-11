@@ -4,15 +4,15 @@
           (click)="toggleVisibility()"
           type="button"
   >
-    <span *ngIf="!selectedOptions.length; else optionsTmpl" class="select__placeholder">
+    <span *ngIf="!value.length; else selectedTmpl" class="select__placeholder">
       Выбрать...
     </span>
 
-    <ng-template #optionsTmpl>
-      <span class="select__active" *ngFor="let selected of selectedOptions">
-        {{ selected.name }}
+    <ng-template #selectedTmpl>
+      <span class="select__active" *ngFor="let category of value">
+        {{ category.name }}
 
-        <i class="ai ai-multiply select__remove" (click)="unselectOption($event, selected)"></i>
+        <i class="ai ai-multiply select__remove" (click)="unselectOption($event, category)"></i>
       </span>
     </ng-template>
   </button>

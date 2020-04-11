@@ -9,6 +9,7 @@ if (environment.production) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  platformBrowserDynamic().bootstrapModule(AppModule, { ngZoneEventCoalescing: false })
-  .catch(err => console.error(err));
+  platformBrowserDynamic()
+    .bootstrapModule(AppModule, { ngZoneEventCoalescing: true })
+    .catch(err => console.error(err));
 });

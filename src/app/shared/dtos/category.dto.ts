@@ -1,5 +1,4 @@
 import { MetaTagsDto } from './meta-tags.dto';
-import { EReorderPosition } from '../enums/reorder-position.enum';
 
 export class AddOrUpdateCategoryDto {
   isEnabled: boolean;
@@ -17,11 +16,7 @@ export class CategoryDto extends AddOrUpdateCategoryDto {
 export class CategoryTreeItem {
   id: CategoryDto['id'];
   name: CategoryDto['name'];
+  slug: CategoryDto['slug'];
   children: CategoryTreeItem[];
 }
 
-export class ReorderDto {
-  id: number;
-  targetId: number;
-  position: EReorderPosition;
-}

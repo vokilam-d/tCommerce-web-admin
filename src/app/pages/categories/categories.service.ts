@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
-import { AddOrUpdateCategoryDto, CategoryDto, CategoryTreeItem, ReorderDto } from '../../shared/dtos/category.dto';
+import { AddOrUpdateCategoryDto, CategoryDto, CategoryTreeItem} from '../../shared/dtos/category.dto';
 import { ResponseDto } from '../../shared/dtos/response.dto';
 import { API_HOST } from '../../shared/constants/constants';
 import { EReorderPosition } from '../../shared/enums/reorder-position.enum';
+import { ReorderDto } from '../../shared/dtos/reorder.dto';
 
 @Injectable()
 export class CategoriesService {

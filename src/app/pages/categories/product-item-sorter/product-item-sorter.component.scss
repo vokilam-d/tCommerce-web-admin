@@ -6,12 +6,21 @@
   flex-wrap: wrap;
 }
 
+.no-products {
+  width: 100%;
+  margin: 10vh;
+  text-align: center;
+  font-size: 16px;
+  color: rgba($dark, 0.7);
+}
+
 .product {
   width: 7vw;
   margin: 0 -1px -1px 0;
   padding: 8px;
   border: 1px solid #ccc;
   cursor: pointer;
+  user-select: none;
 
   &__img {
     display: inline-block;

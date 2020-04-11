@@ -7,7 +7,7 @@ import { ResponseDto } from '../dtos/response.dto';
 import { IGridValue } from '../../grid/grid.interface';
 import { API_HOST } from '../constants/constants';
 import { EReorderPosition } from '../enums/reorder-position.enum';
-import { ReorderDto } from '../dtos/category.dto';
+import { ProductReorderDto } from '../dtos/reorder.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -31,13 +31,15 @@ export class ProductService {
     item: ProductListItemDto,
     target: ProductListItemDto,
     position: EReorderPosition,
+    categoryId: number,
     filter: IGridValue
   ) {
     const apiUrl = `${API_HOST}/api/v1/admin/products/action/reorder`;
-    const reorderDto: ReorderDto = {
+    const reorderDto: ProductReorderDto = {
       id: item.id,
       targetId: target.id,
-      position
+      position,
+      categoryId
     };
 
     return this.http.post<ResponseDto<ProductListItemDto[]>>(

@@ -13,6 +13,10 @@
 
     <preloader *ngIf="isLoading" [hasOverlay]="true" [hasMargins]="true"></preloader>
 
+    <div class="no-products" *ngIf="!products?.length">
+      В данной категории нет ни одного товара
+    </div>
+
     <div class="product"
          *ngFor="let product of products"
          [draggable-item]="product"

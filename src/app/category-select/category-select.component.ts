@@ -1,4 +1,4 @@
-import { Component, forwardRef, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, forwardRef, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CategoryTreeItem } from '../shared/dtos/category.dto';
@@ -12,6 +12,7 @@ type CategorySelectOption = CategoryTreeItem & { isSelected: boolean; children: 
   selector: 'category-select',
   templateUrl: './category-select.component.html',
   styleUrls: ['./category-select.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => CategorySelectComponent),
@@ -23,12 +24,16 @@ export class CategorySelectComponent implements OnInit, ControlValueAccessor {
   isVisible: boolean = false;
   isDisabled: boolean = false;
   options: CategorySelectOption[] = [];
-  get selectedOptions(): CategorySelectOption[] {
+
+  private _value: ProductCategoryDto[];
+  get value(): ProductCategoryDto[] {
+
     const selected = [];
     const populate = (options: CategorySelectOption[]) => {
       options.forEach(option => {
         if (option.isSelected) {
-          selected.push(option);
+          const savedValue = this._value.find(category => category.id === option.id);
+          selected.push(savedValue ? savedValue : { id: option.id, name: option.name, slug: option.slug });
         }
         populate(option.children);
       });
@@ -37,21 +42,15 @@ export class CategorySelectComponent implements OnInit, ControlValueAccessor {
     populate(this.options);
     return selected;
   }
-
-  private _value: ProductCategoryDto[];
-  get value(): ProductCategoryDto[] {
-    return this.selectedOptions.map(option => ({ id: option.id }));
-  }
-  set value(categoryIds: ProductCategoryDto[]) {
-    this._value = categoryIds;
+  set value(categories: ProductCategoryDto[]) {
+    this._value = categories;
     this.setOptionsSelectedState(this.options);
-    this.onChange(categoryIds);
+    this.onChange(categories);
     this.onTouched();
   }
 
-  @Input() multi: boolean = false;
-
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private cdr: ChangeDetectorRef) {
   }
 
   ngOnInit() {
@@ -62,6 +61,7 @@ export class CategorySelectComponent implements OnInit, ControlValueAccessor {
     this.http.get<ResponseDto<CategoryTreeItem[]>>(`${API_HOST}/api/v1/admin/categories/tree`).subscribe(
       response => {
         this.options = this.buildOptions(response.data);
+        this.cdr.markForCheck();
       },
       error => console.warn(error)
     );
@@ -102,9 +102,9 @@ export class CategorySelectComponent implements OnInit, ControlValueAccessor {
     this.onTouched();
   }
 
-  unselectOption(event: Event, option: CategorySelectOption) {
+  unselectOption(event: Event, category: ProductCategoryDto) {
     event.stopPropagation();
-
+    const option = this.findOptionById(category.id);
     this.toggleOption(option, false);
   }
 
@@ -113,11 +113,12 @@ export class CategorySelectComponent implements OnInit, ControlValueAccessor {
   }
 
   private buildOptions(categories: CategoryTreeItem[]): CategorySelectOption[] {
-    return categories.map(({ id, name, children }) => {
+    return categories.map(({ id, name, slug, children }) => {
       const isSelected = !!this._value.find(category => category.id === id);
       return {
         id,
         name,
+        slug,
         children: this.buildOptions(children),
         isSelected
       }
@@ -129,5 +130,20 @@ export class CategorySelectComponent implements OnInit, ControlValueAccessor {
       option.isSelected = !!this._value.find(category => category.id === option.id);
       this.setOptionsSelectedState(option.children);
     });
+  }
+
+  private findOptionById(id: number): CategorySelectOption {
+    const findOption = (options) => {
+      for (const option of options) {
+        if (option.id === id) {
+          return option;
+        }
+        if (option.children?.length) {
+          return findOption(option.children);
+        }
+      }
+    }
+
+    return findOption(this.options);
   }
 }

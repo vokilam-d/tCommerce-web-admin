@@ -7,7 +7,7 @@ import { UserService } from './shared/services/user.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  get isLoggedIn(): boolean { return !!this.userService.user; };
+  get isLoggedIn(): boolean { return this.userService.user !== null; };
 
   constructor(private userService: UserService) {
   }
