@@ -24,6 +24,9 @@
          draggable-item-direction="horizontal"
          (dragged)="onReorder($event)"
     >
+      <div class="product__sort">
+        {{ getSortOrder(product) }}
+      </div>
       <img class="product__img" [src]="uploadedHost + product.mediaUrl" draggable="false">
 
       <a class="product__name"

@@ -73,4 +73,9 @@ export class ProductItemSorterComponent implements OnInit {
       page: 1
     };
   }
+
+  getSortOrder(product: ProductListItemDto): number {
+    const foundCategory = product.categories.find(c => c.id === this.categoryId);
+    return foundCategory.sortOrder;
+  }
 }

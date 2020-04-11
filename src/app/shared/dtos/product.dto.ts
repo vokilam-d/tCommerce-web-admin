@@ -42,6 +42,7 @@ export class ProductVariantListItemDto {
 
 export class ProductListItemDto {
   id: number;
+  categories: ProductCategoryDto[];
   mediaUrl: string;
   name: string;
   skus: string;

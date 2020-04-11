@@ -15,12 +15,27 @@
 }
 
 .product {
+  position: relative;
   width: 7vw;
   margin: 0 -1px -1px 0;
   padding: 8px;
   border: 1px solid #ccc;
   cursor: pointer;
   user-select: none;
+
+  &__sort {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #ddd;
+    border-radius: 100%;
+    font-size: 10px;
+  }
 
   &__img {
     display: inline-block;
