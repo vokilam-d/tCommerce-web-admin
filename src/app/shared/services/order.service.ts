@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ResponseDto } from '../dtos/response.dto';
-import { AddOrUpdateOrderDto, OrderDto } from '../dtos/order.dto';
+import { AddOrUpdateOrderDto, OrderDto, TrackingIdDto } from '../dtos/order.dto';
 import { toHttpParams } from '../helpers/to-http-params.function';
 import { OrderItemDto } from '../dtos/order-item.dto';
 import { CreateOrderItemDto } from '../dtos/create-order-item.dto';
@@ -46,6 +46,10 @@ export class OrderService {
 
   updateOrderAddress(id: number, address: ShippingAddressDto) {
     return this.http.put<ResponseDto<OrderDto>>(`${API_HOST}/api/v1/admin/orders/${id}/address`, address);
+  }
+
+  updateOrderTrackingId(id: number, trackingId: TrackingIdDto) {
+    return this.http.put<ResponseDto<OrderDto>>(`${API_HOST}/api/v1/admin/orders/${id}/tracking`, trackingId);
   }
 
   createOrderItem(sku: string, qty: number, customerId?: number) {

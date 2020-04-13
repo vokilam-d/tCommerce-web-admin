@@ -15,7 +15,8 @@
     margin: 10px 0 0;
   }
 
-  &__edit-address {
+  &__edit-address,
+  &__edit-tracking {
     margin: 1px 0 0 15px;
     font-size: 14px;
     color: $blue;
@@ -206,6 +207,17 @@
 
 .preloader {
   margin: 15vh 0 0;
+}
+
+.tracking {
+  padding: 0 10px;
+
+  &__input {
+    width: 150px;
+    border: 1px solid $borderColor;
+    padding: 4px 8px;
+    font-size: 16px;
+  }
 }
 
 @keyframes slideInFromRight {

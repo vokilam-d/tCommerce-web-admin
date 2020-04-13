@@ -69,6 +69,34 @@
     </div>
 
     <div class="order-view__subtitle">
+      Новая Почта
+    </div>
+
+    <div class="order-view__block">
+      <div class="tracking">
+        <div class="tracking__control" *ngIf="trackingIdControl; else trackingIdTmpl">
+          <input class="tracking__input" [formControl]="trackingIdControl" type="text" autofocus>
+
+          <button class="order-view__edit-tracking" (click)="updateTrackingId()">
+            сохранить
+          </button>
+
+          <button class="order-view__edit-tracking" (click)="closeTrackingIdForm()">
+            отменить
+          </button>
+        </div>
+
+        <ng-template #trackingIdTmpl>
+          {{ order.novaposhtaTrackingId }}
+
+          <button class="order-view__edit-tracking" (click)="openTrackingIdForm()">
+            изменить
+          </button>
+        </ng-template>
+      </div>
+    </div>
+
+    <div class="order-view__subtitle">
       Адрес
 
       <button class="order-view__edit-address" (click)="openAddressForm()">

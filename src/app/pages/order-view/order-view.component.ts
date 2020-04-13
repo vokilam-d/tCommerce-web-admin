@@ -8,6 +8,7 @@ import { NotyService } from '../../noty/noty.service';
 import { AddressFormComponent } from '../../address-form/address-form.component';
 import { saveFileFromUrl } from '../../shared/helpers/save-file.function';
 import { API_HOST } from '../../shared/constants/constants';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'order-view',
@@ -20,6 +21,7 @@ export class OrderViewComponent implements OnInit {
   order: OrderDto;
   customer: CustomerDto;
   isAddressFormVisible: boolean = false;
+  trackingIdControl: FormControl;
 
   @ViewChild(AddressFormComponent) addressFormCmp: AddressFormComponent;
 
@@ -155,6 +157,26 @@ export class OrderViewComponent implements OnInit {
         response => {
           this.order = response.data;
           this.closeAddressForm();
+        }
+      );
+  }
+
+  openTrackingIdForm() {
+    this.trackingIdControl = new FormControl(this.order.novaposhtaTrackingId);
+  }
+
+  closeTrackingIdForm() {
+    this.trackingIdControl = null;
+  }
+
+  updateTrackingId() {
+    const trackingId = this.trackingIdControl.value;
+    this.orderService.updateOrderTrackingId(this.order.id, { trackingId })
+      .pipe(this.notyService.attachNoty({ successText: 'Номер ТТН успешно изменён' }))
+      .subscribe(
+        response => {
+          this.order = response.data;
+          this.closeTrackingIdForm();
         }
       );
   }

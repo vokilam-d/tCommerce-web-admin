@@ -33,3 +33,7 @@ export class AddOrUpdateOrderDto {
 export class OrderDto extends AddOrUpdateOrderDto {
   id: number;
 }
+
+export class TrackingIdDto {
+  trackingId: string;
+}

@@ -6,6 +6,7 @@ import { OrderViewComponent } from './order-view.component';
 import { SharedModule } from '../../shared/shared.module';
 import { AddressFormModule } from '../../address-form/address-form.module';
 import { PreloaderModule } from '../../preloader/preloader.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { PreloaderModule } from '../../preloader/preloader.module';
     OrderViewRoutingModule,
     SharedModule,
     AddressFormModule,
-    PreloaderModule
+    PreloaderModule,
+    ReactiveFormsModule
   ]
 })
 export class OrderViewModule { }
