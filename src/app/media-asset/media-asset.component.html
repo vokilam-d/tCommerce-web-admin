@@ -1,9 +1,12 @@
 <div class="media">
-  <img class="media__img"
-       (click)="showDetails()"
-       [src]="uploadedHost + media.variantsUrls.original"
-       [alt]="media.altText"
-  >
+  <div class="media__img-container" (click)="showDetails()">
+    <img class="media__img"
+         [src]="uploadedHost + media.variantsUrls.original"
+         [alt]="media.altText"
+    >
+
+    <div class="media__is-hidden" *ngIf="media.isHidden">Скрыто</div>
+  </div>
 
   <div class="media__remove" (click)="remove()">
     <i class="ai ai-trash media__remove-icon"></i>
@@ -13,7 +16,6 @@
     {{ media.dimensions }}, {{ media.size }}
   </div>
 
-  <div class="media__is-hidden" *ngIf="media.isHidden">Скрыто</div>
 </div>
 
 <div class="details-overlay" *ngIf="isDetailsVisible" (click)="hideDetails()"></div>
