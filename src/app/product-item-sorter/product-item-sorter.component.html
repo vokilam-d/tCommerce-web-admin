@@ -1,0 +1,29 @@
+<div class="products">
+
+  <preloader *ngIf="isLoading" [hasOverlay]="true" [hasMargins]="true"></preloader>
+
+  <div class="no-products" *ngIf="!items?.length">
+    Не найдено ни одного товара
+  </div>
+
+  <div class="product"
+       *ngFor="let product of items"
+       [draggable-item]="product"
+       draggable-item-type="product"
+       draggable-item-direction="horizontal"
+       (dragged)="onReorder($event)"
+  >
+    <div class="product__sort">
+      {{ product.sortOrder }}
+    </div>
+    <img class="product__img" [src]="uploadedHost + product.mediaUrl" draggable="false">
+
+    <a class="product__name"
+       [routerLink]="['/', 'admin', 'product', 'edit', product.id]"
+       target="_blank"
+       draggable="false"
+    >
+      {{ product.name }}
+    </a>
+  </div>
+</div>

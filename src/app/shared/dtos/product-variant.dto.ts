@@ -2,6 +2,7 @@ import { ProductSelectedAttributeDto } from './selected-attribute.dto';
 import { MediaDto } from './media.dto';
 import { MetaTagsDto } from './meta-tags.dto';
 import { DEFAULT_CURRENCY_CODE, ECurrencyCode } from '../enums/currency.enum';
+import { LinkedProductDto } from './linked-product.dto';
 
 export class ProductVariantDto {
   id: string = '';
@@ -26,4 +27,6 @@ export class ProductVariantDto {
   isDiscountApplicable: boolean = true;
   salesCount: number = 0;
   googleAdsProductTitle: string = '';
+  relatedProducts: LinkedProductDto[] = [];
+  crossSellProducts: LinkedProductDto[] = [];
 }

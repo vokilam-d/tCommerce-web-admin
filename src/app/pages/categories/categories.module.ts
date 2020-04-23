@@ -9,14 +9,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularEditorModule } from '../../angular-editor/angular-editor.module';
 import { SharedModule } from '../../shared/shared.module';
 import { PreloaderModule } from '../../preloader/preloader.module';
-import { ProductItemSorterComponent } from './product-item-sorter/product-item-sorter.component';
+import { CategoryProductItemSorterModalComponent } from './category-product-item-sorter-modal/category-product-item-sorter-modal.component';
+import { ProductItemSorterModule } from '../../product-item-sorter/product-item-sorter.module';
 
 
 @NgModule({
   declarations: [
     CategoriesComponent,
     CategoryComponent,
-    ProductItemSorterComponent
+    CategoryProductItemSorterModalComponent
   ],
   imports: [
     CommonModule,
@@ -25,7 +26,8 @@ import { ProductItemSorterComponent } from './product-item-sorter/product-item-s
     FormsModule,
     AngularEditorModule,
     SharedModule,
-    PreloaderModule
+    PreloaderModule,
+    ProductItemSorterModule
   ],
   providers: [
     CategoriesService

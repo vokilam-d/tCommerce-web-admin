@@ -33,7 +33,9 @@
            *ngIf="form.get('isEnabled') as isEnabled"
            [class.field--invalid]="isControlInvalid(isEnabled)"
     >
-      <label class="field__label">Включить товар</label>
+      <label class="field__label">
+        Включить товар
+      </label>
       <div class="field__control">
         <toggle [formControl]="isEnabled"></toggle>
       </div>
@@ -50,7 +52,9 @@
     </div>
 
     <div class="product__field field" *ngIf="form.get('categories') as categories">
-      <label class="field__label">Категории</label>
+      <label class="field__label">
+        Категории
+      </label>
       <span class="field__control">
         <category-select [formControl]="categories"></category-select>
       </span>
@@ -91,7 +95,9 @@
              *ngIf="variantForm.get('name') as name"
              [class.field--invalid]="isControlInvalid(name)"
         >
-          <label class="field__label" [for]="'name-' + i">Название товара</label>
+          <label class="field__label" [for]="'name-' + i">
+            Название товара
+          </label>
           <span class="field__control">
             <input class="field__input" [formControl]="name" type="text" [id]="'name-' + i">
           </span>
@@ -101,7 +107,9 @@
              *ngIf="variantForm.get('sku') as sku"
              [class.field--invalid]="isControlInvalid(sku)"
         >
-          <label class="field__label" [for]="'sku-' + i">Код</label>
+          <label class="field__label" [for]="'sku-' + i">
+            Код
+          </label>
           <span class="field__control">
             <input class="field__input" [formControl]="sku" [id]="'sku-' + i" type="text">
           </span>
@@ -111,7 +119,9 @@
                *ngIf="variantForm.get('price') as price"
                [class.field--invalid]="isControlInvalid(price)"
         >
-          <label class="field__label" [for]="'price-' + i">Цена</label>
+          <label class="field__label" [for]="'price-' + i">
+            Цена
+          </label>
           <span class="field__control price">
             <input class="field__input price__input" [formControl]="price" [id]="'price-' + i" type="number">
 
@@ -134,7 +144,9 @@
                *ngIf="variantForm.get('oldPrice') as oldPrice"
                [class.field--invalid]="isControlInvalid(oldPrice)"
         >
-          <label class="field__label" [for]="'oldPrice-' + i">Cтарая цена</label>
+          <label class="field__label" [for]="'oldPrice-' + i">
+            Cтарая цена
+          </label>
           <span class="field__control price">
             <input class="field__input price__input" [formControl]="oldPrice" [id]="'oldPrice-' + i" type="number">
 
@@ -147,7 +159,9 @@
         <div class="product__field field"
                *ngIf="variantForm.get('qtyInStock') as qtyInStock"
         >
-          <label class="field__label" [for]="'qtyInStock-' + i">Количество всего на складе</label>
+          <label class="field__label" [for]="'qtyInStock-' + i">
+            Количество всего на складе
+          </label>
           <span class="field__control">
             <input class="field__input" [formControl]="qtyInStock" [id]="'qtyInStock-' + i" type="number" required>
 
@@ -159,7 +173,9 @@
              *ngIf="variantForm.get('vendorCode') as vendorCode"
              [class.field--invalid]="isControlInvalid(vendorCode)"
         >
-          <label class="field__label" [for]="'vendorCode-' + i">Артикул</label>
+          <label class="field__label" [for]="'vendorCode-' + i">
+            Артикул
+          </label>
           <span class="field__control">
             <input class="field__input" [formControl]="vendorCode" [id]="'vendorCode-' + i" type="text">
           </span>
@@ -169,7 +185,9 @@
              *ngIf="variantForm.get('gtin') as gtin"
              [class.field--invalid]="isControlInvalid(gtin)"
         >
-          <label class="field__label" [for]="'gtin-' + i">GTIN</label>
+          <label class="field__label" [for]="'gtin-' + i">
+            GTIN
+          </label>
           <span class="field__control">
             <input class="field__input" [formControl]="gtin" [id]="'gtin-' + i" type="text">
           </span>
@@ -179,7 +197,9 @@
              *ngIf="variantForm.get('googleAdsProductTitle') as googleAdsProductTitle"
              [class.field--invalid]="isControlInvalid(googleAdsProductTitle)"
         >
-          <label class="field__label" [for]="'googleAdsProductTitle-' + i">Google product ads название товара</label>
+          <label class="field__label" [for]="'googleAdsProductTitle-' + i">
+            Google product ads название товара
+          </label>
           <span class="field__control">
             <input class="field__input" [formControl]="googleAdsProductTitle" [id]="'googleAdsProductTitle-' + i" type="text">
           </span>
@@ -198,7 +218,9 @@
         <div class="product__field field"
              *ngIf="variantForm.get('isDiscountApplicable') as isDiscountApplicable"
         >
-          <label class="field__label">Накопительные скидки применимы?</label>
+          <label class="field__label">
+            Накопительные скидки применимы?
+          </label>
           <div class="field__control">
             <toggle [formControl]="isDiscountApplicable"></toggle>
           </div>
@@ -211,7 +233,9 @@
         <div class="product__field field"
                *ngIf="variantForm.get('fullDescription') as fullDescription"
         >
-          <label class="field__label" [for]="'desc-' + i">Описание</label>
+          <label class="field__label" [for]="'desc-' + i">
+            Описание
+          </label>
           <span class="field__control">
             <quill-editor [formControl]="fullDescription" [strict]="false" [id]="'desc-' + i" [modules]="quillModules"></quill-editor>
           </span>
@@ -220,7 +244,9 @@
         <div class="product__field field"
                *ngIf="variantForm.get('shortDescription') as shortDescription"
         >
-          <label class="field__label" [for]="'s-desc-' + i">Короткое описание</label>
+          <label class="field__label" [for]="'s-desc-' + i">
+            Короткое описание
+          </label>
           <span class="field__control">
             <textarea class="field__textarea" [formControl]="shortDescription" [id]="'s-desc-' + i"></textarea>
           </span>
@@ -233,7 +259,9 @@
         <div class="product__field field"
                *ngIf="variantForm.get('slug') as slug"
         >
-          <label class="field__label" [for]="'slug-' + i">URL адрес</label>
+          <label class="field__label" [for]="'slug-' + i">
+            URL адрес
+          </label>
           <span class="field__control">
             <input class="field__input" [formControl]="slug" [id]="'slug-' + i" type="text">
           </span>
@@ -242,7 +270,9 @@
         <div class="product__field field"
                *ngIf="variantForm.get('metaTags.title') as metaTitle"
         >
-          <label class="field__label" [for]="'metaTitle-' + i">Meta заголовок</label>
+          <label class="field__label" [for]="'metaTitle-' + i">
+            Meta заголовок
+          </label>
           <span class="field__control">
             <textarea class="field__input" [formControl]="metaTitle" [id]="'metaTitle-' + i"></textarea>
           </span>
@@ -251,7 +281,9 @@
         <div class="product__field field"
                *ngIf="variantForm.get('metaTags.description') as metaDescription"
         >
-          <label class="field__label" [for]="'metaDesc-' + i">Meta описание</label>
+          <label class="field__label" [for]="'metaDesc-' + i">
+            Meta описание
+          </label>
           <span class="field__control">
             <textarea class="field__textarea" [formControl]="metaDescription" [id]="'metaDesc-' + i"></textarea>
           </span>
@@ -260,7 +292,9 @@
         <div class="product__field field"
                *ngIf="variantForm.get('metaTags.keywords') as metaKeywords"
         >
-          <label class="field__label" [for]="'metaKeys-' + i">Meta ключевые слова</label>
+          <label class="field__label" [for]="'metaKeys-' + i">
+            Meta ключевые слова
+          </label>
           <span class="field__control">
             <textarea class="field__textarea" [formControl]="metaKeywords" [id]="'metaKeys-' + i"></textarea>
           </span>
@@ -281,6 +315,22 @@
                           [uploadUrl]="getMediaUploadUrl()"
                           (uploaded)="mediaUploaded($event, mediasControl)"
           ></media-uploader>
+
+        </div>
+      </fields-group>
+
+      <fields-group class="product__group">
+        <div fields-group-title>Сопутствующие товары</div>
+
+        <div class="product__field">
+
+        </div>
+      </fields-group>
+
+      <fields-group class="product__group">
+        <div fields-group-title>Кросс-товары</div>
+
+        <div class="product__field">
 
         </div>
       </fields-group>

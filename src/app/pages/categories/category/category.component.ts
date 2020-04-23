@@ -6,7 +6,7 @@ import { EPageAction } from '../../../shared/enums/category-page-action.enum';
 import { AddOrUpdateCategoryDto, CategoryDto } from '../../../shared/dtos/category.dto';
 import { NotyService } from '../../../noty/noty.service';
 import { AngularEditorConfig } from '../../../angular-editor/config';
-import { ProductItemSorterComponent } from '../product-item-sorter/product-item-sorter.component';
+import { CategoryProductItemSorterModalComponent } from '../category-product-item-sorter-modal/category-product-item-sorter-modal.component';
 
 const EMPTY_CATEGORY: AddOrUpdateCategoryDto = {
   isEnabled: true,
@@ -46,7 +46,7 @@ export class CategoryComponent implements OnInit {
     outline: false
   };
 
-  @ViewChild(ProductItemSorterComponent) sorterCmp: ProductItemSorterComponent;
+  @ViewChild(CategoryProductItemSorterModalComponent) sorterCmp: CategoryProductItemSorterModalComponent;
 
   constructor(private categoriesService: CategoriesService,
               private formBuilder: FormBuilder,

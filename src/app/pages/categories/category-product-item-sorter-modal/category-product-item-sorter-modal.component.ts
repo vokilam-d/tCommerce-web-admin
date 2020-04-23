@@ -3,20 +3,19 @@ import { ProductService } from '../../../shared/services/product.service';
 import { NotyService } from '../../../noty/noty.service';
 import { finalize } from 'rxjs/operators';
 import { ProductListItemDto } from '../../../shared/dtos/product.dto';
-import { API_HOST } from '../../../shared/constants/constants';
 import { IDraggedEvent } from '../../../shared/directives/draggable-item/draggable-item.directive';
+import { ProductItemWithSortOrder } from '../../../product-item-sorter/product-item-with-sort-order';
 
 @Component({
-  selector: 'product-item-sorter',
-  templateUrl: './product-item-sorter.component.html',
-  styleUrls: ['./product-item-sorter.component.scss']
+  selector: 'category-product-item-sorter-modal',
+  templateUrl: './category-product-item-sorter-modal.component.html',
+  styleUrls: ['./category-product-item-sorter-modal.component.scss']
 })
-export class ProductItemSorterComponent implements OnInit {
+export class CategoryProductItemSorterModalComponent implements OnInit {
 
   isModalVisible: boolean = false;
   isLoading: boolean = false;
-  products: ProductListItemDto[];
-  uploadedHost = API_HOST;
+  itemsWithSortOrder: ProductItemWithSortOrder[];
 
   @Input() categoryId: number;
 
@@ -34,7 +33,7 @@ export class ProductItemSorterComponent implements OnInit {
 
   closeModal() {
     this.isModalVisible = false;
-    this.products = [];
+    this.itemsWithSortOrder = [];
   }
 
   private fetchProducts() {
@@ -42,7 +41,7 @@ export class ProductItemSorterComponent implements OnInit {
     this.productService.fetchAllProducts(this.getFetchProductsParams(), false)
       .pipe(this.notyService.attachNoty(), finalize(() => this.isLoading = false))
       .subscribe(response => {
-        this.products = response.data;
+        this.itemsWithSortOrder = this.transformProducts(response.data);
       });
   }
 
@@ -59,7 +58,7 @@ export class ProductItemSorterComponent implements OnInit {
       .pipe(this.notyService.attachNoty(), finalize(() => this.isLoading = false))
       .subscribe(
         response => {
-          this.products = response.data;
+          this.itemsWithSortOrder = this.transformProducts(response.data);
         },
         error => console.warn(error)
       );
@@ -74,8 +73,13 @@ export class ProductItemSorterComponent implements OnInit {
     };
   }
 
-  getSortOrder(product: ProductListItemDto): number {
-    const foundCategory = product.categories.find(c => c.id === this.categoryId);
-    return foundCategory.sortOrder;
+  private transformProducts(items: ProductListItemDto[]): ProductItemWithSortOrder[] {
+    return items.map(item => {
+      const foundCategory = item.categories.find(c => c.id === this.categoryId);
+      return {
+        ...item,
+        sortOrder: foundCategory?.sortOrder
+      }
+    });
   }
 }

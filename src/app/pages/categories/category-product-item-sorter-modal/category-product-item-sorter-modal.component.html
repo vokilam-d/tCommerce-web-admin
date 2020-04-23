@@ -1,0 +1,18 @@
+<div class="modal-overlay" *ngIf="isModalVisible" (click)="closeModal()"></div>
+
+<div class="modal" *ngIf="isModalVisible">
+  <header class="modal__header">
+    <div class="modal__title">Отсортировать товары</div>
+
+    <button class="modal__close" (click)="closeModal()" type="button">
+      <i class="ai ai-multiply modal__close-icon"></i>
+    </button>
+  </header>
+
+  <div class="modal__content">
+    <product-item-sorter [items]="itemsWithSortOrder"
+                         [isLoading]="isLoading"
+                         (reorder)="onReorder($event)"
+    ></product-item-sorter>
+  </div>
+</div>
