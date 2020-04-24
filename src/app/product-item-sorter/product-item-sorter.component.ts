@@ -14,7 +14,8 @@ export class ProductItemSorterComponent implements OnInit {
 
   @Input() isLoading: boolean = false;
   @Input() items: ProductItemWithSortOrder[];
-  @Output() reorder = new EventEmitter<IDraggedEvent>();
+  @Input() itemsType = 'product';
+  @Output() reorder = new EventEmitter<IDraggedEvent<ProductItemWithSortOrder>>();
 
   constructor() { }
 

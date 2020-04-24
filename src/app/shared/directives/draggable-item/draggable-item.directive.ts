@@ -13,9 +13,9 @@ import {
 import { DraggableService } from '../../services/draggable.service';
 import { EReorderPosition } from '../../enums/reorder-position.enum';
 
-export interface IDraggedEvent {
-  item: any;
-  targetItem: any;
+export interface IDraggedEvent<T = any> {
+  item: T;
+  targetItem: T;
   position: EReorderPosition;
 }
 

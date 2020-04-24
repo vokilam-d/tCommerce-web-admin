@@ -14,10 +14,13 @@ import { ReviewsViewerComponent } from './reviews-viewer/reviews-viewer.componen
 import { RatingSelectorModule } from '../../rating-selector/rating-selector.module';
 import { QuillModule } from 'ngx-quill';
 import { PreloaderModule } from '../../preloader/preloader.module';
+import { LinkedProductsComponent } from './linked-products/linked-products.component';
+import { ProductSelectorModule } from '../../product-selector/product-selector.module';
+import { ProductItemSorterModule } from '../../product-item-sorter/product-item-sorter.module';
 
 
 @NgModule({
-  declarations: [ProductComponent, AttributesEditorComponent, ReviewsViewerComponent],
+  declarations: [ProductComponent, AttributesEditorComponent, ReviewsViewerComponent, LinkedProductsComponent],
   imports: [
     CommonModule,
     ProductRoutingModule,
@@ -30,7 +33,9 @@ import { PreloaderModule } from '../../preloader/preloader.module';
     CategorySelectModule,
     RatingSelectorModule,
     QuillModule,
-    PreloaderModule
+    PreloaderModule,
+    ProductSelectorModule,
+    ProductItemSorterModule
   ],
   providers: []
 })

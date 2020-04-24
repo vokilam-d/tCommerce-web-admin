@@ -323,7 +323,10 @@
         <div fields-group-title>Сопутствующие товары</div>
 
         <div class="product__field">
-
+          <linked-products [products]="product.variants[i].relatedProducts"
+                           [type]="'related'"
+                           (onChange)="onChangeRelatedProducts($event, i)"
+          ></linked-products>
         </div>
       </fields-group>
 
@@ -331,7 +334,10 @@
         <div fields-group-title>Кросс-товары</div>
 
         <div class="product__field">
-
+          <linked-products [products]="product.variants[i].crossSellProducts"
+                           [type]="'cross-sell'"
+                           (onChange)="onChangeCrossSellProducts($event, i)"
+          ></linked-products>
         </div>
       </fields-group>
 

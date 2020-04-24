@@ -29,7 +29,7 @@ class ProductForSelector extends ProductListItemDto {
   isSingleVariant: boolean;
 }
 
-interface ISelectedProduct {
+export interface ISelectedProduct {
   product: ProductListItemDto;
   variant: ProductVariantListItemDto;
   qty: number;
@@ -66,11 +66,11 @@ export class ProductSelectorComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    const gridValue = this.gridCmp.getValue();
-    this.fetchProducts(gridValue);
   }
 
   showSelector() {
+    const gridValue = this.gridCmp.getValue();
+    this.fetchProducts(gridValue);
     this.isSelectorVisible = true;
   }
 
@@ -84,7 +84,7 @@ export class ProductSelectorComponent implements OnInit, AfterViewInit {
     this.isGridLoading = true;
     this.cdr.detectChanges();
     this.fetchAllSub = this.productService.fetchAllProducts(gridValue, true)
-      .pipe(this.notyService.attachNoty(), finalize(() => this.isGridLoading = false))
+      .pipe(this.notyService.attachNoty(), finalize(() =>  this.isGridLoading = false))
       .subscribe(
         response => {
           this.products = this.transformProducts(response.data);
@@ -116,6 +116,7 @@ export class ProductSelectorComponent implements OnInit, AfterViewInit {
   selectProduct(product: ProductForSelector, variant: VariantForSelector) {
     this.selectedEmitter.emit({ product, variant, qty: variant.selectedQty });
     variant.selectedQty = 0;
+    this.notyService.showSuccessNoty(`Товар добавлен`);
   }
 
   isBtnDisabled(variant: VariantForSelector): boolean {

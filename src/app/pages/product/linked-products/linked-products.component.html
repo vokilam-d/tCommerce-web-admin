@@ -1,0 +1,14 @@
+<div class="btn-container">
+  <app-button (click)="addNewProduct()">Добавить товар</app-button>
+</div>
+
+<product-item-sorter class="sorter"
+                     [isLoading]="isLoading"
+                     [items]="productsWithSortOrder"
+                     [itemsType]="type"
+                     (reorder)="onReorder($event)"
+></product-item-sorter>
+
+<product-selector [showQty]="false"
+                  (selected)="onProductSelect($event)"
+></product-selector>

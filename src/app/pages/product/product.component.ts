@@ -12,6 +12,8 @@ import { DEFAULT_CURRENCY_CODE, ECurrencyCode } from '../../shared/enums/currenc
 import { API_HOST } from '../../shared/constants/constants';
 import { finalize } from 'rxjs/operators';
 import { ProductVariantDto } from '../../shared/dtos/product-variant.dto';
+import { LinkedProductDto } from '../../shared/dtos/linked-product.dto';
+import { mergeDeep } from '../../shared/helpers/merge-deep.function';
 
 @Component({
   selector: 'product',
@@ -154,7 +156,7 @@ export class ProductComponent implements OnInit {
   }
 
   private addNewProduct(needToDuplicate: boolean = false) {
-    const dto = { ...this.product, ...this.form.value };
+    const dto = this.mergeProducts(this.product, this.form.value);
 
     const successText: string = needToDuplicate
       ? 'Товар успешно добавлен. Вы перенаправлены на страницу создания нового товара'
@@ -172,7 +174,7 @@ export class ProductComponent implements OnInit {
   }
 
   private updateProduct(needToDuplicate: boolean = false) {
-    const dto = { ...this.product, ...this.form.value };
+    const dto = this.mergeProducts(this.product, this.form.value)
 
     this.productsService.updateProduct(this.product.id, dto)
       .pipe(this.notyService.attachNoty({ successText: 'Товар успешно обновлён' }))
@@ -206,10 +208,7 @@ export class ProductComponent implements OnInit {
   }
 
   onAttributesEdit(generatedFormValue: ProductDto) {
-    this.product = {
-      ...this.product,
-      ...generatedFormValue
-    };
+    this.product = this.mergeProducts(this.product, generatedFormValue);
     this.buildForm();
   }
 
@@ -219,5 +218,33 @@ export class ProductComponent implements OnInit {
 
   isDefaultCurrency(variantIdx: number): boolean {
     return this.product.variants[variantIdx].currency === DEFAULT_CURRENCY_CODE;
+  }
+
+  onChangeRelatedProducts(products: LinkedProductDto[], index: number) {
+    this.product.variants[index].relatedProducts = products;
+  }
+
+  onChangeCrossSellProducts(products: LinkedProductDto[], index: number) {
+    this.product.variants[index].crossSellProducts = products;
+  }
+
+  private mergeProducts(product1: ProductDto, product2: ProductDto): ProductDto {
+    const variants = [];
+    product2.variants.forEach((product2Variant, index) => {
+      let resultVariant = { ...product2Variant };
+
+      const product1Variant = product1.variants[index];
+      if (product1Variant) {
+        resultVariant = { ...product1Variant, ...resultVariant };
+      }
+
+      variants.push(resultVariant);
+    });
+
+    return {
+      ...product1,
+      ...product2,
+      variants
+    };
   }
 }

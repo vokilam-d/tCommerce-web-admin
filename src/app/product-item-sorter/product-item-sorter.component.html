@@ -9,7 +9,7 @@
   <div class="product"
        *ngFor="let product of items"
        [draggable-item]="product"
-       draggable-item-type="product"
+       [draggable-item-type]="itemsType"
        draggable-item-direction="horizontal"
        (dragged)="onReorder($event)"
   >
