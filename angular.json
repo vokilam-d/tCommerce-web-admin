@@ -84,6 +84,7 @@
           },
           "configurations": {
             "production": {
+              "aot": true,
               "browserTarget": "web-admin:build:production"
             }
           }

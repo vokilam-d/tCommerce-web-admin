@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "serve": "ng run web-admin:serve",
+    "serve:prod": "ng run web-admin:serve:production",
     "dev:ssr": "ng run web-admin:serve-ssr",
     "build:prod": "ng run web-admin:build:production && ng run web-admin:server:production",
     "start:prod": "node dist/web-admin/server/main.js"
