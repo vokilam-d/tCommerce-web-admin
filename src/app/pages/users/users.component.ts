@@ -7,6 +7,7 @@ import { UserService } from '../../shared/services/user.service';
 import { AddOrUpdateUserDto, UserDto } from '../../shared/dtos/user.dto';
 import { CustomValidators } from '../../shared/classes/validators';
 import { validPasswordRegex } from '../../shared/constants/constants';
+import { HeadService } from '../../shared/services/head.service';
 
 @Component({
   selector: 'users',
@@ -24,6 +25,7 @@ export class UsersComponent implements OnInit {
   constructor(private userService: UserService,
               private notyService: NotyService,
               private router: Router,
+              private headService: HeadService,
               private formBuilder: FormBuilder) {
   }
 
@@ -61,6 +63,8 @@ export class UsersComponent implements OnInit {
 
     this.form = this.formBuilder.group(controls);
     this.form.get('passwordConfirm').setValidators(CustomValidators.passwordConfirm(this.form.get('password')));
+
+    this.headService.setTitle(this.activeUser?.login || `Новый пользователь`);
   }
 
   addNewUser() {

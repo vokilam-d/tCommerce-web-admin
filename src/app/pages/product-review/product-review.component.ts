@@ -10,6 +10,7 @@ import { formatDate } from '@angular/common';
 import { ProductSelectorComponent } from '../../product-selector/product-selector.component';
 import { API_HOST } from '../../shared/constants/constants';
 import { finalize } from 'rxjs/operators';
+import { HeadService } from '../../shared/services/head.service';
 
 @Component({
   selector: 'product-review',
@@ -28,6 +29,7 @@ export class ProductReviewComponent implements OnInit {
 
   constructor(private productReviewService: ProductReviewService,
               private formBuilder: FormBuilder,
+              private headService: HeadService,
               private router: Router,
               private notyService: NotyService,
               private route: ActivatedRoute) {
@@ -42,6 +44,7 @@ export class ProductReviewComponent implements OnInit {
     if (this.isNewProductReview) {
       this.productReview = new ProductReviewDto();
       this.buildForm();
+      this.headService.setTitle(`Новый отзыв о товаре`);
     } else {
       this.fetchProductReview();
     }
@@ -113,6 +116,7 @@ export class ProductReviewComponent implements OnInit {
         response => {
           this.productReview = response.data;
           this.buildForm();
+          this.headService.setTitle(`Отзыв о товаре от ${this.productReview.name}`);
         },
         error => console.warn(error)
       );

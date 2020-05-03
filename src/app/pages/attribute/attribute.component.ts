@@ -7,6 +7,7 @@ import { AttributeService } from '../../shared/services/attribute.service';
 import { urlFriendlyCodeRegex } from '../../shared/constants/constants';
 import { NotyService } from 'src/app/noty/noty.service';
 import { finalize } from 'rxjs/operators';
+import { HeadService } from '../../shared/services/head.service';
 
 @Component({
   selector: 'attribute',
@@ -22,6 +23,7 @@ export class AttributeComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private attributeService: AttributeService,
+              private headService: HeadService,
               private router: Router,
               private notyService: NotyService,
               private route: ActivatedRoute) {
@@ -36,6 +38,7 @@ export class AttributeComponent implements OnInit {
 
     if (this.isNewAttribute) {
       this.buildForm(this.getEmptyAttribute());
+      this.headService.setTitle(`Новый атрибут`);
     } else {
       this.fetchAttribute();
     }
@@ -110,6 +113,7 @@ export class AttributeComponent implements OnInit {
         response => {
           this.attribute = response.data;
           this.buildForm(this.attribute);
+          this.headService.setTitle(this.attribute.id);
         },
         error => console.warn(error)
       );

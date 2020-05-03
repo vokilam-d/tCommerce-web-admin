@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { OrderService } from '../../shared/services/order.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrderDto } from '../../shared/dtos/order.dto';
@@ -9,6 +9,7 @@ import { AddressFormComponent } from '../../address-form/address-form.component'
 import { saveFileFromUrl } from '../../shared/helpers/save-file.function';
 import { API_HOST } from '../../shared/constants/constants';
 import { FormControl } from '@angular/forms';
+import { HeadService } from '../../shared/services/head.service';
 
 @Component({
   selector: 'order-view',
@@ -28,8 +29,10 @@ export class OrderViewComponent implements OnInit {
   constructor(private orderService: OrderService,
               private customerService: CustomerService,
               private notyService: NotyService,
+              private headService: HeadService,
               private router: Router,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute) {
+  }
 
   ngOnInit() {
     this.init();
@@ -42,6 +45,7 @@ export class OrderViewComponent implements OnInit {
         response => {
           this.order = response.data;
           this.fetchCustomer(this.order.customerId);
+          this.headService.setTitle(`Заказ №${this.order.id}`);
         }
       );
   }

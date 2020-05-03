@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HeadService } from '../../shared/services/head.service';
 
 @Component({
   selector: 'dashboard',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor() { }
+  constructor(private headService: HeadService) { }
 
   ngOnInit() {
+    this.headService.setTitle(`Dashboard`);
   }
 
 }

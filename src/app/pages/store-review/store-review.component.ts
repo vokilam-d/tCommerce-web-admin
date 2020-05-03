@@ -9,6 +9,7 @@ import { MediaDto } from '../../shared/dtos/media.dto';
 import { formatDate } from '@angular/common';
 import { API_HOST } from '../../shared/constants/constants';
 import { finalize } from 'rxjs/operators';
+import { HeadService } from '../../shared/services/head.service';
 
 @Component({
   selector: 'store-review',
@@ -25,6 +26,7 @@ export class StoreReviewComponent implements OnInit {
   constructor(private storeReviewService: StoreReviewService,
               private formBuilder: FormBuilder,
               private router: Router,
+              private headService: HeadService,
               private notyService: NotyService,
               private route: ActivatedRoute) {
   }
@@ -38,6 +40,7 @@ export class StoreReviewComponent implements OnInit {
     if (this.isNewStoreReview) {
       this.storeReview = new StoreReviewDto();
       this.buildForm();
+      this.headService.setTitle(`Новый отзыв о магазине`);
     } else {
       this.fetchStoreReview();
     }
@@ -95,6 +98,7 @@ export class StoreReviewComponent implements OnInit {
         response => {
           this.storeReview = response.data;
           this.buildForm();
+          this.headService.setTitle(`Отзыв о магазине от ${this.storeReview.name}`);
         },
         error => console.warn(error)
       );

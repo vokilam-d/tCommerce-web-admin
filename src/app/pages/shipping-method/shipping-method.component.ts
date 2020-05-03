@@ -5,6 +5,7 @@ import { ShippingMethodDto } from '../../shared/dtos/shipping-method.dto';
 import { NotyService } from '../../noty/noty.service';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
+import { HeadService } from '../../shared/services/head.service';
 
 @Component({
   selector: 'shipping-method',
@@ -21,6 +22,7 @@ export class ShippingMethodComponent implements OnInit {
   constructor(private shippingMethodService: ShippingMethodService,
               private notyService: NotyService,
               private router: Router,
+              private headService: HeadService,
               private formBuilder: FormBuilder) {
   }
 
@@ -54,6 +56,8 @@ export class ShippingMethodComponent implements OnInit {
       price: shippingMethod.price,
       sortOrder: shippingMethod.sortOrder
     });
+
+    this.headService.setTitle(this.activeMethod.adminName || `Новый способ доставки`);
   }
 
   addNewMethod() {

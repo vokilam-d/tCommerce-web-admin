@@ -12,6 +12,7 @@ import { finalize } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { GridComponent } from '../../grid/grid.component';
 import { AttributeDto } from '../../shared/dtos/attribute.dto';
+import { HeadService } from '../../shared/services/head.service';
 
 
 @Component({
@@ -35,12 +36,14 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
 
   constructor(private customerService: CustomerService,
               private route: ActivatedRoute,
+              private headService: HeadService,
               private cdr: ChangeDetectorRef,
               private notyService: NotyService,
               private router: Router) {
   }
 
   ngOnInit() {
+    this.headService.setTitle(`Клиенты`);
   }
 
   ngAfterViewInit() {

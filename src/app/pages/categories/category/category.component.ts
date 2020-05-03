@@ -7,6 +7,7 @@ import { AddOrUpdateCategoryDto, CategoryDto } from '../../../shared/dtos/catego
 import { NotyService } from '../../../noty/noty.service';
 import { AngularEditorConfig } from '../../../angular-editor/config';
 import { CategoryProductItemSorterModalComponent } from '../category-product-item-sorter-modal/category-product-item-sorter-modal.component';
+import { HeadService } from '../../../shared/services/head.service';
 
 const EMPTY_CATEGORY: AddOrUpdateCategoryDto = {
   isEnabled: true,
@@ -51,6 +52,7 @@ export class CategoryComponent implements OnInit {
   constructor(private categoriesService: CategoriesService,
               private formBuilder: FormBuilder,
               private router: Router,
+              private headService: HeadService,
               private notyService: NotyService,
               private route: ActivatedRoute) {
   }
@@ -66,6 +68,7 @@ export class CategoryComponent implements OnInit {
 
     if (this.isNewCategory) {
       this.buildForm(EMPTY_CATEGORY);
+      this.headService.setTitle(`Новая категория`);
     } else {
       this.getCategory();
     }
@@ -80,6 +83,7 @@ export class CategoryComponent implements OnInit {
         response => {
           this.category = response.data;
           this.buildForm(this.category);
+          this.headService.setTitle(this.category.name);
         },
         error => console.warn(error)
       );

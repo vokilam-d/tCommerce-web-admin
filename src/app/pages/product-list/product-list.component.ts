@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { getPropertyOf } from '../../shared/helpers/get-property-of.function';
 import { API_HOST } from '../../shared/constants/constants';
+import { HeadService } from '../../shared/services/head.service';
 
 @Component({
   selector: 'product-list',
@@ -33,11 +34,13 @@ export class ProductListComponent implements OnInit, AfterViewInit {
   constructor(private productsService: ProductService,
               private route: ActivatedRoute,
               private cdr: ChangeDetectorRef,
+              private headService: HeadService,
               private notyService: NotyService,
               private router: Router) {
   }
 
   ngOnInit() {
+    this.headService.setTitle(`Товары`);
   }
 
   ngAfterViewInit(): void {

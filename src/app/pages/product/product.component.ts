@@ -14,6 +14,7 @@ import { finalize } from 'rxjs/operators';
 import { ProductVariantDto } from '../../shared/dtos/product-variant.dto';
 import { LinkedProductDto } from '../../shared/dtos/linked-product.dto';
 import { mergeDeep } from '../../shared/helpers/merge-deep.function';
+import { HeadService } from '../../shared/services/head.service';
 
 @Component({
   selector: 'product',
@@ -35,6 +36,7 @@ export class ProductComponent implements OnInit {
   constructor(private productsService: ProductService,
               private formBuilder: FormBuilder,
               private router: Router,
+              private headService: HeadService,
               private quillHelperService: QuillHelperService,
               private notyService: NotyService,
               private route: ActivatedRoute) {
@@ -53,6 +55,7 @@ export class ProductComponent implements OnInit {
     } else {
       this.product = new ProductDto();
       this.buildForm();
+      this.headService.setTitle(`Новый товар`);
     }
   }
 
@@ -134,6 +137,7 @@ export class ProductComponent implements OnInit {
         response => {
           this.product = response.data;
           this.buildForm();
+          this.headService.setTitle(this.product.name);
         },
         error => console.warn(error)
       );

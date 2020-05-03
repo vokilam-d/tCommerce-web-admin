@@ -5,6 +5,7 @@ import { PaymentMethodService } from '../../shared/services/payment-method.servi
 import { NotyService } from '../../noty/noty.service';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
+import { HeadService } from '../../shared/services/head.service';
 
 @Component({
   selector: 'payment-method',
@@ -21,6 +22,7 @@ export class PaymentMethodComponent implements OnInit {
   constructor(private paymentMethodService: PaymentMethodService,
               private notyService: NotyService,
               private router: Router,
+              private headService: HeadService,
               private formBuilder: FormBuilder) {
   }
 
@@ -54,6 +56,8 @@ export class PaymentMethodComponent implements OnInit {
       price: paymentMethod.price,
       sortOrder: paymentMethod.sortOrder
     });
+
+    this.headService.setTitle(this.activeMethod.adminName || 'Новый способ оплаты');
   }
 
   addNewMethod() {

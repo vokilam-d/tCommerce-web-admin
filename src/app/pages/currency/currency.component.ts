@@ -6,6 +6,7 @@ import { NotyService } from '../../noty/noty.service';
 import { DEFAULT_CURRENCY_CODE } from '../../shared/enums/currency.enum';
 import { API_HOST } from '../../shared/constants/constants';
 import { finalize } from 'rxjs/operators';
+import { HeadService } from '../../shared/services/head.service';
 
 @Component({
   selector: 'currency',
@@ -19,6 +20,7 @@ export class CurrencyComponent implements OnInit {
   isLoading: boolean = false;
 
   constructor(private http: HttpClient,
+              private headService: HeadService,
               private notyService: NotyService) { }
 
   ngOnInit() {
@@ -45,6 +47,7 @@ export class CurrencyComponent implements OnInit {
   selectCurrency(currency: CurrencyDto) {
     if (currency) {
       this.activeCurrency = currency;
+      this.headService.setTitle(this.activeCurrency.id);
     } else {
       this.activeCurrency = null;
     }

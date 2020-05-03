@@ -8,6 +8,7 @@ import { getPropertyOf } from '../../shared/helpers/get-property-of.function';
 import { Subscription } from 'rxjs';
 import { GridComponent } from '../../grid/grid.component';
 import { finalize } from 'rxjs/operators';
+import { HeadService } from '../../shared/services/head.service';
 
 @Component({
   selector: 'store-review-list',
@@ -31,11 +32,13 @@ export class StoreReviewListComponent implements OnInit, AfterViewInit {
   constructor(private storeReviewsService: StoreReviewService,
               private cdr: ChangeDetectorRef,
               private route: ActivatedRoute,
+              private headService: HeadService,
               private notyService: NotyService,
               private router: Router) {
   }
 
   ngOnInit() {
+    this.headService.setTitle(`Отзывы о магазине`);
   }
 
   ngAfterViewInit(): void {

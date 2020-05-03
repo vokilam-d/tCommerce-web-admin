@@ -10,6 +10,7 @@ import { ShippingAddressDto } from '../../shared/dtos/shipping-address.dto';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { DEFAULT_CURRENCY_CODE } from '../../shared/enums/currency.enum';
+import { HeadService } from '../../shared/services/head.service';
 
 @Component({
   selector: 'order-list',
@@ -33,12 +34,14 @@ export class OrderListComponent implements OnInit, AfterViewInit {
 
   constructor(private ordersService: OrderService,
               private route: ActivatedRoute,
+              private headService: HeadService,
               private cdr: ChangeDetectorRef,
               private notyService: NotyService,
               private router: Router) {
   }
 
   ngOnInit() {
+    this.headService.setTitle(`Заказы`);
   }
 
   ngAfterViewInit(): void {

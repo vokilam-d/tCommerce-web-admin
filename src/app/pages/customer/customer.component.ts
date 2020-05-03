@@ -7,6 +7,7 @@ import { EPageAction } from '../../shared/enums/category-page-action.enum';
 import { CustomerDto } from '../../shared/dtos/customer.dto';
 import { ShippingAddressDto } from '../../shared/dtos/shipping-address.dto';
 import { finalize } from 'rxjs/operators';
+import { HeadService } from '../../shared/services/head.service';
 
 @Component({
   selector: 'customer',
@@ -27,6 +28,7 @@ export class CustomerComponent implements OnInit {
 
   constructor(private customersService: CustomerService,
               private formBuilder: FormBuilder,
+              private headService: HeadService,
               private router: Router,
               private notyService: NotyService,
               private route: ActivatedRoute) {
@@ -41,6 +43,7 @@ export class CustomerComponent implements OnInit {
     if (this.isNewCustomer) {
       this.customer = new CustomerDto();
       this.buildInfoForm();
+      this.headService.setTitle(`Новый клиент`);
     } else {
       this.fetchCustomer();
     }
@@ -95,6 +98,7 @@ export class CustomerComponent implements OnInit {
         response => {
           this.customer = response.data;
           this.buildInfoForm();
+          this.headService.setTitle(this.customer.firstName + ' ' + this.customer.lastName);
         },
         error => console.warn(error)
       );

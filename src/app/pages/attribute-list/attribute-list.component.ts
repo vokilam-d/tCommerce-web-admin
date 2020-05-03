@@ -2,14 +2,14 @@ import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '
 import { ActivatedRoute, Router } from '@angular/router';
 import { AttributeDto } from '../../shared/dtos/attribute.dto';
 import { AttributeService } from '../../shared/services/attribute.service';
-import { finalize, takeUntil } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 import { NgUnsubscribe } from '../../shared/directives/ng-unsubscribe/ng-unsubscribe.directive';
 import { IGridCell, IGridValue } from '../../grid/grid.interface';
 import { getPropertyOf } from '../../shared/helpers/get-property-of.function';
-import { CustomerDto } from '../../shared/dtos/customer.dto';
 import { Subscription } from 'rxjs';
 import { GridComponent } from '../../grid/grid.component';
 import { NotyService } from '../../noty/noty.service';
+import { HeadService } from '../../shared/services/head.service';
 
 
 @Component({
@@ -34,12 +34,14 @@ export class AttributeListComponent extends NgUnsubscribe implements OnInit, Aft
   constructor(private attributeService: AttributeService,
               private cdr: ChangeDetectorRef,
               private notyService: NotyService,
+              private headService: HeadService,
               private route: ActivatedRoute,
               private router: Router) {
     super();
   }
 
   ngOnInit() {
+    this.headService.setTitle(`Атрибуты`);
   }
 
   ngAfterViewInit() {

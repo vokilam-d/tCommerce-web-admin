@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { NotyService } from '../../noty/noty.service';
 import { API_HOST } from '../../shared/constants/constants';
+import { HeadService } from '../../shared/services/head.service';
 
 @Component({
   selector: 'emails-test',
@@ -14,11 +15,12 @@ export class EmailsTestComponent implements OnInit {
   private apiPrefix = 'admin/email-test';
 
   constructor(private http: HttpClient,
+              private headService: HeadService,
               private notyService: NotyService) { }
 
   ngOnInit() {
+    this.headService.setTitle(`Письма`);
   }
-
 
   sendEmailConfirmationEmail() {
     if (!this.checkEmail()) { return; }

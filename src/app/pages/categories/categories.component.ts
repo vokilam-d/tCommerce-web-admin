@@ -6,6 +6,7 @@ import { NotyService } from '../../noty/noty.service';
 import { finalize } from 'rxjs/operators';
 import { NgUnsubscribe } from '../../shared/directives/ng-unsubscribe/ng-unsubscribe.directive';
 import { IDraggedEvent } from '../../shared/directives/draggable-item/draggable-item.directive';
+import { HeadService } from '../../shared/services/head.service';
 
 @Component({
   selector: 'categories',
@@ -19,6 +20,7 @@ export class CategoriesComponent extends NgUnsubscribe implements OnInit, OnDest
 
   constructor(private categoriesService: CategoriesService,
               private router: Router,
+              private headService: HeadService,
               private notyService: NotyService,
               private route: ActivatedRoute) {
     super();
@@ -27,6 +29,7 @@ export class CategoriesComponent extends NgUnsubscribe implements OnInit, OnDest
   ngOnInit() {
     this.fetchCategoriesTree();
     this.categoriesService.categoryUpdated$.subscribe(_ => this.fetchCategoriesTree());
+    this.headService.setTitle('Категории');
   }
 
   ngOnDestroy(): void {

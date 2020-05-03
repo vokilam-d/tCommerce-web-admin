@@ -15,6 +15,7 @@ import { ShippingAddressDto } from '../../shared/dtos/shipping-address.dto';
 import { CustomerService } from '../../shared/services/customer.service';
 import { ProductSelectorComponent } from '../../product-selector/product-selector.component';
 import { API_HOST } from '../../shared/constants/constants';
+import { HeadService } from '../../shared/services/head.service';
 
 @Component({
   selector: 'order',
@@ -55,6 +56,7 @@ export class OrderComponent implements OnInit {
               private orderService: OrderService,
               private customerService: CustomerService,
               private router: Router,
+              private headService: HeadService,
               private notyService: NotyService,
               private route: ActivatedRoute) {
   }
@@ -70,6 +72,7 @@ export class OrderComponent implements OnInit {
 
     if (this.isNewOrder) {
       this.order = new OrderDto();
+      this.headService.setTitle(`Новый заказ`);
     } else {
       this.fetchOrder();
     }
@@ -85,6 +88,7 @@ export class OrderComponent implements OnInit {
         if (this.isReorder || this.isEditOrder) {
           this.fetchCustomer(this.order.customerId);
         }
+        this.headService.setTitle(`Изменить заказ №${this.order.id}`);
       },
       error => console.warn(error)
     )

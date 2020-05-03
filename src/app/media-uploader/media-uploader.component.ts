@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { finalize } from 'rxjs/operators';
 import { MediaDto } from '../shared/dtos/media.dto';
 import { inputMediaAcceptTypes } from '../shared/constants/constants';
+import { ProductService } from '../shared/services/product.service';
 
 @Component({
   selector: 'media-uploader',
