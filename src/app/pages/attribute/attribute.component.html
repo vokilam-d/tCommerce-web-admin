@@ -49,6 +49,16 @@
     </div>
 
     <div class="attribute__field field"
+           *ngIf="form.get('type') as type"
+           [class.field--invalid]="isControlInvalid(type)"
+    >
+      <div class="field__label">Тип атрибута</div>
+      <div class="field__control">
+        <app-select [formControl]="type" [options]="typeOptions"></app-select>
+      </div>
+    </div>
+
+    <div class="attribute__field field"
            *ngIf="form.get('groupName') as groupName"
            [class.field--invalid]="isControlInvalid(groupName)"
     >

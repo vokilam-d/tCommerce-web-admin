@@ -8,6 +8,8 @@ import { urlFriendlyCodeRegex } from '../../shared/constants/constants';
 import { NotyService } from 'src/app/noty/noty.service';
 import { finalize } from 'rxjs/operators';
 import { HeadService } from '../../shared/services/head.service';
+import { EAttributeType } from '../../shared/enums/attribute-type.enum';
+import { ISelectOption } from '../../shared/components/select/select-option.interface';
 
 @Component({
   selector: 'attribute',
@@ -20,6 +22,7 @@ export class AttributeComponent implements OnInit {
   attribute: AttributeDto;
   form: FormGroup;
   isLoading: boolean = false;
+  typeOptions: ISelectOption[] = [{ data: EAttributeType.Select }, { data: EAttributeType.MultiSelect }];
 
   constructor(private formBuilder: FormBuilder,
               private attributeService: AttributeService,
@@ -95,12 +98,15 @@ export class AttributeComponent implements OnInit {
   }
 
   private buildForm(attribute: AttributeDto) {
-    this.form = this.formBuilder.group({
+    const controls: Record<keyof AttributeDto, any> = {
       id: [{ value: attribute.id, disabled: !this.isNewAttribute }, [Validators.pattern(urlFriendlyCodeRegex), Validators.required]],
       label: [attribute.label, Validators.required],
       values: [attribute.values],
+      type: [attribute.type],
       groupName: attribute.groupName
-    });
+    }
+
+    this.form = this.formBuilder.group(controls);
   }
 
   private fetchAttribute() {
@@ -168,6 +174,7 @@ export class AttributeComponent implements OnInit {
       id: '',
       label: '',
       groupName: '',
+      type: EAttributeType.Select,
       values: []
     };
   }

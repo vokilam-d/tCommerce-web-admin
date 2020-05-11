@@ -67,13 +67,13 @@ export class AttributeService {
     return found.label;
   }
 
-  getValueLabel(attrId: string, valueId: string): string {
+  getValueLabel(attrId: string, valueIds: string[]): string {
     const found = this._attributes$.getValue().find(attr => attr.id === attrId);
     if (!found) { throw new Error(`Attribute with id '${attrId}' not found`); }
 
-    const foundValue = found.values.find(value => value.id === valueId);
-    if (!foundValue) { throw new Error(`Value with id '${valueId}' not found in attribute '${found.label}'`); }
+    const foundValue = found.values.filter(value => valueIds.includes(value.id));
+    if (!foundValue.length) { throw new Error(`Value with id '${valueIds}' not found in attribute '${found.label}'`); }
 
-    return foundValue.label
+    return foundValue.map(values => values.label).join(', ');
   }
 }

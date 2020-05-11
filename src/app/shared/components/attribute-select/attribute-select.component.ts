@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, forwardRef, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  forwardRef,
+  Input,
+  OnDestroy,
+  OnInit
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { SelectComponent } from '../select/select.component';
 import { AttributeService } from '../../services/attribute.service';
@@ -6,6 +14,7 @@ import { ProductSelectedAttributeDto } from '../../dtos/selected-attribute.dto';
 import { ISelectOption } from '../select/select-option.interface';
 import { AttributeDto } from '../../dtos/attribute.dto';
 import { takeUntil } from 'rxjs/operators';
+import { EAttributeType } from '../../enums/attribute-type.enum';
 
 @Component({
   selector: 'attribute-select',
@@ -20,17 +29,11 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class AttributeSelectComponent extends SelectComponent implements OnInit, ControlValueAccessor, OnDestroy {
 
-  activeOption: ISelectOption<string>;
   attribute: AttributeDto;
-
-  get options(): ISelectOption<string>[] {
-    return this.attribute && this.attribute.values.map(value => ({ data: value.id, view: value.label })) || [];
-  }
-  set options(options) {}
-
   @Input('selectedAttr') productSelectedAttr: ProductSelectedAttributeDto;
 
-  constructor(private attributeService: AttributeService) {
+  constructor(private attributeService: AttributeService,
+              private cdr: ChangeDetectorRef) {
     super();
   }
 
@@ -43,9 +46,16 @@ export class AttributeSelectComponent extends SelectComponent implements OnInit,
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(attributes => {
         this.attribute = attributes.find(attr => this.productSelectedAttr.attributeId === attr.id);
+
         if (this.attribute) {
-          this.setActiveOption();
+          this.options = this.attribute.values.map(value => ({ data: value.id, view: value.label })) || [];
+          if (this.attribute.type === EAttributeType.MultiSelect) {
+            this.isMultiSelect = true;
+          }
         }
+
+        this.markSelectedOptions();
+        this.cdr.markForCheck();
       });
   }
 

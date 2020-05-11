@@ -5,6 +5,7 @@ import { ProductVariantDto } from '../../../shared/dtos/product-variant.dto';
 import { ProductDto } from '../../../shared/dtos/product.dto';
 import { NgUnsubscribe } from '../../../shared/directives/ng-unsubscribe/ng-unsubscribe.directive';
 import { takeUntil } from 'rxjs/operators';
+import { EAttributeType } from '../../../shared/enums/attribute-type.enum';
 
 enum ESelectionStep {
   SelectAttributes,
@@ -112,7 +113,7 @@ export class AttributesEditorComponent extends NgUnsubscribe implements OnInit {
     });
 
     selectedAttributesWithSelectedValues.forEach(selectedAttr => {
-      if (selectedAttr.values.length === 1) {
+      if (selectedAttr.type === EAttributeType.MultiSelect || selectedAttr.values.length === 1) {
         this.preGeneratedAttrsForProduct.push(selectedAttr);
       } else {
         attributesForVariants.push(selectedAttr);
@@ -145,7 +146,7 @@ export class AttributesEditorComponent extends NgUnsubscribe implements OnInit {
       const found = this.initialFormValue.variants.find(variant => {
         return Object.keys(truncVariant).every(attributeId => {
           const foundAttr = variant.attributes.find(attr => {
-            return attr.attributeId === attributeId && attr.valueId === truncVariant[attributeId];
+            return attr.attributeId === attributeId && attr.valueIds.includes(truncVariant[attributeId]);
           });
           return !!foundAttr;
         });
@@ -160,7 +161,12 @@ export class AttributesEditorComponent extends NgUnsubscribe implements OnInit {
   }
 
   private finish() {
-    const variants: ProductVariantDto[] = [...this.variantsToLeave];
+    let variants: ProductVariantDto[] = [...this.variantsToLeave];
+
+    if (variants.length === 0 && this.variantsToCreate.length === 0) {
+      variants = this.initialFormValue.variants;
+    }
+
     this.variantsToCreate.forEach((truncVariant, index) => {
 
       let newVariant: ProductVariantDto;
@@ -173,7 +179,7 @@ export class AttributesEditorComponent extends NgUnsubscribe implements OnInit {
       Object.keys(truncVariant).forEach(attributeId => {
         newVariant.attributes.push({
           attributeId,
-          valueId: truncVariant[attributeId]
+          valueIds: [truncVariant[attributeId]]
         });
       });
 
@@ -189,7 +195,10 @@ export class AttributesEditorComponent extends NgUnsubscribe implements OnInit {
 
     const changedFormValue: ProductDto = {
       ...this.initialFormValue,
-      attributes: this.preGeneratedAttrsForProduct.map(a => ({ attributeId: a.id, valueId: a.values[0].id })),
+      attributes: this.preGeneratedAttrsForProduct.map(a => ({
+        attributeId: a.id,
+        valueIds: a.values.map(attrValue => attrValue.id)
+      })),
       variants
     };
 
@@ -200,8 +209,8 @@ export class AttributesEditorComponent extends NgUnsubscribe implements OnInit {
   private transformResponse(attributeDtos: AttributeDto[]): Attribute[] {
     return attributeDtos.map(attributeDto => {
       const values: AttributeValue[] = attributeDto.values.map(valueDto => {
-        const isSelected = this.initialFormValue.attributes.find(a => a.valueId === valueDto.id)
-          || this.initialFormValue.variants.find(v => v.attributes.find(a => a.valueId === valueDto.id));
+        const isSelected = this.initialFormValue.attributes.find(a => a.valueIds.includes(valueDto.id))
+          || this.initialFormValue.variants.find(v => v.attributes.find(a => a.valueIds.includes(valueDto.id)));
 
         return {
           ...valueDto,
@@ -215,5 +224,9 @@ export class AttributesEditorComponent extends NgUnsubscribe implements OnInit {
         isSelected: values.some(v => v.isSelected)
       };
     });
+  }
+
+  getPreGeneratedAttrLabel(attribute: Attribute) {
+    return this.attributeService.getValueLabel(attribute.id, attribute.values.map(v => v.id));
   }
 }

@@ -68,7 +68,7 @@
                           *ngFor="let attribute of attributes.value"
                           [selectedAttr]="attribute"
                           [ngModelOptions]="{standalone: true}"
-                          [(ngModel)]="attribute.valueId"
+                          [(ngModel)]="attribute.valueIds"
         >
         </attribute-select>
       </ng-container>
@@ -210,7 +210,7 @@
                             *ngFor="let attribute of attributes.value"
                             [selectedAttr]="attribute"
                             [ngModelOptions]="{standalone: true}"
-                            [(ngModel)]="attribute.valueId"
+                            [(ngModel)]="attribute.valueIds"
           >
           </attribute-select>
         </ng-container>

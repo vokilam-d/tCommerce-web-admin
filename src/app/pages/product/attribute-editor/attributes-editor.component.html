@@ -108,7 +108,7 @@
         <div class="summary-block__body">
           <div class="summary-block__attr field" *ngFor="let attribute of preGeneratedAttrsForProduct">
             <div class="field__label summary-block__attr-label">{{ attributeService.getAttributeLabel(attribute.id) }}</div>
-            <div class="field__control summary-block__attr-value">{{ attributeService.getValueLabel(attribute.id, attribute.values[0].id) }}</div>
+            <div class="field__control summary-block__attr-value">{{ getPreGeneratedAttrLabel(attribute) }}</div>
           </div>
         </div>
       </div>
@@ -121,7 +121,7 @@
         <div class="summary-block__body">
           <div class="summary-block__variant" *ngFor="let variant of variantsToCreate, index as i">
              {{ i + 1}}. <span *ngFor="let keyValue of variant | keyvalue, last as last">
-              {{ attributeService.getAttributeLabel(keyValue.key) }}: <span class="summary-block__attr-value">{{ attributeService.getValueLabel(keyValue.key, keyValue.value) }}</span><ng-container *ngIf="!last">, </ng-container>
+              {{ attributeService.getAttributeLabel(keyValue.key) }}: <span class="summary-block__attr-value">{{ attributeService.getValueLabel(keyValue.key, [keyValue.value]) }}</span><ng-container *ngIf="!last">, </ng-container>
             </span>
           </div>
         </div>
@@ -135,7 +135,7 @@
         <div class="summary-block__body">
           <div class="summary-block__variant" *ngFor="let variant of variantsToRemove, index as i">
              {{ i + 1}}. {{ variant.name }} <span *ngFor="let attribute of variant.attributes, last as last">
-              ({{ attributeService.getAttributeLabel(attribute.attributeId) }}: <span class="summary-block__attr-value">{{ attributeService.getValueLabel(attribute.attributeId, attribute.valueId) }}</span><ng-container *ngIf="!last">, </ng-container>)
+              ({{ attributeService.getAttributeLabel(attribute.attributeId) }}: <span class="summary-block__attr-value">{{ attributeService.getValueLabel(attribute.attributeId, attribute.valueIds) }}</span><ng-container *ngIf="!last">, </ng-container>)
             </span>
           </div>
         </div>
@@ -149,7 +149,7 @@
         <div class="summary-block__body">
           <div class="summary-block__variant" *ngFor="let variant of variantsToLeave, index as i">
              {{ i + 1}}. {{ variant.name }} <span *ngFor="let attribute of variant.attributes, last as last">
-              ({{ attributeService.getAttributeLabel(attribute.attributeId) }}: <span class="summary-block__attr-value">{{ attributeService.getValueLabel(attribute.attributeId, attribute.valueId) }}</span><ng-container *ngIf="!last">, </ng-container>)
+              ({{ attributeService.getAttributeLabel(attribute.attributeId) }}: <span class="summary-block__attr-value">{{ attributeService.getValueLabel(attribute.attributeId, attribute.valueIds) }}</span><ng-container *ngIf="!last">, </ng-container>)
             </span>
           </div>
         </div>

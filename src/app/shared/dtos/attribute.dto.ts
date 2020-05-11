@@ -1,3 +1,5 @@
+import { EAttributeType } from '../enums/attribute-type.enum';
+
 export class AttributeValueDto {
   id: string;
   label: string;
@@ -12,6 +14,7 @@ export class UpdateAttributeDto {
 
 export class CreateAttributeDto extends UpdateAttributeDto {
   id: string;
+  type: EAttributeType;
 }
 
 export class AttributeDto extends CreateAttributeDto {

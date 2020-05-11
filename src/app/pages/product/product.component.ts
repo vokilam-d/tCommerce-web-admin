@@ -13,7 +13,6 @@ import { API_HOST } from '../../shared/constants/constants';
 import { finalize } from 'rxjs/operators';
 import { ProductVariantDto } from '../../shared/dtos/product-variant.dto';
 import { LinkedProductDto } from '../../shared/dtos/linked-product.dto';
-import { mergeDeep } from '../../shared/helpers/merge-deep.function';
 import { HeadService } from '../../shared/services/head.service';
 
 @Component({
