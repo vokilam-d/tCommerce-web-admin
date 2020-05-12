@@ -103,4 +103,15 @@ export class LinkedProductsComponent implements OnInit {
 
     this.onChange.emit(this.linkedProducts);
   }
+
+  onRemove(item: ProductItemWithSortOrder) {
+    // Remove from linked products and from ProductSelectorComponent's products
+    const idxInProductsWithSortOrder = this.productsWithSortOrder.findIndex(product => product.id === item.id);
+    this.productsWithSortOrder.splice(idxInProductsWithSortOrder, 1);
+
+    const idxInLinked = this.linkedProducts.findIndex(linked => linked.productId === item.id);
+    this.linkedProducts.splice(idxInLinked, 1);
+
+    this.onChange.emit(this.linkedProducts);
+  }
 }

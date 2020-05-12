@@ -15,7 +15,9 @@ export class ProductItemSorterComponent implements OnInit {
   @Input() isLoading: boolean = false;
   @Input() items: ProductItemWithSortOrder[];
   @Input() itemsType = 'product';
+  @Input() hasRemoveBtn: boolean = false;
   @Output() reorder = new EventEmitter<IDraggedEvent<ProductItemWithSortOrder>>();
+  @Output() remove = new EventEmitter<ProductItemWithSortOrder>();
 
   constructor() { }
 
@@ -24,5 +26,11 @@ export class ProductItemSorterComponent implements OnInit {
 
   onReorder(event: IDraggedEvent) {
     this.reorder.emit(event);
+  }
+
+  onRemove(item: ProductItemWithSortOrder) {
+    if (!confirm(`Вы точно хотите убрать товар с id "${item.id}" из этого списка?`)) { return; }
+
+    this.remove.emit(item);
   }
 }

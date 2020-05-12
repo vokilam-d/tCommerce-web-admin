@@ -16,6 +16,11 @@
     <div class="product__sort">
       {{ product.sortOrder }}
     </div>
+
+    <button class="product__remove" *ngIf="hasRemoveBtn" (click)="onRemove(product)">
+      <i class="ai ai-trash"></i>
+    </button>
+
     <img class="product__img" [src]="uploadedHost + product.mediaUrl" draggable="false">
 
     <a class="product__name"

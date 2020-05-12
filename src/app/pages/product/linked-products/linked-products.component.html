@@ -6,7 +6,9 @@
                      [isLoading]="isLoading"
                      [items]="productsWithSortOrder"
                      [itemsType]="type"
+                     [hasRemoveBtn]="true"
                      (reorder)="onReorder($event)"
+                     (remove)="onRemove($event)"
 ></product-item-sorter>
 
 <product-selector [showQty]="false"
