@@ -10,23 +10,23 @@
       </button>
 
       <ng-container *ngIf="order">
-        <app-button class="header__btn" *ngIf="isCancelOrderVisible()" (click)="cancelOrder()" type="button">
-          Отменить заказ
-        </app-button>
         <app-button class="header__btn" (click)="reorder()" type="button">
           Повторить заказ
-        </app-button>
-        <app-button class="header__btn" *ngIf="isStartOrderVisible()" (click)="startOrder()" type="button">
-          Принять в работу
-        </app-button>
-        <app-button class="header__btn" *ngIf="isShipOrderVisible()" (click)="shipOrder()" type="button">
-          Отправить заказ
         </app-button>
         <app-button class="header__btn" (click)="printOrder()" type="button">
           Распечатать PDF
         </app-button>
         <app-button class="header__btn" *ngIf="isEditOrderVisible()" (click)="editOrder()" type="button">
           Редактировать
+        </app-button>
+        <app-button class="header__btn" *ngIf="isCancelOrderVisible()" (click)="cancelOrder()" type="button">
+          Отменить заказ
+        </app-button>
+        <app-button class="header__btn" *ngIf="isStartOrderVisible()" (click)="startOrder()" btnStyle="primary" type="button">
+          Принять в работу
+        </app-button>
+        <app-button class="header__btn" *ngIf="isShipOrderVisible()" (click)="shipOrder()" btnStyle="primary" type="button">
+          Отправить заказ
         </app-button>
       </ng-container>
     </div>
