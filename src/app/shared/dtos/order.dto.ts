@@ -1,5 +1,6 @@
 import { ShippingAddressDto } from './shipping-address.dto';
 import { OrderItemDto } from './order-item.dto';
+import { ShipmentDto } from './shipment.dto';
 
 export class AddOrUpdateOrderDto {
   customerId: number;
@@ -7,7 +8,7 @@ export class AddOrUpdateOrderDto {
   customerLastName: string = '';
   customerEmail: string = '';
   customerPhoneNumber: string = '';
-  address: ShippingAddressDto = new ShippingAddressDto();
+  shipment: ShipmentDto = new ShipmentDto();
   shouldSaveAddress: boolean = false;
   createdAt: Date;
   isConfirmationEmailSent: boolean = false;
