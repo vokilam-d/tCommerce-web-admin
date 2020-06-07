@@ -51,10 +51,10 @@
       <ng-container *ngIf="showQty && product.isSingleVariant">
         <input class="product__qty-input"
                [(ngModel)]="product.variants[0].selectedQty"
-               [max]="product.variants[0].qty"
+               [max]="product.variants[0].sellableQty"
                min="0"
                type="number"
-        > из {{ product.variants[0].qty }}
+        > из {{ product.variants[0].sellableQty }}
       </ng-container>
     </ng-template>
 
@@ -108,10 +108,10 @@
       <ng-container *ngIf="showQty">
         <input class="product__qty-input"
                [(ngModel)]="variant.selectedQty"
-               [max]="variant.qty"
+               [max]="variant.sellableQty"
                min="0"
                type="number"
-        > из {{ variant.qty }}
+        > из {{ variant.sellableQty }}
       </ng-container>
     </ng-template>
 
