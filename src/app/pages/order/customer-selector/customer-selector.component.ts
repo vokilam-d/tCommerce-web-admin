@@ -4,7 +4,7 @@ import { CustomerService } from '../../../shared/services/customer.service';
 import { IGridCell, IGridValue } from '../../../grid/grid.interface';
 import { GridComponent } from '../../../grid/grid.component';
 import { getPropertyOf } from '../../../shared/helpers/get-property-of.function';
-import { ShippingAddressDto } from '../../../shared/dtos/shipping-address.dto';
+import { ShipmentAddressDto } from '../../../shared/dtos/shipment-address.dto';
 import { Subscription } from 'rxjs';
 import { NotyService } from '../../../noty/noty.service';
 import { finalize } from 'rxjs/operators';
@@ -107,7 +107,7 @@ const customerGridCells: IGridCell[] = [
     align: 'left',
     isImage: false,
     isSortable: false,
-    fieldName: `${getPropertyOf<CustomerDto>('addresses')}.${getPropertyOf<ShippingAddressDto>('city')}`
+    fieldName: `${getPropertyOf<CustomerDto>('addresses')}.${getPropertyOf<ShipmentAddressDto>('settlement')}`
   },
   {
     isSearchable: false,

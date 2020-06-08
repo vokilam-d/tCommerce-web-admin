@@ -1,13 +1,11 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { CustomerDto } from '../../shared/dtos/customer.dto';
-import { PaginationComponent } from '../../pagination/pagination.component';
 import { CustomerService } from '../../shared/services/customer.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotyService } from '../../noty/noty.service';
-import { IPagination } from '../../pagination/pagination.interface';
 import { IGridCell, IGridValue } from '../../grid/grid.interface';
 import { getPropertyOf } from '../../shared/helpers/get-property-of.function';
-import { ShippingAddressDto } from '../../shared/dtos/shipping-address.dto';
+import { ShipmentAddressDto } from '../../shared/dtos/shipment-address.dto';
 import { finalize } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { GridComponent } from '../../grid/grid.component';
@@ -117,7 +115,7 @@ const customerGridCells: IGridCell[] = [
     align: 'left',
     isImage: false,
     isSortable: false,
-    fieldName: `${getPropertyOf<CustomerDto>('addresses')}.${getPropertyOf<ShippingAddressDto>('city')}`
+    fieldName: `${getPropertyOf<CustomerDto>('addresses')}.${getPropertyOf<ShipmentAddressDto>('settlement')}`
   },
   {
     isSearchable: false,

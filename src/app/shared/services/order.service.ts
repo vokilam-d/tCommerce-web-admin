@@ -6,7 +6,7 @@ import { AddOrUpdateOrderDto, OrderDto, TrackingIdDto } from '../dtos/order.dto'
 import { toHttpParams } from '../helpers/to-http-params.function';
 import { OrderItemDto } from '../dtos/order-item.dto';
 import { CreateOrderItemDto } from '../dtos/create-order-item.dto';
-import { ShippingAddressDto } from '../dtos/shipping-address.dto';
+import { ShipmentAddressDto } from '../dtos/shipment-address.dto';
 import { IGridValue } from '../../grid/grid.interface';
 import { getPropertyOf } from '../helpers/get-property-of.function';
 import { API_HOST } from '../constants/constants';
@@ -44,7 +44,7 @@ export class OrderService {
     return this.http.put<ResponseDto<OrderDto>>(`${API_HOST}/api/v1/admin/orders/${id}`, dto);
   }
 
-  updateOrderAddress(id: number, address: ShippingAddressDto) {
+  updateOrderAddress(id: number, address: ShipmentAddressDto) {
     return this.http.put<ResponseDto<OrderDto>>(`${API_HOST}/api/v1/admin/orders/${id}/address`, address);
   }
 

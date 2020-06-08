@@ -6,11 +6,12 @@ import { NotyService } from '../../noty/noty.service';
 import { IGridCell, IGridValue } from '../../grid/grid.interface';
 import { GridComponent } from '../../grid/grid.component';
 import { getPropertyOf } from '../../shared/helpers/get-property-of.function';
-import { ShippingAddressDto } from '../../shared/dtos/shipping-address.dto';
+import { ShipmentAddressDto } from '../../shared/dtos/shipment-address.dto';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { DEFAULT_CURRENCY_CODE } from '../../shared/enums/currency.enum';
 import { HeadService } from '../../shared/services/head.service';
+import { ShipmentDto } from '../../shared/dtos/shipment.dto';
 
 @Component({
   selector: 'order-list',
@@ -73,13 +74,14 @@ export class OrderListComponent implements OnInit, AfterViewInit {
 
   hasDifferentName(order: OrderDto): string {
     if (!order.customerFirstName && !order.customerLastName) { return; }
-    if (order.customerFirstName === order.address.firstName && order.customerLastName === order.address.lastName) { return; }
+    if (order.customerFirstName === order.shipment.recipient.firstName && order.customerLastName === order.shipment.recipient.lastName) { return; }
 
     return `${order.customerFirstName} ${order.customerLastName}`;
   }
 }
 
-const addressProp = getPropertyOf<OrderDto>('address');
+const shipmentProp = getPropertyOf<OrderDto>('shipment');
+const recipientProp = getPropertyOf<ShipmentDto>('recipient');
 const orderGridCells: IGridCell[] = [
   {
     isSearchable: false,
@@ -107,7 +109,7 @@ const orderGridCells: IGridCell[] = [
     align: 'left',
     isImage: false,
     isSortable: false,
-    fieldName: `${addressProp}.${getPropertyOf<ShippingAddressDto>('lastName')}|${addressProp}.${getPropertyOf<ShippingAddressDto>('firstName')}`
+    fieldName: `${shipmentProp}.${recipientProp}.${getPropertyOf<ShipmentAddressDto>('lastName')}|${shipmentProp}.${recipientProp}.${getPropertyOf<ShipmentAddressDto>('firstName')}`
   },
   {
     isSearchable: true,
@@ -116,7 +118,7 @@ const orderGridCells: IGridCell[] = [
     align: 'left',
     isImage: false,
     isSortable: true,
-    fieldName: `${addressProp}.${getPropertyOf<ShippingAddressDto>('city')}`
+    fieldName: `${shipmentProp}.${recipientProp}.${getPropertyOf<ShipmentAddressDto>('settlement')}`
   },
   {
     isSearchable: true,

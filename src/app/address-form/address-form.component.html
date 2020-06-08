@@ -34,42 +34,25 @@
   </div>
 
   <div class="address-form__field field field--required"
-       *ngIf="addressForm.get('phoneNumber') as phoneNumber"
-       [class.field--invalid]="isControlInvalid(phoneNumber)"
+       *ngIf="addressForm.get('phone') as phone"
+       [class.field--invalid]="isControlInvalid(phone)"
   >
-    <label for="addr-phoneNumber" class="field__label">Телефон</label>
+    <label for="addr-phone" class="field__label">Телефон</label>
     <span class="field__control">
-      <input class="field__input" [formControl]="phoneNumber" type="text" id="addr-phoneNumber">
+      <input class="field__input" [formControl]="phone" type="text" id="addr-phone">
     </span>
   </div>
 
   <div class="address-form__field field field--required"
-       *ngIf="addressForm.get('city') as city"
-       [class.field--invalid]="isControlInvalid(city)"
+       *ngIf="addressForm.get('addressType') as addressType"
+       [class.field--invalid]="isControlInvalid(addressType)"
   >
-    <label for="addr-city" class="field__label">Город</label>
+    <label for="addr-addressType" class="field__label">Тип доставки</label>
     <span class="field__control">
-      <input class="field__input" [formControl]="city" type="text" id="addr-city">
-    </span>
-  </div>
-
-  <div class="address-form__field field"
-       *ngIf="addressForm.get('streetName') as streetName"
-       [class.field--invalid]="isControlInvalid(streetName)"
-  >
-    <label for="addr-streetName" class="field__label">Улица</label>
-    <span class="field__control">
-      <input class="field__input" [formControl]="streetName" type="text" id="addr-streetName">
-    </span>
-  </div>
-
-  <div class="address-form__field field"
-       *ngIf="addressForm.get('novaposhtaOffice') as novaposhtaOffice"
-       [class.field--invalid]="isControlInvalid(novaposhtaOffice)"
-  >
-    <label for="addr-novaposhtaOffice" class="field__label">Отделение Новой Почты</label>
-    <span class="field__control">
-      <input class="field__input" [formControl]="novaposhtaOffice" type="text" id="addr-novaposhtaOffice">
+      <app-select id="addr-addressType"
+                  [formControl]="addressType"
+                  [options]="[{ data: addressTypes.WAREHOUSE, view: 'В отделение' }, { data: addressTypes.DOORS, view: 'Адресная курьером' }]"
+      ></app-select>
     </span>
   </div>
 </form>

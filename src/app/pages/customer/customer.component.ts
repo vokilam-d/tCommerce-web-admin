@@ -1,13 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CustomerService } from '../../shared/services/customer.service';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotyService } from '../../noty/noty.service';
 import { EPageAction } from '../../shared/enums/category-page-action.enum';
 import { CustomerDto } from '../../shared/dtos/customer.dto';
-import { ShippingAddressDto } from '../../shared/dtos/shipping-address.dto';
+import { ShipmentAddressDto } from '../../shared/dtos/shipment-address.dto';
 import { finalize } from 'rxjs/operators';
 import { HeadService } from '../../shared/services/head.service';
+import { AddressFormComponent } from '../../address-form/address-form.component';
+import { AddressTypeEnum } from '../../shared/enums/address-type.enum';
 
 @Component({
   selector: 'customer',
@@ -20,11 +22,13 @@ export class CustomerComponent implements OnInit {
   customer: CustomerDto;
   infoForm: FormGroup;
   isLoading: boolean = false;
+  addressTypes = AddressTypeEnum;
 
-  activeAddress: ShippingAddressDto = null;
-  addressForm: FormGroup;
+  activeAddress: ShipmentAddressDto = null;
 
   tabsLabels: string[] = ['Информация о клиенте', 'Адреса', 'Заказы', 'Корзина', 'Отзывы о товарах', 'Список желаний'];
+
+  @ViewChild(AddressFormComponent) addressFormCmp: AddressFormComponent;
 
   constructor(private customersService: CustomerService,
               private formBuilder: FormBuilder,
@@ -151,48 +155,32 @@ export class CustomerComponent implements OnInit {
     this.router.navigate(['admin', 'customer']);
   }
 
-  setAsDefaultAddress(addressArg: ShippingAddressDto) {
+  setAsDefaultAddress(addressArg: ShipmentAddressDto) {
     this.customer.addresses.forEach(addr => addr.isDefault = false);
     addressArg.isDefault = true;
   }
 
   addAddress() {
-    this.activeAddress = new ShippingAddressDto();
-    this.buildAddressForm(this.activeAddress);
+    this.activeAddress = new ShipmentAddressDto();
   }
 
-  editAddress(address: ShippingAddressDto) {
+  editAddress(address: ShipmentAddressDto) {
     this.activeAddress = address;
-    this.buildAddressForm(this.activeAddress);
-  }
-
-  private buildAddressForm(address: ShippingAddressDto) {
-    this.addressForm = this.formBuilder.group({
-      isDefault: [address.isDefault],
-      firstName: [address.firstName, Validators.required],
-      lastName: [address.lastName, Validators.required],
-      phoneNumber: [address.phoneNumber, Validators.required],
-      city: [address.city, Validators.required],
-      streetName: address.streetName,
-      novaposhtaOffice: address.novaposhtaOffice
-    });
   }
 
   onAddressFormSubmit() {
-    if (this.addressForm.invalid) {
-      this.validateControls(this.addressForm);
-      return;
-    }
+    if (!this.addressFormCmp.checkValidity()) { return; }
+    const addressFormValue = this.addressFormCmp.getValue();
 
-    if (this.addressForm.value.isDefault) {
+    if (addressFormValue.isDefault) {
       this.customer.addresses.forEach(addr => addr.isDefault = false);
     }
 
     const idx = this.customer.addresses.indexOf(this.activeAddress);
     if (idx === -1) {
-      this.customer.addresses.push(this.addressForm.value);
+      this.customer.addresses.push(addressFormValue);
     } else {
-      this.customer.addresses[idx] = this.addressForm.value;
+      this.customer.addresses[idx] = addressFormValue;
     }
 
     this.closeAndResetAddressForm();
@@ -204,6 +192,5 @@ export class CustomerComponent implements OnInit {
 
   closeAndResetAddressForm() {
     this.activeAddress = null;
-    this.addressForm = null;
   }
 }

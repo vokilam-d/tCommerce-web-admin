@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { ShippingAddressDto } from '../shared/dtos/shipping-address.dto';
+import { ShipmentAddressDto } from '../shared/dtos/shipment-address.dto';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AddressTypeEnum } from '../shared/enums/address-type.enum';
 
 @Component({
   selector: 'address-form',
@@ -10,7 +11,9 @@ import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Valida
 export class AddressFormComponent implements OnChanges {
 
   addressForm: FormGroup;
-  @Input() address: ShippingAddressDto = new ShippingAddressDto();
+  addressTypes = AddressTypeEnum;
+
+  @Input() address: ShipmentAddressDto = new ShipmentAddressDto();
   @Input() showIsDefault: boolean = true;
 
   constructor(private formBuilder: FormBuilder) { }
@@ -21,15 +24,21 @@ export class AddressFormComponent implements OnChanges {
     }
   }
 
-  private buildAddressForm(address: ShippingAddressDto) {
+  private buildAddressForm(address: ShipmentAddressDto) {
     this.addressForm = this.formBuilder.group({
       isDefault: [address.isDefault],
       firstName: [address.firstName, Validators.required],
       lastName: [address.lastName, Validators.required],
-      phoneNumber: [address.phoneNumber, Validators.required],
-      city: [address.city, Validators.required],
-      streetName: address.streetName,
-      novaposhtaOffice: address.novaposhtaOffice
+      phone: [address.phone, Validators.required],
+      addressType: [address.addressType, Validators.required],
+      settlement: [address.settlement, Validators.required],
+      settlementId: [address.settlementId, Validators.required],
+      warehouseId: address.warehouseId,
+      warehouse: address.warehouse,
+      address: address.address,
+      addressId: address.addressId,
+      buildingNumber: address.buildingNumber,
+      flat: address.flat
     });
   }
 
@@ -58,7 +67,7 @@ export class AddressFormComponent implements OnChanges {
     }
   }
 
-  getValue(): ShippingAddressDto {
+  getValue(): ShipmentAddressDto {
     return this.addressForm.value;
   }
 }

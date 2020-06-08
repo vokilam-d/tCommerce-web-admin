@@ -5,11 +5,12 @@ import { IGridCell, IGridValue } from '../../../grid/grid.interface';
 import { DEFAULT_CURRENCY_CODE } from '../../../shared/enums/currency.enum';
 import { GridComponent } from '../../../grid/grid.component';
 import { OrderService } from '../../../shared/services/order.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { NotyService } from '../../../noty/noty.service';
 import { finalize } from 'rxjs/operators';
 import { getPropertyOf } from '../../../shared/helpers/get-property-of.function';
-import { ShippingAddressDto } from '../../../shared/dtos/shipping-address.dto';
+import { ShipmentAddressDto } from '../../../shared/dtos/shipment-address.dto';
+import { ShipmentDto } from '../../../shared/dtos/shipment.dto';
 
 @Component({
   selector: 'order-list-viewer',
@@ -42,6 +43,8 @@ export class OrderListViewerComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    if (!this.customerId) { return; }
+
     const gridValue = this.gridCmp.getValue();
     this.fetchOrders(gridValue);
   }
@@ -65,7 +68,6 @@ export class OrderListViewerComponent implements OnInit, AfterViewInit {
   }
 }
 
-const addressProp = getPropertyOf<OrderDto>('address');
 const orderGridCells: IGridCell[] = [
   {
     isSearchable: false,
@@ -92,7 +94,7 @@ const orderGridCells: IGridCell[] = [
     align: 'left',
     isImage: false,
     isSortable: true,
-    fieldName: `${addressProp}.${getPropertyOf<ShippingAddressDto>('city')}`
+    fieldName: `${getPropertyOf<OrderDto>('shipment')}.${getPropertyOf<ShipmentDto>('recipient')}.${getPropertyOf<ShipmentAddressDto>('settlement')}`
   },
   {
     isSearchable: true,

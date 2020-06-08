@@ -11,11 +11,12 @@ import { ShippingMethodDto } from '../../shared/dtos/shipping-method.dto';
 import { PaymentMethodDto } from '../../shared/dtos/payment-method.dto';
 import { AddressFormComponent } from '../../address-form/address-form.component';
 import { ISelectOption } from '../../shared/components/select/select-option.interface';
-import { ShippingAddressDto } from '../../shared/dtos/shipping-address.dto';
+import { ShipmentAddressDto } from '../../shared/dtos/shipment-address.dto';
 import { CustomerService } from '../../shared/services/customer.service';
 import { ProductSelectorComponent } from '../../product-selector/product-selector.component';
 import { API_HOST } from '../../shared/constants/constants';
 import { HeadService } from '../../shared/services/head.service';
+import { AddressTypeEnum } from '../../shared/enums/address-type.enum';
 
 @Component({
   selector: 'order',
@@ -31,7 +32,7 @@ export class OrderComponent implements OnInit {
   isNewCustomer: boolean = false;
   order: OrderDto;
   customer: CustomerDto;
-  private newAddress: ShippingAddressDto = new ShippingAddressDto();
+  private newAddress: ShipmentAddressDto = new ShipmentAddressDto();
 
   get orderItemsCost() { return this.order.items.reduce((acc, item) => acc + item.cost, 0); }
   get orderItemsTotalCost() { return this.order.items.reduce((acc, item) => acc + item.totalCost, 0); }
@@ -40,14 +41,18 @@ export class OrderComponent implements OnInit {
     return [
       { data: this.newAddress, view: 'Создать новый адрес' },
       ...this.customer.addresses.map(address => {
+        const deliveryPoint = address.addressType === AddressTypeEnum.WAREHOUSE
+          ? `№${address.warehouse}`
+          : `${address.address}, ${address.buildingNumber}`;
+
         return {
           data: address,
-          view: `${address.lastName} ${address.firstName}, ${address.city}, ${address.novaposhtaOffice}, ${address.streetName}`
+          view: `${address.lastName} ${address.firstName}, ${address.settlement}, ${deliveryPoint}`
         };
       })
     ];
   }
-  get isNewAddress(): boolean { return this.order.address === this.newAddress; }
+  get isNewAddress(): boolean { return this.order.shipment.recipient === this.newAddress; }
 
   @ViewChild(ProductSelectorComponent) productSelectorCmp: ProductSelectorComponent;
   @ViewChild(AddressFormComponent) addressFormCmp: AddressFormComponent;
@@ -192,7 +197,7 @@ export class OrderComponent implements OnInit {
     this.order.customerEmail = customer.email;
     this.order.customerPhoneNumber = customer.phoneNumber;
 
-    this.order.address = this.customer.addresses.find(a => a.isDefault) || this.customer.addresses[0];
+    this.order.shipment.recipient = this.customer.addresses.find(a => a.isDefault) || this.customer.addresses[0] || this.newAddress;
   }
 
   createNewCustomer() {
@@ -255,7 +260,7 @@ export class OrderComponent implements OnInit {
     this.order.paymentMethodAdminName = paymentMethod.adminName;
   }
 
-  onAddressSelect(address: ShippingAddressDto) {
-    this.order.address = address;
+  onAddressSelect(address: ShipmentAddressDto) {
+    this.order.shipment.recipient = address;
   }
 }

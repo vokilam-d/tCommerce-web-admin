@@ -107,21 +107,22 @@
               {{ address.firstName }} {{ address.lastName }}
             </div>
             <div class="address__block">
-              {{ address.phoneNumber | normalizedPhone }}
+              {{ address.phone | normalizedPhone }}
             </div>
             <div class="address__block">
-              {{ address.city }}
+              {{ address.settlement }}
             </div>
-            <div class="address__block" *ngIf="address.novaposhtaOffice">
-              № {{ address.novaposhtaOffice }}
+            <div class="address__block" [ngSwitch]="address.addressType">
+              Тип доставки: <ng-container *ngSwitchCase="addressTypes.WAREHOUSE">в отделение</ng-container><ng-container *ngSwitchCase="addressTypes.DOORS">адресная курьером</ng-container>
             </div>
-            <div class="address__block" *ngIf="address.streetName">
-              {{ address.streetName }}
+            <div class="address__block" [ngSwitch]="address.addressType">
+              <ng-container *ngSwitchCase="addressTypes.WAREHOUSE">{{ address.warehouse }}</ng-container>
+              <ng-container *ngSwitchCase="addressTypes.DOORS">{{ address.address }}, {{ address.buildingNumber }} {{ address.flat }}</ng-container>
             </div>
 
             <div class="address__edit-container">
               <button class="address__edit"
-                      *ngIf="!addressForm"
+                      *ngIf="!activeAddress"
                       (click)="editAddress(address)"
                       type="button"
               >
@@ -146,108 +147,36 @@
         </div>
 
         <ng-template #noAddressesText>
-          <div class="addresses__empty" *ngIf="!addressForm">
+          <div class="addresses__empty" *ngIf="!activeAddress">
             Нет адресов
           </div>
         </ng-template>
 
         <app-button class="addresses__add"
-                    *ngIf="!addressForm"
+                    *ngIf="!activeAddress"
                     [btnStyle]="'primary'"
                     (click)="addAddress()"
         >
           Добавить адрес
         </app-button>
 
-        <form class="address-form"
-              *ngIf="addressForm"
-              [formGroup]="addressForm"
-              (ngSubmit)="onAddressFormSubmit()"
-              novalidate
-        >
+        <ng-container *ngIf="activeAddress">
+          <address-form [address]="activeAddress"></address-form>
 
-          <div class="address-form__field field"
-               *ngIf="addressForm.get('isDefault') as isDefault"
-          >
-            <label class="field__label">По умолчанию</label>
-            <div class="field__control">
-              <toggle [formControl]="isDefault"></toggle>
-            </div>
-          </div>
-
-          <div class="address-form__field field field--required"
-               *ngIf="addressForm.get('firstName') as firstName"
-               [class.field--invalid]="isControlInvalid(firstName)"
-          >
-            <label for="addr-firstName" class="field__label">Имя</label>
-            <span class="field__control">
-              <input class="field__input" [formControl]="firstName" type="text" id="addr-firstName">
-            </span>
-          </div>
-
-          <div class="address-form__field field field--required"
-               *ngIf="addressForm.get('lastName') as lastName"
-               [class.field--invalid]="isControlInvalid(lastName)"
-          >
-            <label for="addr-lastName" class="field__label">Фамилия</label>
-            <span class="field__control">
-              <input class="field__input" [formControl]="lastName" type="text" id="addr-lastName">
-            </span>
-          </div>
-
-          <div class="address-form__field field field--required"
-               *ngIf="addressForm.get('phoneNumber') as phoneNumber"
-               [class.field--invalid]="isControlInvalid(phoneNumber)"
-          >
-            <label for="addr-phoneNumber" class="field__label">Телефон</label>
-            <span class="field__control">
-              <input class="field__input" [formControl]="phoneNumber" type="text" id="addr-phoneNumber">
-            </span>
-          </div>
-
-          <div class="address-form__field field field--required"
-               *ngIf="addressForm.get('city') as city"
-               [class.field--invalid]="isControlInvalid(city)"
-          >
-            <label for="addr-city" class="field__label">Город</label>
-            <span class="field__control">
-              <input class="field__input" [formControl]="city" type="text" id="addr-city">
-            </span>
-          </div>
-
-          <div class="address-form__field field"
-               *ngIf="addressForm.get('streetName') as streetName"
-               [class.field--invalid]="isControlInvalid(streetName)"
-          >
-            <label for="addr-streetName" class="field__label">Улица</label>
-            <span class="field__control">
-              <input class="field__input" [formControl]="streetName" type="text" id="addr-streetName">
-            </span>
-          </div>
-
-          <div class="address-form__field field"
-               *ngIf="addressForm.get('novaposhtaOffice') as novaposhtaOffice"
-               [class.field--invalid]="isControlInvalid(novaposhtaOffice)"
-          >
-            <label for="addr-novaposhtaOffice" class="field__label">Отделение Новой Почты</label>
-            <span class="field__control">
-              <input class="field__input" [formControl]="novaposhtaOffice" type="text" id="addr-novaposhtaOffice">
-            </span>
-          </div>
-
-          <div class="address-form__field field">
+          <div class="address-form__submit-row field">
             <div class="address-form__cancel-label field__label">
               <app-button type="button" (click)="closeAndResetAddressForm()">
                 Отменить
               </app-button>
             </div>
             <div class="field__control">
-              <app-button btnStyle="primary" type="submit">
+              <app-button (click)="onAddressFormSubmit()" btnStyle="primary" type="submit">
                 Сохранить
               </app-button>
             </div>
           </div>
-        </form>
+        </ng-container>
+
       </div>
     </ng-template>
 

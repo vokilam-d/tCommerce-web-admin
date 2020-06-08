@@ -1,4 +1,3 @@
-import { ShippingAddressDto } from './shipping-address.dto';
 import { OrderItemDto } from './order-item.dto';
 import { ShipmentDto } from './shipment.dto';
 
