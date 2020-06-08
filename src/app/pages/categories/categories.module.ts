@@ -6,11 +6,11 @@ import { CategoriesComponent } from './categories.component';
 import { CategoryComponent } from './category/category.component';
 import { CategoriesService } from './categories.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AngularEditorModule } from '../../angular-editor/angular-editor.module';
 import { SharedModule } from '../../shared/shared.module';
 import { PreloaderModule } from '../../preloader/preloader.module';
 import { CategoryProductItemSorterModalComponent } from './category-product-item-sorter-modal/category-product-item-sorter-modal.component';
 import { ProductItemSorterModule } from '../../product-item-sorter/product-item-sorter.module';
+import { QuillModule } from 'ngx-quill';
 
 
 @NgModule({
@@ -24,10 +24,10 @@ import { ProductItemSorterModule } from '../../product-item-sorter/product-item-
     CategoriesRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-    AngularEditorModule,
     SharedModule,
     PreloaderModule,
-    ProductItemSorterModule
+    ProductItemSorterModule,
+    QuillModule
   ],
   providers: [
     CategoriesService

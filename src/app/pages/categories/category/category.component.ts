@@ -5,9 +5,10 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { EPageAction } from '../../../shared/enums/category-page-action.enum';
 import { AddOrUpdateCategoryDto, CategoryDto } from '../../../shared/dtos/category.dto';
 import { NotyService } from '../../../noty/noty.service';
-import { AngularEditorConfig } from '../../../angular-editor/config';
 import { CategoryProductItemSorterModalComponent } from '../category-product-item-sorter-modal/category-product-item-sorter-modal.component';
 import { HeadService } from '../../../shared/services/head.service';
+import { QuillModules } from 'ngx-quill';
+import { QuillHelperService } from '../../../shared/services/quill-helper.service';
 
 const EMPTY_CATEGORY: AddOrUpdateCategoryDto = {
   isEnabled: true,
@@ -41,11 +42,7 @@ export class CategoryComponent implements OnInit {
   get metaKeywords() { return this.form && this.form.get('metaTags.keywords') as FormControl; }
   get isNewCategory(): boolean { return this.route.snapshot.data.action === EPageAction.Add; }
 
-  editorConfig: AngularEditorConfig = {
-    editable: true,
-    minHeight: '5rem',
-    outline: false
-  };
+  quillModules: QuillModules = this.quillHelperService.getEditorModules();
 
   @ViewChild(CategoryProductItemSorterModalComponent) sorterCmp: CategoryProductItemSorterModalComponent;
 
@@ -53,6 +50,7 @@ export class CategoryComponent implements OnInit {
               private formBuilder: FormBuilder,
               private router: Router,
               private headService: HeadService,
+              private quillHelperService: QuillHelperService,
               private notyService: NotyService,
               private route: ActivatedRoute) {
   }
