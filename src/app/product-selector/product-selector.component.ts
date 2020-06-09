@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   EventEmitter,
@@ -38,7 +39,8 @@ export interface ISelectedProduct {
 @Component({
   selector: 'product-selector',
   templateUrl: './product-selector.component.html',
-  styleUrls: ['./product-selector.component.scss']
+  styleUrls: ['./product-selector.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductSelectorComponent implements OnInit, AfterViewInit {
 
@@ -69,9 +71,12 @@ export class ProductSelectorComponent implements OnInit, AfterViewInit {
   }
 
   showSelector() {
-    const gridValue = this.gridCmp.getValue();
-    this.fetchProducts(gridValue);
     this.isSelectorVisible = true;
+
+    setTimeout(() => {
+      const gridValue = this.gridCmp.getValue();
+      this.fetchProducts(gridValue);
+    }, 320);
   }
 
   hideSelector() {
@@ -82,9 +87,15 @@ export class ProductSelectorComponent implements OnInit, AfterViewInit {
     if (this.fetchAllSub) { this.fetchAllSub.unsubscribe(); }
 
     this.isGridLoading = true;
-    this.cdr.detectChanges();
+    this.cdr.markForCheck();
     this.fetchAllSub = this.productService.fetchAllProducts(gridValue, true)
-      .pipe(this.notyService.attachNoty(), finalize(() =>  this.isGridLoading = false))
+      .pipe(
+        this.notyService.attachNoty(),
+        finalize(() => {
+          this.isGridLoading = false;
+          this.cdr.markForCheck();
+        })
+      )
       .subscribe(
         response => {
           this.products = this.transformProducts(response.data);
