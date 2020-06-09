@@ -13,7 +13,7 @@
     </div>
   </div>
 
-  <div class="address-form__field field field--required"
+  <div class="address-form__field field"
        *ngIf="addressForm.get('firstName') as firstName"
        [class.field--invalid]="isControlInvalid(firstName)"
   >
@@ -23,7 +23,7 @@
     </span>
   </div>
 
-  <div class="address-form__field field field--required"
+  <div class="address-form__field field"
        *ngIf="addressForm.get('lastName') as lastName"
        [class.field--invalid]="isControlInvalid(lastName)"
   >
@@ -33,7 +33,7 @@
     </span>
   </div>
 
-  <div class="address-form__field field field--required"
+  <div class="address-form__field field"
        *ngIf="addressForm.get('phone') as phone"
        [class.field--invalid]="isControlInvalid(phone)"
   >
@@ -43,7 +43,7 @@
     </span>
   </div>
 
-  <div class="address-form__field field field--required"
+  <div class="address-form__field field"
        *ngIf="addressForm.get('addressType') as addressType"
        [class.field--invalid]="isControlInvalid(addressType)"
   >
@@ -55,4 +55,86 @@
       ></app-select>
     </span>
   </div>
+
+  <div class="address-form__field field" *ngIf="addressForm.get('settlement') as settlementControl">
+    <label class="field__label">Город</label>
+    <div class="field__control">
+      <select-autocomplete type="settlement"
+                           [activeOptionLabel]="settlementControl.value"
+                           (select)="onSettlementSelect($event)"
+      ></select-autocomplete>
+
+      <span class="field__error" *ngIf="isControlInvalid(settlementControl)">
+        Это обязательное поле
+      </span>
+    </div>
+  </div>
+
+  <ng-container [ngSwitch]="addressForm.get('addressType').value">
+
+    <ng-container *ngSwitchCase="addressTypes.WAREHOUSE">
+
+      <div class="address-form__field field"
+           *ngIf="addressForm.get('warehouse') as warehouseControl"
+           [class.field--invalid]="isOptionalControlInvalid('warehouse')"
+      >
+        <label class="field__label">Отделение</label>
+        <span class="field__control">
+          <select-autocomplete type="warehouse"
+                               [settlementId]="settlementIdControl.value"
+                               [isDisabled]="!settlementIdControl.value"
+                               [activeOptionLabel]="warehouseControl.value"
+                               (select)="onWarehouseSelect($event)"
+          ></select-autocomplete>
+
+          <span class="field__error" *ngIf="isOptionalControlInvalid('warehouse')">
+            Это обязательное поле
+          </span>
+        </span>
+      </div>
+
+    </ng-container>
+
+    <ng-container *ngSwitchCase="addressTypes.DOORS">
+
+      <div class="address-form__field field" [class.field--invalid]="isOptionalControlInvalid('address')">
+        <label class="field__label">Улица</label>
+        <span class="field__control">
+          <select-autocomplete type="street"
+                               [settlementId]="settlementIdControl.value"
+                               [isDisabled]="!settlementIdControl.value"
+                               [activeOptionLabel]="addressForm.get('address').value"
+                               (select)="onStreetSelect($event)"
+          ></select-autocomplete>
+
+          <span class="field__error" *ngIf="isOptionalControlInvalid('address')">
+            Это обязательное поле
+          </span>
+        </span>
+      </div>
+
+      <div class="address-form__field field"
+           *ngIf="addressForm.get('buildingNumber') as buildingNumber"
+           [class.field--invalid]="isOptionalControlInvalid('buildingNumber')"
+      >
+        <label for="addr-buildingNumber" class="field__label">Номер дома</label>
+        <span class="field__control">
+          <input class="field__input" [formControl]="buildingNumber" type="text" id="addr-buildingNumber">
+        </span>
+      </div>
+
+      <div class="address-form__field field"
+           *ngIf="addressForm.get('flat') as flat"
+           [class.field--invalid]="isOptionalControlInvalid('flat')"
+      >
+        <label for="addr-flat" class="field__label">Квартира</label>
+        <span class="field__control">
+          <input class="field__input" [formControl]="flat" type="text" id="addr-flat">
+        </span>
+      </div>
+
+    </ng-container>
+  </ng-container>
+
+
 </form>

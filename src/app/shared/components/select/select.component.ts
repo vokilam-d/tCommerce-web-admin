@@ -38,9 +38,9 @@ export class SelectComponent extends NgUnsubscribe implements OnInit, OnChanges,
     }
   };
   isVisible: boolean = false;
-  isDisabled: boolean = false;
   private value: any | any[];
 
+  @Input() isDisabled: boolean = false;
   @Input() hasEmpty: boolean = false;
   @Input() options: ISelectOption[] = [];
   @Input() isMultiSelect: boolean = false;
