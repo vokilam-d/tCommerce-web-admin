@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { OrderService } from '../../shared/services/order.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrderDto } from '../../shared/dtos/order.dto';
@@ -10,6 +10,7 @@ import { saveFileFromUrl } from '../../shared/helpers/save-file.function';
 import { API_HOST } from '../../shared/constants/constants';
 import { FormControl } from '@angular/forms';
 import { HeadService } from '../../shared/services/head.service';
+import { OrderStatusEnum } from '../../shared/enums/order-status.enum';
 
 @Component({
   selector: 'order-view',
@@ -126,19 +127,19 @@ export class OrderViewComponent implements OnInit {
   }
 
   isCancelOrderVisible(): boolean {
-    return this.order.status === 'STARTED' || this.order.status === 'NEW';
+    return this.order.status === OrderStatusEnum.STARTED || this.order.status === OrderStatusEnum.NEW;
   }
 
   isStartOrderVisible(): boolean {
-    return this.order.status === 'NEW';
+    return this.order.status === OrderStatusEnum.NEW;
   }
 
   isShipOrderVisible(): boolean {
-    return this.order.status === 'STARTED';
+    return this.order.status === OrderStatusEnum.STARTED || this.order.status === OrderStatusEnum.NEW;
   }
 
   isEditOrderVisible(): boolean {
-    return this.order.status === 'STARTED' || this.order.status === 'NEW';
+    return this.order.status === OrderStatusEnum.STARTED || this.order.status === OrderStatusEnum.NEW;
   }
 
   openAddressForm() {

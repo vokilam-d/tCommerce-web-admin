@@ -157,46 +157,25 @@
     </div>
 
     <div class="order__block">
-      <div class="order__field field">
-        <label for="email" class="field__label">Email</label>
-        <span class="field__control">
+      <ng-container *ngIf="isNewCustomer">
+        <div class="order__field field">
+          <label for="email" class="field__label">Email</label>
+          <span class="field__control">
           <input class="field__input" [(ngModel)]="order.customerEmail" type="text" id="email">
         </span>
-      </div>
+        </div>
 
-      <div class="order__field field">
-        <label for="phoneNumber" class="field__label">Телефон</label>
-        <span class="field__control">
+        <div class="order__field field">
+          <label for="phoneNumber" class="field__label">Телефон</label>
+          <span class="field__control">
           <input class="field__input" [(ngModel)]="order.customerPhoneNumber" type="text" id="phoneNumber">
         </span>
-      </div>
-    </div>
-
-    <div class="order__subtitle">
-      Доп. информация
-    </div>
-
-    <div class="order__block">
-      <div class="order__field field">
-        <label for="adminNote" class="field__label">Комментарий менеджера</label>
-        <span class="field__control">
-          <input class="field__input" [(ngModel)]="order.adminNote" type="text" id="adminNote">
-        </span>
-      </div>
-
-      <div class="order__field field">
-        <label for="clientNote" class="field__label">Комментарий клиента</label>
-        <span class="field__control">
-          <input class="field__input" [(ngModel)]="order.clientNote" type="text" id="clientNote">
-        </span>
-      </div>
-
-      <div class="order__field field">
-        <label class="field__label">Нужно ли связываться с клиентом для подтверждения заказа?</label>
-        <div class="field__control">
-          <toggle [(ngModel)]="order.isCallbackNeeded"></toggle>
         </div>
-      </div>
+      </ng-container>
+
+      <ng-container *ngIf="!isNewCustomer">
+        Email клиента: <b>{{ order.customerEmail }}</b><span *ngIf="order.customerPhoneNumber as phone">, номер телефона: <b>{{ phone }}</b></span>
+      </ng-container>
     </div>
 
     <div class="order__subtitle">
@@ -227,25 +206,33 @@
       </div>
 
       <address-form class="order__address"
-                    [address]="order.address"
+                    [address]="order.shipment.recipient"
                     [showIsDefault]="false"
       ></address-form>
     </div>
 
     <div class="order__subtitle">
-      Доставка и оплата
+      Оплата
     </div>
 
     <div class="order__block order__shipping-payment">
-      <shipping-method-selector class="order__method"
-                                [activeId]="order.shippingMethodId"
-                                (selected)="onShippingMethodSelect($event)"
-      ></shipping-method-selector>
-
       <payment-method-selector class="order__method"
                                [activeId]="order.paymentMethodId"
                                (selected)="onPaymentMethodSelect($event)"
       ></payment-method-selector>
+    </div>
+
+    <div class="order__subtitle">
+      Доп. информация
+    </div>
+
+    <div class="order__block">
+      <div class="order__field field">
+        <label for="adminNote" class="field__label">Комментарий менеджера</label>
+        <span class="field__control">
+          <input class="field__input" [(ngModel)]="order.adminNote" type="text" id="adminNote">
+        </span>
+      </div>
     </div>
 
     <div class="order__subtitle">

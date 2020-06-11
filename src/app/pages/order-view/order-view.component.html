@@ -16,15 +16,17 @@
         <app-button class="header__btn" (click)="printOrder()" type="button">
           Распечатать PDF
         </app-button>
-        <app-button class="header__btn" *ngIf="isEditOrderVisible()" (click)="editOrder()" type="button">
-          Редактировать
-        </app-button>
         <app-button class="header__btn" *ngIf="isCancelOrderVisible()" (click)="cancelOrder()" type="button">
           Отменить заказ
         </app-button>
+        <app-button class="header__btn" *ngIf="isEditOrderVisible()" (click)="editOrder()" type="button">
+          Редактировать
+        </app-button>
+        <!--
         <app-button class="header__btn" *ngIf="isStartOrderVisible()" (click)="startOrder()" btnStyle="primary" type="button">
           Принять в работу
         </app-button>
+        -->
         <app-button class="header__btn" *ngIf="isShipOrderVisible()" (click)="shipOrder()" btnStyle="primary" type="button">
           Отправить заказ
         </app-button>
@@ -88,8 +90,9 @@
 
         <ng-template #trackingIdTmpl>
           {{ order.novaposhtaTrackingId }}
+          <span class="order-view__no-tracking-number">- Нет номера ТТН -</span>
 
-          <button class="order-view__edit-tracking" (click)="openTrackingIdForm()">
+          <button class="order-view__edit-tracking" *ngIf="order.shipment.trackingNumber" (click)="openTrackingIdForm()">
             изменить
           </button>
         </ng-template>
@@ -110,30 +113,30 @@
           <div class="address-table__block address-table__block--name">Имя</div>
           <div class="address-table__block address-table__block--phone">Телефон</div>
           <div class="address-table__block address-table__block--city">Город</div>
-          <div class="address-table__block address-table__block--post">Отд.</div>
-          <div class="address-table__block address-table__block--street">Улица</div>
+          <div class="address-table__block address-table__block--post" *ngIf="order.shipment.recipient.warehouse">Отделение</div>
+          <div class="address-table__block address-table__block--street" *ngIf="order.shipment.recipient.address">Адрес</div>
         </div>
         <div class="address-table__row address-table__row--value">
           <div class="address-table__block address-table__block--name">
-            {{ order.address.firstName }} {{ order.address.lastName }}
-            <div class="address-table__customer" *ngIf="order.address.firstName !== customer.firstName || order.address.lastName !== customer.lastName">
+            {{ order.shipment.recipient.firstName }} {{ order.shipment.recipient.lastName }}
+            <div class="address-table__customer" *ngIf="order.shipment.recipient.firstName !== customer.firstName || order.shipment.recipient.lastName !== customer.lastName">
               ({{ customer.firstName }} {{ customer.lastName }})
             </div>
           </div>
           <div class="address-table__block address-table__block--phone">
-            {{ order.address.phoneNumber | normalizedPhone }}
-            <div class="address-table__customer" *ngIf="order.address.phoneNumber !== customer.phoneNumber">
+            {{ order.shipment.recipient.phone | normalizedPhone }}
+            <div class="address-table__customer" *ngIf="customer.phoneNumber && customer.phoneNumber !== order.shipment.recipient.phone">
               ({{ customer.phoneNumber | normalizedPhone }})
             </div>
           </div>
           <div class="address-table__block address-table__block--city">
-            {{ order.address.city }}
+            {{ order.shipment.recipient.settlement }}
           </div>
-          <div class="address-table__block address-table__block--post">
-            {{ order.address.novaposhtaOffice }}
+          <div class="address-table__block address-table__block--post" *ngIf="order.shipment.recipient.warehouse as warehouse">
+            {{ warehouse }}
           </div>
-          <div class="address-table__block address-table__block--street">
-            {{ order.address.streetName }}
+          <div class="address-table__block address-table__block--street" *ngIf="order.shipment.recipient.address as address">
+            {{ address }}, {{ order.shipment.recipient.buildingNumber }} {{ order.shipment.recipient.flat }}
           </div>
         </div>
       </div>
@@ -150,7 +153,7 @@
       </div>
       <div class="two-col__col method">
         <div class="method__title">Способ доставки</div>
-        <div class="method__name">{{ order.shippingMethodAdminName }}</div>
+        <div class="method__name">{{ order.shippingMethodName }}</div>
       </div>
     </div>
 
@@ -225,7 +228,7 @@
       </div>
     </div>
 
-    <address-form class="address-form__form" [address]="order.address" [showIsDefault]="false"></address-form>
+    <address-form class="address-form__form" [address]="order.shipment.recipient" [showIsDefault]="false"></address-form>
 
     <div class="address-form__submit-container">
       <app-button class="address-form__submit" (click)="submitAddressForm()" btnStyle="primary">

@@ -145,10 +145,6 @@ export class OrderComponent implements OnInit {
       this.notyService.showErrorNoty(`Ошибка в форме адреса`);
       return;
     }
-    if (!this.order.shippingMethodId) {
-      this.notyService.showErrorNoty(`Не выбран способ доставки`);
-      return;
-    }
     if (!this.order.paymentMethodId) {
       this.notyService.showErrorNoty(`Не выбран способ оплаты`);
       return;
@@ -246,12 +242,6 @@ export class OrderComponent implements OnInit {
 
   removeOrderItem(index: number) {
     this.order.items.splice(index, 1);
-  }
-
-  onShippingMethodSelect(shippingMethod: ShippingMethodDto) {
-    this.order.shippingMethodId = shippingMethod.id;
-    this.order.shippingMethodClientName = shippingMethod.clientName;
-    this.order.shippingMethodAdminName = shippingMethod.adminName;
   }
 
   onPaymentMethodSelect(paymentMethod: PaymentMethodDto) {

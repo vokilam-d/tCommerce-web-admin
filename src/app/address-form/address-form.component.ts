@@ -15,7 +15,8 @@ import { getPropertyOf } from '../shared/helpers/get-property-of.function';
 export class AddressFormComponent implements OnChanges {
 
   addressForm: FormGroup;
-  addressTypes = AddressTypeEnum;
+  addressTypes = [{ data: AddressTypeEnum.WAREHOUSE, view: 'В отделение' }, { data: AddressTypeEnum.DOORS, view: 'Адресная курьером' }];
+  addressTypeEnum = AddressTypeEnum;
   get settlementIdControl() { return this.addressForm.get(getPropertyOf<ShipmentAddressDto>('settlementId')); }
 
   @Input() address: ShipmentAddressDto = new ShipmentAddressDto();
@@ -126,5 +127,10 @@ export class AddressFormComponent implements OnChanges {
       case 'buildingNumber':
         return addressType === AddressTypeEnum.DOORS && !control.value && control.touched;
     }
+  }
+
+  setAddressType(type: { view: string; data: AddressTypeEnum }) {
+    const addressTypeProp: keyof ShipmentAddressDto = 'addressType';
+    this.addressForm.get(addressTypeProp).setValue(type.data);
   }
 }

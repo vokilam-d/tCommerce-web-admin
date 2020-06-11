@@ -1,5 +1,6 @@
 import { OrderItemDto } from './order-item.dto';
 import { ShipmentDto } from './shipment.dto';
+import { OrderStatusEnum } from '../enums/order-status.enum';
 
 export class AddOrUpdateOrderDto {
   customerId: number;
@@ -14,13 +15,11 @@ export class AddOrUpdateOrderDto {
   paymentMethodId: string;
   paymentMethodAdminName: string;
   paymentMethodClientName: string;
-  shippingMethodId: string;
-  shippingMethodAdminName: string;
-  shippingMethodClientName: string;
+  shippingMethodName: string;
   isCallbackNeeded: boolean = false;
   novaposhtaTrackingId: any;
   items: OrderItemDto[] = [];
-  status: any = '';
+  status: OrderStatusEnum = OrderStatusEnum.NEW;
   clientNote: string = '';
   adminNote: string = '';
   notes: string[] = [];

@@ -15,6 +15,10 @@
     margin: 10px 0 0;
   }
 
+  &__no-tracking-number {
+    color: rgba($dark, 0.6);
+  }
+
   &__edit-address,
   &__edit-tracking {
     margin: 1px 0 0 15px;
@@ -70,7 +74,7 @@
     }
 
     &--post {
-      width: 5%;
+      width: 20%;
     }
 
     &--street {

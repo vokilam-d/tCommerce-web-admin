@@ -10,6 +10,7 @@ import { ShipmentAddressDto } from '../dtos/shipment-address.dto';
 import { IGridValue } from '../../grid/grid.interface';
 import { getPropertyOf } from '../helpers/get-property-of.function';
 import { API_HOST } from '../constants/constants';
+import { ShipmentDto } from '../dtos/shipment.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -45,7 +46,11 @@ export class OrderService {
   }
 
   updateOrderAddress(id: number, address: ShipmentAddressDto) {
-    return this.http.put<ResponseDto<OrderDto>>(`${API_HOST}/api/v1/admin/orders/${id}/address`, address);
+    const payload: Partial<ShipmentDto> = {
+      recipient: address
+    };
+
+    return this.http.patch<ResponseDto<OrderDto>>(`${API_HOST}/api/v1/admin/orders/${id}/shipment`, payload);
   }
 
   updateOrderTrackingId(id: number, trackingId: TrackingIdDto) {

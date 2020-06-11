@@ -47,13 +47,18 @@
        *ngIf="addressForm.get('addressType') as addressType"
        [class.field--invalid]="isControlInvalid(addressType)"
   >
-    <label for="addr-addressType" class="field__label">Тип доставки</label>
-    <span class="field__control">
-      <app-select id="addr-addressType"
-                  [formControl]="addressType"
-                  [options]="[{ data: addressTypes.WAREHOUSE, view: 'В отделение' }, { data: addressTypes.DOORS, view: 'Адресная курьером' }]"
-      ></app-select>
-    </span>
+    <label class="field__label">Тип доставки</label>
+    <div class="field__control">
+      <div class="tabs">
+        <button class="tab"
+                *ngFor="let type of addressTypes"
+                [class.tab--active]="type.data === addressType.value"
+                (click)="setAddressType(type)"
+        >
+          {{ type.view }}
+        </button>
+      </div>
+    </div>
   </div>
 
   <div class="address-form__field field" *ngIf="addressForm.get('settlement') as settlementControl">
@@ -72,7 +77,7 @@
 
   <ng-container [ngSwitch]="addressForm.get('addressType').value">
 
-    <ng-container *ngSwitchCase="addressTypes.WAREHOUSE">
+    <ng-container *ngSwitchCase="addressTypeEnum.WAREHOUSE">
 
       <div class="address-form__field field"
            *ngIf="addressForm.get('warehouse') as warehouseControl"
@@ -95,7 +100,7 @@
 
     </ng-container>
 
-    <ng-container *ngSwitchCase="addressTypes.DOORS">
+    <ng-container *ngSwitchCase="addressTypeEnum.DOORS">
 
       <div class="address-form__field field" [class.field--invalid]="isOptionalControlInvalid('address')">
         <label class="field__label">Улица</label>
