@@ -14,22 +14,22 @@
   </div>
 
   <div class="address-form__field field"
-       *ngIf="addressForm.get('firstName') as firstName"
-       [class.field--invalid]="isControlInvalid(firstName)"
-  >
-    <label for="addr-firstName" class="field__label">Имя</label>
-    <span class="field__control">
-      <input class="field__input" [formControl]="firstName" type="text" id="addr-firstName">
-    </span>
-  </div>
-
-  <div class="address-form__field field"
        *ngIf="addressForm.get('lastName') as lastName"
        [class.field--invalid]="isControlInvalid(lastName)"
   >
     <label for="addr-lastName" class="field__label">Фамилия</label>
     <span class="field__control">
       <input class="field__input" [formControl]="lastName" type="text" id="addr-lastName">
+    </span>
+  </div>
+
+  <div class="address-form__field field"
+       *ngIf="addressForm.get('firstName') as firstName"
+       [class.field--invalid]="isControlInvalid(firstName)"
+  >
+    <label for="addr-firstName" class="field__label">Имя</label>
+    <span class="field__control">
+      <input class="field__input" [formControl]="firstName" type="text" id="addr-firstName">
     </span>
   </div>
 
