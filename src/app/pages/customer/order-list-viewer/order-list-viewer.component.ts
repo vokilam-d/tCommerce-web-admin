@@ -130,7 +130,7 @@ const orderGridCells: IGridCell[] = [
     align: 'left',
     isImage: false,
     isSortable: false,
-    fieldName: getPropertyOf<OrderDto>('novaposhtaTrackingId')
+    fieldName: `${getPropertyOf<ShipmentDto>('recipient')}.${getPropertyOf<ShipmentDto>('trackingNumber')}`
   },
   {
     isSearchable: true,
