@@ -8,8 +8,6 @@ export class ShipmentAddressDto {
   addressType: AddressTypeEnum = AddressTypeEnum.WAREHOUSE;
   addressId?: string = '';
   address?: string = '';
-  warehouseId?: string = '';
-  warehouse?: string = '';
   phone?: string = '';
   firstName?: string = '';
   lastName?: string = '';

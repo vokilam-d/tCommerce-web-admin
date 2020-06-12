@@ -139,6 +139,15 @@ const orderGridCells: IGridCell[] = [
     fieldName: getPropertyOf<OrderDto>('status')
   },
   {
+    isSearchable: false,
+    label: 'Статус посылки',
+    initialWidth: 100,
+    align: 'left',
+    isImage: false,
+    isSortable: true,
+    fieldName: `${shipmentProp}.${getPropertyOf<ShipmentDto>('statusDescription')}`
+  },
+  {
     isSearchable: true,
     label: 'Комментарий админа',
     initialWidth: 250,
@@ -154,7 +163,7 @@ const orderGridCells: IGridCell[] = [
     align: 'left',
     isImage: false,
     isSortable: false,
-    fieldName: getPropertyOf<OrderDto>('novaposhtaTrackingId')
+    fieldName: `${shipmentProp}.${getPropertyOf<ShipmentDto>('trackingNumber')}`
   },
   {
     isSearchable: true,

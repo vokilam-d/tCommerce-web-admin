@@ -190,18 +190,9 @@
         <div class="field__control">
           <app-select class="order__address-selector"
                       [options]="addressSelectOptions"
-                      (select)="onAddressSelect($event)"
+                      [formControl]="addressSelectControl"
           >
           </app-select>
-
-          <label class="order__address-save-container" *ngIf="isNewAddress">
-            <input class="order__address-save"
-                   [(ngModel)]="order.shouldSaveAddress"
-                   type="checkbox"
-            >
-
-            Сохранить в адресную книгу клиента?
-          </label>
         </div>
       </div>
 
@@ -209,6 +200,18 @@
                     [address]="order.shipment.recipient"
                     [showIsDefault]="false"
       ></address-form>
+
+      <div class="field order__address-save-container" *ngIf="isNewAddress">
+        <div class="field__label"></div>
+        <label class="field__control">
+          <input class="order__address-save"
+                 [(ngModel)]="order.shouldSaveAddress"
+                 type="checkbox"
+          >
+
+          Сохранить в адресную книгу клиента?
+        </label>
+      </div>
     </div>
 
     <div class="order__subtitle">
@@ -269,3 +272,5 @@
 </div>
 
 <product-selector [showQty]="true" (selected)="onProductSelect($event)"></product-selector>
+
+<preloader class="preloader" *ngIf="isLoading" [hasMargins]="false"></preloader>

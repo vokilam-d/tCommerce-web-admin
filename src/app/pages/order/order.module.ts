@@ -11,6 +11,7 @@ import { ShippingMethodSelectorComponent } from './shipping-method-selector/ship
 import { PaymentMethodSelectorComponent } from './payment-method-selector/payment-method-selector.component';
 import { ProductSelectorModule } from '../../product-selector/product-selector.module';
 import { GridModule } from '../../grid/grid.module';
+import { PreloaderModule } from '../../preloader/preloader.module';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { GridModule } from '../../grid/grid.module';
     FormsModule,
     AddressFormModule,
     GridModule,
-    ProductSelectorModule
+    ProductSelectorModule,
+    PreloaderModule
   ]
 })
 export class OrderModule { }

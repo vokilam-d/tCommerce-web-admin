@@ -1,0 +1,77 @@
+<ng-container *ngIf="isModalVisible">
+  <div class="modal-overlay" (click)="closeModal()"></div>
+  <div class="modal shipment__modal">
+    <div class="modal__header">
+      <div class="modal__title">
+        Изменить адрес
+      </div>
+      <div class="modal__close" (click)="closeModal()">
+        <i class="ai ai-multiply modal__close-icon"></i>
+      </div>
+    </div>
+
+    <div class="modal__content">
+      <form class="shipment__form" [formGroup]="form" (ngSubmit)="onFormSubmit()" ngNativeValidate>
+
+        <div class="field">
+          <div class="field__label">Отправитель</div>
+          <div class="field__control">
+            <app-select formControlName="senderId" [options]="sendersSelectOptions"></app-select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="weight" class="field__label">Вес, кг</label>
+          <span class="field__control">
+            <input class="field__input" formControlName="weight" id="weight" type="text" required>
+          </span>
+        </div>
+
+        <div class="field">
+          <label for="width" class="field__label">Ширина, см</label>
+          <span class="field__control">
+            <input class="field__input" formControlName="width" id="width" type="text" required>
+          </span>
+        </div>
+
+        <div class="field">
+          <label for="height" class="field__label">Высота, см</label>
+          <span class="field__control">
+            <input class="field__input" formControlName="height" id="height" type="text" required>
+          </span>
+        </div>
+
+        <div class="field">
+          <label for="length" class="field__label">Длина, см</label>
+          <span class="field__control">
+            <input class="field__input" formControlName="length" id="length" type="text" required>
+          </span>
+        </div>
+
+        <div class="field">
+          <label for="description" class="field__label">Описание</label>
+          <span class="field__control">
+            <input class="field__input" formControlName="description" id="description" type="text" required>
+          </span>
+        </div>
+
+        <div class="field">
+          <label for="backwardMoneyDelivery" class="field__label">
+            Сумма наложенного платежа, грн
+
+            <span class="shipment__label-description">(оставить пустым, если без наложенного)</span>
+          </label>
+          <span class="field__control">
+            <input class="field__input" formControlName="backwardMoneyDelivery" id="backwardMoneyDelivery" type="text">
+          </span>
+        </div>
+
+        <div class="shipment__submit">
+          <app-button btnStyle="primary" type="submit">
+            Сохранить
+          </app-button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-container>

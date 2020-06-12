@@ -7,10 +7,11 @@ import { SharedModule } from '../../shared/shared.module';
 import { AddressFormModule } from '../../address-form/address-form.module';
 import { PreloaderModule } from '../../preloader/preloader.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ShipmentInfoModalComponent } from './shipment-info-modal/shipment-info-modal.component';
 
 
 @NgModule({
-  declarations: [OrderViewComponent],
+  declarations: [OrderViewComponent, ShipmentInfoModalComponent],
   imports: [
     CommonModule,
     OrderViewRoutingModule,

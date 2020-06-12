@@ -26,12 +26,12 @@
 
     <ng-template #cellContent let-order="item">{{ order.id }}</ng-template>
     <ng-template #cellContent let-order="item">
-      {{ order.createdAt | date }}
-      <span class="order-time">{{ order.createdAt | date:'HH:mm:ss' }}</span>
+      {{ order.createdAt | date:'d.MM.y' }}
+      <span class="order__time">{{ order.createdAt | date:'HH:mm:ss' }}</span>
     </ng-template>
     <ng-template #cellContent let-order="item">
       <div class="order__name">
-        {{ order.address.firstName }} {{ order.address.lastName }}
+        {{ order.shipment.recipient.firstName }} {{ order.shipment.recipient.lastName }}
         <div class="order__customer-name"
              *ngIf="hasDifferentName(order) as differentName"
         >
@@ -42,6 +42,11 @@
     <ng-template #cellContent let-order="item">{{ order.shipment.recipient.settlement }}</ng-template>
     <ng-template #cellContent let-order="item">{{ order.totalCost }} {{ defaultCurrency | readableCurrency }}</ng-template>
     <ng-template #cellContent let-order="item">{{ order.status }}</ng-template>
+    <ng-template #cellContent let-order="item">
+      <span class="order__shipment-status">
+        {{ order.shipment.statusDescription }}
+      </span>
+    </ng-template>
     <ng-template #cellContent let-order="item">{{ order.adminNote }}</ng-template>
     <ng-template #cellContent let-order="item">{{ order.shipment.trackingNumber }}</ng-template>
     <ng-template #cellContent let-order="item">{{ order.clientNote }}</ng-template>

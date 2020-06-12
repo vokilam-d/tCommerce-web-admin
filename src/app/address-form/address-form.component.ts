@@ -6,13 +6,15 @@ import { SettlementDto } from '../shared/dtos/settlement.dto';
 import { WarehouseDto } from '../shared/dtos/warehouse.dto';
 import { StreetDto } from '../shared/dtos/street.dto';
 import { getPropertyOf } from '../shared/helpers/get-property-of.function';
+import { takeUntil } from 'rxjs/operators';
+import { NgUnsubscribe } from '../shared/directives/ng-unsubscribe/ng-unsubscribe.directive';
 
 @Component({
   selector: 'address-form',
   templateUrl: './address-form.component.html',
   styleUrls: ['./address-form.component.scss']
 })
-export class AddressFormComponent implements OnChanges {
+export class AddressFormComponent extends NgUnsubscribe implements OnChanges {
 
   addressForm: FormGroup;
   addressTypes = [{ data: AddressTypeEnum.WAREHOUSE, view: 'В отделение' }, { data: AddressTypeEnum.DOORS, view: 'Адресная курьером' }];
@@ -22,7 +24,9 @@ export class AddressFormComponent implements OnChanges {
   @Input() address: ShipmentAddressDto = new ShipmentAddressDto();
   @Input() showIsDefault: boolean = true;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder) {
+    super();
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.address && changes.address.currentValue) {
@@ -35,19 +39,28 @@ export class AddressFormComponent implements OnChanges {
       isDefault: [address.isDefault],
       firstName: [address.firstName, Validators.required],
       lastName: [address.lastName, Validators.required],
+      middleName: [address.middleName, Validators.required],
       phone: [address.phone, Validators.required],
       addressType: [address.addressType, Validators.required],
       settlement: [address.settlement, Validators.required],
       settlementId: [address.settlementId, Validators.required],
-      warehouseId: address.warehouseId,
-      warehouse: address.warehouse,
-      address: address.address,
-      addressId: address.addressId,
+      address: [address.address, Validators.required],
+      addressId: [address.addressId, Validators.required],
       buildingNumber: address.buildingNumber,
       flat: address.flat
     }
 
     this.addressForm = this.formBuilder.group(controls);
+
+    const addressTypeProp: keyof ShipmentAddressDto = 'addressType';
+    const addressIdProp: keyof ShipmentAddressDto = 'addressId';
+    const addressProp: keyof ShipmentAddressDto = 'address';
+    this.addressForm.get(addressTypeProp).valueChanges
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(_ => {
+        this.addressForm.get(addressIdProp).reset('');
+        this.addressForm.get(addressProp).reset('');
+      })
   }
 
   private validateControls(form: FormGroup | FormArray) {
@@ -69,15 +82,12 @@ export class AddressFormComponent implements OnChanges {
   checkValidity(): boolean {
     if (this.addressForm.valid) {
       const addressTypeProp: keyof ShipmentAddressDto = 'addressType';
-      const warehouseIdProp: keyof ShipmentAddressDto = 'warehouseId';
-      const streetIdProp: keyof ShipmentAddressDto = 'addressId';
       const buildingProp: keyof ShipmentAddressDto = 'buildingNumber';
 
-      switch (this.addressForm.get(addressTypeProp).value) {
-        case AddressTypeEnum.WAREHOUSE:
-          return !!this.addressForm.get(warehouseIdProp).value;
-        case AddressTypeEnum.DOORS:
-          return !!(this.addressForm.get(streetIdProp).value && this.addressForm.get(buildingProp).value);
+      if (this.addressForm.get(addressTypeProp).value === AddressTypeEnum.DOORS) {
+        return !!this.addressForm.get(buildingProp).value;
+      } else {
+        return true;
       }
 
     } else {
@@ -99,19 +109,19 @@ export class AddressFormComponent implements OnChanges {
   }
 
   onWarehouseSelect(warehouse: WarehouseDto) {
-    const warehouseIdProp: keyof ShipmentAddressDto = 'warehouseId';
-    const warehouseProp: keyof ShipmentAddressDto = 'warehouse';
+    const addressIdProp: keyof ShipmentAddressDto = 'addressId';
+    const addressProp: keyof ShipmentAddressDto = 'address';
 
-    this.addressForm.get(warehouseIdProp).setValue(warehouse.id);
-    this.addressForm.get(warehouseProp).setValue(warehouse.description);
+    this.addressForm.get(addressIdProp).setValue(warehouse.id);
+    this.addressForm.get(addressProp).setValue(warehouse.description);
   }
 
   onStreetSelect(street: StreetDto) {
-    const streetIdProp: keyof ShipmentAddressDto = 'addressId';
-    const streetProp: keyof ShipmentAddressDto = 'address';
+    const addressIdProp: keyof ShipmentAddressDto = 'addressId';
+    const addressProp: keyof ShipmentAddressDto = 'address';
 
-    this.addressForm.get(streetIdProp).setValue(street.id);
-    this.addressForm.get(streetProp).setValue(street.name);
+    this.addressForm.get(addressIdProp).setValue(street.id);
+    this.addressForm.get(addressProp).setValue(street.name);
   }
 
   isOptionalControlInvalid(prop: keyof ShipmentAddressDto) {
@@ -120,10 +130,6 @@ export class AddressFormComponent implements OnChanges {
     const control = this.addressForm.get(prop);
 
     switch (prop) {
-      case 'warehouse':
-        return addressType === AddressTypeEnum.WAREHOUSE && !control.value && control.touched;
-      case 'address':
-        return addressType === AddressTypeEnum.DOORS && !control.value && control.touched;
       case 'buildingNumber':
         return addressType === AddressTypeEnum.DOORS && !control.value && control.touched;
     }

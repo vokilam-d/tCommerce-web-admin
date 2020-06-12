@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ResponseDto } from '../dtos/response.dto';
-import { AddOrUpdateOrderDto, OrderDto, TrackingIdDto } from '../dtos/order.dto';
+import { AddOrUpdateOrderDto, OrderDto } from '../dtos/order.dto';
 import { toHttpParams } from '../helpers/to-http-params.function';
 import { OrderItemDto } from '../dtos/order-item.dto';
 import { CreateOrderItemDto } from '../dtos/create-order-item.dto';
@@ -53,8 +53,12 @@ export class OrderService {
     return this.http.patch<ResponseDto<OrderDto>>(`${API_HOST}/api/v1/admin/orders/${id}/shipment`, payload);
   }
 
-  updateOrderTrackingId(id: number, trackingId: TrackingIdDto) {
-    return this.http.put<ResponseDto<OrderDto>>(`${API_HOST}/api/v1/admin/orders/${id}/tracking`, trackingId);
+  updateOrderTrackingId(id: number, trackingNumber: string) {
+    const payload: Partial<ShipmentDto> = {
+      trackingNumber
+    };
+
+    return this.http.patch<ResponseDto<OrderDto>>(`${API_HOST}/api/v1/admin/orders/${id}/shipment`, payload);
   }
 
   createOrderItem(sku: string, qty: number, customerId?: number) {
@@ -75,8 +79,8 @@ export class OrderService {
     return this.http.post<ResponseDto<OrderDto>>(`${API_HOST}/api/v1/admin/orders/${id}/actions/start`, {});
   }
 
-  shipOrder(id: number) {
-    return this.http.post<ResponseDto<OrderDto>>(`${API_HOST}/api/v1/admin/orders/${id}/actions/ship`, {});
+  shipOrder(id: number, shipment: Partial<ShipmentDto>) {
+    return this.http.post<ResponseDto<OrderDto>>(`${API_HOST}/api/v1/admin/orders/${id}/actions/ship`, shipment);
   }
 
   getPrintOrderUrl(id: number): string {

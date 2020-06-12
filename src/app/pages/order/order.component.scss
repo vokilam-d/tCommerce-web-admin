@@ -26,9 +26,7 @@
   }
 
   &__address-save-container {
-    display: inline-block;
-    margin: 0 0 0 25px;
-    padding: 7px 0;
+    margin: 20px 0 0;
   }
 
   &__address-save {
@@ -185,4 +183,11 @@
   &__place-order {
     margin: 15px 0 0;
   }
+}
+
+.preloader {
+  top: initial;
+  bottom: 15vh;
+  position: fixed;
+  z-index: 21;
 }

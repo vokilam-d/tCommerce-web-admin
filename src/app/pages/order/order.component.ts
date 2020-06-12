@@ -1,13 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { OrderDto } from '../../shared/dtos/order.dto';
-import { FormBuilder } from '@angular/forms';
+import { AddOrUpdateOrderDto, OrderDto } from '../../shared/dtos/order.dto';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { OrderService } from '../../shared/services/order.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotyService } from '../../noty/noty.service';
 import { EPageAction } from '../../shared/enums/category-page-action.enum';
 import { CustomerDto } from '../../shared/dtos/customer.dto';
 import { OrderItemDto } from '../../shared/dtos/order-item.dto';
-import { ShippingMethodDto } from '../../shared/dtos/shipping-method.dto';
 import { PaymentMethodDto } from '../../shared/dtos/payment-method.dto';
 import { AddressFormComponent } from '../../address-form/address-form.component';
 import { ISelectOption } from '../../shared/components/select/select-option.interface';
@@ -16,42 +15,31 @@ import { CustomerService } from '../../shared/services/customer.service';
 import { ProductSelectorComponent } from '../../product-selector/product-selector.component';
 import { API_HOST } from '../../shared/constants/constants';
 import { HeadService } from '../../shared/services/head.service';
-import { AddressTypeEnum } from '../../shared/enums/address-type.enum';
+import { NgUnsubscribe } from '../../shared/directives/ng-unsubscribe/ng-unsubscribe.directive';
+import { finalize, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'order',
   templateUrl: './order.component.html',
   styleUrls: ['./order.component.scss']
 })
-export class OrderComponent implements OnInit {
+export class OrderComponent extends NgUnsubscribe implements OnInit {
 
   uploadedHost = API_HOST;
   isNewOrder: boolean;
   isReorder: boolean;
   isEditOrder: boolean;
   isNewCustomer: boolean = false;
+  isLoading: boolean = false;
   order: OrderDto;
   customer: CustomerDto;
+  addressSelectControl: FormControl;
+  addressSelectOptions: ISelectOption[] = [];
   private newAddress: ShipmentAddressDto = new ShipmentAddressDto();
 
   get orderItemsCost() { return this.order.items.reduce((acc, item) => acc + item.cost, 0); }
   get orderItemsTotalCost() { return this.order.items.reduce((acc, item) => acc + item.totalCost, 0); }
   get orderItemsDiscount() : number { return this.order.items.reduce((acc, item) => acc + item.discountValue, 0); }
-  get addressSelectOptions(): ISelectOption[] {
-    return [
-      { data: this.newAddress, view: 'Создать новый адрес' },
-      ...this.customer.addresses.map(address => {
-        const deliveryPoint = address.addressType === AddressTypeEnum.WAREHOUSE
-          ? `№${address.warehouse}`
-          : `${address.address}, ${address.buildingNumber}`;
-
-        return {
-          data: address,
-          view: `${address.lastName} ${address.firstName}, ${address.settlement}, ${deliveryPoint}`
-        };
-      })
-    ];
-  }
   get isNewAddress(): boolean { return this.order.shipment.recipient === this.newAddress; }
 
   @ViewChild(ProductSelectorComponent) productSelectorCmp: ProductSelectorComponent;
@@ -64,6 +52,7 @@ export class OrderComponent implements OnInit {
               private headService: HeadService,
               private notyService: NotyService,
               private route: ActivatedRoute) {
+    super();
   }
 
   ngOnInit() {
@@ -86,21 +75,32 @@ export class OrderComponent implements OnInit {
   private fetchOrder() {
     const id = this.route.snapshot.paramMap.get('id');
 
-    this.orderService.fetchOrder(id).subscribe(
-      response => {
-        this.order = response.data;
+    this.isLoading = true;
+    this.orderService.fetchOrder(id)
+      .pipe(
+        this.notyService.attachNoty(),
+        finalize(() => this.isLoading = false)
+      )
+      .subscribe(
+        response => {
+          this.order = response.data;
 
-        if (this.isReorder || this.isEditOrder) {
-          this.fetchCustomer(this.order.customerId);
-        }
-        this.headService.setTitle(`Изменить заказ №${this.order.id}`);
-      },
-      error => console.warn(error)
-    )
+          if (this.isReorder || this.isEditOrder) {
+            this.fetchCustomer(this.order.customerId);
+          }
+          this.headService.setTitle(`Изменить заказ №${this.order.id}`);
+        },
+        error => console.warn(error)
+      )
   }
 
   private fetchCustomer(customerId: number) {
+    this.isLoading = true;
     this.customerService.fetchCustomer(customerId)
+      .pipe(
+        this.notyService.attachNoty(),
+        finalize(() => this.isLoading = false)
+      )
       .subscribe(
         response => {
           this.selectCustomer(response.data);
@@ -150,10 +150,14 @@ export class OrderComponent implements OnInit {
       return;
     }
 
-    const dto = {
+    const dto: AddOrUpdateOrderDto = {
       ...this.order,
-      address: this.addressFormCmp.getValue()
+      shipment: {
+        ...this.order.shipment,
+        recipient: this.addressFormCmp.getValue()
+      }
     };
+
 
     if (this.isNewOrder || this.isReorder) {
       this.addNewOrder(dto);
@@ -162,9 +166,13 @@ export class OrderComponent implements OnInit {
     }
   }
 
-  private addNewOrder(dto: OrderDto) {
+  private addNewOrder(dto: AddOrUpdateOrderDto) {
+    this.isLoading = true;
     this.orderService.addNewOrder(dto)
-      .pipe(this.notyService.attachNoty({ successText: 'Заказ успешно создан' }))
+      .pipe(
+        this.notyService.attachNoty({ successText: 'Заказ успешно создан' }),
+        finalize(() => this.isLoading = false)
+      )
       .subscribe(
         response => {
           this.order = response.data;
@@ -174,9 +182,13 @@ export class OrderComponent implements OnInit {
       );
   }
 
-  private editOrder(dto: OrderDto) {
+  private editOrder(dto: AddOrUpdateOrderDto) {
+    this.isLoading = true;
     this.orderService.editOrder(this.order.id, dto)
-      .pipe(this.notyService.attachNoty({ successText: 'Заказ успешно обновлён' }))
+      .pipe(
+        this.notyService.attachNoty({ successText: 'Заказ успешно обновлён' }),
+        finalize(() => this.isLoading = false)
+      )
       .subscribe(
         response => {
           this.navigateToOrderView();
@@ -194,12 +206,12 @@ export class OrderComponent implements OnInit {
     this.order.customerPhoneNumber = customer.phoneNumber;
 
     this.order.shipment.recipient = this.customer.addresses.find(a => a.isDefault) || this.customer.addresses[0] || this.newAddress;
+    this.handleAddressForm();
   }
 
   createNewCustomer() {
     this.isNewCustomer = true;
     this.selectCustomer(new CustomerDto());
-    this.onAddressSelect(this.newAddress);
   }
 
   showProductSelector() {
@@ -226,8 +238,12 @@ export class OrderComponent implements OnInit {
   }
 
   createOrderItem(sku: string, qty: number) {
+    this.isLoading = true;
     this.orderService.createOrderItem(sku, qty, this.customer.id)
-      .pipe(this.notyService.attachNoty())
+      .pipe(
+        this.notyService.attachNoty(),
+        finalize(() => this.isLoading = false)
+      )
       .subscribe(
         response => {
           const foundIdx = this.order.items.findIndex(item => item.sku === sku);
@@ -250,7 +266,25 @@ export class OrderComponent implements OnInit {
     this.order.paymentMethodAdminName = paymentMethod.adminName;
   }
 
-  onAddressSelect(address: ShipmentAddressDto) {
-    this.order.shipment.recipient = address;
+  private handleAddressForm() {
+    this.addressSelectOptions = [
+      { data: this.newAddress, view: 'Создать новый адрес' },
+      ...this.customer.addresses.map(address => {
+        let view = `${address.lastName} ${address.firstName}, ${address.settlement}, ${address.address}`;
+        if (address.buildingNumber) {
+          view += `${address.buildingNumber}, ${address.flat}`;
+        }
+
+        return {
+          data: address,
+          view
+        };
+      })
+    ];
+
+    this.addressSelectControl = new FormControl(this.order.shipment.recipient);
+    this.addressSelectControl.valueChanges
+      .pipe( takeUntil(this.ngUnsubscribe) )
+      .subscribe(value => this.order.shipment.recipient = value)
   }
 }

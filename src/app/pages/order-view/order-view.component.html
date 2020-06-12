@@ -27,14 +27,14 @@
           Принять в работу
         </app-button>
         -->
-        <app-button class="header__btn" *ngIf="isShipOrderVisible()" (click)="shipOrder()" btnStyle="primary" type="button">
+        <app-button class="header__btn" *ngIf="isShipOrderVisible()" (click)="openShipmentInfo()" btnStyle="primary" type="button">
           Отправить заказ
         </app-button>
       </ng-container>
     </div>
   </div>
 
-  <div class="order-view" *ngIf="customer; else loadingTmpl">
+  <div class="order-view" *ngIf="customer">
     <div class="order-view__subtitle">
       Заказ
     </div>
@@ -89,8 +89,8 @@
         </div>
 
         <ng-template #trackingIdTmpl>
-          {{ order.novaposhtaTrackingId }}
-          <span class="order-view__no-tracking-number">- Нет номера ТТН -</span>
+          {{ order.shipment.trackingNumber }}
+          <span class="order-view__no-tracking-number" *ngIf="!order.shipment.trackingNumber">- Нет номера ТТН -</span>
 
           <button class="order-view__edit-tracking" *ngIf="order.shipment.trackingNumber" (click)="openTrackingIdForm()">
             изменить
@@ -107,39 +107,10 @@
       </button>
     </div>
 
-    <div class="order-view__block">
-      <div class="address-table">
-        <div class="address-table__row">
-          <div class="address-table__block address-table__block--name">Имя</div>
-          <div class="address-table__block address-table__block--phone">Телефон</div>
-          <div class="address-table__block address-table__block--city">Город</div>
-          <div class="address-table__block address-table__block--post" *ngIf="order.shipment.recipient.warehouse">Отделение</div>
-          <div class="address-table__block address-table__block--street" *ngIf="order.shipment.recipient.address">Адрес</div>
-        </div>
-        <div class="address-table__row address-table__row--value">
-          <div class="address-table__block address-table__block--name">
-            {{ order.shipment.recipient.firstName }} {{ order.shipment.recipient.lastName }}
-            <div class="address-table__customer" *ngIf="order.shipment.recipient.firstName !== customer.firstName || order.shipment.recipient.lastName !== customer.lastName">
-              ({{ customer.firstName }} {{ customer.lastName }})
-            </div>
-          </div>
-          <div class="address-table__block address-table__block--phone">
-            {{ order.shipment.recipient.phone | normalizedPhone }}
-            <div class="address-table__customer" *ngIf="customer.phoneNumber && customer.phoneNumber !== order.shipment.recipient.phone">
-              ({{ customer.phoneNumber | normalizedPhone }})
-            </div>
-          </div>
-          <div class="address-table__block address-table__block--city">
-            {{ order.shipment.recipient.settlement }}
-          </div>
-          <div class="address-table__block address-table__block--post" *ngIf="order.shipment.recipient.warehouse as warehouse">
-            {{ warehouse }}
-          </div>
-          <div class="address-table__block address-table__block--street" *ngIf="order.shipment.recipient.address as address">
-            {{ address }}, {{ order.shipment.recipient.buildingNumber }} {{ order.shipment.recipient.flat }}
-          </div>
-        </div>
-      </div>
+    <div class="order-view__block order-view__address">
+      {{ order.shipment.recipient.firstName }} {{ order.shipment.recipient.lastName }}, {{ order.shipment.recipient.phone | normalizedPhone }}
+      <br>
+      {{ order.shipment.recipient.settlement }}, {{ order.shipment.recipient.address }}<ng-container *ngIf="order.shipment.recipient.buildingNumber as buildingNumber">, {{ buildingNumber }} {{ order.shipment.recipient.flat }}</ng-container>
     </div>
 
     <div class="order-view__subtitle">
@@ -210,30 +181,35 @@
       </div>
     </div>
   </div>
-
-  <ng-template #loadingTmpl>
-    <preloader class="preloader"></preloader>
-  </ng-template>
 </div>
 
 <div class="address-form" *ngIf="isAddressFormVisible">
-  <div class="address-form__overlay" (click)="closeAddressForm()"></div>
-  <div class="address-form__modal">
-    <div class="address-form__header">
-      <div class="address-form__title">
+  <div class="modal-overlay" (click)="closeAddressForm()"></div>
+  <div class="modal address-form__modal">
+    <div class="modal__header">
+      <div class="modal__title">
         Изменить адрес
       </div>
-      <div class="address-form__close" (click)="closeAddressForm()">
-        <i class="ai ai-multiply address-form__close-icon"></i>
+      <div class="modal__close" (click)="closeAddressForm()">
+        <i class="ai ai-multiply modal__close-icon"></i>
       </div>
     </div>
 
-    <address-form class="address-form__form" [address]="order.shipment.recipient" [showIsDefault]="false"></address-form>
+    <div class="modal__content">
+      <address-form class="address-form__form" [address]="order.shipment.recipient" [showIsDefault]="false"></address-form>
 
-    <div class="address-form__submit-container">
-      <app-button class="address-form__submit" (click)="submitAddressForm()" btnStyle="primary">
-        Сохранить
-      </app-button>
+      <div class="address-form__submit-container">
+        <app-button class="address-form__submit" (click)="submitAddressForm()" btnStyle="primary">
+          Сохранить
+        </app-button>
+      </div>
     </div>
   </div>
 </div>
+
+<shipment-info-modal *ngIf="order"
+                     [shipment]="order.shipment"
+                     (infoSubmit)="onShipmentInfoSubmit($event)"
+></shipment-info-modal>
+
+<preloader class="preloader" *ngIf="!customer || isLoading" [hasMargins]="false"></preloader>

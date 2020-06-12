@@ -34,6 +34,16 @@
   </div>
 
   <div class="address-form__field field"
+       *ngIf="addressForm.get('middleName') as middleName"
+       [class.field--invalid]="isControlInvalid(middleName)"
+  >
+    <label for="addr-middleName" class="field__label">Отчество</label>
+    <span class="field__control">
+      <input class="field__input" [formControl]="middleName" type="text" id="addr-middleName">
+    </span>
+  </div>
+
+  <div class="address-form__field field"
        *ngIf="addressForm.get('phone') as phone"
        [class.field--invalid]="isControlInvalid(phone)"
   >
@@ -80,19 +90,19 @@
     <ng-container *ngSwitchCase="addressTypeEnum.WAREHOUSE">
 
       <div class="address-form__field field"
-           *ngIf="addressForm.get('warehouse') as warehouseControl"
-           [class.field--invalid]="isOptionalControlInvalid('warehouse')"
+           *ngIf="addressForm.get('address') as addressControl"
+           [class.field--invalid]="isControlInvalid(addressControl)"
       >
         <label class="field__label">Отделение</label>
         <span class="field__control">
           <select-autocomplete type="warehouse"
                                [settlementId]="settlementIdControl.value"
                                [isDisabled]="!settlementIdControl.value"
-                               [activeOptionLabel]="warehouseControl.value"
+                               [activeOptionLabel]="addressControl.value"
                                (select)="onWarehouseSelect($event)"
           ></select-autocomplete>
 
-          <span class="field__error" *ngIf="isOptionalControlInvalid('warehouse')">
+          <span class="field__error" *ngIf="isControlInvalid(addressControl)">
             Это обязательное поле
           </span>
         </span>
@@ -102,17 +112,20 @@
 
     <ng-container *ngSwitchCase="addressTypeEnum.DOORS">
 
-      <div class="address-form__field field" [class.field--invalid]="isOptionalControlInvalid('address')">
+      <div class="address-form__field field"
+           *ngIf="addressForm.get('address') as addressControl"
+           [class.field--invalid]="isControlInvalid(addressControl)"
+      >
         <label class="field__label">Улица</label>
         <span class="field__control">
           <select-autocomplete type="street"
                                [settlementId]="settlementIdControl.value"
                                [isDisabled]="!settlementIdControl.value"
-                               [activeOptionLabel]="addressForm.get('address').value"
+                               [activeOptionLabel]="addressControl.value"
                                (select)="onStreetSelect($event)"
           ></select-autocomplete>
 
-          <span class="field__error" *ngIf="isOptionalControlInvalid('address')">
+          <span class="field__error" *ngIf="isControlInvalid(addressControl)">
             Это обязательное поле
           </span>
         </span>

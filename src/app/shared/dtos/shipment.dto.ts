@@ -9,7 +9,7 @@ export class ShipmentDto {
   estimatedDeliveryDate?: string = '';
   status?: ShipmentStatusEnum;
   statusDescription?: string = '';
-  sender?: ShipmentAddressDto = new ShipmentAddressDto();
+  senderId: number = null;
   recipient?: ShipmentAddressDto = new ShipmentAddressDto();
   shipmentType?: ShipmentTypeEnum = ShipmentTypeEnum.WAREHOUSE_WAREHOUSE;
   payerType?: ShipmentPayerEnum = ShipmentPayerEnum.RECIPIENT;

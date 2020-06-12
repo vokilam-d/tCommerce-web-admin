@@ -11,6 +11,9 @@ import { API_HOST } from '../../shared/constants/constants';
 import { FormControl } from '@angular/forms';
 import { HeadService } from '../../shared/services/head.service';
 import { OrderStatusEnum } from '../../shared/enums/order-status.enum';
+import { ShipmentInfoModalComponent } from './shipment-info-modal/shipment-info-modal.component';
+import { ShipmentDto } from '../../shared/dtos/shipment.dto';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'order-view',
@@ -24,8 +27,10 @@ export class OrderViewComponent implements OnInit {
   customer: CustomerDto;
   isAddressFormVisible: boolean = false;
   trackingIdControl: FormControl;
+  isLoading: boolean = false;
 
   @ViewChild(AddressFormComponent) addressFormCmp: AddressFormComponent;
+  @ViewChild(ShipmentInfoModalComponent) shipmentInfoModalCmp: ShipmentInfoModalComponent;
 
   constructor(private orderService: OrderService,
               private customerService: CustomerService,
@@ -41,7 +46,9 @@ export class OrderViewComponent implements OnInit {
 
   private init() {
     const id  = this.route.snapshot.paramMap.get('id');
+    this.isLoading = true;
     this.orderService.fetchOrder(id)
+      .pipe(finalize(() => this.isLoading = false))
       .subscribe(
         response => {
           this.order = response.data;
@@ -52,7 +59,9 @@ export class OrderViewComponent implements OnInit {
   }
 
   private fetchCustomer(customerId: number) {
+    this.isLoading = true;
     this.customerService.fetchCustomer(customerId)
+      .pipe(finalize(() => this.isLoading = false))
       .subscribe(
         response => {
           this.customer = response.data;
@@ -69,8 +78,12 @@ export class OrderViewComponent implements OnInit {
       return;
     }
 
+    this.isLoading = true;
     this.orderService.cancelOrder(this.order.id)
-      .pipe(this.notyService.attachNoty({ successText: 'Заказ успешно отменён' }))
+      .pipe(
+        this.notyService.attachNoty({ successText: 'Заказ успешно отменён' }),
+        finalize(() => this.isLoading = false)
+      )
       .subscribe(
         response => {
           this.order = response.data;
@@ -88,8 +101,12 @@ export class OrderViewComponent implements OnInit {
       return;
     }
 
+    this.isLoading = true;
     this.orderService.startOrder(this.order.id)
-      .pipe(this.notyService.attachNoty({ successText: `Заказ переведён в статус 'Начат'` }))
+      .pipe(
+        this.notyService.attachNoty({ successText: `Заказ переведён в статус 'Начат'` }),
+        finalize(() => this.isLoading = false)
+      )
       .subscribe(
         response => {
           this.order = response.data;
@@ -98,20 +115,20 @@ export class OrderViewComponent implements OnInit {
       );
   }
 
-  shipOrder() {
-    if (!confirm(`Вы уверены, что хотите отправить заказ?`)) {
-      return;
-    }
-
-    this.orderService.shipOrder(this.order.id)
-      .pipe(this.notyService.attachNoty({ successText: `Заказ переведён в статус 'Отправлен'` }))
-      .subscribe(
-        response => {
-          this.order = response.data;
-        },
-        error => console.warn(error)
-      );
-  }
+  // shipOrder() {
+  //   if (!confirm(`Вы уверены, что хотите отправить заказ?`)) {
+  //     return;
+  //   }
+  //
+  //   this.orderService.shipOrder(this.order.id)
+  //     .pipe(this.notyService.attachNoty({ successText: `Заказ переведён в статус 'Отправлен'` }))
+  //     .subscribe(
+  //       response => {
+  //         this.order = response.data;
+  //       },
+  //       error => console.warn(error)
+  //     );
+  // }
 
   printOrder() {
     const url = this.orderService.getPrintOrderUrl(this.order.id);
@@ -156,8 +173,12 @@ export class OrderViewComponent implements OnInit {
     }
 
     const address = this.addressFormCmp.getValue();
+    this.isLoading = true;
     this.orderService.updateOrderAddress(this.order.id, address)
-      .pipe(this.notyService.attachNoty({ successText: 'Адрес в заказе успешно изменён' }))
+      .pipe(
+        this.notyService.attachNoty({ successText: 'Адрес в заказе успешно изменён' }),
+        finalize(() => this.isLoading = false)
+      )
       .subscribe(
         response => {
           this.order = response.data;
@@ -167,7 +188,7 @@ export class OrderViewComponent implements OnInit {
   }
 
   openTrackingIdForm() {
-    this.trackingIdControl = new FormControl(this.order.novaposhtaTrackingId);
+    this.trackingIdControl = new FormControl(this.order.shipment.trackingNumber);
   }
 
   closeTrackingIdForm() {
@@ -175,13 +196,35 @@ export class OrderViewComponent implements OnInit {
   }
 
   updateTrackingId() {
-    const trackingId = this.trackingIdControl.value;
-    this.orderService.updateOrderTrackingId(this.order.id, { trackingId })
-      .pipe(this.notyService.attachNoty({ successText: 'Номер ТТН успешно изменён' }))
+    const trackingNumber = this.trackingIdControl.value;
+    this.isLoading = true;
+    this.orderService.updateOrderTrackingId(this.order.id, trackingNumber)
+      .pipe(
+        this.notyService.attachNoty({ successText: 'Номер ТТН успешно изменён' }),
+        finalize(() => this.isLoading = false)
+      )
       .subscribe(
         response => {
           this.order = response.data;
           this.closeTrackingIdForm();
+        }
+      );
+  }
+
+  openShipmentInfo() {
+    this.shipmentInfoModalCmp.openModal();
+  }
+
+  onShipmentInfoSubmit(shipment: ShipmentDto) {
+    this.isLoading = true;
+    this.orderService.shipOrder(this.order.id, shipment)
+      .pipe(
+        this.notyService.attachNoty({ successText: 'ЭН успешно создана' }),
+        finalize(() => this.isLoading = false)
+      )
+      .subscribe(
+        response => {
+          this.order = response.data;
         }
       );
   }

@@ -17,7 +17,6 @@ export class AddOrUpdateOrderDto {
   paymentMethodClientName: string;
   shippingMethodName: string;
   isCallbackNeeded: boolean = false;
-  novaposhtaTrackingId: any;
   items: OrderItemDto[] = [];
   status: OrderStatusEnum = OrderStatusEnum.NEW;
   clientNote: string = '';
@@ -31,8 +30,4 @@ export class AddOrUpdateOrderDto {
 
 export class OrderDto extends AddOrUpdateOrderDto {
   id: number;
-}
-
-export class TrackingIdDto {
-  trackingId: string;
 }

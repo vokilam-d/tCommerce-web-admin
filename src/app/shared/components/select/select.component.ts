@@ -31,10 +31,8 @@ export class SelectComponent extends NgUnsubscribe implements OnInit, OnChanges,
 
     if (selectedOptions.length) {
       return selectedOptions.map(option => option.view || option.data).join(', ');
-    } else if (this.isMultiSelect) {
+    } else {
       return '- Не выбрано -';
-    } else if (!this.isMultiSelect) {
-      return this.options[0]?.view || this.options[0]?.data || '';
     }
   };
   isVisible: boolean = false;
@@ -54,8 +52,7 @@ export class SelectComponent extends NgUnsubscribe implements OnInit, OnChanges,
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    const options: ISelectOption[] = changes.options?.currentValue;
-    if (options) {
+    if (changes.options?.currentValue) {
       this.markSelectedOptions();
     }
   }
@@ -88,7 +85,6 @@ export class SelectComponent extends NgUnsubscribe implements OnInit, OnChanges,
   }
 
   selectOption(option: ISelectOption) {
-
     let newValue;
     if (this.isMultiSelect) {
       newValue = (this.value as any[]).slice(); // copy array
