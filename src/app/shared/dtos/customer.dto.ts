@@ -13,6 +13,7 @@ export class AddOrUpdateCustomerDto {
   isPhoneNumberConfirmed: boolean = undefined;
   note: string = '';
   addresses: ShipmentAddressDto[] = [];
+  deprecatedAddresses: string[];
   reviewIds: number[] = [];
   orderIds: number[] = [];
   wishlistProductIds: number[] = [];

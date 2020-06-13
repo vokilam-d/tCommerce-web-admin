@@ -183,6 +183,15 @@
     </div>
 
     <div class="order__block">
+      <div class="order__addresses-deprecated" *ngIf="customer.deprecatedAddresses?.length">
+        <div class="order__addresses-deprecated-title">
+          Старые адреса этого покупателя:
+        </div>
+        <ng-container *ngFor="let deprecatedAddress of customer.deprecatedAddresses">
+          {{ deprecatedAddress }}
+          <br>
+        </ng-container>
+      </div>
       <div class="field" *ngIf="!isNewCustomer">
         <div class="field__label">
           Выбрать адрес из существующих:

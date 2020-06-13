@@ -96,6 +96,13 @@
 
     <ng-template #tabContent>
       <div class="addresses">
+        <div class="addresses__deprecated" *ngIf="customer.deprecatedAddresses?.length">
+          Старые адреса:
+          <ng-container *ngFor="let deprecatedAddress of customer.deprecatedAddresses">
+            {{ deprecatedAddress }}
+            <br>
+          </ng-container>
+        </div>
         <div class="addresses__list" *ngIf="customer.addresses.length; else noAddressesText">
           <div class="addresses__address address"
                *ngFor="let address of customer.addresses, index as i"

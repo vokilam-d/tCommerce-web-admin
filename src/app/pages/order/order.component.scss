@@ -15,6 +15,15 @@
     margin: 30px 0 0;
   }
 
+  &__addresses-deprecated {
+    margin: 0 0 30px;
+  }
+  &__addresses-deprecated-title {
+    margin: 0 0 7px;
+    color: rgba($dark, 0.6);
+    font-size: 13px;
+  }
+
   &__customer-selector {
     display: block;
     margin: 30px 0 0;
