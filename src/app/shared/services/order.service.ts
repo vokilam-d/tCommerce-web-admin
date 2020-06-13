@@ -83,6 +83,10 @@ export class OrderService {
     return this.http.post<ResponseDto<OrderDto>>(`${API_HOST}/api/v1/admin/orders/${id}/actions/ship`, shipment);
   }
 
+  updateShipmentStatus(id: number) {
+    return this.http.post<ResponseDto<OrderDto>>(`${API_HOST}/api/v1/admin/orders/${id}/actions/update-status`, {});
+  }
+
   getPrintOrderUrl(id: number): string {
     return `${API_HOST}/api/v1/admin/orders/${id}/invoice`;
   }

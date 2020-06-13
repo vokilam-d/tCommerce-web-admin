@@ -72,6 +72,14 @@
 
     <div class="order-view__subtitle">
       Новая Почта
+
+      <button class="order-view__edit-tracking" *ngIf="!trackingIdControl" (click)="openTrackingIdForm()">
+        изменить
+      </button>
+
+      <button class="order-view__edit-tracking" *ngIf="!trackingIdControl" (click)="updateShipmentStatus()">
+        обновить статус
+      </button>
     </div>
 
     <div class="order-view__block">
@@ -89,12 +97,13 @@
         </div>
 
         <ng-template #trackingIdTmpl>
-          {{ order.shipment.trackingNumber }} - {{ order.shipment.statusDescription }}
-          <span class="order-view__no-tracking-number" *ngIf="!order.shipment.trackingNumber">- Нет номера ТТН -</span>
+          <span class="order-view__no-tracking-number" *ngIf="!order.shipment.trackingNumber; else hasNumberTmpl">
+            - Нет номера ТТН -
+          </span>
 
-          <button class="order-view__edit-tracking" *ngIf="order.shipment.trackingNumber" (click)="openTrackingIdForm()">
-            изменить
-          </button>
+          <ng-template #hasNumberTmpl>
+            {{ order.shipment.trackingNumber }} - {{ order.shipment.statusDescription }}
+          </ng-template>
         </ng-template>
       </div>
     </div>

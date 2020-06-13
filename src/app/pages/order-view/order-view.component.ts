@@ -228,4 +228,18 @@ export class OrderViewComponent implements OnInit {
         }
       );
   }
+
+  updateShipmentStatus() {
+    this.isLoading = true;
+    this.orderService.updateShipmentStatus(this.order.id)
+      .pipe(
+        this.notyService.attachNoty({ successText: 'Статус обновлён' }),
+        finalize(() => this.isLoading = false)
+      )
+      .subscribe(
+        response => {
+          this.order = response.data;
+        }
+      );
+  }
 }
