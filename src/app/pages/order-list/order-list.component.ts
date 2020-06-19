@@ -86,16 +86,16 @@ const orderGridCells: IGridCell[] = [
   {
     isSearchable: false,
     label: 'ID',
-    initialWidth: 50,
+    initialWidth: 40,
     align: 'center',
-    isImage: false,
+    isImage: true,
     isSortable: true,
     fieldName: getPropertyOf<OrderDto>('id')
   },
   {
     isSearchable: false,
     label: 'Дата',
-    initialWidth: 100,
+    initialWidth: 78,
     align: 'left',
     isImage: false,
     isSortable: true,
@@ -132,7 +132,7 @@ const orderGridCells: IGridCell[] = [
   {
     isSearchable: false,
     label: 'Статус',
-    initialWidth: 65,
+    initialWidth: 75,
     align: 'left',
     isImage: false,
     isSortable: true,
@@ -141,7 +141,7 @@ const orderGridCells: IGridCell[] = [
   {
     isSearchable: false,
     label: 'Статус посылки',
-    initialWidth: 100,
+    initialWidth: 140,
     align: 'left',
     isImage: false,
     isSortable: true,
@@ -159,7 +159,7 @@ const orderGridCells: IGridCell[] = [
   {
     isSearchable: true,
     label: 'ТТН',
-    initialWidth: 150,
+    initialWidth: 117,
     align: 'left',
     isImage: false,
     isSortable: false,

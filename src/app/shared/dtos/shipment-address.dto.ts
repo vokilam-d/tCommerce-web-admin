@@ -2,7 +2,7 @@ import { AddressTypeEnum } from '../enums/address-type.enum';
 
 export class ShipmentAddressDto {
   isDefault: boolean = false;
-  id?: number;
+  id?: string;
   settlement: string = '';
   settlementId: string = '';
   addressType: AddressTypeEnum = AddressTypeEnum.WAREHOUSE;
