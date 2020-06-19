@@ -39,7 +39,7 @@ export class AddressFormComponent extends NgUnsubscribe implements OnChanges {
       isDefault: [address.isDefault],
       firstName: [address.firstName, Validators.required],
       lastName: [address.lastName, Validators.required],
-      middleName: [address.middleName, Validators.required],
+      middleName: [address.middleName],
       phone: [address.phone, Validators.required],
       addressType: [address.addressType, Validators.required],
       settlement: [address.settlement, Validators.required],
