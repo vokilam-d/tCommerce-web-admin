@@ -27,7 +27,7 @@
     </div>
   </div>
 
-  <form class="product" *ngIf="form; else preloaderTmpl" [formGroup]="form">
+  <form class="product" *ngIf="form" [formGroup]="form">
 
     <div class="product__field field"
            *ngIf="form.get('isEnabled') as isEnabled"
@@ -353,9 +353,6 @@
     </fields-group>
 
   </form>
-
-  <ng-template #preloaderTmpl>
-    <preloader class="preloader"></preloader>
-  </ng-template>
-
 </div>
+
+<preloader class="preloader" *ngIf="isLoading" [hasMargins]="false"></preloader>

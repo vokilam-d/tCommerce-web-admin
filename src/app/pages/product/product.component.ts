@@ -77,8 +77,9 @@ export class ProductComponent implements OnInit {
       return;
     }
 
+    this.isLoading = true;
     this.productsService.deleteProduct(this.product.id)
-      .pipe(this.notyService.attachNoty({ successText: 'Товар успешно удалён' }))
+      .pipe(this.notyService.attachNoty({ successText: 'Товар успешно удалён' }), finalize(() => this.isLoading = false))
       .subscribe(
         _ => {
           this.goBack();
@@ -166,8 +167,9 @@ export class ProductComponent implements OnInit {
       : 'Товар успешно добавлен';
     const successUrlCommand: string = needToDuplicate ? 'add' : 'edit';
 
+    this.isLoading = true;
     this.productsService.addNewProduct(dto)
-      .pipe(this.notyService.attachNoty({ successText }))
+      .pipe(this.notyService.attachNoty({ successText }), finalize(() => this.isLoading = false))
       .subscribe(
         response => {
           this.router.navigate(['admin', 'product', successUrlCommand, response.data.id]);
@@ -179,8 +181,9 @@ export class ProductComponent implements OnInit {
   private updateProduct(needToDuplicate: boolean = false) {
     const dto = this.mergeProducts(this.product, this.form.value)
 
+    this.isLoading = true;
     this.productsService.updateProduct(this.product.id, dto)
-      .pipe(this.notyService.attachNoty({ successText: 'Товар успешно обновлён' }))
+      .pipe(this.notyService.attachNoty({ successText: 'Товар успешно обновлён' }), finalize(() => this.isLoading = false))
       .subscribe(
         response => {
           if (needToDuplicate) {

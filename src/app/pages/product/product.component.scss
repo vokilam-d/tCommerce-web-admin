@@ -1,7 +1,10 @@
 @import "variables";
 
 .preloader {
-  margin-top: 15vh;
+  top: initial;
+  bottom: 15vh;
+  position: fixed;
+  z-index: 21;
 }
 
 .product {
