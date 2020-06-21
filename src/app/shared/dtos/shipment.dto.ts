@@ -20,5 +20,6 @@ export class ShipmentDto {
   width?: string = '';
   height?: string = '';
   backwardMoneyDelivery?: string = '';
+  cost?: string = '';
   description?: string = '';
 }

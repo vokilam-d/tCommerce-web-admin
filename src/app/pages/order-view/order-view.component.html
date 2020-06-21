@@ -218,6 +218,7 @@
 
 <shipment-info-modal *ngIf="order"
                      [shipment]="order.shipment"
+                     [cost]="order.totalCost"
                      (infoSubmit)="onShipmentInfoSubmit($event)"
 ></shipment-info-modal>
 

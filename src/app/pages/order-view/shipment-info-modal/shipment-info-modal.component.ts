@@ -17,6 +17,7 @@ export class ShipmentInfoModalComponent implements OnInit {
   sendersSelectOptions: ISelectOption[];
 
   @Input() shipment: ShipmentDto;
+  @Input() cost: number;
   @Output('infoSubmit') submitEmitter = new EventEmitter<ShipmentDto>();
 
   constructor(private shipmentSenderService: ShipmentSenderService,
@@ -47,6 +48,7 @@ export class ShipmentInfoModalComponent implements OnInit {
       length: [this.shipment.length, Validators.required],
       description: [this.shipment.description, Validators.required],
       backwardMoneyDelivery: this.shipment.backwardMoneyDelivery,
+      cost: this.cost
     };
 
     this.form = this.formBuilder.group(controls);

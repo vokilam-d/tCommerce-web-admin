@@ -49,9 +49,11 @@
         </div>
 
         <div class="field">
-          <label for="description" class="field__label">Описание</label>
+          <label for="cost" class="field__label">
+            Оценочная стоимость, грн
+          </label>
           <span class="field__control">
-            <input class="field__input" formControlName="description" id="description" type="text" required>
+            <input class="field__input" formControlName="cost" id="cost" type="number">
           </span>
         </div>
 
@@ -62,7 +64,14 @@
             <span class="shipment__label-description">(оставить пустым, если без наложенного)</span>
           </label>
           <span class="field__control">
-            <input class="field__input" formControlName="backwardMoneyDelivery" id="backwardMoneyDelivery" type="text">
+            <input class="field__input" formControlName="backwardMoneyDelivery" id="backwardMoneyDelivery" type="number">
+          </span>
+        </div>
+
+        <div class="field">
+          <label for="description" class="field__label">Описание посылки</label>
+          <span class="field__control">
+            <input class="field__input" formControlName="description" id="description" type="text" required>
           </span>
         </div>
 
