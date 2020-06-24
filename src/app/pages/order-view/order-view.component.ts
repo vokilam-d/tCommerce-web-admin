@@ -97,7 +97,7 @@ export class OrderViewComponent extends NgUnsubscribe implements OnInit {
       return;
     }
 
-    this.changeStatus(OrderStatusEnum.CANCELED);
+    this.changeStatus(OrderStatusEnum.CANCELED, true);
   }
 
   reorder() {
@@ -118,7 +118,9 @@ export class OrderViewComponent extends NgUnsubscribe implements OnInit {
   }
 
   isCancelOrderVisible(): boolean {
-    return !FinalOrderStatuses.includes(this.order.status) && this.order.status !== OrderStatusEnum.SHIPPED;
+    return !FinalOrderStatuses.includes(this.order.status)
+      && this.order.status !== OrderStatusEnum.SHIPPED
+      && this.order.status !== OrderStatusEnum.CANCELED;
   }
 
   isCreateInternetDocumentVisible(): boolean {
@@ -127,6 +129,10 @@ export class OrderViewComponent extends NgUnsubscribe implements OnInit {
 
   isEditOrderVisible(): boolean {
     return this.isCancelOrderVisible();
+  }
+
+  isReturnBtnsVisible(): boolean {
+    return this.order.status === OrderStatusEnum.RECIPIENT_DENIED;
   }
 
   openAddressForm() {
@@ -186,7 +192,7 @@ export class OrderViewComponent extends NgUnsubscribe implements OnInit {
   }
 
   onShipmentInfoSubmit(shipment: ShipmentDto) {
-    this.changeStatus(OrderStatusEnum.PACKED, shipment);
+    this.changeStatus(OrderStatusEnum.PACKED, true, shipment);
   }
 
   updateShipmentStatus() {
@@ -203,7 +209,11 @@ export class OrderViewComponent extends NgUnsubscribe implements OnInit {
       );
   }
 
-  changeStatus(nextStatus: OrderStatusEnum, shipment?: ShipmentDto) {
+  changeStatus(nextStatus: OrderStatusEnum, force: boolean = false, shipment?: ShipmentDto) {
+    if (!force && !confirm(`Вы уверены, что хотите изменить статус заказа?`)) {
+      return;
+    }
+
     this.isLoading = true;
     this.orderService.changeStatus(this.order.id, nextStatus, shipment)
       .pipe(
