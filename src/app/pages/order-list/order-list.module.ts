@@ -5,6 +5,7 @@ import { OrderListRoutingModule } from './order-list-routing.module';
 import { OrderListComponent } from './order-list.component';
 import { GridModule } from '../../grid/grid.module';
 import { SharedModule } from '../../shared/shared.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { SharedModule } from '../../shared/shared.module';
     CommonModule,
     OrderListRoutingModule,
     GridModule,
-    SharedModule
+    SharedModule,
+    ReactiveFormsModule
   ]
 })
 export class OrderListModule { }

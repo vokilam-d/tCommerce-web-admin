@@ -5,10 +5,20 @@
 
   &__subtitle {
     margin: 30px 0 0;
-    padding: 0 10px 10px;
+    padding: 0 10px 5px;
     display: flex;
+    align-items: center;
     border-bottom: 1px solid $borderColor;
     font-size: 18px;
+  }
+
+  &__status {
+    margin: 0 0 0 auto;
+    padding: 7px 15px 8px;
+    background: rgba($dark, 0.9);
+    border-radius: 20px;
+    font-weight: 500;
+    color: #fff;
   }
 
   &__block {
@@ -142,5 +152,20 @@
     border: 1px solid $borderColor;
     padding: 4px 8px;
     font-size: 16px;
+  }
+}
+
+.payment-status {
+  margin: 15px 0 0;
+
+  &__control {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 0 0 6px;
+  }
+
+  &__error {
+    margin: 6px 0 0;
+    color: $red;
   }
 }

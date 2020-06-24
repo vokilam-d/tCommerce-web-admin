@@ -24,3 +24,13 @@
     font-size: 12px;
   }
 }
+
+.status-control {
+  margin: 9px 0 0 15px;
+
+  &__toggle {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 0 0 6px;
+  }
+}

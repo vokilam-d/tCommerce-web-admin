@@ -19,7 +19,7 @@ export class PaginationComponent implements OnInit, OnDestroy {
 
   get limitControl() { return this.form.get('limit'); }
   get pageControl() { return this.form.get('page'); }
-  limitOptions: ISelectOption[] = [{ data: 25 }, { data: 50 }, { data: 100 }, { data: 200 }];
+  limitOptions: ISelectOption[] = [{ data: 25 }, { data: 50 }, { data: 100 }, { data: 200 }, { data: 1000 }];
 
   @Input() dataType: string = 'default';
   @Input() pageCount: IPagination['pageCount'] = 1;

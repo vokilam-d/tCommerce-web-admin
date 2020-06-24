@@ -7,30 +7,47 @@ import { CustomerService } from '../../shared/services/customer.service';
 import { NotyService } from '../../noty/noty.service';
 import { AddressFormComponent } from '../../address-form/address-form.component';
 import { saveFileFromUrl } from '../../shared/helpers/save-file.function';
-import { API_HOST } from '../../shared/constants/constants';
+import { API_HOST, DEFAULT_ERROR_TEXT } from '../../shared/constants/constants';
 import { FormControl } from '@angular/forms';
 import { HeadService } from '../../shared/services/head.service';
-import { OrderStatusEnum } from '../../shared/enums/order-status.enum';
+import { FinalOrderStatuses, OrderStatusEnum } from '../../shared/enums/order-status.enum';
 import { ShipmentInfoModalComponent } from './shipment-info-modal/shipment-info-modal.component';
 import { ShipmentDto } from '../../shared/dtos/shipment.dto';
-import { finalize } from 'rxjs/operators';
+import { catchError, finalize, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { PaymentMethodEnum } from '../../shared/enums/payment-method.enum';
+import { NgUnsubscribe } from '../../shared/directives/ng-unsubscribe/ng-unsubscribe.directive';
 
 @Component({
   selector: 'order-view',
   templateUrl: './order-view.component.html',
   styleUrls: ['./order-view.component.scss']
 })
-export class OrderViewComponent implements OnInit {
+export class OrderViewComponent extends NgUnsubscribe implements OnInit {
 
   uploadedHost = API_HOST;
   order: OrderDto;
   customer: CustomerDto;
   isAddressFormVisible: boolean = false;
   trackingIdControl: FormControl;
+  paymentStatusControl: FormControl;
+  paymentStatusError: string | null = null;
   isLoading: boolean = false;
+
+  orderStatuses = OrderStatusEnum;
 
   @ViewChild(AddressFormComponent) addressFormCmp: AddressFormComponent;
   @ViewChild(ShipmentInfoModalComponent) shipmentInfoModalCmp: ShipmentInfoModalComponent;
+
+  get nextOrderStatus(): OrderStatusEnum | null {
+    switch (this.order.status) {
+      case OrderStatusEnum.NEW:
+        return OrderStatusEnum.PROCESSING;
+      case OrderStatusEnum.PROCESSING:
+        return OrderStatusEnum.READY_TO_PACK;
+      default:
+        return null;
+    }
+  }
 
   constructor(private orderService: OrderService,
               private customerService: CustomerService,
@@ -38,6 +55,7 @@ export class OrderViewComponent implements OnInit {
               private headService: HeadService,
               private router: Router,
               private route: ActivatedRoute) {
+    super();
   }
 
   ngOnInit() {
@@ -52,6 +70,7 @@ export class OrderViewComponent implements OnInit {
       .subscribe(
         response => {
           this.order = response.data;
+          this.handlePaymentStatusControl();
           this.fetchCustomer(this.order.customerId);
           this.headService.setTitle(`Заказ №${this.order.id}`);
         }
@@ -78,57 +97,12 @@ export class OrderViewComponent implements OnInit {
       return;
     }
 
-    this.isLoading = true;
-    this.orderService.cancelOrder(this.order.id)
-      .pipe(
-        this.notyService.attachNoty({ successText: 'Заказ успешно отменён' }),
-        finalize(() => this.isLoading = false)
-      )
-      .subscribe(
-        response => {
-          this.order = response.data;
-        },
-        error => console.warn(error)
-      );
+    this.changeStatus(OrderStatusEnum.CANCELED);
   }
 
   reorder() {
     this.router.navigate(['admin', 'order', 'add', 'based-on', this.order.id]);
   }
-
-  startOrder() {
-    if (!confirm(`Вы уверены, что хотите начать заказ?`)) {
-      return;
-    }
-
-    this.isLoading = true;
-    this.orderService.startOrder(this.order.id)
-      .pipe(
-        this.notyService.attachNoty({ successText: `Заказ переведён в статус 'Начат'` }),
-        finalize(() => this.isLoading = false)
-      )
-      .subscribe(
-        response => {
-          this.order = response.data;
-        },
-        error => console.warn(error)
-      );
-  }
-
-  // shipOrder() {
-  //   if (!confirm(`Вы уверены, что хотите отправить заказ?`)) {
-  //     return;
-  //   }
-  //
-  //   this.orderService.shipOrder(this.order.id)
-  //     .pipe(this.notyService.attachNoty({ successText: `Заказ переведён в статус 'Отправлен'` }))
-  //     .subscribe(
-  //       response => {
-  //         this.order = response.data;
-  //       },
-  //       error => console.warn(error)
-  //     );
-  // }
 
   printOrder() {
     const url = this.orderService.getPrintOrderUrl(this.order.id);
@@ -144,19 +118,15 @@ export class OrderViewComponent implements OnInit {
   }
 
   isCancelOrderVisible(): boolean {
-    return this.order.status === OrderStatusEnum.STARTED || this.order.status === OrderStatusEnum.NEW;
+    return !FinalOrderStatuses.includes(this.order.status) && this.order.status !== OrderStatusEnum.SHIPPED;
   }
 
-  isStartOrderVisible(): boolean {
-    return this.order.status === OrderStatusEnum.NEW;
-  }
-
-  isShipOrderVisible(): boolean {
-    return this.order.status === OrderStatusEnum.STARTED || this.order.status === OrderStatusEnum.NEW;
+  isCreateInternetDocumentVisible(): boolean {
+    return this.order.status === OrderStatusEnum.READY_TO_PACK;
   }
 
   isEditOrderVisible(): boolean {
-    return this.order.status === OrderStatusEnum.STARTED || this.order.status === OrderStatusEnum.NEW;
+    return this.isCancelOrderVisible();
   }
 
   openAddressForm() {
@@ -216,10 +186,14 @@ export class OrderViewComponent implements OnInit {
   }
 
   onShipmentInfoSubmit(shipment: ShipmentDto) {
+    this.changeStatus(OrderStatusEnum.PACKED, shipment);
+  }
+
+  updateShipmentStatus() {
     this.isLoading = true;
-    this.orderService.shipOrder(this.order.id, shipment)
+    this.orderService.updateShipmentStatus(this.order.id)
       .pipe(
-        this.notyService.attachNoty({ successText: 'ЭН успешно создана' }),
+        this.notyService.attachNoty({ successText: 'Статус отправки обновлён' }),
         finalize(() => this.isLoading = false)
       )
       .subscribe(
@@ -229,11 +203,11 @@ export class OrderViewComponent implements OnInit {
       );
   }
 
-  updateShipmentStatus() {
+  changeStatus(nextStatus: OrderStatusEnum, shipment?: ShipmentDto) {
     this.isLoading = true;
-    this.orderService.updateShipmentStatus(this.order.id)
+    this.orderService.changeStatus(this.order.id, nextStatus, shipment)
       .pipe(
-        this.notyService.attachNoty({ successText: 'Статус обновлён' }),
+        this.notyService.attachNoty({ successText: `Статус заказа успешно изменён` }),
         finalize(() => this.isLoading = false)
       )
       .subscribe(
@@ -241,5 +215,33 @@ export class OrderViewComponent implements OnInit {
           this.order = response.data;
         }
       );
+  }
+
+  isPaymentToggleVisible() {
+    return this.order.paymentType !== PaymentMethodEnum.CASH_ON_DELIVERY;
+  }
+
+  private handlePaymentStatusControl() {
+    this.paymentStatusControl = new FormControl(this.order.isOrderPaid);
+    this.paymentStatusControl.valueChanges
+      .pipe(
+        takeUntil(this.ngUnsubscribe),
+        tap(_ => {
+          this.isLoading = true;
+          this.paymentStatusError = null;
+        }),
+        switchMap(isPaid => this.orderService.changePaymentStatus(this.order.id, isPaid)),
+        this.notyService.attachNoty({ successText: `Заказ успешно обновлён` }),
+        catchError((err, caught) => {
+          this.isLoading = false;
+          this.paymentStatusError = err.error?.message || DEFAULT_ERROR_TEXT;
+          console.error(err);
+          return caught;
+        })
+      )
+      .subscribe(response => {
+        this.isLoading = false;
+        this.order = response.data;
+      });
   }
 }

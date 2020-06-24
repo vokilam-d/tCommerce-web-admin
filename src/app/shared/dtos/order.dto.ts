@@ -1,6 +1,7 @@
 import { OrderItemDto } from './order-item.dto';
 import { ShipmentDto } from './shipment.dto';
 import { OrderStatusEnum } from '../enums/order-status.enum';
+import { PaymentMethodEnum } from '../enums/payment-method.enum';
 
 export class AddOrUpdateOrderDto {
   customerId: number;
@@ -9,9 +10,10 @@ export class AddOrUpdateOrderDto {
   customerEmail: string = '';
   customerPhoneNumber: string = '';
   shipment: ShipmentDto = new ShipmentDto();
-  shouldSaveAddress: boolean = false;
+  shouldSaveAddress: boolean = true;
   createdAt: Date;
   isConfirmationEmailSent: boolean = false;
+  paymentType: PaymentMethodEnum;
   paymentMethodId: string;
   paymentMethodAdminName: string;
   paymentMethodClientName: string;
@@ -26,8 +28,10 @@ export class AddOrUpdateOrderDto {
   discountValue: number = 0;
   totalItemsCost: number = 0;
   totalCost: number = 0;
+  isOrderPaid: boolean = false;
 }
 
 export class OrderDto extends AddOrUpdateOrderDto {
   id: number;
+  statusDescription: string;
 }

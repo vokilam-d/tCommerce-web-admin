@@ -11,6 +11,7 @@ import { IGridValue } from '../../grid/grid.interface';
 import { getPropertyOf } from '../helpers/get-property-of.function';
 import { API_HOST } from '../constants/constants';
 import { ShipmentDto } from '../dtos/shipment.dto';
+import { OrderStatusEnum } from '../enums/order-status.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -71,23 +72,19 @@ export class OrderService {
     return this.http.post<ResponseDto<OrderItemDto>>(`${API_HOST}/api/v1/admin/order-items`, payload);
   }
 
-  cancelOrder(id: number) {
-    return this.http.post<ResponseDto<OrderDto>>(`${API_HOST}/api/v1/admin/orders/${id}/actions/cancel`, {});
-  }
-
-  startOrder(id: number) {
-    return this.http.post<ResponseDto<OrderDto>>(`${API_HOST}/api/v1/admin/orders/${id}/actions/start`, {});
-  }
-
-  shipOrder(id: number, shipment: Partial<ShipmentDto>) {
-    return this.http.post<ResponseDto<OrderDto>>(`${API_HOST}/api/v1/admin/orders/${id}/actions/ship`, shipment);
-  }
-
   updateShipmentStatus(id: number) {
-    return this.http.post<ResponseDto<OrderDto>>(`${API_HOST}/api/v1/admin/orders/${id}/actions/update-status`, {});
+    return this.http.post<ResponseDto<OrderDto>>(`${API_HOST}/api/v1/admin/orders/${id}/actions/update-shipment-status`, {});
   }
 
   getPrintOrderUrl(id: number): string {
     return `${API_HOST}/api/v1/admin/orders/${id}/invoice`;
+  }
+
+  changeStatus(id: number, nextStatus: OrderStatusEnum, shipment?: ShipmentDto) {
+    return this.http.put<ResponseDto<OrderDto>>(`${API_HOST}/api/v1/admin/orders/${id}/status/${nextStatus}`, shipment);
+  }
+
+  changePaymentStatus(id: number, isPaid: boolean) {
+    return this.http.put<ResponseDto<OrderDto>>(`${API_HOST}/api/v1/admin/orders/${id}/is-paid/${isPaid}`, {});
   }
 }

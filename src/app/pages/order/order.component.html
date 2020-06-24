@@ -173,9 +173,9 @@
         </div>
       </ng-container>
 
-      <ng-container *ngIf="!isNewCustomer">
-        Email клиента: <b>{{ order.customerEmail }}</b><span *ngIf="order.customerPhoneNumber as phone">, номер телефона: <b>{{ phone }}</b></span>
-      </ng-container>
+      <div class="order__contacts" *ngIf="!isNewCustomer">
+        <b>{{ order.customerEmail }}</b><span *ngIf="order.customerPhoneNumber as phone"><br><b>{{ phone }}</b></span>
+      </div>
     </div>
 
     <div class="order__subtitle">

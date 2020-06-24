@@ -8,17 +8,20 @@ import { GridComponent } from '../../grid/grid.component';
 import { getPropertyOf } from '../../shared/helpers/get-property-of.function';
 import { ShipmentAddressDto } from '../../shared/dtos/shipment-address.dto';
 import { Subscription } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { finalize, takeUntil } from 'rxjs/operators';
 import { DEFAULT_CURRENCY_CODE } from '../../shared/enums/currency.enum';
 import { HeadService } from '../../shared/services/head.service';
 import { ShipmentDto } from '../../shared/dtos/shipment.dto';
+import { FormControl } from '@angular/forms';
+import { NgUnsubscribe } from '../../shared/directives/ng-unsubscribe/ng-unsubscribe.directive';
+import { OrderStatusEnum } from '../../shared/enums/order-status.enum';
 
 @Component({
   selector: 'order-list',
   templateUrl: './order-list.component.html',
   styleUrls: ['./order-list.component.scss']
 })
-export class OrderListComponent implements OnInit, AfterViewInit {
+export class OrderListComponent extends NgUnsubscribe implements OnInit, AfterViewInit {
 
   private fetchAllSub: Subscription;
 
@@ -30,6 +33,7 @@ export class OrderListComponent implements OnInit, AfterViewInit {
   gridLinkUrl: string = 'view';
   gridCells: IGridCell[] = orderGridCells;
   defaultCurrency = DEFAULT_CURRENCY_CODE;
+  statusControl = new FormControl();
 
   @ViewChild(GridComponent) gridCmp: GridComponent;
 
@@ -39,23 +43,31 @@ export class OrderListComponent implements OnInit, AfterViewInit {
               private cdr: ChangeDetectorRef,
               private notyService: NotyService,
               private router: Router) {
+    super();
   }
 
   ngOnInit() {
     this.headService.setTitle(`Заказы`);
+    this.handleStatusControl();
   }
 
   ngAfterViewInit(): void {
-    const gridValue = this.gridCmp.getValue();
-    this.fetchOrders(gridValue);
+    this.fetchOrders();
   }
 
   add() {
     this.router.navigate(['add'], { relativeTo: this.route });
   }
 
-  fetchOrders(gridValue: IGridValue) {
+  fetchOrders(gridValue: IGridValue = this.gridCmp.getValue()) {
     if (this.fetchAllSub) { this.fetchAllSub.unsubscribe(); }
+
+    const hasStatusFilter = this.statusControl.value;
+    if (hasStatusFilter) {
+      const statusProp: keyof OrderDto = 'status';
+      const statusToFilter: OrderStatusEnum = OrderStatusEnum.READY_TO_SHIP;
+      gridValue.filters.push({ fieldName: statusProp, value: statusToFilter })
+    }
 
     this.isGridLoading = true;
     this.cdr.detectChanges();
@@ -77,6 +89,12 @@ export class OrderListComponent implements OnInit, AfterViewInit {
     if (order.customerFirstName === order.shipment.recipient.firstName && order.customerLastName === order.shipment.recipient.lastName) { return; }
 
     return `${order.customerFirstName} ${order.customerLastName}`;
+  }
+
+  private handleStatusControl() {
+    this.statusControl.valueChanges
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(_ => this.fetchOrders());
   }
 }
 
