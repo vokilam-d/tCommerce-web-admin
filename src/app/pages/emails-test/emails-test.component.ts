@@ -64,6 +64,15 @@ export class EmailsTestComponent implements OnInit {
       .subscribe();
   }
 
+  sendResetPasswordEmail() {
+    if (!this.checkEmail()) { return; }
+
+    const apiUrl = `${API_HOST}/api/v1/${this.apiPrefix}/reset-password`;
+    this.http.post(apiUrl, { email: this.email })
+      .pipe(this.notyService.attachNoty({ successText: 'Письмо успешно отправлено' }))
+      .subscribe();
+  }
+
   private checkEmail(): boolean {
     if (this.email) {
       return true;
