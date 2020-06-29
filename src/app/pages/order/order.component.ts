@@ -199,13 +199,17 @@ export class OrderComponent extends NgUnsubscribe implements OnInit {
 
   selectCustomer(customer: CustomerDto) {
     this.customer = customer;
-    this.order.customerId = customer.id;
-    this.order.customerFirstName = customer.firstName;
-    this.order.customerLastName = customer.lastName;
-    this.order.customerEmail = customer.email;
-    this.order.customerPhoneNumber = customer.phoneNumber;
 
-    this.order.shipment.recipient = this.customer.addresses.find(a => a.isDefault) || this.customer.addresses[0] || this.newAddress;
+    if (this.isNewOrder) {
+      this.order.customerId = customer.id;
+      this.order.customerFirstName = customer.firstName;
+      this.order.customerLastName = customer.lastName;
+      this.order.customerEmail = customer.email;
+      this.order.customerPhoneNumber = customer.phoneNumber;
+
+      this.order.shipment.recipient = this.customer.addresses.find(a => a.isDefault) || this.customer.addresses[0] || this.newAddress;
+    }
+
     this.handleAddressForm();
   }
 
