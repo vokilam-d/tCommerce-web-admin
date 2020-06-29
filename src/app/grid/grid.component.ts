@@ -172,7 +172,7 @@ export class GridComponent<T extends { isOpened?: boolean } = any> extends NgUns
 
   private handleSearch() {
     this.search$
-      .pipe( takeUntil(this.ngUnsubscribe), debounceTime(100) )
+      .pipe( takeUntil(this.ngUnsubscribe), debounceTime(400) )
       .subscribe(
         evt => {
           if (evt.value) {
