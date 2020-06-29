@@ -79,6 +79,14 @@
 
       <div class="two-col__col info-table">
         <div class="info-table__row">
+          <div class="info-table__block">Клиент</div>
+          <div class="info-table__block">
+            <a [routerLink]="['/', 'admin', 'customer', 'edit', order.customerId]" target="_blank">
+              {{ order.customerFirstName }} {{ order.customerLastName }} ({{ order.customerEmail }})
+            </a>
+          </div>
+        </div>
+        <div class="info-table__row">
           <div class="info-table__block">Нужно ли связываться с клиентом для подтверждения заказа?</div>
           <div class="info-table__block">{{ order.isCallbackNeeded ? 'Да' : 'Нет' }}</div>
         </div>
@@ -194,7 +202,9 @@
                    [src]="uploadedHost + item.imageUrl">
             </td>
             <td class="items-table__block items-table__block--name">
-              {{ item.name }}
+              <a class="items-table__link" [routerLink]="['/', 'admin', 'product', 'edit', item.productId]" target="_blank">
+                {{ item.name }}
+              </a>
             </td>
             <td class="items-table__block items-table__block--price">
               {{ item.price }} грн<ng-container *ngIf="item.price !== item.originalPrice"> ({{ item.originalPrice }} грн)</ng-container>

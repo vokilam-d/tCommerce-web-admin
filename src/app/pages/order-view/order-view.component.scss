@@ -113,6 +113,10 @@
     font-size: 18px;
     font-weight: 600;
   }
+
+  &__link {
+    border-bottom: 1px dashed;
+  }
 }
 
 .total-order-cost {
