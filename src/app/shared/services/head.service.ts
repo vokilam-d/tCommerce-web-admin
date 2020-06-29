@@ -11,7 +11,8 @@ export class HeadService {
   }
 
   setTitle(title: string) {
-    this.title.setTitle(`STG | ${title} | KL Admin`);
+    // this.title.setTitle(`STG | ${title} | KL Admin`);
+    this.title.setTitle(`${title} | KL Admin`);
   }
 
   setNoindex() {
