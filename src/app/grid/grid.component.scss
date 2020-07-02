@@ -86,6 +86,7 @@
     box-sizing: content-box;
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     word-break: break-word;
 
     &--sortable {
