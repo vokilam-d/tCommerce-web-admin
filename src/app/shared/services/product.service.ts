@@ -66,10 +66,10 @@ export class ProductService {
   }
 
   getGoogleShoppingFeedUrl(): string {
-    return `${API_HOST}/api/v1/admin/google/shopping-feed`;
+    return `${API_HOST}/api/v1/admin/feed/shopping`;
   }
 
   getGoogleReviewsFeedUrl(): string {
-    return `${API_HOST}/api/v1/admin/google/reviews-feed`;
+    return `${API_HOST}/api/v1/admin/feed/reviews`;
   }
 }
