@@ -15,6 +15,7 @@ export class ShipmentInfoModalComponent implements OnInit {
   isModalVisible: boolean = false;
   form: FormGroup;
   sendersSelectOptions: ISelectOption[];
+  private defaultSenderId: number;
 
   @Input() shipment: ShipmentDto;
   @Input() cost: number;
@@ -41,7 +42,7 @@ export class ShipmentInfoModalComponent implements OnInit {
 
   private buildForm() {
     const controls: Partial<Record<keyof ShipmentDto, any>> = {
-      senderId: [this.shipment.senderId, Validators.required],
+      senderId: [this.defaultSenderId || this.shipment.senderId, Validators.required],
       weight: [this.shipment.weight, Validators.required],
       width: [this.shipment.width, Validators.required],
       height: [this.shipment.height, Validators.required],
@@ -68,9 +69,14 @@ export class ShipmentInfoModalComponent implements OnInit {
   }
 
   private setSelectOptions(senders: ShipmentSenderDto[]) {
-    this.sendersSelectOptions = senders.map(sender => ({
-      data: sender.id,
-      view: `${sender.firstName} ${sender.lastName}, ${sender.phone}, ${sender.address}`
-    }));
+    this.sendersSelectOptions = senders.map(sender => {
+      if (sender.isDefault) {
+        this.defaultSenderId = sender.id;
+      }
+      return {
+        data: sender.id,
+        view: `${sender.firstName} ${sender.lastName}, ${sender.phone}, ${sender.address}`
+      };
+    });
   }
 }
