@@ -306,9 +306,14 @@
 
         <div class="product__field media" *ngIf="variantForm.get('medias') as mediasControl">
           <media-asset class="media__asset"
-                       *ngFor="let media of mediasControl.value"
+                       *ngFor="let media of mediasControl.value, index as i"
                        [media]="media"
+                       [draggable-item]="media"
+                       [class.media__asset--main]="i === 0 && mediasControl.value.length > 1"
                        (remove)="onMediaRemove(media, mediasControl)"
+                       (dragged)="onMediaReorder(mediasControl, $event)"
+                       draggable-item-type="media"
+                       draggable-item-direction="horizontal"
           ></media-asset>
 
           <media-uploader class="media_asset"

@@ -14,6 +14,8 @@ import { finalize } from 'rxjs/operators';
 import { ProductVariantDto } from '../../shared/dtos/product-variant.dto';
 import { LinkedProductDto } from '../../shared/dtos/linked-product.dto';
 import { HeadService } from '../../shared/services/head.service';
+import { IDraggedEvent } from '../../shared/directives/draggable-item/draggable-item.directive';
+import { EReorderPosition } from '../../shared/enums/reorder-position.enum';
 
 @Component({
   selector: 'product',
@@ -252,5 +254,23 @@ export class ProductComponent implements OnInit {
       ...product2,
       variants
     };
+  }
+
+  onMediaReorder(mediasControl: AbstractControl, event: IDraggedEvent) {
+    const medias: MediaDto[] = mediasControl.value;
+    const itemIdx = medias.indexOf(event.item);
+    const [itemToMove] = medias.splice(itemIdx, 1);
+    const targetIdx = medias.indexOf(event.targetItem);
+
+    let indexWhereToInsert: number;
+    if (event.position === EReorderPosition.Start) {
+      indexWhereToInsert = targetIdx;
+    } else {
+      indexWhereToInsert = targetIdx + 1;
+    }
+
+    medias.splice(indexWhereToInsert, 0, itemToMove);
+
+    mediasControl.setValue(medias);
   }
 }

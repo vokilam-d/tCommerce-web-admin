@@ -36,7 +36,25 @@
   flex-wrap: wrap;
 
   &__asset {
-    margin: 0 25px 25px 0;
+    margin: 0 20px 25px 5px;
+
+    &--main {
+      position: relative;
+      outline: 3px solid $primary;
+      outline-offset: 1px;
+
+      &::after {
+        content: 'Главная';
+        position: absolute;
+        bottom: calc(100% + 3px);
+        left: -4px;
+        display: inline-block;
+        padding: 2px 5px;
+        font-size: 12px;
+        background: $primary;
+        color: #fff;
+      }
+    }
   }
 }
 
