@@ -49,12 +49,14 @@
 
     <ng-template #cellContent let-product="item">
       <ng-container *ngIf="showQty && product.isSingleVariant">
-        <input class="product__qty-input"
-               [(ngModel)]="product.variants[0].selectedQty"
-               [max]="product.variants[0].sellableQty"
-               min="0"
-               type="number"
-        > из {{ product.variants[0].sellableQty }}
+        <div class="qty">
+          <input class="product__qty-input"
+                 [(ngModel)]="product.variants[0].selectedQty"
+                 [max]="product.variants[0].sellableQty"
+                 min="0"
+                 type="number"
+          > из {{ product.variants[0].sellableQty }}
+        </div>
       </ng-container>
     </ng-template>
 

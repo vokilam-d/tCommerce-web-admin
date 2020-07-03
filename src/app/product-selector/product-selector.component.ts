@@ -52,7 +52,7 @@ export class ProductSelectorComponent implements OnInit, AfterViewInit {
   itemsFiltered: number;
   pagesTotal: number = 1;
   isGridLoading: boolean = false;
-  gridCells: IGridCell[] = productGridCells;
+  gridCells: IGridCell[] = PRODUCT_GRID_CELLS;
   variantsFieldName = getPropertyOf<ProductForSelector>('variants');
   defaultCurrency = DEFAULT_CURRENCY_CODE;
 
@@ -135,7 +135,7 @@ export class ProductSelectorComponent implements OnInit, AfterViewInit {
   }
 }
 
-const productGridCells: IGridCell[] = [
+const PRODUCT_GRID_CELLS: IGridCell[] = [
   {
     isSearchable: false,
     label: 'ID',
@@ -182,7 +182,7 @@ const productGridCells: IGridCell[] = [
     fieldName: `${getPropertyOf<ProductForSelector>('variants')}.${getPropertyOf<VariantForSelector>('price')}`
   },
   {
-    isSearchable: true,
+    isSearchable: false,
     label: 'Кол-во',
     initialWidth: 110,
     align: 'left',
