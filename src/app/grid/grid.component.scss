@@ -87,7 +87,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     flex-wrap: wrap;
     word-break: break-word;
 
@@ -118,10 +118,6 @@
     #{$grid}--small & {
       padding-top: 10px;
       padding-bottom: 10px;
-    }
-
-    &--display-block {
-      display: block;
     }
   }
 
