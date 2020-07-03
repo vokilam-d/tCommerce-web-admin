@@ -4,6 +4,7 @@ import { GridComponent } from './grid.component';
 import { PaginationModule } from '../pagination/pagination.module';
 import { RouterModule } from '@angular/router';
 import { PreloaderModule } from '../preloader/preloader.module';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -12,7 +13,8 @@ import { PreloaderModule } from '../preloader/preloader.module';
     CommonModule,
     RouterModule,
     PreloaderModule,
-    PaginationModule
+    PaginationModule,
+    SharedModule
   ],
   exports: [GridComponent]
 })

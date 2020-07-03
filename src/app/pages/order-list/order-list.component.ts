@@ -15,6 +15,7 @@ import { ShipmentDto } from '../../shared/dtos/shipment.dto';
 import { FormControl } from '@angular/forms';
 import { NgUnsubscribe } from '../../shared/directives/ng-unsubscribe/ng-unsubscribe.directive';
 import { OrderStatusEnum } from '../../shared/enums/order-status.enum';
+import { ShipmentStatusEnum } from '../../shared/enums/shipment-status.enum';
 
 @Component({
   selector: 'order-list',
@@ -98,6 +99,38 @@ export class OrderListComponent extends NgUnsubscribe implements OnInit, AfterVi
   }
 }
 
+const TRANSLATIONS_MAP = {
+  [OrderStatusEnum.NEW]: 'Новый',
+  [OrderStatusEnum.PROCESSING]: 'Обрабатывается',
+  [OrderStatusEnum.READY_TO_PACK]: 'Готово к упаковке',
+  [OrderStatusEnum.PACKED]: 'Упакован',
+  [OrderStatusEnum.READY_TO_SHIP]: 'Готово к отправке',
+  [OrderStatusEnum.SHIPPED]: 'Отправлен',
+  [OrderStatusEnum.FINISHED]: 'Завершён',
+  [OrderStatusEnum.RECIPIENT_DENIED]: 'Получатель отказался',
+  [OrderStatusEnum.RETURNING]: 'Возвращается',
+  [OrderStatusEnum.RETURNED]: 'Возвращён',
+  [OrderStatusEnum.REFUSED_TO_RETURN]: 'Новый',
+  [OrderStatusEnum.CANCELED]: 'Отменён',
+  [ShipmentStatusEnum.AWAITING_TO_BE_RECEIVED_FROM_SENDER]: 'Ожидает поступление',
+  [ShipmentStatusEnum.DELETED]: 'Удалено',
+  [ShipmentStatusEnum.NOT_FOUND]: 'Не найдено',
+  [ShipmentStatusEnum.IN_CITY]: 'В городе',
+  [ShipmentStatusEnum.HEADING_TO_CITY]: 'Направляется в город',
+  [ShipmentStatusEnum.IN_DESTINATION_CITY]: 'В городе прибытия',
+  [ShipmentStatusEnum.IN_DESTINATION_WAREHOUSE]: 'В отделении прибытия',
+  [ShipmentStatusEnum.RECEIVED]: 'Получено',
+  [ShipmentStatusEnum.AWAITING_CASH_ON_DELIVERY_PICK_UP]: 'Ожидает забора наложенного',
+  [ShipmentStatusEnum.CASH_ON_DELIVERY_PICKED_UP] : 'Наложенный забран',
+  [ShipmentStatusEnum.UNDER_INSPECTION]: 'Осматривается',
+  [ShipmentStatusEnum.HEADING_TO_RECEPIENT]: 'Направляется к получателю',
+  [ShipmentStatusEnum.RECEPIENT_DENIED]: 'Получатель отказался',
+  [ShipmentStatusEnum.ADDRESS_CHANGED]: 'Адрес изменился',
+  [ShipmentStatusEnum.STORAGE_STOPPED]: 'Хранение остановлено',
+  [ShipmentStatusEnum.BACK_DELIVERY_CREATED]: 'Создана обратная доставка',
+  [ShipmentStatusEnum.STATUS_NOT_SUPPORTED]: 'Статус не поддерживается'
+};
+
 const shipmentProp = getPropertyOf<OrderDto>('shipment');
 const recipientProp = getPropertyOf<ShipmentDto>('recipient');
 const orderGridCells: IGridCell[] = [
@@ -149,11 +182,14 @@ const orderGridCells: IGridCell[] = [
   {
     isSearchable: false,
     label: 'Статус',
-    initialWidth: 75,
+    initialWidth: 130,
     align: 'left',
     isImage: false,
     isSortable: true,
-    fieldName: getPropertyOf<OrderDto>('status')
+    fieldName: getPropertyOf<OrderDto>('status'),
+    filterFields: Object
+      .values(OrderStatusEnum)
+      .map(value => ({data: value, view: TRANSLATIONS_MAP[value]}))
   },
   {
     isSearchable: false,
@@ -162,7 +198,10 @@ const orderGridCells: IGridCell[] = [
     align: 'left',
     isImage: false,
     isSortable: true,
-    fieldName: `${shipmentProp}.${getPropertyOf<ShipmentDto>('statusDescription')}`
+    fieldName: `${shipmentProp}.${getPropertyOf<ShipmentDto>('status')}`,
+    filterFields: Object
+      .values(ShipmentStatusEnum)
+      .map(value => ({data: value, view: TRANSLATIONS_MAP[value]}))
   },
   {
     isSearchable: true,

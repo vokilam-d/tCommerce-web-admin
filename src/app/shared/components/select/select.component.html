@@ -1,7 +1,10 @@
-<div class="select" (clickOutside)="toggleVisibility(false)">
+<div class="select"
+     [class.select--small]="isSizeSmall"
+     (clickOutside)="toggleVisibility(false)"
+>
 
-  <button class="field__select select__active"
-          [class.field__select--active]="isVisible"
+  <button class="select__active"
+          [class.select__active--focused]="isVisible"
           [disabled]="isDisabled"
           (click)="toggleVisibility()"
           type="button"
@@ -13,7 +16,9 @@
     <div class="select__option"
          *ngIf="hasEmpty"
          (click)="selectEmptyOption()"
-    ></div>
+    >
+      - Не выбрано -
+    </div>
 
     <div class="select__option"
          *ngFor="let option of options"

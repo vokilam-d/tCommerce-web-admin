@@ -42,6 +42,7 @@ export class SelectComponent extends NgUnsubscribe implements OnInit, OnChanges,
   @Input() hasEmpty: boolean = false;
   @Input() options: ISelectOption[] = [];
   @Input() isMultiSelect: boolean = false;
+  @Input() isSizeSmall: boolean = false;
   @Output() select: EventEmitter<any> = new EventEmitter();
 
   constructor() {

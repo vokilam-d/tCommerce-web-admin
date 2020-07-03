@@ -128,6 +128,10 @@ export class GridComponent<T extends { isOpened?: boolean } = any> extends NgUns
     this.search$.next({ fieldName: cell.fieldName, value })
   }
 
+  onFilterSelect(cell: IGridCell, data: any) {
+    this.search$.next({ fieldName: cell.fieldName, value: data })
+  }
+
   getRouterLinkUrl(item: T): string[] | null {
     if (!this.linkUrlSuffix || !this.linkFieldName) {
       return null;

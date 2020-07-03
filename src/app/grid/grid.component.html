@@ -40,6 +40,13 @@
              type="text"
              autocomplete="none"
       >
+
+      <app-select *ngIf="cell.filterFields?.length"
+                  [options]="cell.filterFields"
+                  [hasEmpty]="true"
+                  [isSizeSmall]="true"
+                  (select)="onFilterSelect(cell, $event)"
+      ></app-select>
     </div>
   </div>
 

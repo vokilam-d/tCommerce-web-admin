@@ -1,4 +1,5 @@
 import { IPagination } from '../pagination/pagination.interface';
+import { ISelectOption } from '../shared/components/select/select-option.interface';
 
 export interface IGridFilter {
   fieldName: string;
@@ -18,4 +19,5 @@ export interface IGridCell {
   isSearchable: boolean;
   initialWidth: number;
   isImage: boolean;
+  filterFields?: ISelectOption[];
 }

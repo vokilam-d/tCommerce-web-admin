@@ -5,8 +5,8 @@
 
   <div class="field__control select" (clickOutside)="toggleVisibility(false)">
 
-    <button class="field__select select__active"
-            [class.field__select--active]="isVisible"
+    <button class="select__active"
+            [class.select__active--focused]="isVisible"
             [disabled]="isDisabled"
             (click)="toggleVisibility()"
             type="button"
