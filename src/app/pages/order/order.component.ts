@@ -38,7 +38,7 @@ export class OrderComponent extends NgUnsubscribe implements OnInit {
   private newAddress: ShipmentAddressDto = new ShipmentAddressDto();
 
   get orderItemsCost() { return this.order.items.reduce((acc, item) => acc + item.cost, 0); }
-  get orderItemsTotalCost() { return this.order.items.reduce((acc, item) => acc + item.totalCost, 0); }
+  get orderItemsTotalCost() { return this.order.items.reduce((acc, item) => acc + this.getOrderItemTotalCost(item), 0); }
   get orderItemsDiscount() : number { return this.order.items.reduce((acc, item) => acc + item.discountValue, 0); }
   get isNewAddress(): boolean { return this.order.shipment.recipient === this.newAddress; }
 
@@ -290,5 +290,9 @@ export class OrderComponent extends NgUnsubscribe implements OnInit {
     this.addressSelectControl.valueChanges
       .pipe( takeUntil(this.ngUnsubscribe) )
       .subscribe(value => this.order.shipment.recipient = value)
+  }
+
+  getOrderItemTotalCost(orderItem: OrderItemDto): number {
+    return orderItem.cost - orderItem.discountValue;
   }
 }

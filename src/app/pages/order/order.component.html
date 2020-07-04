@@ -117,7 +117,7 @@
               > грн
             </div>
             <div class="grid__block order-item__total-cost">
-              {{ orderItem.totalCost }} грн
+              {{ getOrderItemTotalCost(orderItem) }} грн
             </div>
             <div class="grid__block order-item__remove">
               <div class="order-item__remove-btn" (click)="removeOrderItem(i)">
