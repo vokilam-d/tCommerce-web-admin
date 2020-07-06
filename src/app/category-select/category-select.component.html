@@ -9,7 +9,7 @@
     </span>
 
     <ng-template #selectedTmpl>
-      <span class="select__active" *ngFor="let category of value">
+      <span class="select__chip" *ngFor="let category of value">
         {{ category.name }}
 
         <i class="ai ai-multiply select__remove" (click)="unselectOption($event, category)"></i>
