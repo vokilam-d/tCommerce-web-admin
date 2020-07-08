@@ -175,7 +175,7 @@ const orderGridCells: IGridCell[] = [
   {
     isSearchable: true,
     label: 'ТТН',
-    initialWidth: 117,
+    initialWidth: 120,
     align: 'left',
     isImage: false,
     isSortable: false,
