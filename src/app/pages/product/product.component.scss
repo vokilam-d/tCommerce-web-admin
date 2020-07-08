@@ -29,6 +29,13 @@
     display: block;
     margin: 20px auto 0;
   }
+
+  &__reserved {
+    margin: 0 0 0 10px;
+    color: $blue;
+    border-bottom: 1px dashed;
+    cursor: pointer;
+  }
 }
 
 .media {

@@ -16,10 +16,12 @@ import { PreloaderModule } from '../../preloader/preloader.module';
 import { LinkedProductsComponent } from './linked-products/linked-products.component';
 import { ProductSelectorModule } from '../../product-selector/product-selector.module';
 import { ProductItemSorterModule } from '../../product-item-sorter/product-item-sorter.module';
+import { OrderListViewerModalComponent } from './order-list-viewer-modal/order-list-viewer-modal.component';
+import { OrderListViewerModule } from '../../order-list-viewer/order-list-viewer.module';
 
 
 @NgModule({
-  declarations: [ProductComponent, AttributesEditorComponent, ReviewsViewerComponent, LinkedProductsComponent],
+  declarations: [ProductComponent, AttributesEditorComponent, ReviewsViewerComponent, LinkedProductsComponent, OrderListViewerModalComponent],
   imports: [
     CommonModule,
     ProductRoutingModule,
@@ -33,7 +35,8 @@ import { ProductItemSorterModule } from '../../product-item-sorter/product-item-
     QuillModule,
     PreloaderModule,
     ProductSelectorModule,
-    ProductItemSorterModule
+    ProductItemSorterModule,
+    OrderListViewerModule
   ],
   providers: []
 })

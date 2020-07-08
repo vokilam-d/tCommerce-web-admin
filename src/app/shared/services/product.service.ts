@@ -27,6 +27,18 @@ export class ProductService {
     );
   }
 
+  fetchProduct(id: string | number): Observable<ResponseDto<ProductDto>> {
+    return this.http.get<ResponseDto<ProductDto>>(`${API_HOST}/api/v1/admin/products/${id}`);
+  }
+
+  addNewProduct(dto: AddOrUpdateProductDto): Observable<ResponseDto<ProductDto>> {
+    return this.http.post<ResponseDto<ProductDto>>(`${API_HOST}/api/v1/admin/products`, dto);
+  }
+
+  updateProduct(id: number, dto: AddOrUpdateProductDto): Observable<ResponseDto<ProductDto>> {
+    return this.http.put<ResponseDto<ProductDto>>(`${API_HOST}/api/v1/admin/products/${id}`, dto);
+  }
+
   reorderProduct(
     item: ProductListItemDto,
     target: ProductListItemDto,
@@ -49,20 +61,12 @@ export class ProductService {
     );
   }
 
-  fetchProduct(id: string | number): Observable<ResponseDto<ProductDto>> {
-    return this.http.get<ResponseDto<ProductDto>>(`${API_HOST}/api/v1/admin/products/${id}`);
-  }
-
-  addNewProduct(dto: AddOrUpdateProductDto): Observable<ResponseDto<ProductDto>> {
-    return this.http.post<ResponseDto<ProductDto>>(`${API_HOST}/api/v1/admin/products`, dto);
-  }
-
-  updateProduct(id: number, dto: AddOrUpdateProductDto): Observable<ResponseDto<ProductDto>> {
-    return this.http.put<ResponseDto<ProductDto>>(`${API_HOST}/api/v1/admin/products/${id}`, dto);
-  }
-
   deleteProduct(id: number) {
     return this.http.delete<any>(`${API_HOST}/api/v1/admin/products/${id}`);
+  }
+
+  fetchOrderIdsForReservedVariant(id: number, variantId: string) {
+    return this.http.get<ResponseDto<number[]>>(`${API_HOST}/api/v1/admin/products/${id}/variants/${variantId}/reserved`)
   }
 
   getGoogleShoppingFeedUrl(): string {

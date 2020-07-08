@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../../shared/services/product.service';
 import { EPageAction } from '../../shared/enums/category-page-action.enum';
@@ -16,6 +16,7 @@ import { LinkedProductDto } from '../../shared/dtos/linked-product.dto';
 import { HeadService } from '../../shared/services/head.service';
 import { IDraggedEvent } from '../../shared/directives/draggable-item/draggable-item.directive';
 import { EReorderPosition } from '../../shared/enums/reorder-position.enum';
+import { OrderListViewerModalComponent } from './order-list-viewer-modal/order-list-viewer-modal.component';
 
 @Component({
   selector: 'product',
@@ -33,6 +34,8 @@ export class ProductComponent implements OnInit {
 
   get variantsFormArray() { return this.form.get('variants') as FormArray; }
   get isMultiVariant(): boolean { return this.variantsFormArray.controls.length > 1 }
+
+  @ViewChild(OrderListViewerModalComponent) ordersModal: OrderListViewerModalComponent;
 
   constructor(private productsService: ProductService,
               private formBuilder: FormBuilder,
@@ -272,5 +275,17 @@ export class ProductComponent implements OnInit {
     medias.splice(indexWhereToInsert, 0, itemToMove);
 
     mediasControl.setValue(medias);
+  }
+
+  showReservedOrders(variantIdx: number) {
+    const variant = this.product.variants[variantIdx];
+
+    this.productsService.fetchOrderIdsForReservedVariant(this.product.id, variant.id)
+      .pipe(this.notyService.attachNoty())
+      .subscribe(
+        response => {
+          this.ordersModal.openModal(variant.sku, response.data);
+        }
+      );
   }
 }

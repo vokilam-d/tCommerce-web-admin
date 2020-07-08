@@ -162,11 +162,20 @@
           <label class="field__label" [for]="'qtyInStock-' + i">
             Количество всего на складе
           </label>
-          <span class="field__control">
+          <div class="field__control">
             <input class="field__input" [formControl]="qtyInStock" [id]="'qtyInStock-' + i" type="number" required>
 
-            <span class="sellable-qty">Количество, доступное для продажи: <span class="sellable-qty__count">{{ product.variants[i].sellableQty }}</span></span>
-          </span>
+            <div class="sellable-qty">
+              Количество, доступное для продажи: <span class="sellable-qty__count">{{ product.variants[i].sellableQty }}</span>
+              <button class="product__reserved"
+                      *ngIf="product.variants[i].qtyInStock !== product.variants[i].sellableQty"
+                      (click)="showReservedOrders(i)"
+              >
+                Показать заказы
+              </button>
+            </div>
+
+          </div>
         </div>
 
         <div class="product__field field"
@@ -361,3 +370,5 @@
 </div>
 
 <preloader class="preloader" *ngIf="isLoading" [hasMargins]="false"></preloader>
+
+<order-list-viewer-modal></order-list-viewer-modal>

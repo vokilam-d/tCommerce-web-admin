@@ -1,0 +1,15 @@
+<div class="modal-overlay" *ngIf="isModalVisible" (click)="closeModal()"></div>
+
+<div class="modal" *ngIf="isModalVisible">
+  <header class="modal__header">
+    <div class="modal__title">Актуальные заказы для {{ sku }}</div>
+
+    <button class="modal__close" (click)="closeModal()" type="button">
+      <i class="ai ai-multiply modal__close-icon"></i>
+    </button>
+  </header>
+
+  <div class="modal__content">
+    <order-list-viewer [ids]="orderIds"></order-list-viewer>
+  </div>
+</div>

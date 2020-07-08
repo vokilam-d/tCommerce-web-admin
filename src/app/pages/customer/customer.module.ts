@@ -5,19 +5,20 @@ import { CustomerRoutingModule } from './customer-routing.module';
 import { CustomerComponent } from './customer.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../../shared/shared.module';
-import { OrderListViewerComponent } from './order-list-viewer/order-list-viewer.component';
 import { GridModule } from '../../grid/grid.module';
 import { AddressFormModule } from '../../address-form/address-form.module';
+import { OrderListViewerModule } from '../../order-list-viewer/order-list-viewer.module';
 
 
 @NgModule({
-  declarations: [CustomerComponent, OrderListViewerComponent],
+  declarations: [CustomerComponent],
   imports: [
     CommonModule,
     CustomerRoutingModule,
     ReactiveFormsModule,
     GridModule,
     SharedModule,
+    OrderListViewerModule,
     AddressFormModule
   ]
 })
