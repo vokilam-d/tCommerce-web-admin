@@ -18,6 +18,8 @@ import { IDraggedEvent } from '../../shared/directives/draggable-item/draggable-
 import { EReorderPosition } from '../../shared/enums/reorder-position.enum';
 import { OrderListViewerModalComponent } from './order-list-viewer-modal/order-list-viewer-modal.component';
 
+type PostAction = 'duplicate' | 'exit' | 'none';
+
 @Component({
   selector: 'product',
   templateUrl: './product.component.html',
@@ -63,7 +65,7 @@ export class ProductComponent implements OnInit {
     }
   }
 
-  save(needToDuplicate: boolean = false) {
+  save(postAction: PostAction = 'none') {
     if (this.form.invalid) {
       this.notyService.showErrorNoty(`Ошибка в форме`);
       this.validateControls();
@@ -71,9 +73,9 @@ export class ProductComponent implements OnInit {
     }
 
     if (this.isNewProduct) {
-      this.addNewProduct(needToDuplicate);
+      this.addNewProduct(postAction);
     } else {
-      this.updateProduct(needToDuplicate);
+      this.updateProduct(postAction);
     }
   }
 
@@ -164,26 +166,36 @@ export class ProductComponent implements OnInit {
     return !control.valid && control.touched;
   }
 
-  private addNewProduct(needToDuplicate: boolean = false) {
+  private addNewProduct(postAction: PostAction) {
     const dto = this.mergeProducts(this.product, this.form.value);
 
-    const successText: string = needToDuplicate
-      ? 'Товар успешно добавлен. Вы перенаправлены на страницу создания нового товара'
-      : 'Товар успешно добавлен';
-    const successUrlCommand: string = needToDuplicate ? 'add' : 'edit';
+    let successText: string = 'Товар успешно добавлен';
+    if (postAction === 'duplicate') {
+      successText = successText + '. Вы перенаправлены на страницу создания нового товара';
+    }
 
     this.isLoading = true;
     this.productsService.addNewProduct(dto)
       .pipe(this.notyService.attachNoty({ successText }), finalize(() => this.isLoading = false))
       .subscribe(
         response => {
-          this.router.navigate(['admin', 'product', successUrlCommand, response.data.id]);
+          let successUrlCommands: any[] = [];
+          switch (postAction) {
+            case 'duplicate':
+              successUrlCommands = ['add', response.data.id];
+              break;
+            case 'none':
+              successUrlCommands = ['edit', response.data.id];
+              break;
+          }
+
+          this.router.navigate(['admin', 'product', ...successUrlCommands]);
         },
         error => console.warn(error)
       );
   }
 
-  private updateProduct(needToDuplicate: boolean = false) {
+  private updateProduct(postAction: PostAction) {
     const dto = this.mergeProducts(this.product, this.form.value)
 
     this.isLoading = true;
@@ -191,11 +203,17 @@ export class ProductComponent implements OnInit {
       .pipe(this.notyService.attachNoty({ successText: 'Товар успешно обновлён' }), finalize(() => this.isLoading = false))
       .subscribe(
         response => {
-          if (needToDuplicate) {
-            this.router.navigate(['admin', 'product', 'add', response.data.id]);
-          } else  {
-            this.product = response.data;
-            this.buildForm();
+          switch (postAction) {
+            case 'duplicate':
+              this.router.navigate(['admin', 'product', 'add', response.data.id]);
+              break;
+            case 'exit':
+              this.router.navigate(['admin', 'product']);
+              break;
+            case 'none':
+              this.product = response.data;
+              this.buildForm();
+              break;
           }
         },
         error => console.warn(error)
