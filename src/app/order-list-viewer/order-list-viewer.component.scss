@@ -1,0 +1,20 @@
+@import "variables";
+
+.order {
+  &__name {
+    width: 100%;
+  }
+
+  &__time {
+    width: 100%;
+    display: block;
+    margin: 3px 0 0;
+    font-size: 13px;
+    color: rgba($dark, 0.6);
+  }
+
+  &__shipment-status,
+  &__city {
+    font-size: 12px;
+  }
+}

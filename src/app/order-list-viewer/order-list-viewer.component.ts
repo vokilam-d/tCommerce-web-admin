@@ -1,16 +1,19 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { OrderDto } from '../../../shared/dtos/order.dto';
-import { IGridCell, IGridValue } from '../../../grid/grid.interface';
-import { DEFAULT_CURRENCY_CODE } from '../../../shared/enums/currency.enum';
-import { GridComponent } from '../../../grid/grid.component';
-import { OrderService } from '../../../shared/services/order.service';
+import { OrderDto } from '../shared/dtos/order.dto';
+import { IGridCell, IGridValue } from '../grid/grid.interface';
+import { DEFAULT_CURRENCY_CODE } from '../shared/enums/currency.enum';
+import { GridComponent } from '../grid/grid.component';
+import { OrderService } from '../shared/services/order.service';
 import { ActivatedRoute } from '@angular/router';
-import { NotyService } from '../../../noty/noty.service';
+import { NotyService } from '../noty/noty.service';
 import { finalize } from 'rxjs/operators';
-import { getPropertyOf } from '../../../shared/helpers/get-property-of.function';
-import { ShipmentAddressDto } from '../../../shared/dtos/shipment-address.dto';
-import { ShipmentDto } from '../../../shared/dtos/shipment.dto';
+import { getPropertyOf } from '../shared/helpers/get-property-of.function';
+import { ShipmentAddressDto } from '../shared/dtos/shipment-address.dto';
+import { ShipmentDto } from '../shared/dtos/shipment.dto';
+import { OrderStatusEnum } from '../shared/enums/order-status.enum';
+import { ShipmentStatusEnum } from '../shared/enums/shipment-status.enum';
+import { TRANSLATIONS_MAP } from '../shared/constants/constants';
 
 @Component({
   selector: 'order-list-viewer',
@@ -31,6 +34,7 @@ export class OrderListViewerComponent implements OnInit, AfterViewInit {
   defaultCurrency = DEFAULT_CURRENCY_CODE;
 
   @Input() customerId: number;
+  @Input() ids: number[];
   @ViewChild(GridComponent) gridCmp: GridComponent;
 
   constructor(private ordersService: OrderService,
@@ -43,7 +47,7 @@ export class OrderListViewerComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    if (!this.customerId) { return; }
+    if (!this.customerId && (!this.ids?.length)) { return; }
 
     const gridValue = this.gridCmp.getValue();
     this.fetchOrders(gridValue);
@@ -52,9 +56,11 @@ export class OrderListViewerComponent implements OnInit, AfterViewInit {
   fetchOrders(gridValue: IGridValue) {
     if (this.fetchAllSub) { this.fetchAllSub.unsubscribe(); }
 
+    gridValue.filters.push({ fieldName: 'id', value: this.ids.join('|') })
+
     this.isGridLoading = true;
     this.cdr.detectChanges();
-    this.fetchAllSub = this.ordersService.fetchOrders(gridValue, this.customerId)
+    this.fetchAllSub = this.ordersService.fetchOrders(gridValue, { customerId: this.customerId })
       .pipe(this.notyService.attachNoty(), finalize(() => this.isGridLoading = false))
       .subscribe(
         response => {
@@ -68,24 +74,35 @@ export class OrderListViewerComponent implements OnInit, AfterViewInit {
   }
 }
 
+const shipmentProp = getPropertyOf<OrderDto>('shipment');
+const recipientProp = getPropertyOf<ShipmentDto>('recipient');
 const orderGridCells: IGridCell[] = [
   {
     isSearchable: false,
     label: 'ID',
-    initialWidth: 50,
+    initialWidth: 40,
     align: 'center',
-    isImage: false,
+    isImage: true,
     isSortable: true,
     fieldName: getPropertyOf<OrderDto>('id')
   },
   {
     isSearchable: false,
     label: 'Дата',
-    initialWidth: 100,
+    initialWidth: 78,
     align: 'left',
     isImage: false,
     isSortable: true,
     fieldName: getPropertyOf<OrderDto>('createdAt')
+  },
+  {
+    isSearchable: true,
+    label: 'Имя',
+    initialWidth: 200,
+    align: 'left',
+    isImage: false,
+    isSortable: false,
+    fieldName: `${shipmentProp}.${recipientProp}.${getPropertyOf<ShipmentAddressDto>('lastName')}|${shipmentProp}.${recipientProp}.${getPropertyOf<ShipmentAddressDto>('firstName')}`
   },
   {
     isSearchable: true,
@@ -94,7 +111,7 @@ const orderGridCells: IGridCell[] = [
     align: 'left',
     isImage: false,
     isSortable: true,
-    fieldName: `${getPropertyOf<OrderDto>('shipment')}.${getPropertyOf<ShipmentDto>('recipient')}.${getPropertyOf<ShipmentAddressDto>('settlement')}`
+    fieldName: `${shipmentProp}.${recipientProp}.${getPropertyOf<ShipmentAddressDto>('settlement')}`
   },
   {
     isSearchable: true,
@@ -108,11 +125,35 @@ const orderGridCells: IGridCell[] = [
   {
     isSearchable: false,
     label: 'Статус',
-    initialWidth: 65,
+    initialWidth: 130,
     align: 'left',
     isImage: false,
     isSortable: true,
-    fieldName: getPropertyOf<OrderDto>('status')
+    fieldName: getPropertyOf<OrderDto>('status'),
+    filterFields: Object
+      .values(OrderStatusEnum)
+      .map(value => ({data: value, view: TRANSLATIONS_MAP[value]}))
+  },
+  {
+    isSearchable: false,
+    label: 'Статус посылки',
+    initialWidth: 140,
+    align: 'left',
+    isImage: false,
+    isSortable: true,
+    fieldName: `${shipmentProp}.${getPropertyOf<ShipmentDto>('status')}`,
+    filterFields: Object
+      .values(ShipmentStatusEnum)
+      .map(value => ({data: value, view: TRANSLATIONS_MAP[value]}))
+  },
+  {
+    isSearchable: true,
+    label: 'ТТН',
+    initialWidth: 117,
+    align: 'left',
+    isImage: false,
+    isSortable: false,
+    fieldName: `${shipmentProp}.${getPropertyOf<ShipmentDto>('trackingNumber')}`
   },
   {
     isSearchable: true,
@@ -122,15 +163,6 @@ const orderGridCells: IGridCell[] = [
     isImage: false,
     isSortable: true,
     fieldName: getPropertyOf<OrderDto>('adminNote')
-  },
-  {
-    isSearchable: true,
-    label: 'ТТН',
-    initialWidth: 150,
-    align: 'left',
-    isImage: false,
-    isSortable: false,
-    fieldName: `${getPropertyOf<ShipmentDto>('recipient')}.${getPropertyOf<ShipmentDto>('trackingNumber')}`
   },
   {
     isSearchable: true,
