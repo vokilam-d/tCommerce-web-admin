@@ -43,6 +43,7 @@ export class SelectComponent extends NgUnsubscribe implements OnInit, OnChanges,
   @Input() options: ISelectOption[] = [];
   @Input() isMultiSelect: boolean = false;
   @Input() isSizeSmall: boolean = false;
+  @Input() initialValue: any | any[];
   @Output() select: EventEmitter<any> = new EventEmitter();
 
   constructor() {
@@ -53,8 +54,14 @@ export class SelectComponent extends NgUnsubscribe implements OnInit, OnChanges,
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.options?.currentValue) {
-      this.markSelectedOptions();
+    if (changes.options) {
+      if (changes.options.firstChange && this.initialValue) {
+        this.value = this.initialValue;
+      }
+
+      if (changes.options.currentValue) {
+        this.markSelectedOptions();
+      }
     }
   }
 

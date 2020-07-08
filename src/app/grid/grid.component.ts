@@ -27,7 +27,8 @@ interface IGridSorting {
 }
 
 interface ISavedGridInfo {
-  sorting: IGridSorting;
+  sorting?: IGridSorting;
+  filtersMapAsObj?: { [fieldName: string]: string };
 }
 
 @Component({
@@ -76,7 +77,7 @@ export class GridComponent<T extends { isOpened?: boolean } = any> extends NgUns
   }
 
   ngOnInit() {
-    this.setActiveSorting();
+    this.setFromSavedInfo();
     this.handleSearch();
   }
 
@@ -99,7 +100,7 @@ export class GridComponent<T extends { isOpened?: boolean } = any> extends NgUns
       value = rest;
     }
     this.changeEmitter.emit(value);
-    this.setSavedInfo();
+    this.saveInfo();
   }
 
   getValue(): IGridValue {
@@ -148,10 +149,17 @@ export class GridComponent<T extends { isOpened?: boolean } = any> extends NgUns
     return this.trackByFieldName ? item[this.trackByFieldName] : index;
   }
 
-  private setActiveSorting() {
+  private setFromSavedInfo() {
     const savedInfo = this.getSavedInfo();
-    if (savedInfo && savedInfo.sorting) {
+    if (!savedInfo) { return; }
+
+    if (savedInfo.sorting) {
       this.activeSorting = savedInfo.sorting;
+    }
+    if (savedInfo.filtersMapAsObj) {
+      Object.keys(savedInfo.filtersMapAsObj).forEach(key => {
+        this.filtersMap.set(key, savedInfo.filtersMapAsObj[key]);
+      });
     }
   }
 
@@ -163,13 +171,20 @@ export class GridComponent<T extends { isOpened?: boolean } = any> extends NgUns
     return JSON.parse(localStorage.getItem(`grid-info-${this.gridName}`));
   }
 
-  private setSavedInfo() {
+  private saveInfo() {
     if (!this.gridName || !isPlatformBrowser(this.platformId)) {
       return;
     }
 
+    let filtersMap: any;
+    if (this.filtersMap.size > 0) {
+      filtersMap = { };
+      this.filtersMap.forEach(((value, key) => filtersMap[key] = value));
+    }
+
     const savedInfo: ISavedGridInfo = {
-      sorting: this.activeSorting
+      sorting: this.activeSorting,
+      filtersMapAsObj: filtersMap
     };
     localStorage.setItem(`grid-info-${this.gridName}`, JSON.stringify(savedInfo));
   }
