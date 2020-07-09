@@ -26,6 +26,7 @@ export class ProductVariantDto {
   sellableQty: number = 0;
   isDiscountApplicable: boolean = true;
   salesCount: number = 0;
+  isIncludedInShoppingFeed: boolean = true;
   googleAdsProductTitle: string = '';
   relatedProducts: LinkedProductDto[] = [];
   crossSellProducts: LinkedProductDto[] = [];

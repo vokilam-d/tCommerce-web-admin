@@ -111,6 +111,7 @@ export class ProductComponent implements OnInit {
         currency: [variant.currency],
         vendorCode: [variant.vendorCode],
         gtin: [variant.gtin],
+        isIncludedInShoppingFeed: [variant.isIncludedInShoppingFeed],
         googleAdsProductTitle: [variant.googleAdsProductTitle],
         medias: [variant.medias],
         fullDescription: variant.fullDescription,

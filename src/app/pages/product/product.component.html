@@ -212,6 +212,17 @@
         </div>
 
         <div class="product__field field"
+             *ngIf="variantForm.get('isIncludedInShoppingFeed') as isIncludedInShoppingFeed"
+        >
+          <label class="field__label">
+            Включён ли товар в Shopping feed?
+          </label>
+          <div class="field__control">
+            <toggle [formControl]="isIncludedInShoppingFeed"></toggle>
+          </div>
+        </div>
+
+        <div class="product__field field"
              *ngIf="variantForm.get('googleAdsProductTitle') as googleAdsProductTitle"
              [class.field--invalid]="isControlInvalid(googleAdsProductTitle)"
         >
