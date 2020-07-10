@@ -29,7 +29,7 @@ export class OrderListViewerComponent implements OnInit, AfterViewInit {
   itemsFiltered: number;
   pagesTotal: number = 1;
   isGridLoading: boolean = false;
-  gridLinkUrl: string = 'view';
+  gridLinkUrl: string = '/admin/order/view';
   gridCells: IGridCell[] = orderGridCells;
   defaultCurrency = DEFAULT_CURRENCY_CODE;
 
