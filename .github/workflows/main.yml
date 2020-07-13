@@ -14,6 +14,7 @@ jobs:
     steps:
     - name: Build and push the Docker image (multistage)
       run: |
+        ls -la
         docker pull ${CI_REGISTRY_IMAGE}:builder
         docker pull ${CI_REGISTRY_IMAGE}:latest
 
