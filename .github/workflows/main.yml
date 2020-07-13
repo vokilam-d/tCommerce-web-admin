@@ -15,6 +15,9 @@ jobs:
     - name: Build and push the Docker image (multistage)
       run: |
         ls -la
+        echo '---'
+        ls -la ../
+        echo '---'
         docker pull ${CI_REGISTRY_IMAGE}:builder
         docker pull ${CI_REGISTRY_IMAGE}:latest
 
