@@ -20,13 +20,13 @@ jobs:
         docker build \
           --target builder \
           --cache-from ${CI_REGISTRY_IMAGE}:builder \
-          --file Dockerfile \
+          --file ../Dockerfile \
           -t ${CI_REGISTRY_IMAGE}:builder \
           .
         docker build \
           --cache-from ${CI_REGISTRY_IMAGE}:latest \
           --cache-from ${CI_REGISTRY_IMAGE}:builder \
-          --file Dockerfile \
+          --file ../Dockerfile \
           -t ${CI_REGISTRY_IMAGE}:latest \
           .
 
