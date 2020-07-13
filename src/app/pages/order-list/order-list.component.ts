@@ -184,7 +184,7 @@ const orderGridCells: IGridCell[] = [
   {
     isSearchable: true,
     label: 'Комментарий админа',
-    initialWidth: 250,
+    initialWidth: 150,
     align: 'left',
     isImage: false,
     isSortable: true,
@@ -192,8 +192,17 @@ const orderGridCells: IGridCell[] = [
   },
   {
     isSearchable: true,
+    label: 'Способ оплаты',
+    initialWidth: 140,
+    align: 'left',
+    isImage: false,
+    isSortable: true,
+    fieldName: getPropertyOf<OrderDto>('paymentMethodAdminName')
+  },
+  {
+    isSearchable: true,
     label: 'Комментарий клиента',
-    initialWidth: 150,
+    initialWidth: 100,
     align: 'left',
     isImage: false,
     isSortable: true,
