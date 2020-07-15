@@ -8,13 +8,15 @@ env:
   CI_REGISTRY_IMAGE: vokilamd/tcommerce-web-client
 
 jobs:
-  build:
+  build-push:
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
     - name: Build and push the Docker image (multistage)
       run: |
+        echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_LOGIN }} --password-stdin
+
         docker pull ${CI_REGISTRY_IMAGE}:builder
         docker pull ${CI_REGISTRY_IMAGE}:latest
 
@@ -31,3 +33,6 @@ jobs:
 
         docker push ${CI_REGISTRY_IMAGE}:builder
         docker push ${CI_REGISTRY_IMAGE}:latest
+
+    - name: Deploy
+      run: echo "deploy"
