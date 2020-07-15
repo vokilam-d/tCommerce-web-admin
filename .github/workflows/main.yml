@@ -46,7 +46,4 @@ jobs:
         ls -la
         whoami
         pwd
-        ssh -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}
-        ls -la
-        whoami
-        pwd
+        ssh -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} ls -la && whoami && pwd
