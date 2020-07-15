@@ -5,7 +5,7 @@ on:
     tags: v[0-9]+.[0-9]+.[0-9]+
 
 env:
-  CI_REGISTRY_IMAGE: vokilamd/tcommerce-web-client
+  CI_REGISTRY_IMAGE: ${{ secrets.DOCKER_LOGIN }}/tcommerce-web-client
 
 jobs:
   build-push:
@@ -13,26 +13,33 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Build and push the Docker image (multistage)
-      run: |
-        echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_LOGIN }} --password-stdin
-
-        docker pull ${CI_REGISTRY_IMAGE}:builder
-        docker pull ${CI_REGISTRY_IMAGE}:latest
-
-        docker build \
-          --target builder \
-          --cache-from ${CI_REGISTRY_IMAGE}:builder \
-          -t ${CI_REGISTRY_IMAGE}:builder \
-          .
-        docker build \
-          --cache-from ${CI_REGISTRY_IMAGE}:latest \
-          --cache-from ${CI_REGISTRY_IMAGE}:builder \
-          -t ${CI_REGISTRY_IMAGE}:latest \
-          .
-
-        docker push ${CI_REGISTRY_IMAGE}:builder
-        docker push ${CI_REGISTRY_IMAGE}:latest
+#    - name: Build and push the Docker image (multistage)
+#      run: |
+#        echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_LOGIN }} --password-stdin
+#
+#        docker pull ${CI_REGISTRY_IMAGE}:builder
+#        docker pull ${CI_REGISTRY_IMAGE}:latest
+#
+#        docker build \
+#          --target builder \
+#          --cache-from ${CI_REGISTRY_IMAGE}:builder \
+#          -t ${CI_REGISTRY_IMAGE}:builder \
+#          .
+#        docker build \
+#          --cache-from ${CI_REGISTRY_IMAGE}:latest \
+#          --cache-from ${CI_REGISTRY_IMAGE}:builder \
+#          -t ${CI_REGISTRY_IMAGE}:latest \
+#          .
+#
+#        docker push ${CI_REGISTRY_IMAGE}:builder
+#        docker push ${CI_REGISTRY_IMAGE}:latest
 
     - name: Deploy
-      run: echo "deploy"
+      run: |
+        ls -la
+        whoami
+        pwd
+        ssh -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}
+        ls -la
+        whoami
+        pwd
