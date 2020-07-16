@@ -35,15 +35,13 @@ jobs:
 #        docker push ${CI_REGISTRY_IMAGE}:latest
 
     - name: Deploy
-      env:
-        SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-      run: |
-        mkdir -p ~/.ssh
-        echo "${{ secrets.SERVER_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan -p ${{ secrets.SERVER_PORT }} -t rsa ${{ secrets.SERVER_HOST }}
-        echo -e "Host ${{ secrets.SERVER_HOST }}\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
-        ls -la
-        whoami
-        pwd
-        ssh -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} whoami
+      uses: appleboy/ssh-action@v0.1.2
+      with:
+        host: ${{ secrets.SERVER_HOST }}
+        username: ${{ secrets.SERVER_USER }}
+        key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
+        port: ${{ secrets.SERVER_PORT }}
+        passphrase: ${{ secrets.SERVER_SSH_PRIVATE_KEY_PASSPHRASE }}
+        script: |
+          whoami
+          ls -la
