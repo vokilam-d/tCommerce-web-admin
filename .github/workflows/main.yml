@@ -5,7 +5,8 @@ on:
     tags: v[0-9]+.[0-9]+.[0-9]+
 
 env:
-  CI_REGISTRY_IMAGE: ${{ secrets.DOCKER_LOGIN }}/tcommerce-web-client
+  IMAGE_NAME: ${{ secrets.DOCKER_LOGIN }}/tcommerce-web-client
+  IMAGE_TAG: ${{ github.ref }}
 
 jobs:
   build-push:
@@ -13,35 +14,42 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-#    - name: Build and push the Docker image (multistage)
-#      run: |
-#        echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_LOGIN }} --password-stdin
-#
-#        docker pull ${CI_REGISTRY_IMAGE}:builder
-#        docker pull ${CI_REGISTRY_IMAGE}:latest
-#
-#        docker build \
-#          --target builder \
-#          --cache-from ${CI_REGISTRY_IMAGE}:builder \
-#          -t ${CI_REGISTRY_IMAGE}:builder \
-#          .
-#        docker build \
-#          --cache-from ${CI_REGISTRY_IMAGE}:latest \
-#          --cache-from ${CI_REGISTRY_IMAGE}:builder \
-#          -t ${CI_REGISTRY_IMAGE}:latest \
-#          .
-#
-#        docker push ${CI_REGISTRY_IMAGE}:builder
-#        docker push ${CI_REGISTRY_IMAGE}:latest
+    - name: Build and push the Docker image (multistage)
+      run: |
+        echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_LOGIN }} --password-stdin
 
-    - name: Deploy
-      uses: appleboy/ssh-action@v0.1.2
-      with:
-        host: ${{ secrets.SERVER_HOST }}
-        username: ${{ secrets.SERVER_USER }}
-        key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
-        port: ${{ secrets.SERVER_PORT }}
-        passphrase: ${{ secrets.SERVER_SSH_PRIVATE_KEY_PASSPHRASE }}
-        script: |
-          whoami
-          ls -la
+        docker pull ${IMAGE_NAME}:builder
+        docker pull ${IMAGE_NAME}:latest
+
+        docker build \
+          --target builder \
+          --cache-from ${IMAGE_NAME}:builder \
+          -t ${IMAGE_NAME}:builder \
+          .
+        docker build \
+          --cache-from ${IMAGE_NAME}:latest \
+          --cache-from ${IMAGE_NAME}:builder \
+          -t ${IMAGE_NAME}:latest \
+          -t ${IMAGE_NAME}:${IMAGE_TAG} \
+          .
+
+        docker push ${IMAGE_NAME}:builder
+        docker push ${IMAGE_NAME}:latest
+        docker push ${IMAGE_NAME}:${IMAGE_TAG}
+
+  deploy:
+    needs: build-push
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy
+        uses: appleboy/ssh-action@v0.1.2s
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SERVER_PORT }}
+          passphrase: ${{ secrets.SERVER_SSH_PRIVATE_KEY_PASSPHRASE }}
+          script: |
+            whoami
+            ls -la
