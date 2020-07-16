@@ -13,14 +13,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Get the version
-      id: get_version
-      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
-
     - name: Build and push the Docker image (multistage)
-      env:
-        IMAGE_TAG: ${{ steps.get_version.outputs.VERSION }}
       run: |
+        # Strip git ref prefix from version
+        VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+
         echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_LOGIN }} --password-stdin
 
         docker pull ${IMAGE_NAME}:builder
@@ -35,12 +32,12 @@ jobs:
           --cache-from ${IMAGE_NAME}:latest \
           --cache-from ${IMAGE_NAME}:builder \
           -t ${IMAGE_NAME}:latest \
-          -t ${IMAGE_NAME}:${IMAGE_TAG} \
+          -t ${IMAGE_NAME}:${VERSION} \
           .
 
         docker push ${IMAGE_NAME}:builder
         docker push ${IMAGE_NAME}:latest
-        docker push ${IMAGE_NAME}:${IMAGE_TAG}
+        docker push ${IMAGE_NAME}:${VERSION}
 
   deploy:
     needs: build-push
