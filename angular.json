@@ -29,8 +29,8 @@
               "src/assets"
             ],
             "styles": [
-              "node_modules/quill/dist/quill.snow.css",
-              "src/assets/styles/main.scss"
+              "src/assets/styles/main.scss",
+              "node_modules/quill/dist/quill.snow.css"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
