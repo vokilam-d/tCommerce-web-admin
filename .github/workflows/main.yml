@@ -6,7 +6,6 @@ on:
 
 env:
   IMAGE_NAME: ${{ secrets.DOCKER_LOGIN }}/tcommerce-web-client
-  IMAGE_TAG: ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
 
 jobs:
   build-push:
@@ -14,7 +13,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Get the version
+      id: get_version
+      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+
     - name: Build and push the Docker image (multistage)
+      env:
+        IMAGE_TAG: ${{ steps.get_version.outputs.VERSION }}
       run: |
         echo "${IMAGE_TAG}"
         echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_LOGIN }} --password-stdin
