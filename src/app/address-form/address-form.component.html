@@ -8,7 +8,7 @@
        *ngIf="showIsDefault && addressForm.get('isDefault') as isDefault"
   >
     <label class="field__label">По умолчанию</label>
-    <div class="field__control">
+    <div class="field__control address-form__control">
       <toggle [formControl]="isDefault"></toggle>
     </div>
   </div>
@@ -18,7 +18,7 @@
        [class.field--invalid]="isControlInvalid(lastName)"
   >
     <label for="addr-lastName" class="field__label">Фамилия</label>
-    <span class="field__control">
+    <span class="field__control address-form__control">
       <input class="field__input" [formControl]="lastName" type="text" id="addr-lastName">
     </span>
   </div>
@@ -28,7 +28,7 @@
        [class.field--invalid]="isControlInvalid(firstName)"
   >
     <label for="addr-firstName" class="field__label">Имя</label>
-    <span class="field__control">
+    <span class="field__control address-form__control">
       <input class="field__input" [formControl]="firstName" type="text" id="addr-firstName">
     </span>
   </div>
@@ -38,7 +38,7 @@
        [class.field--invalid]="isControlInvalid(middleName)"
   >
     <label for="addr-middleName" class="field__label">Отчество</label>
-    <span class="field__control">
+    <span class="field__control address-form__control">
       <input class="field__input" [formControl]="middleName" type="text" id="addr-middleName">
     </span>
   </div>
@@ -48,7 +48,7 @@
        [class.field--invalid]="isControlInvalid(phone)"
   >
     <label for="addr-phone" class="field__label">Телефон</label>
-    <span class="field__control">
+    <span class="field__control address-form__control">
       <input class="field__input" [formControl]="phone" type="text" id="addr-phone">
     </span>
   </div>
@@ -58,7 +58,7 @@
        [class.field--invalid]="isControlInvalid(addressType)"
   >
     <label class="field__label">Тип доставки</label>
-    <div class="field__control">
+    <div class="field__control address-form__control">
       <div class="tabs">
         <button class="tab"
                 *ngFor="let type of addressTypes"
@@ -73,7 +73,7 @@
 
   <div class="address-form__field field" *ngIf="addressForm.get('settlement') as settlementControl">
     <label class="field__label">Город</label>
-    <div class="field__control">
+    <div class="field__control address-form__control">
       <select-autocomplete type="settlement"
                            [activeOptionLabel]="settlementControl.value"
                            (select)="onSettlementSelect($event)"
@@ -94,7 +94,7 @@
            [class.field--invalid]="isControlInvalid(addressControl)"
       >
         <label class="field__label">Отделение</label>
-        <span class="field__control">
+        <span class="field__control address-form__control">
           <select-autocomplete type="warehouse"
                                [settlementId]="settlementIdControl.value"
                                [isDisabled]="!settlementIdControl.value"
@@ -117,7 +117,7 @@
            [class.field--invalid]="isControlInvalid(addressControl)"
       >
         <label class="field__label">Улица</label>
-        <span class="field__control">
+        <span class="field__control address-form__control">
           <select-autocomplete type="street"
                                [settlementId]="settlementIdControl.value"
                                [isDisabled]="!settlementIdControl.value"
@@ -136,7 +136,7 @@
            [class.field--invalid]="isOptionalControlInvalid('buildingNumber')"
       >
         <label for="addr-buildingNumber" class="field__label">Номер дома</label>
-        <span class="field__control">
+        <span class="field__control address-form__control">
           <input class="field__input" [formControl]="buildingNumber" type="text" id="addr-buildingNumber">
         </span>
       </div>
@@ -146,7 +146,7 @@
            [class.field--invalid]="isOptionalControlInvalid('flat')"
       >
         <label for="addr-flat" class="field__label">Квартира</label>
-        <span class="field__control">
+        <span class="field__control address-form__control">
           <input class="field__input" [formControl]="flat" type="text" id="addr-flat">
         </span>
       </div>
