@@ -36,6 +36,8 @@
     <ng-template #cellContent let-order="item">
       <div class="order__name">
         {{ order.shipment.recipient.firstName }} {{ order.shipment.recipient.lastName }}
+        <br>
+        {{ order.shipment.recipient.phone }}
         <div class="order__customer-name"
              *ngIf="hasDifferentName(order) as differentName"
         >
@@ -44,9 +46,10 @@
       </div>
     </ng-template>
     <ng-template #cellContent let-order="item">
-      <span class="order__city">
-        {{ order.shipment.recipient.settlement }}
-      </span>
+      <span class="order__city">{{ order.shipment.recipient.settlement }}</span>
+    </ng-template>
+    <ng-template #cellContent let-order="item">
+      <span class="order__city">{{ order.shipment.recipient.address }}</span>
     </ng-template>
     <ng-template #cellContent let-order="item">{{ order.totalCost }} {{ defaultCurrency | readableCurrency }}</ng-template>
     <ng-template #cellContent let-order="item">{{ order.statusDescription }}</ng-template>
@@ -58,6 +61,7 @@
     <ng-template #cellContent let-order="item">{{ order.shipment.trackingNumber }}</ng-template>
     <ng-template #cellContent let-order="item">{{ order.adminNote }}</ng-template>
     <ng-template #cellContent let-order="item">{{ order.paymentMethodAdminName }}</ng-template>
+    <ng-template #cellContent let-order="item">{{ order.isCallbackNeeded ? 'Да' : 'Нет' }}</ng-template>
     <ng-template #cellContent let-order="item">{{ order.clientNote }}</ng-template>
   </grid>
 

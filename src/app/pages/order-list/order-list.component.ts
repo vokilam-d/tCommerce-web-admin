@@ -141,6 +141,15 @@ const orderGridCells: IGridCell[] = [
   },
   {
     isSearchable: true,
+    label: 'Отделение',
+    initialWidth: 100,
+    align: 'left',
+    isImage: false,
+    isSortable: true,
+    fieldName: `${shipmentProp}.${recipientProp}.${getPropertyOf<ShipmentAddressDto>('address')}`
+  },
+  {
+    isSearchable: true,
     label: 'Сумма',
     initialWidth: 75,
     align: 'left',
@@ -198,6 +207,15 @@ const orderGridCells: IGridCell[] = [
     isImage: false,
     isSortable: true,
     fieldName: getPropertyOf<OrderDto>('paymentMethodAdminName')
+  },
+  {
+    isSearchable: false,
+    label: 'Перезванивать?',
+    initialWidth: 75,
+    align: 'left',
+    isImage: false,
+    isSortable: true,
+    fieldName: getPropertyOf<OrderDto>('isCallbackNeeded')
   },
   {
     isSearchable: true,
