@@ -51,7 +51,7 @@ $darkerBorderColor: rgba(173, 173, 173, 0.7);
     justify-content: space-between;
     align-content: center;
     font-size: 18px;
-    font-weight: 600;
+    font-weight: 500;
 
     &--customer {
       width: 100%;
@@ -148,7 +148,7 @@ $darkerBorderColor: rgba(173, 173, 173, 0.7);
     display: flex;
     align-items: center;
     border-bottom: 1px solid $darkerBorderColor;
-    font-weight: 600;
+    font-weight: 500;
   }
 
   &--footer {
@@ -158,7 +158,7 @@ $darkerBorderColor: rgba(173, 173, 173, 0.7);
   &--no-items {
     padding: 20px;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 500;
   }
 
   &__img-block {
