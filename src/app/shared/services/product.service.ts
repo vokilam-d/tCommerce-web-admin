@@ -70,10 +70,10 @@ export class ProductService {
   }
 
   getGoogleShoppingFeedUrl(): string {
-    return `${API_HOST}/api/v1/admin/feed/shopping`;
+    return `${API_HOST}/api/v1/feed/shopping`;
   }
 
   getGoogleReviewsFeedUrl(): string {
-    return `${API_HOST}/api/v1/admin/feed/reviews`;
+    return `${API_HOST}/api/v1/feed/reviews`;
   }
 }
