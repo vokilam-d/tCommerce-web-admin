@@ -53,10 +53,8 @@
 
   &__name {
     display: block;
-    max-height: 4em;
     margin: 4px 0 0;
     font-size: 12px;
-    overflow: hidden;
     text-overflow: ellipsis;
     color: rgba($dark, 0.8);
   }
