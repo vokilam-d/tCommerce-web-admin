@@ -166,7 +166,7 @@ const PRODUCT_GRID_CELLS: IGridCell[] = [
   {
     isSearchable: true,
     label: 'Артикул',
-    initialWidth: 50,
+    initialWidth: 55,
     align: 'left',
     isImage: false,
     isSortable: true,
