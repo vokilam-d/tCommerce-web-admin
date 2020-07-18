@@ -98,10 +98,6 @@
       &:hover {
         background: #5f564f;
       }
-
-      &.disabled {
-        pointer-events: none;
-      }
     }
 
     &--image {
@@ -163,12 +159,6 @@
   &--desc {
     &::after {
       content: '\2191';
-    }
-  }
-
-  &.disabled {
-    &::after {
-      display: none;
     }
   }
 }

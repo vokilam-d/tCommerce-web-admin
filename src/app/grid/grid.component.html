@@ -19,8 +19,7 @@
            'grid__block--center': cell.align === 'center',
            'grid__block--right': cell.align === 'right',
            'sorting': activeSorting && cell.fieldName === activeSorting.fieldName,
-           'sorting--desc': activeSorting && cell.fieldName === activeSorting.fieldName && activeSorting.isDescOrder,
-           'disabled': filtersMap.size > 0
+           'sorting--desc': activeSorting && cell.fieldName === activeSorting.fieldName && activeSorting.isDescOrder
          }"
          [style.width.px]="cell.initialWidth"
     >

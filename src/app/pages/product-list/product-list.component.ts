@@ -119,16 +119,16 @@ const productGridCells: IGridCell[] = [
     initialWidth: 70,
     align: 'left',
     isImage: false,
-    isSortable: false,
+    isSortable: true,
     fieldName: getPropertyOf<ProductListItemDto>('skus')
   },
   {
-    isSearchable: false,
+    isSearchable: true,
     label: 'Цена',
     initialWidth: 70,
     align: 'left',
     isImage: false,
-    isSortable: false,
+    isSortable: true,
     fieldName: getPropertyOf<ProductListItemDto>('prices')
   },
   {
@@ -137,7 +137,7 @@ const productGridCells: IGridCell[] = [
     initialWidth: 55,
     align: 'left',
     isImage: false,
-    isSortable: false,
+    isSortable: true,
     fieldName: getPropertyOf<ProductListItemDto>('quantitiesInStock')
   },
   {
@@ -146,7 +146,7 @@ const productGridCells: IGridCell[] = [
     initialWidth: 55,
     align: 'left',
     isImage: false,
-    isSortable: false,
+    isSortable: true,
     fieldName: getPropertyOf<ProductListItemDto>('sellableQuantities')
   },
   {
