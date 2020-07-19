@@ -43,9 +43,10 @@
 
       <app-select *ngIf="cell.filterFields?.length"
                   [options]="cell.filterFields"
-                  [hasEmpty]="true"
+                  [hasEmpty]="false"
                   [isSizeSmall]="true"
-                  [initialValue]="filtersMap.get(cell.fieldName)"
+                  [isMultiSelect]="true"
+                  [initialValue]="filtersMap.get(cell.fieldName) || []"
                   (select)="onFilterSelect(cell, $event)"
       ></app-select>
     </div>
