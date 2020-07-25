@@ -130,6 +130,14 @@ export class ProductSelectorComponent implements OnInit, AfterViewInit {
     this.notyService.showSuccessNoty(`Товар добавлен`);
   }
 
+  setItemThumbnail(product) {
+    if (!product.mediaUrl) {
+      return this.uploadedHost + '/assets/images/no-img.png';
+    } else {
+      return this.uploadedHost + product.mediaUrl;
+    }
+  }
+
   isBtnDisabled(variant: VariantForSelector): boolean {
     return this.showQty && variant.selectedQty === 0;
   }
