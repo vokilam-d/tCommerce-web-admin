@@ -33,4 +33,12 @@ export class ProductItemSorterComponent implements OnInit {
 
     this.remove.emit(item);
   }
+
+  setItemThumbnail(product) {
+    if (!product.mediaUrl) {
+      return 'admin/assets/images/no-img.png';
+    } else {
+      return this.uploadedHost + product.mediaUrl;
+    }
+  }
 }

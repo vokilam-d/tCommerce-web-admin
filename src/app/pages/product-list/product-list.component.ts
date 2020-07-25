@@ -86,7 +86,7 @@ export class ProductListComponent implements OnInit, AfterViewInit {
 
   setItemThumbnail(product) {
     if (!product.mediaUrl) {
-      return this.uploadedHost + '/assets/images/no-img.png';
+      return 'admin/assets/images/no-img.png';
     } else {
       return this.uploadedHost + product.mediaUrl;
     }
