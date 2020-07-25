@@ -41,12 +41,8 @@
     transition: background-color 0.1s ease;
     cursor: pointer;
 
-    &:nth-child(2n) {
-      background: #e7e7e7;
-    }
-
     &:hover {
-      background: #d8dce3;
+      background: #e9e9e9;
       color: inherit;
     }
 
@@ -76,6 +72,7 @@
 
   &__body {
     position: relative;
+    top: -3px;
     min-height: 20vh;
   }
 
@@ -125,12 +122,13 @@
 
   &__body &__block,
   &__search &__block {
-    border-right: 1px dashed $borderColor;
+    border-right: 1px solid $borderColor;
   }
 
   &__search &__block {
     padding-top: 8px;
     padding-bottom: 8px;
+    border-bottom: 1px solid $borderColor;
   }
 
   &__no-items {
