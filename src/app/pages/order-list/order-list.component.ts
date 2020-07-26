@@ -200,6 +200,15 @@ const orderGridCells: IGridCell[] = [
     fieldName: getPropertyOf<OrderDto>('adminNote')
   },
   {
+    isSearchable: false,
+    label: 'Оплачено?',
+    initialWidth: 75,
+    align: 'left',
+    isImage: false,
+    isSortable: true,
+    fieldName: getPropertyOf<OrderDto>('isOrderPaid')
+  },
+  {
     isSearchable: true,
     label: 'Способ оплаты',
     initialWidth: 140,
