@@ -60,6 +60,7 @@
     </ng-template>
     <ng-template #cellContent let-order="item">{{ order.shipment.trackingNumber }}</ng-template>
     <ng-template #cellContent let-order="item">{{ order.adminNote }}</ng-template>
+    <ng-template #cellContent let-order="item">{{ order.isOrderPaid ? 'Да' : 'Нет' }}</ng-template>
     <ng-template #cellContent let-order="item">{{ order.paymentMethodAdminName }}</ng-template>
     <ng-template #cellContent let-order="item">{{ order.isCallbackNeeded ? 'Да' : 'Нет' }}</ng-template>
     <ng-template #cellContent let-order="item">{{ order.clientNote }}</ng-template>
