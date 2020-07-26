@@ -28,10 +28,7 @@
 
     <ng-template #cellContent let-product="item">{{ product.id }}</ng-template>
     <ng-template #cellContent let-product="item">
-      <img class="product-thumbnail"
-           *ngIf="product.mediaUrl as media"
-           [src]="uploadedHost + media"
-      >
+      <img class="product-thumbnail" [src]="setItemThumbnail(product)">
     </ng-template>
     <ng-template #cellContent let-product="item">{{ product.name }}</ng-template>
     <ng-template #cellContent let-product="item">{{ product.skus }}</ng-template>

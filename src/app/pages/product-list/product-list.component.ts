@@ -83,6 +83,15 @@ export class ProductListComponent implements OnInit, AfterViewInit {
   onGridChange(evt: IGridValue) {
     this.fetchProducts(evt);
   }
+
+  setItemThumbnail(product) {
+    if (!product.mediaUrl) {
+      return 'admin/assets/images/no-img.png';
+    } else {
+      return this.uploadedHost + product.mediaUrl;
+    }
+  }
+
 }
 
 const productGridCells: IGridCell[] = [

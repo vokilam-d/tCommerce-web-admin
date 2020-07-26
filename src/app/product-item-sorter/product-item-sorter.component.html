@@ -21,7 +21,7 @@
       <i class="ai ai-trash"></i>
     </button>
 
-    <img class="product__img" [src]="uploadedHost + product.mediaUrl" draggable="false">
+    <img class="product__img" [src]="setItemThumbnail(product)" draggable="false">
 
     <a class="product__name"
        [routerLink]="['/', 'admin', 'product', 'edit', product.id]"
