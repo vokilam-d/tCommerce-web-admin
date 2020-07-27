@@ -46,6 +46,9 @@
       </div>
     </ng-template>
     <ng-template #cellContent let-order="item">
+      <span class="order__city">{{ order.customerNote }}</span>
+    </ng-template>
+    <ng-template #cellContent let-order="item">
       <span class="order__city">{{ order.shipment.recipient.settlement }}</span>
     </ng-template>
     <ng-template #cellContent let-order="item">

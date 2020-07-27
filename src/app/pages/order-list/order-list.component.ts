@@ -133,7 +133,7 @@ const orderGridCells: IGridCell[] = [
   {
     isSearchable: true,
     label: 'Коммент о клиенте',
-    initialWidth: 200,
+    initialWidth: 75,
     align: 'left',
     isImage: false,
     isSortable: false,
