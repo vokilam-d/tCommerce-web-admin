@@ -9,6 +9,7 @@ export class AddOrUpdateOrderDto {
   customerLastName: string = '';
   customerEmail: string = '';
   customerPhoneNumber: string = '';
+  customerNote: string = '';
   shipment: ShipmentDto = new ShipmentDto();
   shouldSaveAddress: boolean = true;
   createdAt: Date;

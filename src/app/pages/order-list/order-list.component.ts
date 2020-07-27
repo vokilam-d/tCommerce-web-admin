@@ -132,6 +132,15 @@ const orderGridCells: IGridCell[] = [
   },
   {
     isSearchable: true,
+    label: 'Коммент о клиенте',
+    initialWidth: 200,
+    align: 'left',
+    isImage: false,
+    isSortable: false,
+    fieldName: getPropertyOf<OrderDto>('customerNote')
+  },
+  {
+    isSearchable: true,
     label: 'Город',
     initialWidth: 100,
     align: 'left',
@@ -192,7 +201,7 @@ const orderGridCells: IGridCell[] = [
   },
   {
     isSearchable: true,
-    label: 'Комментарий админа',
+    label: 'Комментарий админа о заказе',
     initialWidth: 150,
     align: 'left',
     isImage: false,
@@ -228,7 +237,7 @@ const orderGridCells: IGridCell[] = [
   },
   {
     isSearchable: true,
-    label: 'Комментарий клиента',
+    label: 'Комментарий клиента к заказу',
     initialWidth: 100,
     align: 'left',
     isImage: false,
