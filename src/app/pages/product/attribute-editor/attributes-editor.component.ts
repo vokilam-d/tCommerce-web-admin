@@ -10,7 +10,7 @@ import { EAttributeType } from '../../../shared/enums/attribute-type.enum';
 enum ESelectionStep {
   SelectAttributes,
   AttributeValues,
-  Images,
+  // Images,
   Summary
 }
 

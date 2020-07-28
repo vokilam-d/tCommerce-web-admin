@@ -18,7 +18,7 @@
     <div class="editor__steps">
       <div class="editor__step" [class.editor__step--active]="activeStep === stepsEnum.SelectAttributes">Выбор атрибутов</div>
       <div class="editor__step" [class.editor__step--active]="activeStep === stepsEnum.AttributeValues">Значения атрибутов</div>
-      <div class="editor__step" [class.editor__step--active]="activeStep === stepsEnum.Images">Картинки и цены</div>
+      <!--<div class="editor__step" [class.editor__step--active]="activeStep === stepsEnum.Images">Картинки и цены</div>-->
       <div class="editor__step" [class.editor__step--active]="activeStep === stepsEnum.Summary">Итог</div>
     </div>
 
@@ -44,7 +44,7 @@
     Шаг {{ activeStep + 1 }}: <ng-container [ngSwitch]="activeStep">
       <ng-container *ngSwitchCase="stepsEnum.SelectAttributes">Выберите атрибуты</ng-container>
       <ng-container *ngSwitchCase="stepsEnum.AttributeValues">Значения атрибутов</ng-container>
-      <ng-container *ngSwitchCase="stepsEnum.Images">Картинки, Цены и Количество</ng-container>
+      <!--<ng-container *ngSwitchCase="stepsEnum.Images">Картинки, Цены и Количество</ng-container>-->
       <ng-container *ngSwitchCase="stepsEnum.Summary">Итог</ng-container>
     </ng-container>
   </div>
@@ -93,9 +93,11 @@
       </div>
     </ng-container>
 
+    <!--
     <ng-container *ngSwitchCase="stepsEnum.Images">
       In progress...
     </ng-container>
+    -->
 
     <ng-container *ngSwitchCase="stepsEnum.Summary">
 
