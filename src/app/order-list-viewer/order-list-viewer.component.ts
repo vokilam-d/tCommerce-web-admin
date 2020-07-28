@@ -47,7 +47,7 @@ export class OrderListViewerComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    if (!this.customerId && (!this.ids?.length)) { return; }
+    if (!this.customerId && !this.ids?.length) { return; }
 
     const gridValue = this.gridCmp.getValue();
     this.fetchOrders(gridValue);
