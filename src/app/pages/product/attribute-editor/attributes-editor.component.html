@@ -36,7 +36,8 @@
       </button>
 
       <button class="toolbar-main-btn editor__button-next" (click)="nextStep()" type="button">
-        <ng-container *ngIf="activeStep !== stepsEnum.Summary; else finishBtn">Вперёд</ng-container>
+        <!--<ng-container *ngIf="activeStep !== stepsEnum.Summary; else finishBtn">Вперёд</ng-container>-->
+        <ng-container *ngIf="activeStep !== stepsEnum.AttributeValues; else finishBtn">Вперёд</ng-container>
         <ng-template #finishBtn>Завершить</ng-template>
       </button>
     </div>
