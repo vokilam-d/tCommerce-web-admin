@@ -19,7 +19,7 @@ enum ESelectionStep {
   SelectAttributes,
   AttributeValues,
   // Images,
-  Summary
+  // Summary
 }
 
 class AttributeValue extends AttributeValueDto {
@@ -105,15 +105,17 @@ export class AttributesEditorComponent extends NgUnsubscribe implements OnInit {
   }
 
   nextStep() {
-    if (this.activeStep === ESelectionStep.Summary) {
+    // if (this.activeStep === ESelectionStep.Summary) {
+    if (this.activeStep === ESelectionStep.AttributeValues) {
+      this.preGenerateVariants(); // remove this line after uncomment ESelectionStep.Summary
       this.finish();
     } else {
       ++this.activeStep;
     }
 
-    if (this.activeStep === ESelectionStep.Summary) {
-      this.preGenerateVariants();
-    }
+    // if (this.activeStep === ESelectionStep.Summary) {
+    //   this.preGenerateVariants();
+    // }
   }
 
   private preGenerateVariants() {
