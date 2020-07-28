@@ -68,6 +68,8 @@
             <div class="grid__block attribute-row__id">{{ attribute.id }}</div>
             <div class="grid__block attribute-row__label">{{ attribute.label }}</div>
           </div>
+
+          <preloader *ngIf="!attributes?.length" class="editor__preloader"></preloader>
         </div>
       </div>
     </div>

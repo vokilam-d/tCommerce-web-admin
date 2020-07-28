@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output
+} from '@angular/core';
 import { AttributeService } from '../../../shared/services/attribute.service';
 import { AttributeDto, AttributeValueDto } from '../../../shared/dtos/attribute.dto';
 import { ProductVariantDto } from '../../../shared/dtos/product-variant.dto';
@@ -56,7 +64,8 @@ export class AttributesEditorComponent extends NgUnsubscribe implements OnInit {
   @Input() initialFormValue: ProductDto;
   @Output('generated') generatedEmitter = new EventEmitter<ProductDto>();
 
-  constructor(public attributeService: AttributeService) {
+  constructor(public attributeService: AttributeService,
+              private cdr: ChangeDetectorRef) {
     super();
   }
 
@@ -65,11 +74,14 @@ export class AttributesEditorComponent extends NgUnsubscribe implements OnInit {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(attributes => {
         this.attributes = this.transformResponse(attributes);
+        this.cdr.markForCheck();
       });
   }
 
   show() {
     this.isVisible = true;
+    this.attributes = [];
+    this.attributeService.setAttributes();
   }
 
   hide() {
