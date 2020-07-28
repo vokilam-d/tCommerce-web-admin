@@ -17,6 +17,7 @@ import { EAttributeType } from '../../../shared/enums/attribute-type.enum';
 import { IGridCell, IGridValue } from '../../../grid/grid.interface';
 import { NotyService } from '../../../noty/noty.service';
 import { getPropertyOf } from '../../../shared/helpers/get-property-of.function';
+import { ProductSelectedAttributeDto } from '../../../shared/dtos/selected-attribute.dto';
 
 enum ESelectionStep {
   SelectAttributes,
@@ -25,17 +26,16 @@ enum ESelectionStep {
   // Summary
 }
 
-class AttributeValue extends AttributeValueDto {
+class SelectedAttributeValue extends AttributeValueDto {
   isSelected: boolean;
 }
 
-class Attribute extends AttributeDto {
-  isSelected: boolean;
-  values: AttributeValue[];
+class SelectedAttribute extends AttributeDto {
+  values: SelectedAttributeValue[];
 }
 
 interface ITruncatedVariant {
-  [attrId: string]: AttributeValue['id'];
+  [attrId: string]: SelectedAttributeValue['id'];
 }
 
 @Component({
@@ -48,10 +48,10 @@ export class AttributesEditorComponent extends NgUnsubscribe implements OnInit {
 
   isVisible: boolean = false;
   activeStep: ESelectionStep = ESelectionStep.SelectAttributes;
-  attributes: Attribute[] = [];
-  get selectedAttributes(): Attribute[] { return this.attributes.filter(a => a.isSelected); }
+  attributes: AttributeDto[] = [];
+  selectedAttributes: SelectedAttribute[] = [];
 
-  preGeneratedAttrsForProduct: Attribute[] = [];
+  preGeneratedAttrsForProduct: AttributeDto[] = [];
   variantsToCreate: ITruncatedVariant[] = [];
   variantsToLeave: ProductVariantDto[] = [];
   get variantsToRemove(): ProductVariantDto[] {
@@ -132,8 +132,8 @@ export class AttributesEditorComponent extends NgUnsubscribe implements OnInit {
   private preGenerateVariants() {
     this.resetPreGenerated();
 
-    const attributesForVariants: Attribute[] = [];
-    const selectedAttributesWithSelectedValues: Attribute[] = this.selectedAttributes.map(attr => {
+    const attributesForVariants: AttributeDto[] = [];
+    const selectedAttributesWithSelectedValues: SelectedAttribute[] = this.selectedAttributes.map(attr => {
       return { ...attr, values: attr.values.filter(v => v.isSelected) };
     });
 
@@ -231,11 +231,17 @@ export class AttributesEditorComponent extends NgUnsubscribe implements OnInit {
     this.hide();
   }
 
-  private transformResponse(attributeDtos: AttributeDto[]): Attribute[] {
+  private transformResponse(attributeDtos: AttributeDto[]): AttributeDto[] {
+    this.selectedAttributes = [];
+
+    const hasAttributeValue = (attributes: ProductSelectedAttributeDto[], attributeId: string, valueId: string) => {
+      return !!attributes.find(attr => attr.attributeId === attributeId && attr.valueIds.includes(valueId));
+    }
+
     return attributeDtos.map(attributeDto => {
-      const values: AttributeValue[] = attributeDto.values.map(valueDto => {
-        const isSelected = this.initialFormValue.attributes.find(a => a.valueIds.includes(valueDto.id))
-          || this.initialFormValue.variants.find(v => v.attributes.find(a => a.valueIds.includes(valueDto.id)));
+      const values: SelectedAttributeValue[] = attributeDto.values.map(valueDto => {
+        const isSelected = hasAttributeValue(this.initialFormValue.attributes, attributeDto.id, valueDto.id)
+          || this.initialFormValue.variants.find(v => hasAttributeValue(v.attributes, attributeDto.id, valueDto.id));
 
         return {
           ...valueDto,
@@ -243,15 +249,20 @@ export class AttributesEditorComponent extends NgUnsubscribe implements OnInit {
         };
       });
 
-      return {
+      const selectedAttribute = {
         ...attributeDto,
-        values,
-        isSelected: values.some(v => v.isSelected)
+        values
       };
+
+      if (values.some(v => v.isSelected)) {
+        this.selectedAttributes.push(selectedAttribute);
+      }
+
+      return selectedAttribute
     });
   }
 
-  getPreGeneratedAttrLabel(attribute: Attribute) {
+  getPreGeneratedAttrLabel(attribute: AttributeDto) {
     return this.attributeService.getValueLabel(attribute.id, attribute.values.map(v => v.id));
   }
 
@@ -271,6 +282,22 @@ export class AttributesEditorComponent extends NgUnsubscribe implements OnInit {
           this.cdr.markForCheck();
         }
       )
+  }
+
+  toggleAttribute(attribute: SelectedAttribute, state?: boolean) {
+    const selectedAttributeIdx = this.selectedAttributes.findIndex(selectedAttribute => selectedAttribute.id === attribute.id);
+
+    state = selectedAttributeIdx === -1;
+
+    if (state === true && selectedAttributeIdx === -1) {
+      this.selectedAttributes.push(attribute);
+    } else if (state === false && selectedAttributeIdx !== -1) {
+      this.selectedAttributes.splice(selectedAttributeIdx, 1);
+    }
+  }
+
+  isSelected(attribute: SelectedAttribute): boolean {
+    return !!this.selectedAttributes.find(selectedAttribute => selectedAttribute.id === attribute.id);
   }
 }
 

@@ -70,13 +70,13 @@
 
       <ng-template #cellContent let-attribute="item">
         <div>
-          <i class="ai ai-checkmark editor__select-icon" [style.visibility]="attribute.isSelected ? 'visible' : 'hidden'"></i>
+          <i class="ai ai-checkmark editor__select-icon" [style.visibility]="isSelected(attribute) ? 'visible' : 'hidden'"></i>
           <app-button class="editor__select-btn"
-                      (click)="attribute.isSelected = !attribute.isSelected"
+                      (click)="toggleAttribute(attribute)"
                       btnSize="small"
           >
-            <ng-container *ngIf="!attribute.isSelected">Выбрать</ng-container>
-            <ng-container *ngIf="attribute.isSelected">Убрать</ng-container>
+            <ng-container *ngIf="!isSelected(attribute)">Выбрать</ng-container>
+            <ng-container *ngIf="isSelected(attribute)">Убрать</ng-container>
           </app-button>
         </div>
       </ng-template>
@@ -88,7 +88,7 @@
       <div class="attribute" *ngFor="let attribute of selectedAttributes">
         <div class="attribute__header">
           <div class="attribute__label">{{ attribute.label }}</div>
-          <div class="attribute__remove" (click)="attribute.isSelected = false">
+          <div class="attribute__remove" (click)="toggleAttribute(attribute, false)">
             <i class="ai ai-trash attribute__remove-icon"></i>
           </div>
         </div>
