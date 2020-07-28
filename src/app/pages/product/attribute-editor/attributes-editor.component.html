@@ -55,29 +55,34 @@
   </div>
 
   <div class="editor__content" [ngSwitch]="activeStep">
-    <div class="grid" *ngSwitchCase="stepsEnum.SelectAttributes">
-      <div class="grid__container">
-        <div class="grid__head attribute-row">
-          <div class="grid__block attribute-row__is-selected"></div>
-          <div class="grid__block attribute-row__id">Код атрибута</div>
-          <div class="grid__block attribute-row__label">Ярлык атрибута</div>
-        </div>
-        <div class="grid__body">
-          <div class="grid__row attribute-row" *ngFor="let attribute of attributes">
-            <div class="grid__block attribute-row__is-selected">
-              <input class="attribute-row__checkbox"
-                     [(ngModel)]="attribute.isSelected"
-                     type="checkbox"
-              >
-            </div>
-            <div class="grid__block attribute-row__id">{{ attribute.id }}</div>
-            <div class="grid__block attribute-row__label">{{ attribute.label }}</div>
-          </div>
+    <grid class="page__grid"
+          *ngSwitchCase="stepsEnum.SelectAttributes"
+          [cells]="gridCells"
+          [itemsArray]="attributes"
+          [itemsFiltered]="itemsFiltered"
+          [pagesTotal]="pagesTotal"
+          [isLoading]="isGridLoading"
+          (gridChange)="fetchAttributes($event)"
+          trackByFieldName="id"
+    >
+      <span grid-total-items>Всего атрибутов: {{ itemsTotal }}</span>
+      <span grid-no-items>Атрибуты не найдены</span>
 
-          <preloader *ngIf="!attributes?.length" class="editor__preloader"></preloader>
+      <ng-template #cellContent let-attribute="item">
+        <div>
+          <i class="ai ai-checkmark editor__select-icon" [style.visibility]="attribute.isSelected ? 'visible' : 'hidden'"></i>
+          <app-button class="editor__select-btn"
+                      (click)="attribute.isSelected = !attribute.isSelected"
+                      btnSize="small"
+          >
+            <ng-container *ngIf="!attribute.isSelected">Выбрать</ng-container>
+            <ng-container *ngIf="attribute.isSelected">Убрать</ng-container>
+          </app-button>
         </div>
-      </div>
-    </div>
+      </ng-template>
+      <ng-template #cellContent let-attribute="item">{{ attribute.id }}</ng-template>
+      <ng-template #cellContent let-attribute="item">{{ attribute.label }}</ng-template>
+    </grid>
 
     <ng-container *ngSwitchCase="stepsEnum.AttributeValues">
       <div class="attribute" *ngFor="let attribute of selectedAttributes">

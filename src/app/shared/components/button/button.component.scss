@@ -12,6 +12,7 @@
   transition: all 0.2s ease;
   cursor: pointer;
   font-size: 14px;
+  box-sizing: border-box;
 
   &--size-default {
     padding: 9px 14px;

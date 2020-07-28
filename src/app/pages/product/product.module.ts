@@ -18,6 +18,7 @@ import { ProductSelectorModule } from '../../product-selector/product-selector.m
 import { ProductItemSorterModule } from '../../product-item-sorter/product-item-sorter.module';
 import { OrderListViewerModalComponent } from './order-list-viewer-modal/order-list-viewer-modal.component';
 import { OrderListViewerModule } from '../../order-list-viewer/order-list-viewer.module';
+import { GridModule } from '../../grid/grid.module';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { OrderListViewerModule } from '../../order-list-viewer/order-list-viewer
     PreloaderModule,
     ProductSelectorModule,
     ProductItemSorterModule,
-    OrderListViewerModule
+    OrderListViewerModule,
+    GridModule
   ],
   providers: []
 })

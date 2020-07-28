@@ -12,8 +12,11 @@ import { AttributeDto, AttributeValueDto } from '../../../shared/dtos/attribute.
 import { ProductVariantDto } from '../../../shared/dtos/product-variant.dto';
 import { ProductDto } from '../../../shared/dtos/product.dto';
 import { NgUnsubscribe } from '../../../shared/directives/ng-unsubscribe/ng-unsubscribe.directive';
-import { takeUntil } from 'rxjs/operators';
+import { finalize, takeUntil } from 'rxjs/operators';
 import { EAttributeType } from '../../../shared/enums/attribute-type.enum';
+import { IGridCell, IGridValue } from '../../../grid/grid.interface';
+import { NotyService } from '../../../noty/noty.service';
+import { getPropertyOf } from '../../../shared/helpers/get-property-of.function';
 
 enum ESelectionStep {
   SelectAttributes,
@@ -61,10 +64,17 @@ export class AttributesEditorComponent extends NgUnsubscribe implements OnInit {
 
   stepsEnum = ESelectionStep;
 
+  itemsTotal: number = 0;
+  itemsFiltered: number;
+  pagesTotal: number = 1;
+  isGridLoading: boolean = false;
+  gridCells: IGridCell[] = attributeGridCells;
+
   @Input() initialFormValue: ProductDto;
   @Output('generated') generatedEmitter = new EventEmitter<ProductDto>();
 
   constructor(public attributeService: AttributeService,
+              private notyService: NotyService,
               private cdr: ChangeDetectorRef) {
     super();
   }
@@ -74,6 +84,7 @@ export class AttributesEditorComponent extends NgUnsubscribe implements OnInit {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(attributes => {
         this.attributes = this.transformResponse(attributes);
+        this.itemsTotal = this.attributes.length;
         this.cdr.markForCheck();
       });
   }
@@ -243,4 +254,52 @@ export class AttributesEditorComponent extends NgUnsubscribe implements OnInit {
   getPreGeneratedAttrLabel(attribute: Attribute) {
     return this.attributeService.getValueLabel(attribute.id, attribute.values.map(v => v.id));
   }
+
+  fetchAttributes(gridValue: IGridValue) {
+    this.isGridLoading = true;
+    this.cdr.detectChanges();
+
+    this.attributeService.fetchAttributes(gridValue)
+      .pipe(this.notyService.attachNoty(), finalize(() => this.isGridLoading = false))
+      .subscribe(
+        response => {
+          this.attributes = this.transformResponse(response.data);
+          this.itemsTotal = response.itemsTotal;
+          this.pagesTotal = response.pagesTotal;
+          this.itemsFiltered = response.itemsFiltered;
+
+          this.cdr.markForCheck();
+        }
+      )
+  }
 }
+
+const attributeGridCells: IGridCell[] = [
+  {
+    isSearchable: false,
+    label: '',
+    initialWidth: 100,
+    align: 'left',
+    isImage: false,
+    isSortable: false,
+    fieldName: ''
+  },
+  {
+    isSearchable: true,
+    label: 'ID',
+    initialWidth: 250,
+    align: 'left',
+    isImage: false,
+    isSortable: true,
+    fieldName: getPropertyOf<AttributeDto>('id')
+  },
+  {
+    isSearchable: true,
+    label: 'Label',
+    initialWidth: 500,
+    align: 'left',
+    isImage: false,
+    isSortable: true,
+    fieldName: getPropertyOf<AttributeDto>('label')
+  }
+];
