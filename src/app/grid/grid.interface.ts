@@ -13,6 +13,7 @@ export interface IGridValue extends IPagination {
 
 export interface IGridCell {
   label: string;
+  placeholder?: string;
   align: 'center' | 'left' | 'right';
   fieldName: string;
   isSortable: boolean;

@@ -123,12 +123,13 @@ const orderGridCells: IGridCell[] = [
   },
   {
     isSearchable: true,
-    label: 'Имя',
+    label: 'Получатель',
+    placeholder: 'Фамилия или телефон',
     initialWidth: 200,
     align: 'left',
     isImage: false,
     isSortable: false,
-    fieldName: `${shipmentProp}.${recipientProp}.${getPropertyOf<ShipmentAddressDto>('lastName')}|${shipmentProp}.${recipientProp}.${getPropertyOf<ShipmentAddressDto>('firstName')}`
+    fieldName: `${shipmentProp}.${recipientProp}.${getPropertyOf<ShipmentAddressDto>('lastName')}|${shipmentProp}.${recipientProp}.${getPropertyOf<ShipmentAddressDto>('phone')}`
   },
   {
     isSearchable: true,

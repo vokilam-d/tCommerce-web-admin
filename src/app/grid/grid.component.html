@@ -36,6 +36,7 @@
       <input class="grid__search-input"
              *ngIf="cell.isSearchable"
              [value]="filtersMap.get(cell.fieldName) || ''"
+             [placeholder]="cell.placeholder || ''"
              (input)="onSearchInput(cell, $event)"
              type="text"
              autocomplete="none"
