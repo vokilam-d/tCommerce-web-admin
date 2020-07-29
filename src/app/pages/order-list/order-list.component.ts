@@ -17,6 +17,7 @@ import { NgUnsubscribe } from '../../shared/directives/ng-unsubscribe/ng-unsubsc
 import { OrderStatusEnum } from '../../shared/enums/order-status.enum';
 import { ShipmentStatusEnum } from '../../shared/enums/shipment-status.enum';
 import { TRANSLATIONS_MAP } from '../../shared/constants/constants';
+import { PaymentMethodEnum } from '../../shared/enums/payment-method.enum';
 
 @Component({
   selector: 'order-list',
@@ -27,6 +28,7 @@ export class OrderListComponent extends NgUnsubscribe implements OnInit, AfterVi
 
   private fetchAllSub: Subscription;
 
+  paymentTypes = PaymentMethodEnum;
   orders: OrderDto[] = [];
   itemsTotal: number = 0;
   itemsFiltered: number;
