@@ -48,6 +48,10 @@ export class OrderService {
     return this.http.put<ResponseDto<OrderDto>>(`${API_HOST}/api/v1/admin/orders/${id}`, dto);
   }
 
+  deleteOrder(id: number) {
+    return this.http.delete<ResponseDto<OrderDto>>(`${API_HOST}/api/v1/admin/orders/${id}`);
+  }
+
   updateOrderAddress(id: number, address: ShipmentAddressDto) {
     const payload: Partial<ShipmentDto> = {
       recipient: address

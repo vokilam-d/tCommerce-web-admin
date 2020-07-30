@@ -10,6 +10,9 @@
       </button>
 
       <ng-container *ngIf="order">
+        <app-button class="header__btn" (click)="deleteOrder()" type="button" btnStyle="danger">
+          Удалить заказ
+        </app-button>
         <app-button class="header__btn" (click)="reorder()" type="button">
           Повторить заказ
         </app-button>

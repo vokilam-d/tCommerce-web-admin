@@ -7,7 +7,7 @@ import { Component, HostBinding, Input, OnInit } from '@angular/core';
 })
 export class ButtonComponent implements OnInit {
 
-  @Input() btnStyle: 'default' | 'primary' = 'default';
+  @Input() btnStyle: 'default' | 'primary' | 'danger' = 'default';
   @Input() type: 'button' | 'submit' = 'button';
   @Input() disabled: boolean = false;
   @Input() btnSize: 'default' | 'small' | 'big' = 'default';

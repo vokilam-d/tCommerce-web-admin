@@ -55,4 +55,21 @@
       background: darken($primary, 10%);
     }
   }
+
+  &--color-danger {
+    border-color: darken($red, 18%);
+    background: darken($red, 18%);
+    color: #fff;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.15);
+
+    &:not([disabled]):hover {
+      border-color: darken($red, 24%);
+      background: darken($red, 24%);
+    }
+
+    &:not([disabled]):active {
+      border-color: darken($red, 30%);
+      background: darken($red, 30%);
+    }
+  }
 }

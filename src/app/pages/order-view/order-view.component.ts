@@ -119,11 +119,22 @@ export class OrderViewComponent extends NgUnsubscribe implements OnInit {
   }
 
   editOrder() {
-    if (!confirm(`Вы уверены, что хотите изменить этот заказ?`)) {
-      return;
-    }
+    if (!confirm(`Вы уверены, что хотите изменить этот заказ?`)) { return; }
 
     this.router.navigate(['admin', 'order', 'edit', this.order.id]);
+  }
+
+  deleteOrder() {
+    if (!confirm(`Вы уверены, что хотите удалить этот заказ?`)) { return; }
+    if (!confirm(`Вы точно уверены?`)) { return; }
+
+    this.isLoading = true;
+    this.orderService.deleteOrder(this.order.id)
+      .pipe(
+        this.notyService.attachNoty({ successText: `Заказ #${this.order.id} успешно удалён` }),
+        finalize(() => this.isLoading = false)
+      )
+      .subscribe(_ => this.goBack());
   }
 
   isCancelOrderVisible(): boolean {
