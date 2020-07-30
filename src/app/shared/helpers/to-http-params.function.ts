@@ -21,7 +21,11 @@ export function toHttpParams(obj: IGridValue | { [key: string]: any }): HttpPara
     }
 
     if (Array.isArray(value)) {
-      value = value.join(',');
+      value = value
+        .map(v => v.replace(/,/g, ''))
+        .join(',');
+    } else {
+      value = value.replace(/,/g, '');
     }
 
     params = params.set(key, encodeURIComponent(value.toString()));

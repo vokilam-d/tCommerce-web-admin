@@ -2,10 +2,12 @@ import {
   ChangeDetectionStrategy,
   Component,
   ContentChildren,
-  EventEmitter, Inject,
+  EventEmitter,
+  Inject,
   Input,
   OnInit,
-  Output, PLATFORM_ID,
+  Output,
+  PLATFORM_ID,
   QueryList,
   TemplateRef,
   ViewChild
@@ -94,11 +96,6 @@ export class GridComponent<T extends { isOpened?: boolean } = any> extends NgUns
   }
 
   emitChange() {
-    // let value = this.getValue();
-    // if (value.filters?.length) {
-    //   const { sort, ...rest } = value;
-    //   value = rest;
-    // }
     this.changeEmitter.emit(this.getValue());
     this.saveInfo();
   }
@@ -123,9 +120,7 @@ export class GridComponent<T extends { isOpened?: boolean } = any> extends NgUns
   }
 
   onSearchInput(cell: IGridCell, evt: Event) {
-    let value = (evt.target as HTMLInputElement).value;
-    value = value.replace(/,/g, ''); // ',' sign is reserved as array delimiter
-
+    const value = (evt.target as HTMLInputElement).value;
     this.search$.next({ fieldName: cell.fieldName, value })
   }
 
