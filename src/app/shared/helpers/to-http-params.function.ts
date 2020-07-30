@@ -28,7 +28,7 @@ export function toHttpParams(obj: IGridValue | { [key: string]: any }): HttpPara
       value = value.toString().replace(/,/g, '');
     }
 
-    params = params.set(key, encodeURIComponent(value.toString()));
+    params = params.set(key, encodeURIComponent(value));
   });
 
   return params;
