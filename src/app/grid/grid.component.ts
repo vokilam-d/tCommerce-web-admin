@@ -1,7 +1,10 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ContentChildren,
+  ElementRef,
   EventEmitter,
   Inject,
   Input,
@@ -14,7 +17,7 @@ import {
 } from '@angular/core';
 import { IGridCell, IGridFilter, IGridValue } from './grid.interface';
 import { PaginationComponent } from '../pagination/pagination.component';
-import { Subject } from 'rxjs';
+import { fromEvent, Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { NgUnsubscribe } from '../shared/directives/ng-unsubscribe/ng-unsubscribe.directive';
 import { animate, state, style, transition, trigger } from '@angular/animations';
@@ -47,10 +50,11 @@ interface ISavedGridInfo {
     ])
   ]
 })
-export class GridComponent<T extends { isOpened?: boolean } = any> extends NgUnsubscribe implements OnInit {
+export class GridComponent<T extends { isOpened?: boolean } = any> extends NgUnsubscribe implements OnInit, AfterViewInit {
 
   activeSorting: IGridSorting = null;
   filtersMap = new Map<fieldName, string>();
+  gridScrollLeft: number = 0;
   private search$ = new Subject<IGridFilter>();
 
   @Input() gridName: string;
@@ -69,18 +73,24 @@ export class GridComponent<T extends { isOpened?: boolean } = any> extends NgUns
   @Output('itemSelect') itemSelectEmitter = new EventEmitter<T>();
 
   @ViewChild(PaginationComponent) paginationCmp: PaginationComponent;
+  @ViewChild('gridBodyRef') gridBodyRef: ElementRef<HTMLElement>;
   @ContentChildren('cellContent') cellContents: QueryList<TemplateRef<any>>;
   @ContentChildren('subCellContent') subCellContents: QueryList<TemplateRef<any>>;
   get cellContentsArray(): TemplateRef<any>[] { return this.cellContents.toArray(); }
   get subCellContentsArray(): TemplateRef<any>[] { return this.subCellContents.toArray(); }
 
-  constructor(@Inject(PLATFORM_ID) private platformId: any) {
+  constructor(@Inject(PLATFORM_ID) private platformId: any,
+              private cdr: ChangeDetectorRef) {
     super();
   }
 
   ngOnInit() {
     this.setFromSavedInfo();
     this.handleSearch();
+  }
+
+  ngAfterViewInit() {
+    this.handleHeadFixed();
   }
 
   onHeadCellClick(cell: IGridCell) {
@@ -197,5 +207,16 @@ export class GridComponent<T extends { isOpened?: boolean } = any> extends NgUns
           this.emitChange();
         }
       );
+  }
+
+  private handleHeadFixed() {
+    if (!isPlatformBrowser(this.platformId)) { return; }
+
+    fromEvent(this.gridBodyRef.nativeElement, 'scroll')
+      .pipe( takeUntil(this.ngUnsubscribe) )
+      .subscribe(evt => {
+        this.gridScrollLeft = (evt.target as HTMLElement).scrollLeft;
+        this.cdr.markForCheck();
+      });
   }
 }

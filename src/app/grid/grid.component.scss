@@ -17,18 +17,26 @@
   $grid: &;
 
   margin: 20px 0 0;
-  overflow-x: auto;
 
   &--small {
     font-size: 12px;
   }
 
   &__head,
-  &__row,
   &__item,
   &__search {
-    display: inline-flex;
+    display: flex;
     min-width: 100%;
+  }
+
+  &__head-container {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+  }
+
+  &__head-scroller {
+    overflow: hidden;
   }
 
   &__head {
@@ -37,6 +45,7 @@
   }
 
   &__row {
+    display: inline-flex;
     background: #fff;
     transition: background-color 0.1s ease;
     cursor: pointer;
@@ -74,6 +83,7 @@
     position: relative;
     top: -3px;
     min-height: 20vh;
+    overflow: auto;
   }
 
   &__block {
