@@ -50,6 +50,7 @@
       </div>
     </div>
 
+    <!--
     <div class="product__field field field--required"
          *ngIf="form.get('name') as name"
          [class.field--invalid]="isControlInvalid(name)"
@@ -59,6 +60,7 @@
         <input class="field__input" [formControl]="name" type="text" id="name">
       </span>
     </div>
+    -->
 
     <div class="product__field field" *ngIf="form.get('categories') as categories">
       <label class="field__label">
@@ -108,7 +110,7 @@
             Название товара
           </label>
           <span class="field__control">
-            <input class="field__input" [formControl]="name" type="text" [id]="'name-' + i">
+            <input class="field__input" [formControl]="name" (blur)="onNameControlBlur(name, i)" type="text" [id]="'name-' + i">
           </span>
         </div>
 

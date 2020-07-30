@@ -17,6 +17,8 @@ import { HeadService } from '../../shared/services/head.service';
 import { IDraggedEvent } from '../../shared/directives/draggable-item/draggable-item.directive';
 import { EReorderPosition } from '../../shared/enums/reorder-position.enum';
 import { OrderListViewerModalComponent } from './order-list-viewer-modal/order-list-viewer-modal.component';
+import { transliterate } from '../../shared/helpers/transliterate.function';
+import { MetaTagsDto } from '../../shared/dtos/meta-tags.dto';
 
 type PostAction = 'duplicate' | 'exit' | 'none';
 
@@ -306,5 +308,36 @@ export class ProductComponent implements OnInit {
           this.ordersModal.openModal(variant.sku, response.data);
         }
       );
+  }
+
+  onNameControlBlur(nameControl: AbstractControl, variantIndex: number) {
+    const name: string = nameControl.value;
+    if (!name) { return; }
+
+    if (variantIndex === 0) {
+      const nameProp: keyof ProductDto = 'name';
+      this.form.get(nameProp).setValue(name);
+    }
+
+    const variantForm = this.variantsFormArray.controls[variantIndex];
+
+    const slugProp: keyof ProductVariantDto = 'slug';
+    const slugControl = variantForm.get(slugProp);
+    if (!slugControl.value) {
+      slugControl.setValue(transliterate(name));
+    }
+
+    const metaProp: keyof ProductVariantDto = 'metaTags';
+    const titleProp: keyof MetaTagsDto = 'title';
+    const titleControl = variantForm.get(`${metaProp}.${titleProp}`);
+    if (!titleControl.value) {
+      titleControl.setValue(`Купить ${name[0].toLowerCase()}${name.slice(1)}`);
+    }
+
+    const descriptionProp: keyof MetaTagsDto = 'description';
+    const descriptionControl = variantForm.get(`${metaProp}.${descriptionProp}`);
+    if (!descriptionControl.value) {
+      descriptionControl.setValue(`Купить ${name[0].toLowerCase()}${name.slice(1)}`);
+    }
   }
 }
