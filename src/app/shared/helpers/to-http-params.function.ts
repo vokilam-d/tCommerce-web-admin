@@ -22,10 +22,10 @@ export function toHttpParams(obj: IGridValue | { [key: string]: any }): HttpPara
 
     if (Array.isArray(value)) {
       value = value
-        .map(v => v.replace(/,/g, ''))
+        .map(v => v.toString().replace(/,/g, ''))
         .join(',');
     } else {
-      value = value.replace(/,/g, '');
+      value = value.toString().replace(/,/g, '');
     }
 
     params = params.set(key, encodeURIComponent(value.toString()));
