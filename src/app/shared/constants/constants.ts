@@ -19,7 +19,7 @@ export const TRANSLATIONS_MAP = {
   [OrderStatusEnum.RECIPIENT_DENIED]: 'Получатель отказался',
   [OrderStatusEnum.RETURNING]: 'Возвращается',
   [OrderStatusEnum.RETURNED]: 'Возвращён',
-  [OrderStatusEnum.REFUSED_TO_RETURN]: 'Новый',
+  [OrderStatusEnum.REFUSED_TO_RETURN]: 'Отказ от возврата',
   [OrderStatusEnum.CANCELED]: 'Отменён',
   [ShipmentStatusEnum.AWAITING_TO_BE_RECEIVED_FROM_SENDER]: 'Ожидает поступление',
   [ShipmentStatusEnum.DELETED]: 'Удалено',
