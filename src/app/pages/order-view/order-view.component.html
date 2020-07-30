@@ -65,11 +65,34 @@
       <div class="two-col__col info-table">
         <div class="info-table__row">
           <div class="info-table__block">Дата заказа</div>
-          <div class="info-table__block">{{ order.createdAt | date }}</div>
+          <div class="info-table__block">{{ order.createdAt | date:'medium' }}</div>
         </div>
         <div class="info-table__row">
           <div class="info-table__block">Оплачен ли товар поставщику</div>
           <div class="info-table__block"></div>
+        </div>
+        <div class="info-table__row">
+          <div class="info-table__block">Клиент</div>
+          <div class="info-table__block">
+            <a class="order-view__client-link"
+               [routerLink]="['/', 'admin', 'customer', 'edit', order.customerId]"
+               target="_blank"
+            >
+              {{ order.customerFirstName }} {{ order.customerLastName }} ({{ order.customerEmail }})
+            </a>
+          </div>
+        </div>
+        <div class="info-table__row">
+          <div class="info-table__block">Комментарий о клиенте</div>
+          <div class="info-table__block">{{ order.customerNote }}</div>
+        </div>
+        <div class="info-table__row">
+          <div class="info-table__block">Нужно ли связываться с клиентом для подтверждения заказа?</div>
+          <div class="info-table__block">{{ order.isCallbackNeeded ? 'Да' : 'Нет' }}</div>
+        </div>
+        <div class="info-table__row">
+          <div class="info-table__block">Комментарий клиента к заказу</div>
+          <div class="info-table__block">{{ order.clientNote }}</div>
         </div>
         <div class="info-table__row">
           <div class="info-table__block">Комментарий менеджера</div>
@@ -78,22 +101,7 @@
       </div>
 
       <div class="two-col__col info-table">
-        <div class="info-table__row">
-          <div class="info-table__block">Клиент</div>
-          <div class="info-table__block">
-            <a [routerLink]="['/', 'admin', 'customer', 'edit', order.customerId]" target="_blank">
-              {{ order.customerFirstName }} {{ order.customerLastName }} ({{ order.customerEmail }})
-            </a>
-          </div>
-        </div>
-        <div class="info-table__row">
-          <div class="info-table__block">Нужно ли связываться с клиентом для подтверждения заказа?</div>
-          <div class="info-table__block">{{ order.isCallbackNeeded ? 'Да' : 'Нет' }}</div>
-        </div>
-        <div class="info-table__row">
-          <div class="info-table__block">Комментарий клиента</div>
-          <div class="info-table__block">{{ order.clientNote }}</div>
-        </div>
+
       </div>
     </div>
 
