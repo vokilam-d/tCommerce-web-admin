@@ -140,7 +140,7 @@
           </span>
 
           <ng-template #hasNumberTmpl>
-            {{ order.shipment.trackingNumber }}. {{ order.shipment.statusDescription }}<span *ngIf="order.shipment.estimatedDeliveryDate as date">. Ориентировочная дата прибытия: <b>{{ date }}</b></span>
+            {{ order.shipment.trackingNumber }}. {{ order.shipment.statusDescription }}<span *ngIf="isDeliveryDateVisible && order.shipment.estimatedDeliveryDate as date">. Ориентировочная дата прибытия: <b>{{ date }}</b></span>
           </ng-template>
         </ng-template>
       </div>

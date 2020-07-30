@@ -16,6 +16,7 @@ import { ShipmentDto } from '../../shared/dtos/shipment.dto';
 import { catchError, finalize, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { PaymentMethodEnum } from '../../shared/enums/payment-method.enum';
 import { NgUnsubscribe } from '../../shared/directives/ng-unsubscribe/ng-unsubscribe.directive';
+import { ShipmentStatusEnum } from '../../shared/enums/shipment-status.enum';
 
 @Component({
   selector: 'order-view',
@@ -47,6 +48,13 @@ export class OrderViewComponent extends NgUnsubscribe implements OnInit {
       default:
         return null;
     }
+  }
+
+  get isDeliveryDateVisible(): boolean {
+    return this.order?.shipment.status === ShipmentStatusEnum.IN_CITY
+      || this.order?.shipment.status === ShipmentStatusEnum.HEADING_TO_CITY
+      || this.order?.shipment.status === ShipmentStatusEnum.IN_DESTINATION_CITY
+      || this.order?.shipment.status === ShipmentStatusEnum.HEADING_TO_RECIPIENT;
   }
 
   constructor(private orderService: OrderService,
