@@ -29,8 +29,7 @@
     color: rgba($dark, 0.6);
   }
 
-  &__edit-address,
-  &__edit-tracking {
+  &__edit-btn {
     margin: 1px 0 0 15px;
     font-size: 14px;
     color: $blue;
@@ -176,5 +175,16 @@
   &__error {
     margin: 6px 0 0;
     color: $red;
+  }
+}
+
+.update-note {
+  text-align: right;
+
+  &__control {
+    display: block;
+    width: 250px;
+    min-height: 50px;
+    margin: 0 0 8px;
   }
 }

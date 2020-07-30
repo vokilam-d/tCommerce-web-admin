@@ -30,6 +30,7 @@ export class OrderViewComponent extends NgUnsubscribe implements OnInit {
   customer: CustomerDto;
   isAddressFormVisible: boolean = false;
   trackingIdControl: FormControl;
+  adminNoteControl: FormControl;
   paymentStatusControl: FormControl;
   paymentStatusError: string | null = null;
   isLoading: boolean = false;
@@ -191,6 +192,30 @@ export class OrderViewComponent extends NgUnsubscribe implements OnInit {
         response => {
           this.order = response.data;
           this.closeTrackingIdForm();
+        }
+      );
+  }
+
+  openAdminNoteForm() {
+    this.adminNoteControl = new FormControl(this.order.adminNote);
+  }
+
+  closeAdminNoteForm() {
+    this.adminNoteControl = null;
+  }
+
+  updateAdminNote() {
+    const adminNote = this.adminNoteControl.value;
+    this.isLoading = true;
+    this.orderService.updateOrderAdminNote(this.order.id, adminNote)
+      .pipe(
+        this.notyService.attachNoty({ successText: 'Комментарий менеджера успешно изменён' }),
+        finalize(() => this.isLoading = false)
+      )
+      .subscribe(
+        response => {
+          this.order = response.data;
+          this.closeAdminNoteForm();
         }
       );
   }

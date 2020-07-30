@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ResponseDto } from '../dtos/response.dto';
-import { AddOrUpdateOrderDto, OrderDto } from '../dtos/order.dto';
+import { AddOrUpdateOrderDto, OrderDto, UpdateOrderAdminNote } from '../dtos/order.dto';
 import { toHttpParams } from '../helpers/to-http-params.function';
 import { OrderItemDto } from '../dtos/order-item.dto';
 import { CreateOrderItemDto } from '../dtos/create-order-item.dto';
@@ -62,6 +62,14 @@ export class OrderService {
     };
 
     return this.http.patch<ResponseDto<OrderDto>>(`${API_HOST}/api/v1/admin/orders/${id}/shipment`, payload);
+  }
+
+  updateOrderAdminNote(id: number, adminNote: string) {
+    const payload: UpdateOrderAdminNote = {
+      adminNote
+    };
+
+    return this.http.put<ResponseDto<OrderDto>>(`${API_HOST}/api/v1/admin/orders/${id}/note`, payload);
   }
 
   createOrderItem(sku: string, qty: number, customerId?: number) {

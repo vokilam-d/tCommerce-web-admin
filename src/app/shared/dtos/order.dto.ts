@@ -36,3 +36,7 @@ export class OrderDto extends AddOrUpdateOrderDto {
   id: number;
   statusDescription: string;
 }
+
+export class UpdateOrderAdminNote {
+  adminNote: string;
+}
