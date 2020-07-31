@@ -270,6 +270,10 @@ export class AttributesEditorComponent extends NgUnsubscribe implements OnInit {
     this.isGridLoading = true;
     this.cdr.detectChanges();
 
+    if (gridValue.filters?.length) {
+      const { sort, ...rest } = gridValue;
+      gridValue = rest;
+    }
     this.attributeService.fetchAttributes(gridValue)
       .pipe(this.notyService.attachNoty(), finalize(() => this.isGridLoading = false))
       .subscribe(
