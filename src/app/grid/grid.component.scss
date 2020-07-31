@@ -46,6 +46,7 @@
 
   &__row {
     display: inline-flex;
+    min-width: 100%;
     background: #fff;
     transition: background-color 0.1s ease;
     cursor: pointer;
