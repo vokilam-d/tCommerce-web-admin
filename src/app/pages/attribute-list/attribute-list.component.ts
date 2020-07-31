@@ -51,10 +51,6 @@ export class AttributeListComponent extends NgUnsubscribe implements OnInit, Aft
 
   fetchAttributes(gridValue: IGridValue) {
     if (this.fetchAllSub) { this.fetchAllSub.unsubscribe(); }
-    if (gridValue.filters?.length) {
-      const { sort, ...rest } = gridValue;
-      gridValue = rest;
-    }
 
     this.isGridLoading = true;
     this.cdr.detectChanges();
