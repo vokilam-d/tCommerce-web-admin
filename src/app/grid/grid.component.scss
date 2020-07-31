@@ -48,6 +48,7 @@
     display: inline-flex;
     min-width: 100%;
     background: #fff;
+    border-bottom: 1px solid $borderColor;
     transition: background-color 0.1s ease;
     cursor: pointer;
 
