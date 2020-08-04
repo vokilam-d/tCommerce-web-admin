@@ -124,7 +124,7 @@ const productGridCells: IGridCell[] = [
   },
   {
     isSearchable: true,
-    label: 'Артикул',
+    label: 'Код',
     initialWidth: 70,
     align: 'left',
     isImage: false,

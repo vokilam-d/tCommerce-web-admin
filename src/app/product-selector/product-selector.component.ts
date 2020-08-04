@@ -173,7 +173,7 @@ const PRODUCT_GRID_CELLS: IGridCell[] = [
   },
   {
     isSearchable: true,
-    label: 'Артикул',
+    label: 'Код',
     initialWidth: 55,
     align: 'left',
     isImage: false,
