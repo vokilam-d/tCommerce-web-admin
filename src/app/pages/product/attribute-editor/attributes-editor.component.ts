@@ -83,6 +83,7 @@ export class AttributesEditorComponent extends NgUnsubscribe implements OnInit {
     this.attributeService.attributes$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(attributes => {
+        this.selectedAttributes = [];
         this.attributes = this.transformResponse(attributes);
         this.itemsTotal = this.attributes.length;
         this.cdr.markForCheck();
@@ -232,8 +233,6 @@ export class AttributesEditorComponent extends NgUnsubscribe implements OnInit {
   }
 
   private transformResponse(attributeDtos: AttributeDto[]): AttributeDto[] {
-    this.selectedAttributes = [];
-
     const hasAttributeValue = (attributes: ProductSelectedAttributeDto[], attributeId: string, valueId: string) => {
       return !!attributes.find(attr => attr.attributeId === attributeId && attr.valueIds.includes(valueId));
     }
@@ -254,7 +253,7 @@ export class AttributesEditorComponent extends NgUnsubscribe implements OnInit {
         values
       };
 
-      if (values.some(v => v.isSelected)) {
+      if (values.some(v => v.isSelected) && !this.selectedAttributes.find(s => s.id === attributeDto.id)) {
         this.selectedAttributes.push(selectedAttribute);
       }
 
