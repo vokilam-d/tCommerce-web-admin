@@ -205,6 +205,8 @@
           <tr class="items-table__row items-table__row--head">
             <td class="items-table__block items-table__block--img">Фото</td>
             <td class="items-table__block items-table__block--name">Название</td>
+            <td class="items-table__block items-table__block--sku">Код</td>
+            <td class="items-table__block items-table__block--vendor">Артикул</td>
             <td class="items-table__block items-table__block--price">Цена</td>
             <td class="items-table__block items-table__block--qty">Кол-во</td>
             <td class="items-table__block items-table__block--cost">Стоимость</td>
@@ -226,6 +228,12 @@
               <a class="items-table__link" [routerLink]="['/', 'admin', 'product', 'edit', item.productId]" target="_blank">
                 {{ item.name }}
               </a>
+            </td>
+            <td class="items-table__block items-table__block--sku">
+              {{ item.sku }}
+            </td>
+            <td class="items-table__block items-table__block--vendor">
+              {{ item.vendorCode }}
             </td>
             <td class="items-table__block items-table__block--price">
               {{ item.price }} грн<ng-container *ngIf="item.price !== item.originalPrice"> ({{ item.originalPrice }} грн)</ng-container>
