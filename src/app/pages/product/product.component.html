@@ -114,16 +114,14 @@
           </span>
         </div>
 
-        <div class="product__field field field--required"
-             *ngIf="variantForm.get('sku') as sku"
-             [class.field--invalid]="isControlInvalid(sku)"
-        >
-          <label class="field__label" [for]="'sku-' + i">
+        <div class="product__field field">
+          <div class="field__label">
             Код
-          </label>
-          <span class="field__control">
-            <input class="field__input" [formControl]="sku" [id]="'sku-' + i" type="text">
-          </span>
+          </div>
+          <div class="field__control">
+            <div class="product__sku" *ngIf="!isNewProduct">{{ product.variants[i].sku }}</div>
+            <div class="product__sku product__sku--placeholder" *ngIf="isNewProduct"> - автозаполнится - </div>
+          </div>
         </div>
 
         <div class="product__field field field--required"

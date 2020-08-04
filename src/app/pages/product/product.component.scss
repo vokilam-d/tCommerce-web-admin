@@ -36,6 +36,14 @@
     border-bottom: 1px dashed;
     cursor: pointer;
   }
+
+  &__sku {
+    margin: 5px 0 0;
+
+    &--placeholder {
+      color: rgba($dark, 0.6);
+    }
+  }
 }
 
 .media {

@@ -104,7 +104,6 @@ export class ProductComponent implements OnInit {
       const variantControls: Partial<Record<keyof ProductVariantDto, any>> = {
         id: [variant.id],
         name: [variant.name, Validators.required],
-        sku: [variant.sku, Validators.required],
         slug: variant.slug,
         attributes: [variant.attributes],
         isEnabled: variant.isEnabled,
