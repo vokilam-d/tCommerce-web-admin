@@ -37,10 +37,12 @@
 
     &:not([disabled]):hover {
       background: darken($controlBg, 5%);
+      color: $dark;
     }
 
     &:not([disabled]):active {
       background: darken($controlBg, 10%);
+      color: $dark;
     }
   }
 

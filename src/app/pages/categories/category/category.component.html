@@ -10,8 +10,17 @@
   </h1>
 
   <div class="header__toolbar">
-    <button class="header__btn toolbar-btn" *ngIf="!isNewCategory" (click)="delete()" type="button">Удалить</button>
-    <button class="header__btn toolbar-main-btn" (click)="save()" type="button">Сохранить</button>
+    <app-button class="header__btn" *ngIf="!isNewCategory" (click)="delete()" btnStyle="danger">
+      Удалить
+    </app-button>
+
+    <app-button class="header__btn" *ngIf="category" g [link]="['/', category.slug]">
+      Посмотреть на сайте
+    </app-button>
+
+    <app-button class="header__btn" (click)="save()" btnStyle="primary">
+      Сохранить
+    </app-button>
   </div>
 </header>
 

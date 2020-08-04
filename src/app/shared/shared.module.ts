@@ -14,6 +14,7 @@ import { NormalizedPhonePipe } from './pipes/normalized-phone.pipe';
 import { PreloaderModule } from '../preloader/preloader.module';
 import { AutofocusDirective } from './directives/autofocus/autofocus.directive';
 import { DraggableItemDirective } from './directives/draggable-item/draggable-item.directive';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { DraggableItemDirective } from './directives/draggable-item/draggable-it
   ],
   imports: [
     CommonModule,
-    PreloaderModule
+    PreloaderModule,
+    RouterModule
   ]
 })
 export class SharedModule {

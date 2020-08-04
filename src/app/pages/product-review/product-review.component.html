@@ -14,10 +14,10 @@
       <button class="header__btn toolbar-btn" (click)="goBack()" type="button">
         <i class="ai ai-arrow-left"></i> назад
       </button>
-      <button class="header__btn toolbar-btn" *ngIf="!isNewProductReview" (click)="delete()" type="button">
+      <app-button class="header__btn" *ngIf="!isNewProductReview" (click)="delete()" btnStyle="danger">
         Удалить
-      </button>
-      <button class="header__btn toolbar-main-btn" (click)="save()" type="button">Сохранить</button>
+      </app-button>
+      <app-button class="header__btn" (click)="save()">Сохранить</app-button>
     </div>
   </div>
 

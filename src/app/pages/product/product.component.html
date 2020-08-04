@@ -15,8 +15,12 @@
         <i class="ai ai-arrow-left"></i> назад
       </button>
 
-      <app-button class="header__btn" *ngIf="!isNewProduct" (click)="delete()" >
+      <app-button class="header__btn" *ngIf="!isNewProduct" (click)="delete()" btnStyle="danger">
         Удалить
+      </app-button>
+
+      <app-button class="header__btn" *ngIf="!isNewProduct && product" [link]="['/', product.variants[0].slug]">
+        Посмотреть на сайте
       </app-button>
 
       <app-button class="header__btn" (click)="save('duplicate')">
