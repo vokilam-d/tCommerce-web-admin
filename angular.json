@@ -80,6 +80,7 @@
             "disableHostCheck": true,
             "port": 4001,
             "aot": false,
+            "host": "0.0.0.0",
             "liveReload": true
           },
           "configurations": {
