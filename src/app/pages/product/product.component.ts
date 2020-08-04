@@ -7,7 +7,7 @@ import { MediaDto } from '../../shared/dtos/media.dto';
 import { ProductDto } from '../../shared/dtos/product.dto';
 import { NotyService } from '../../noty/noty.service';
 import { QuillHelperService } from '../../shared/services/quill-helper.service';
-import { QuillModules } from 'ngx-quill';
+import { Blur, QuillModules } from 'ngx-quill';
 import { DEFAULT_CURRENCY_CODE, ECurrencyCode } from '../../shared/enums/currency.enum';
 import { API_HOST } from '../../shared/constants/constants';
 import { finalize } from 'rxjs/operators';
@@ -332,11 +332,18 @@ export class ProductComponent implements OnInit {
     if (!titleControl.value) {
       titleControl.setValue(`Купить ${name[0].toLowerCase()}${name.slice(1)}`);
     }
+  }
 
+  onDescriptionControlBlur(quillBlurEvent: Blur, variantIndex: number) {
+    const description: string = quillBlurEvent.editor.getText();
+    if (!description) { return; }
+
+    const variantForm = this.variantsFormArray.controls[variantIndex];
+    const metaProp: keyof ProductVariantDto = 'metaTags';
     const descriptionProp: keyof MetaTagsDto = 'description';
-    const descriptionControl = variantForm.get(`${metaProp}.${descriptionProp}`);
-    if (!descriptionControl.value) {
-      descriptionControl.setValue(`Купить ${name[0].toLowerCase()}${name.slice(1)}`);
+    const metaDescriptionControl = variantForm.get(`${metaProp}.${descriptionProp}`);
+    if (!metaDescriptionControl.value) {
+      metaDescriptionControl.setValue(description);
     }
   }
 }

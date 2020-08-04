@@ -75,7 +75,7 @@
       </span>
     </div>
 
-    <fields-group class="product__group" [id]="'product-attributes'">
+    <fields-group class="product__group" id="product-attributes">
       <div fields-group-title>Атрибуты<span *ngIf="isMultiVariant"> (общие)</span></div>
 
       <ng-container *ngIf="form.get('attributes') as attributes">
@@ -103,7 +103,7 @@
         Вариация {{ i + 1 }}<ng-container *ngIf="variantForm.get('name') as name"> - {{ name.value }}</ng-container>
       </div>
 
-      <fields-group class="product__group" [id]="'product-info' + i">
+      <fields-group class="product__group" id="product-info">
         <div fields-group-title>Инфо</div>
 
         <div class="product__field field field--required"
@@ -260,7 +260,7 @@
         </div>
       </fields-group>
 
-      <fields-group class="product__group">
+      <fields-group class="product__group" id="product-content">
         <div fields-group-title>Контент</div>
 
         <div class="product__field field"
@@ -270,7 +270,7 @@
             Описание
           </label>
           <span class="field__control">
-            <quill-editor [formControl]="fullDescription" [strict]="false" [id]="'desc-' + i" [modules]="quillModules"></quill-editor>
+            <quill-editor [formControl]="fullDescription" [strict]="false" [id]="'desc-' + i" [modules]="quillModules" (onBlur)="onDescriptionControlBlur($event, i)"></quill-editor>
           </span>
         </div>
 
@@ -286,7 +286,7 @@
         </div>
       </fields-group>
 
-      <fields-group class="product__group">
+      <fields-group class="product__group" id="product-seo">
         <div fields-group-title>SEO</div>
 
         <div class="product__field field"
@@ -334,7 +334,7 @@
         </div>
       </fields-group>
 
-      <fields-group class="product__group">
+      <fields-group class="product__group" id="product-media">
         <div fields-group-title>Картинки и видео</div>
 
         <div class="product__field media" *ngIf="variantForm.get('medias') as mediasControl">
@@ -357,7 +357,7 @@
         </div>
       </fields-group>
 
-      <fields-group class="product__group">
+      <fields-group class="product__group" id="product-related">
         <div fields-group-title>Сопутствующие товары</div>
 
         <div class="product__field">
@@ -368,7 +368,7 @@
         </div>
       </fields-group>
 
-      <fields-group class="product__group">
+      <fields-group class="product__group" id="product-cross">
         <div fields-group-title>Кросс-товары</div>
 
         <div class="product__field">
@@ -381,7 +381,7 @@
 
     </fields-group>
 
-    <fields-group class="product__group">
+    <fields-group class="product__group" id="product-reviews">
       <div fields-group-title>
         Отзывы
         <span *ngIf="product.reviewsCount"> ({{ product.reviewsCount }} шт., средняя оценка - {{ product.reviewsAvgRating }})</span>
