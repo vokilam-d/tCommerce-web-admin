@@ -39,6 +39,12 @@
 
     <ng-template #cellContent let-product="item">
       <ng-container *ngIf="product.isSingleVariant">
+        {{ product.variants[0].vendorCode }}
+      </ng-container>
+    </ng-template>
+
+    <ng-template #cellContent let-product="item">
+      <ng-container *ngIf="product.isSingleVariant">
         {{ product.variants[0].price }} {{ product.variants[0].currency | readableCurrency }}
       </ng-container>
     </ng-template>
@@ -97,6 +103,8 @@
     <ng-template #subCellContent let-variant="subItem"> {{ variant.name }} </ng-template>
 
     <ng-template #subCellContent let-variant="subItem"> {{ variant.sku }} </ng-template>
+
+    <ng-template #subCellContent let-variant="subItem"> {{ variant.vendorCode }} </ng-template>
 
     <ng-template #subCellContent let-variant="subItem">
       {{ variant.priceInDefaultCurrency }} {{ defaultCurrency | readableCurrency }}

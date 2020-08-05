@@ -133,6 +133,15 @@ const productGridCells: IGridCell[] = [
   },
   {
     isSearchable: true,
+    label: 'Артикул',
+    initialWidth: 70,
+    align: 'left',
+    isImage: false,
+    isSortable: true,
+    fieldName: getPropertyOf<ProductListItemDto>('vendorCodes')
+  },
+  {
+    isSearchable: true,
     label: 'Цена',
     initialWidth: 70,
     align: 'left',

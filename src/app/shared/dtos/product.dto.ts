@@ -31,6 +31,7 @@ export class ProductVariantListItemDto {
   mediaUrl: string;
   name: string;
   sku: string;
+  vendorCode: string;
   price: number;
   oldPrice: number;
   currency: ECurrencyCode;
@@ -46,6 +47,7 @@ export class ProductListItemDto {
   mediaUrl: string;
   name: string;
   skus: string;
+  vendorCodes: string;
   prices: string;
   quantitiesInStock: string;
   sellableQuantities: string;

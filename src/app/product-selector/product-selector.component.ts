@@ -182,6 +182,15 @@ const PRODUCT_GRID_CELLS: IGridCell[] = [
   },
   {
     isSearchable: true,
+    label: 'Артикул',
+    initialWidth: 55,
+    align: 'left',
+    isImage: false,
+    isSortable: true,
+    fieldName: `${getPropertyOf<ProductForSelector>('variants')}.${getPropertyOf<VariantForSelector>('vendorCode')}`
+  },
+  {
+    isSearchable: true,
     label: 'Цена',
     initialWidth: 60,
     align: 'left',
