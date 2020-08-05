@@ -56,7 +56,7 @@ export class ProductSelectorComponent implements OnInit, AfterViewInit {
   variantsFieldName = getPropertyOf<ProductForSelector>('variants');
   defaultCurrency = DEFAULT_CURRENCY_CODE;
 
-  @Input() showQty: boolean = false;
+  @Input() canInputQty: boolean = false;
   @Output('selected') selectedEmitter: EventEmitter<ISelectedProduct> = new EventEmitter();
   @ViewChild(GridComponent) gridCmp: GridComponent;
 
@@ -139,7 +139,7 @@ export class ProductSelectorComponent implements OnInit, AfterViewInit {
   }
 
   isBtnDisabled(variant: VariantForSelector): boolean {
-    return this.showQty && variant.selectedQty === 0;
+    return this.canInputQty && variant.selectedQty === 0;
   }
 }
 

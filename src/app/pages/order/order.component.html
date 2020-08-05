@@ -299,6 +299,6 @@
 
 </div>
 
-<product-selector [showQty]="true" (selected)="onProductSelect($event)"></product-selector>
+<product-selector [canInputQty]="true" (selected)="onProductSelect($event)"></product-selector>
 
 <preloader class="preloader" *ngIf="isLoading" [hasMargins]="false"></preloader>

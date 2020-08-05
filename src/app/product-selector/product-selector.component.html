@@ -50,8 +50,8 @@
     </ng-template>
 
     <ng-template #cellContent let-product="item">
-      <ng-container *ngIf="showQty && product.isSingleVariant">
-        <div class="qty">
+      <ng-container *ngIf="canInputQty; else qtyViewTmpl">
+        <div class="qty" *ngIf="product.isSingleVariant">
           <input class="product__qty-input"
                  [(ngModel)]="product.variants[0].selectedQty"
                  [max]="product.variants[0].sellableQty"
@@ -60,6 +60,9 @@
           > из {{ product.variants[0].sellableQty }}
         </div>
       </ng-container>
+      <ng-template #qtyViewTmpl>
+        {{ product.quantitiesInStock }}
+      </ng-template>
     </ng-template>
 
     <ng-template #cellContent let-product="item">
@@ -111,7 +114,7 @@
     </ng-template>
 
     <ng-template #subCellContent let-variant="subItem">
-      <ng-container *ngIf="showQty">
+      <ng-container *ngIf="canInputQty">
         <input class="product__qty-input"
                [(ngModel)]="variant.selectedQty"
                [max]="variant.sellableQty"
