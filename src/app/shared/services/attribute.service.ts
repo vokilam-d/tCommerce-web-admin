@@ -21,9 +21,11 @@ export class AttributeService {
   }
 
   setAttributes() {
+    const labelProp: keyof AttributeDto = 'label';
+
     this.http.get<ResponseDto<AttributeDto[]>>(
       `${API_HOST}/api/v1/admin/attributes`,
-      { params: toHttpParams({ limit: 0 }) }
+      { params: toHttpParams({ limit: 0, sort: labelProp }) }
     )
       .subscribe(
         response => {

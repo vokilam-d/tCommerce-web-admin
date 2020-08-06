@@ -248,6 +248,8 @@ export class AttributesEditorComponent extends NgUnsubscribe implements OnInit {
         };
       });
 
+      values.sort(((a, b) => a.label > b.label ? 1 : -1));
+
       const selectedAttribute = {
         ...attributeDto,
         values

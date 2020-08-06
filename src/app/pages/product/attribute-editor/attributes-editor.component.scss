@@ -202,14 +202,11 @@
 
   &__values {
     margin: 20px 0 0;
-    display: flex;
-    flex-wrap: wrap;
+    column-count: 3;
   }
 
   &__value {
-    width: 30%;
-    display: flex;
-    align-items: center;
+    display: block;
   }
 
   &__value-label {
