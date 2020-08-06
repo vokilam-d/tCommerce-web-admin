@@ -99,7 +99,7 @@ export class AttributeComponent implements OnInit {
 
   private buildForm(attribute: AttributeDto) {
     const controls: Record<keyof AttributeDto, any> = {
-      id: [{ value: attribute.id, disabled: !this.isNewAttribute }, [Validators.pattern(urlFriendlyCodeRegex), Validators.required]],
+      id: [{ value: attribute.id, disabled: !this.isNewAttribute }],
       label: [attribute.label, Validators.required],
       values: [attribute.values],
       type: [attribute.type],
@@ -142,7 +142,7 @@ export class AttributeComponent implements OnInit {
   private addNewAttribute() {
     const dto = this.form.value;
     this.attributeService.addNewAttribute(dto)
-      .pipe(this.notyService.attachNoty({ successText: `Атрибут успешно удалён` }))
+      .pipe(this.notyService.attachNoty({ successText: `Атрибут успешно сохранён` }))
       .subscribe(
         response => {
           const attribute = response.data;
@@ -159,7 +159,7 @@ export class AttributeComponent implements OnInit {
     };
 
     this.attributeService.updateAttribute(this.attribute.id, dto)
-      .pipe(this.notyService.attachNoty({ successText: 'Атрибут успешно обновлён' }))
+      .pipe(this.notyService.attachNoty({ successText: 'Атрибут успешно изменён' }))
       .subscribe(
         response => {
           this.attribute = response.data;

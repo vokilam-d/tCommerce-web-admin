@@ -78,14 +78,14 @@
           <div class="option__radio-container">
             По умолчанию
           </div>
+          <div class="option__label-container">
+            Имя опции
+          </div>
           <div class="option__code-container">
             Код опции
             <span class="option__code-note">
-              (нельзя изменять после сохранения)
+              (необязательно)
             </span>
-          </div>
-          <div class="option__label-container">
-            Имя опции
           </div>
         </div>
 
@@ -100,6 +100,14 @@
             >
           </div>
 
+          <div class="option__label-container">
+            <input class="option__label field__input"
+                   [(ngModel)]="option.label"
+                   [ngModelOptions]="{ standalone: true }"
+                   type="text"
+            >
+          </div>
+
           <div class="option__code-container">
             <input class="option__code field__input"
                    [(ngModel)]="option.id"
@@ -107,14 +115,6 @@
                    [disabled]="option.isNew !== true"
                    type="text"
                    placeholder='a-z, 0-9, -, _'
-            >
-          </div>
-
-          <div class="option__label-container">
-            <input class="option__label field__input"
-                   [(ngModel)]="option.label"
-                   [ngModelOptions]="{ standalone: true }"
-                   type="text"
             >
           </div>
 
