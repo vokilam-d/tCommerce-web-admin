@@ -27,7 +27,6 @@ export class CategorySelectComponent implements OnInit, ControlValueAccessor {
 
   private _value: ProductCategoryDto[];
   get value(): ProductCategoryDto[] {
-
     const selected = [];
     const populate = (options: CategorySelectOption[]) => {
       options.forEach(option => {
@@ -98,6 +97,16 @@ export class CategorySelectComponent implements OnInit, ControlValueAccessor {
 
   toggleOption(option: CategorySelectOption, isSelected = !option.isSelected) {
     option.isSelected = isSelected;
+
+    if (option.isSelected) {
+      let parentId: number = option.parentId;
+      while (parentId > 0) {
+        const parent = this.findOptionById(parentId);
+        parent.isSelected = option.isSelected;
+        parentId = parent.parentId;
+      }
+    }
+
     this.onChange(this.value);
     this.onTouched();
   }
@@ -113,12 +122,13 @@ export class CategorySelectComponent implements OnInit, ControlValueAccessor {
   }
 
   private buildOptions(categories: CategoryTreeItem[]): CategorySelectOption[] {
-    return categories.map(({ id, name, slug, children }) => {
+    return categories.map(({ id, name, slug, children, parentId }) => {
       const isSelected = !!this._value.find(category => category.id === id);
       return {
         id,
         name,
         slug,
+        parentId,
         children: this.buildOptions(children),
         isSelected
       }
@@ -139,7 +149,10 @@ export class CategorySelectComponent implements OnInit, ControlValueAccessor {
           return option;
         }
         if (option.children?.length) {
-          return findOption(option.children);
+          const found = findOption(option.children);
+          if (found) {
+            return found;
+          }
         }
       }
     }

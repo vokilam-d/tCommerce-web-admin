@@ -17,6 +17,7 @@ export class CategoryTreeItem {
   id: CategoryDto['id'];
   name: CategoryDto['name'];
   slug: CategoryDto['slug'];
+  parentId: CategoryDto['parentId'];
   children: CategoryTreeItem[];
 }
 
