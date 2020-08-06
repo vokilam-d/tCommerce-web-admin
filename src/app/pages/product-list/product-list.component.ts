@@ -98,9 +98,9 @@ const productGridCells: IGridCell[] = [
   {
     isSearchable: false,
     label: 'ID',
-    initialWidth: 30,
+    initialWidth: 35,
     align: 'center',
-    isImage: false,
+    isImage: true,
     isSortable: true,
     fieldName: getPropertyOf<ProductListItemDto>('id')
   },

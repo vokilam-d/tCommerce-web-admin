@@ -147,9 +147,9 @@ const PRODUCT_GRID_CELLS: IGridCell[] = [
   {
     isSearchable: false,
     label: 'ID',
-    initialWidth: 30,
+    initialWidth: 35,
     align: 'center',
-    isImage: false,
+    isImage: true,
     isSortable: true,
     fieldName: getPropertyOf<ProductForSelector>('id')
   },
