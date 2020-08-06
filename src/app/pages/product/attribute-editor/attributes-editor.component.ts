@@ -71,6 +71,7 @@ export class AttributesEditorComponent extends NgUnsubscribe implements OnInit {
   gridCells: IGridCell[] = attributeGridCells;
 
   @Input() initialFormValue: ProductDto;
+  @Input() isSelectManufacturerAttr: boolean = false;
   @Output('generated') generatedEmitter = new EventEmitter<ProductDto>();
 
   constructor(public attributeService: AttributeService,
@@ -86,6 +87,11 @@ export class AttributesEditorComponent extends NgUnsubscribe implements OnInit {
         this.selectedAttributes = [];
         this.attributes = this.transformResponse(attributes);
         this.itemsTotal = this.attributes.length;
+
+        if (this.isSelectManufacturerAttr) {
+          this.selectManufacturerAttribute();
+        }
+
         this.cdr.markForCheck();
       });
   }
@@ -259,7 +265,7 @@ export class AttributesEditorComponent extends NgUnsubscribe implements OnInit {
         this.selectedAttributes.push(selectedAttribute);
       }
 
-      return selectedAttribute
+      return selectedAttribute;
     });
   }
 
@@ -299,6 +305,16 @@ export class AttributesEditorComponent extends NgUnsubscribe implements OnInit {
 
   isSelected(attribute: SelectedAttribute): boolean {
     return !!this.selectedAttributes.find(selectedAttribute => selectedAttribute.id === attribute.id);
+  }
+
+  private selectManufacturerAttribute() {
+    const manufacturerAttrId = 'manufacturer';
+    if (this.selectedAttributes.find(attribute => attribute.id === manufacturerAttrId)) { return; }
+
+    const manufacturerAttr = this.attributes.find(attribute => attribute.id === manufacturerAttrId);
+    if (manufacturerAttr) {
+      this.selectedAttributes.push(manufacturerAttr as SelectedAttribute);
+    }
   }
 }
 

@@ -90,6 +90,7 @@
 
       <attributes-editor class="product__edit-attributes"
                          [initialFormValue]="form.value"
+                         [isSelectManufacturerAttr]="isNewProduct"
                          (generated)="onAttributesEdit($event)"
       ></attributes-editor>
     </fields-group>
