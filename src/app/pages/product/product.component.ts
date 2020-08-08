@@ -10,7 +10,7 @@ import { QuillHelperService } from '../../shared/services/quill-helper.service';
 import { Blur, QuillModules } from 'ngx-quill';
 import { DEFAULT_CURRENCY_CODE, ECurrencyCode } from '../../shared/enums/currency.enum';
 import { API_HOST } from '../../shared/constants/constants';
-import { finalize } from 'rxjs/operators';
+import { finalize, takeUntil } from 'rxjs/operators';
 import { ProductVariantDto } from '../../shared/dtos/product-variant.dto';
 import { LinkedProductDto } from '../../shared/dtos/linked-product.dto';
 import { HeadService } from '../../shared/services/head.service';
@@ -19,6 +19,7 @@ import { EReorderPosition } from '../../shared/enums/reorder-position.enum';
 import { OrderListViewerModalComponent } from './order-list-viewer-modal/order-list-viewer-modal.component';
 import { transliterate } from '../../shared/helpers/transliterate.function';
 import { MetaTagsDto } from '../../shared/dtos/meta-tags.dto';
+import { NgUnsubscribe } from '../../shared/directives/ng-unsubscribe/ng-unsubscribe.directive';
 
 type PostAction = 'duplicate' | 'exit' | 'none';
 
@@ -27,7 +28,7 @@ type PostAction = 'duplicate' | 'exit' | 'none';
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.scss']
 })
-export class ProductComponent implements OnInit {
+export class ProductComponent extends NgUnsubscribe implements OnInit {
 
   isNewProduct: boolean;
   product: ProductDto;
@@ -37,7 +38,7 @@ export class ProductComponent implements OnInit {
   isLoading: boolean = false;
 
   get variantsFormArray() { return this.form.get('variants') as FormArray; }
-  get isMultiVariant(): boolean { return this.variantsFormArray.controls.length > 1 }
+  get isMultiVariant(): boolean { return this.variantsFormArray.controls.length > 1; }
 
   @ViewChild(OrderListViewerModalComponent) ordersModal: OrderListViewerModalComponent;
 
@@ -48,6 +49,7 @@ export class ProductComponent implements OnInit {
               private quillHelperService: QuillHelperService,
               private notyService: NotyService,
               private route: ActivatedRoute) {
+    super();
   }
 
   ngOnInit() {
@@ -82,9 +84,7 @@ export class ProductComponent implements OnInit {
   }
 
   delete() {
-    if (!confirm(`Вы действительно хотите удалить этот товар?`)) {
-      return;
-    }
+    if (!confirm(`Вы действительно хотите удалить этот товар?`)) { return; }
 
     this.isLoading = true;
     this.productsService.deleteProduct(this.product.id)
@@ -309,14 +309,21 @@ export class ProductComponent implements OnInit {
       );
   }
 
-  onNameControlBlur(nameControl: AbstractControl, variantIndex: number) {
-    const name: string = nameControl.value;
-    if (!name) { return; }
+  onNameControlBlur(nameControl: AbstractControl) {
+    const name = nameControl.value;
+    if (!name || this.isMultiVariant) { return; }
 
-    if (variantIndex === 0) {
-      const nameProp: keyof ProductDto = 'name';
-      this.form.get(nameProp).setValue(name);
-    }
+    const variantsProp: keyof ProductDto = 'variants';
+    const variantNameProp: keyof ProductVariantDto = 'name';
+
+    const variantNameControl = (this.form.get(variantsProp) as FormArray).at(0).get(variantNameProp);
+    variantNameControl.setValue(name);
+    this.onVariantNameControlBlur(variantNameControl, 0);
+  }
+
+  onVariantNameControlBlur(nameControl: AbstractControl, variantIndex: number) {
+    const name = nameControl.value;
+    if (!name) { return; }
 
     const variantForm = this.variantsFormArray.controls[variantIndex];
 

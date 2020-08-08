@@ -1,5 +1,18 @@
 @import "variables";
 
+.header {
+  display: block;
+
+  &__title {
+    min-height: 28px;
+  }
+
+  &__toolbar {
+    margin: 20px 0 0;
+    text-align: right;
+  }
+}
+
 .preloader {
   top: initial;
   bottom: 15vh;
