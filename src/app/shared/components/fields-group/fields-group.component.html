@@ -1,13 +1,14 @@
 <div class="group" [class.group--no-styles]="!showHeader" @blockInitialAnimation>
-  <div class="group__header" *ngIf="showHeader" (click)="toggle()">
-    <div class="group__title">
-      <ng-content select="[fields-group-title]"></ng-content>
-    </div>
 
-    <div class="group__toggle"
-         [class.group__toggle--opened]="isOpened"
-    >
-      <i class="ai ai-arrow-down-in-circle group__toggle-icon"></i>
+  <div class="group__header-container" *ngIf="showHeader" (click)="toggle()" [class.group__header-container--opened]="isOpened">
+    <div class="group__header">
+      <div class="group__toggle" [class.group__toggle--opened]="isOpened">
+        <i class="ai ai-arrow-down-in-circle group__toggle-icon"></i>
+      </div>
+
+      <div class="group__title">
+        <ng-content select="[fields-group-title]"></ng-content>
+      </div>
     </div>
   </div>
 
