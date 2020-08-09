@@ -4,15 +4,16 @@
   $media: &;
 
   position: relative;
-  display: flex;
-  width: 150px;
-  height: 150px;
-  padding: 5px;
   border: 1px solid $borderColor;
   cursor: pointer;
 
   &__img-container {
-    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 150px;
+    padding: 5px;
   }
 
   &__img {
