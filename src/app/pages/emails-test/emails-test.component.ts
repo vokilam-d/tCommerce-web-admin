@@ -73,6 +73,30 @@ export class EmailsTestComponent implements OnInit {
       .subscribe();
   }
 
+  sendNewProductReviewEmail() {
+    if (!this.checkEmail()) { return; }
+
+    const reviewId = prompt(`Введите ID отзыва`);
+    if (!reviewId) { return; }
+
+    const apiUrl = `${API_HOST}/api/v1/${this.apiPrefix}/new-product-review/${reviewId}`;
+    this.http.post(apiUrl, { email: this.email })
+      .pipe(this.notyService.attachNoty({ successText: 'Письмо успешно отправлено' }))
+      .subscribe();
+  }
+
+  sendNewStoreReviewEmail() {
+    if (!this.checkEmail()) { return; }
+
+    const reviewId = prompt(`Введите ID отзыва`);
+    if (!reviewId) { return; }
+
+    const apiUrl = `${API_HOST}/api/v1/${this.apiPrefix}/new-store-review/${reviewId}`;
+    this.http.post(apiUrl, { email: this.email })
+      .pipe(this.notyService.attachNoty({ successText: 'Письмо успешно отправлено' }))
+      .subscribe();
+  }
+
   private checkEmail(): boolean {
     if (this.email) {
       return true;
