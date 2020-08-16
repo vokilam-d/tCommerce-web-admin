@@ -17,6 +17,10 @@ import { API_HOST } from '../../shared/constants/constants';
 import { HeadService } from '../../shared/services/head.service';
 import { NgUnsubscribe } from '../../shared/directives/ng-unsubscribe/ng-unsubscribe.directive';
 import { finalize, takeUntil } from 'rxjs/operators';
+import { PaymentMethodEnum } from '../../shared/enums/payment-method.enum';
+import { ShipmentTypeEnum } from '../../shared/enums/shipment-type.enum';
+import { ShipmentPayerEnum } from '../../shared/enums/shipment-payer.enum';
+import { ShipmentPaymentMethodEnum } from '../../shared/enums/shipment-payment-method.enum';
 
 @Component({
   selector: 'order',
@@ -83,7 +87,7 @@ export class OrderComponent extends NgUnsubscribe implements OnInit {
       )
       .subscribe(
         response => {
-          this.order = response.data;
+          this.setOrder(response.data);
 
           if (this.isReorder || this.isEditOrder) {
             this.fetchCustomer(this.order.customerId);
@@ -294,5 +298,38 @@ export class OrderComponent extends NgUnsubscribe implements OnInit {
 
   getOrderItemTotalCost(orderItem: OrderItemDto): number {
     return orderItem.cost - orderItem.discountValue;
+  }
+
+  private setOrder(orderDto: OrderDto) {
+    if (!this.isReorder) {
+      this.order = orderDto;
+      return;
+    }
+
+    this.order = {
+      customerEmail: orderDto.customerEmail,
+      customerFirstName: orderDto.customerFirstName,
+      customerLastName: orderDto.customerLastName,
+      customerId: orderDto.customerId,
+      customerPhoneNumber: orderDto.customerPhoneNumber,
+      items: orderDto.items,
+      discountPercent: orderDto.discountPercent,
+      discountValue: orderDto.discountValue,
+      totalCost: orderDto.totalCost,
+      totalItemsCost: orderDto.totalItemsCost,
+      paymentType: orderDto.paymentType,
+      paymentMethodId: orderDto.paymentMethodId,
+      paymentMethodAdminName: orderDto.paymentMethodAdminName,
+      paymentMethodClientName: orderDto.paymentMethodClientName,
+      shippingMethodName: orderDto.shippingMethodName,
+      isCallbackNeeded: orderDto.isCallbackNeeded,
+      shipment: {
+        senderId: orderDto.shipment.senderId,
+        recipient: orderDto.shipment.recipient,
+        shipmentType: orderDto.shipment.shipmentType,
+        payerType: orderDto.shipment.payerType,
+        paymentMethod: orderDto.shipment.paymentMethod
+      }
+    } as OrderDto;
   }
 }
