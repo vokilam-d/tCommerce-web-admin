@@ -19,6 +19,7 @@ export class ShipmentInfoModalComponent implements OnInit {
 
   @Input() shipment: ShipmentDto;
   @Input() cost: number;
+  @Input() setBackwardDeliveryAsCost: boolean = false;
   @Output('infoSubmit') submitEmitter = new EventEmitter<ShipmentDto>();
 
   constructor(private shipmentSenderService: ShipmentSenderService,
@@ -41,6 +42,11 @@ export class ShipmentInfoModalComponent implements OnInit {
   }
 
   private buildForm() {
+    let backwardMoneyDelivery: any = this.shipment.backwardMoneyDelivery;
+    if (this.setBackwardDeliveryAsCost && !backwardMoneyDelivery) {
+      backwardMoneyDelivery = this.cost;
+    }
+
     const controls: Partial<Record<keyof ShipmentDto, any>> = {
       senderId: [this.defaultSenderId || this.shipment.senderId, Validators.required],
       weight: [this.shipment.weight, Validators.required],
@@ -48,7 +54,7 @@ export class ShipmentInfoModalComponent implements OnInit {
       height: [this.shipment.height, Validators.required],
       length: [this.shipment.length, Validators.required],
       description: [this.shipment.description, Validators.required],
-      backwardMoneyDelivery: this.shipment.backwardMoneyDelivery,
+      backwardMoneyDelivery: backwardMoneyDelivery,
       cost: this.cost
     };
 

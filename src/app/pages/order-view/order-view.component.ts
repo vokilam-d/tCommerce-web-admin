@@ -272,7 +272,11 @@ export class OrderViewComponent extends NgUnsubscribe implements OnInit {
   }
 
   isPaymentToggleVisible() {
-    return this.order.paymentType !== PaymentMethodEnum.CASH_ON_DELIVERY;
+    return !this.isCashOnDelivery();
+  }
+
+  isCashOnDelivery() {
+    return this.order.paymentType === PaymentMethodEnum.CASH_ON_DELIVERY;
   }
 
   private handlePaymentStatusControl() {
