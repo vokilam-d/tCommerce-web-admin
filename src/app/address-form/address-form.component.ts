@@ -17,7 +17,7 @@ import { NgUnsubscribe } from '../shared/directives/ng-unsubscribe/ng-unsubscrib
 export class AddressFormComponent extends NgUnsubscribe implements OnChanges {
 
   addressForm: FormGroup;
-  addressTypes = [{ data: AddressTypeEnum.WAREHOUSE, view: 'В отделение' }, { data: AddressTypeEnum.DOORS, view: 'Адресная курьером' }];
+  addressTypes = [{ data: AddressTypeEnum.WAREHOUSE, view: 'В отделение' }, { data: AddressTypeEnum.DOORS, view: 'Адресная доставка' }];
   addressTypeEnum = AddressTypeEnum;
   get settlementIdControl() { return this.addressForm.get(getPropertyOf<ShipmentAddressDto>('settlementId')); }
 
