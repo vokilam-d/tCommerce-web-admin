@@ -10,6 +10,8 @@ export class UpdateAttributeDto {
   label: string;
   values: AttributeValueDto[];
   groupName: string;
+  isVisibleInProduct: boolean;
+  isVisibleInFilters: boolean;
 }
 
 export class CreateAttributeDto extends UpdateAttributeDto {

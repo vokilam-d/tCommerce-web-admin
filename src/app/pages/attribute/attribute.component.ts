@@ -103,7 +103,9 @@ export class AttributeComponent implements OnInit {
       label: [attribute.label, Validators.required],
       values: [attribute.values],
       type: [attribute.type],
-      groupName: attribute.groupName
+      groupName: attribute.groupName,
+      isVisibleInProduct: attribute.isVisibleInProduct,
+      isVisibleInFilters: attribute.isVisibleInFilters
     }
 
     this.form = this.formBuilder.group(controls);
@@ -175,7 +177,9 @@ export class AttributeComponent implements OnInit {
       label: '',
       groupName: '',
       type: EAttributeType.Select,
-      values: []
+      values: [],
+      isVisibleInProduct: true,
+      isVisibleInFilters: true
     };
   }
 
