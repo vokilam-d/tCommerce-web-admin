@@ -11,6 +11,8 @@ import { PreloaderModule } from '../../preloader/preloader.module';
 import { CategoryProductItemSorterModalComponent } from './category-product-item-sorter-modal/category-product-item-sorter-modal.component';
 import { ProductItemSorterModule } from '../../product-item-sorter/product-item-sorter.module';
 import { QuillModule } from 'ngx-quill';
+import { MediaAssetModule } from '../../media-asset/media-asset.module';
+import { MediaUploaderModule } from '../../media-uploader/media-uploader.module';
 
 
 @NgModule({
@@ -27,7 +29,9 @@ import { QuillModule } from 'ngx-quill';
     SharedModule,
     PreloaderModule,
     ProductItemSorterModule,
-    QuillModule
+    QuillModule,
+    MediaAssetModule,
+    MediaUploaderModule
   ],
   providers: [
     CategoriesService

@@ -85,6 +85,29 @@
     </label>
   </fields-group>
 
+  <fields-group id="category-media">
+    <div fields-group-title>Картинки и видео</div>
+
+    <div class="category__field media" *ngIf="medias">
+      <media-asset class="media__asset"
+                   *ngFor="let media of medias.value, index as i"
+                   [media]="media"
+                   [draggable-item]="media"
+                   [class.media__asset--main]="i === 0 && medias.value.length > 1"
+                   (remove)="onMediaRemove(media, medias)"
+                   (dragged)="onMediaReorder(medias, $event)"
+                   draggable-item-type="media"
+                   draggable-item-direction="horizontal"
+      ></media-asset>
+
+      <media-uploader class="media_asset"
+                      [uploadUrl]="getMediaUploadUrl()"
+                      (uploaded)="mediaUploaded($event, medias)"
+      ></media-uploader>
+
+    </div>
+  </fields-group>
+
 </form>
 
 <ng-template #preloaderTmpl>

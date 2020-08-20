@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CategoriesService } from '../categories.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { EPageAction } from '../../../shared/enums/category-page-action.enum';
 import { AddOrUpdateCategoryDto, CategoryDto } from '../../../shared/dtos/category.dto';
 import { NotyService } from '../../../noty/noty.service';
@@ -9,6 +9,10 @@ import { CategoryProductItemSorterModalComponent } from '../category-product-ite
 import { HeadService } from '../../../shared/services/head.service';
 import { QuillModules } from 'ngx-quill';
 import { QuillHelperService } from '../../../shared/services/quill-helper.service';
+import { API_HOST } from '../../../shared/constants/constants';
+import { MediaDto } from '../../../shared/dtos/media.dto';
+import { IDraggedEvent } from '../../../shared/directives/draggable-item/draggable-item.directive';
+import { EReorderPosition } from '../../../shared/enums/reorder-position.enum';
 
 const EMPTY_CATEGORY: AddOrUpdateCategoryDto = {
   isEnabled: true,
@@ -20,7 +24,8 @@ const EMPTY_CATEGORY: AddOrUpdateCategoryDto = {
     title: '',
     description: '',
     keywords: ''
-  }
+  },
+  medias: []
 };
 
 @Component({
@@ -33,13 +38,14 @@ export class CategoryComponent implements OnInit {
   category: CategoryDto;
   form: FormGroup;
 
-  get isEnabled() { return this.form && this.form.get('isEnabled') as FormControl; }
-  get name() { return this.form && this.form.get('name') as FormControl; }
-  get description() { return this.form && this.form.get('description') as FormControl; }
-  get slug() { return this.form && this.form.get('slug') as FormControl; }
-  get metaTitle() { return this.form && this.form.get('metaTags.title') as FormControl; }
-  get metaDescription() { return this.form && this.form.get('metaTags.description') as FormControl; }
-  get metaKeywords() { return this.form && this.form.get('metaTags.keywords') as FormControl; }
+  get isEnabled() { return this.form?.get('isEnabled') as FormControl; }
+  get name() { return this.form?.get('name') as FormControl; }
+  get description() { return this.form?.get('description') as FormControl; }
+  get slug() { return this.form?.get('slug') as FormControl; }
+  get metaTitle() { return this.form?.get('metaTags.title') as FormControl; }
+  get metaDescription() { return this.form?.get('metaTags.description') as FormControl; }
+  get metaKeywords() { return this.form?.get('metaTags.keywords') as FormControl; }
+  get medias() { return this.form?.get('medias') as FormControl; }
   get isNewCategory(): boolean { return this.route.snapshot.data.action === EPageAction.Add; }
 
   quillModules: QuillModules = this.quillHelperService.getEditorModules();
@@ -158,7 +164,8 @@ export class CategoryComponent implements OnInit {
         title: category.metaTags.title,
         description: category.metaTags.description,
         keywords: category.metaTags.keywords,
-      })
+      }),
+      medias: [category.medias]
     });
   }
 
@@ -178,5 +185,39 @@ export class CategoryComponent implements OnInit {
 
   openItemSorter() {
     this.sorterCmp.openModal();
+  }
+
+  getMediaUploadUrl() {
+    return `${API_HOST}/api/v1/admin/categories/media`;
+  }
+
+  mediaUploaded(media: MediaDto, mediasControl: AbstractControl) {
+    mediasControl.value.push(media);
+  }
+
+  onMediaRemove(media: MediaDto, mediasControl: AbstractControl) {
+    const controlValue = mediasControl.value as MediaDto[];
+    const index = controlValue.findIndex(value => value.variantsUrls.original === media.variantsUrls.original);
+    if (index !== -1) {
+      controlValue.splice(index, 1);
+    }
+  }
+
+  onMediaReorder(mediasControl: AbstractControl, event: IDraggedEvent) {
+    const medias: MediaDto[] = mediasControl.value;
+    const itemIdx = medias.indexOf(event.item);
+    const [itemToMove] = medias.splice(itemIdx, 1);
+    const targetIdx = medias.indexOf(event.targetItem);
+
+    let indexWhereToInsert: number;
+    if (event.position === EReorderPosition.Start) {
+      indexWhereToInsert = targetIdx;
+    } else {
+      indexWhereToInsert = targetIdx + 1;
+    }
+
+    medias.splice(indexWhereToInsert, 0, itemToMove);
+
+    mediasControl.setValue(medias);
   }
 }
