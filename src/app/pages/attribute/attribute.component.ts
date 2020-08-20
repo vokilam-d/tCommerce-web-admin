@@ -114,7 +114,7 @@ export class AttributeComponent implements OnInit {
 
     this.isLoading = true;
     this.attributeService.fetchAttribute(id)
-      .pipe( finalize(() => this.isLoading = false))
+      .pipe( finalize(() => this.isLoading = false), this.notyService.attachNoty() )
       .subscribe(
         response => {
           this.attribute = response.data;

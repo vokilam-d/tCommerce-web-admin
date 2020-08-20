@@ -5,6 +5,7 @@ import { CategoryTreeItem } from '../shared/dtos/category.dto';
 import { ResponseDto } from '../shared/dtos/response.dto';
 import { API_HOST } from '../shared/constants/constants';
 import { ProductCategoryDto } from '../shared/dtos/product.dto';
+import { NotyService } from '../noty/noty.service';
 
 type CategorySelectOption = CategoryTreeItem & { isSelected: boolean; children: CategorySelectOption[]; };
 
@@ -49,6 +50,7 @@ export class CategorySelectComponent implements OnInit, ControlValueAccessor {
   }
 
   constructor(private http: HttpClient,
+              private notyService: NotyService,
               private cdr: ChangeDetectorRef) {
   }
 
@@ -57,13 +59,15 @@ export class CategorySelectComponent implements OnInit, ControlValueAccessor {
   }
 
   private init() {
-    this.http.get<ResponseDto<CategoryTreeItem[]>>(`${API_HOST}/api/v1/admin/categories/tree`).subscribe(
-      response => {
-        this.options = this.buildOptions(response.data);
-        this.cdr.markForCheck();
-      },
-      error => console.warn(error)
-    );
+    this.http.get<ResponseDto<CategoryTreeItem[]>>(`${API_HOST}/api/v1/admin/categories/tree`)
+      .pipe( this.notyService.attachNoty() )
+      .subscribe(
+        response => {
+          this.options = this.buildOptions(response.data);
+          this.cdr.markForCheck();
+        },
+        error => console.warn(error)
+      );
   }
 
   onChange = (_: any) => {};
@@ -122,13 +126,10 @@ export class CategorySelectComponent implements OnInit, ControlValueAccessor {
   }
 
   private buildOptions(categories: CategoryTreeItem[]): CategorySelectOption[] {
-    return categories.map(({ id, name, slug, children, parentId }) => {
-      const isSelected = !!this._value.find(category => category.id === id);
+    return categories.map(({ children, ...restCategory }) => {
+      const isSelected = !!this._value.find(category => category.id === restCategory.id);
       return {
-        id,
-        name,
-        slug,
-        parentId,
+        ...restCategory,
         children: this.buildOptions(children),
         isSelected
       }

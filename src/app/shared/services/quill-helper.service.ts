@@ -2,13 +2,16 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { QuillModules } from 'ngx-quill';
 import { API_HOST, inputMediaAcceptTypes } from '../constants/constants';
+import { NotyService } from '../../noty/noty.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class QuillHelperService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+              private notyService: NotyService,
+  ) { }
 
   getEditorModules(): QuillModules {
     const helper = this;
@@ -44,6 +47,7 @@ export class QuillHelperService {
       payload.append('file', file, file.name);
 
       this.http.post(this.getMediaUploadUrl(), payload, { responseType: 'text' })
+        .pipe( this.notyService.attachNoty() )
         .subscribe(
           url => {
             const range = quill.getSelection(true);

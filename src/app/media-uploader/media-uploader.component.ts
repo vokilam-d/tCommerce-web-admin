@@ -4,6 +4,7 @@ import { finalize } from 'rxjs/operators';
 import { MediaDto } from '../shared/dtos/media.dto';
 import { inputMediaAcceptTypes } from '../shared/constants/constants';
 import { ProductService } from '../shared/services/product.service';
+import { NotyService } from '../noty/noty.service';
 
 @Component({
   selector: 'media-uploader',
@@ -17,7 +18,8 @@ export class MediaUploaderComponent implements OnInit {
   @ViewChild('input') inputRef: ElementRef<HTMLInputElement>;
   acceptTypes: string = inputMediaAcceptTypes;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private notyService: NotyService) {
   }
 
   ngOnInit() {
@@ -37,7 +39,7 @@ export class MediaUploaderComponent implements OnInit {
     payload.append('file', file, file.name);
 
     this.http.post<MediaDto>(this.uploadUrl, payload)
-      .pipe( finalize(() => this.inputRef.nativeElement.value = '') )
+      .pipe( finalize(() => this.inputRef.nativeElement.value = ''), this.notyService.attachNoty() )
       .subscribe(
         media => {
           this.uploadedEmitter.emit(media);
