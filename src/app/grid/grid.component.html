@@ -1,7 +1,8 @@
 <div class="list-info">
   <div class="list-info__total-items">
     <ng-content select="[grid-total-items]"></ng-content>
-    <span class="list-info__filtered-items" *ngIf="itemsFiltered >= 0">; отфильтровано: {{ itemsFiltered }}</span>
+    <span class="list-info__filtered-items" *ngIf="itemsFiltered >= 0">; отфильтровано: {{ itemsFiltered }}.</span>
+    <span class="list-info__clear-filters" *ngIf="filtersMap.size > 0" (click)="clearAllFilters()">Сбросить все фильтры </span>
   </div>
 
   <pagination class="list-info__pagination" [pageCount]="pagesTotal" (change)="emitChange()"></pagination>
@@ -9,48 +10,65 @@
 
 <div class="grid" [class.grid--small]="size === 'small'">
   <div class="grid__head-container">
-    <div class="grid__head grid__head-scroller" [scrollLeft]="gridScrollLeft">
-      <div class="grid__block"
-           *ngFor="let cell of cells"
-           (click)="onHeadCellClick(cell)"
-           [ngClass]="{
-             'grid__block--image': cell.isImage,
-             'grid__block--sortable': cell.isSortable,
-             'grid__block--left': cell.align === 'left',
-             'grid__block--center': cell.align === 'center',
-             'grid__block--right': cell.align === 'right',
-             'sorting': activeSorting && cell.fieldName === activeSorting.fieldName,
-             'sorting--desc': activeSorting && cell.fieldName === activeSorting.fieldName && activeSorting.isDescOrder
-           }"
-           [style.width.px]="cell.initialWidth"
-      >
-        {{ cell.label }}
+    <div class="grid__head-overflow-container">
+      <div class="grid__head grid__head-scroller" [scrollLeft]="gridScrollLeft">
+        <div class="grid__block"
+             *ngFor="let cell of cells"
+             (click)="onHeadCellClick(cell)"
+             [ngClass]="{
+               'grid__block--image': cell.isImage,
+               'grid__block--sortable': cell.isSortable,
+               'grid__block--left': cell.align === 'left',
+               'grid__block--center': cell.align === 'center',
+               'grid__block--right': cell.align === 'right',
+               'sorting': activeSorting && cell.fieldName === activeSorting.fieldName,
+               'sorting--desc': activeSorting && cell.fieldName === activeSorting.fieldName && activeSorting.isDescOrder
+             }"
+             [style.width.px]="cell.initialWidth"
+        >
+          {{ cell.label }}
+        </div>
       </div>
-    </div>
 
-    <div class="grid__search grid__head-scroller" [scrollLeft]="gridScrollLeft">
-      <div class="grid__block grid__block--search"
-           *ngFor="let cell of cells"
-           [class.grid__block--image]="cell.isImage"
-           [style.width.px]="cell.initialWidth"
-      >
-        <input class="grid__search-input"
-               *ngIf="cell.isSearchable"
-               [value]="filtersMap.get(cell.fieldName) || ''"
-               [placeholder]="cell.placeholder || ''"
-               (input)="onSearchInput(cell, $event)"
-               type="text"
-               autocomplete="none"
+      <div class="grid__search grid__head-scroller" [scrollLeft]="gridScrollLeft">
+        <div class="grid__block grid__block--search"
+             *ngFor="let cell of cells"
+             [class.grid__block--image]="cell.isImage"
+             [style.width.px]="cell.initialWidth"
         >
 
-        <app-select *ngIf="cell.filterFields?.length"
-                    [options]="cell.filterFields"
-                    [hasEmpty]="false"
-                    [isSizeSmall]="true"
-                    [isMultiSelect]="true"
-                    [initialValue]="filtersMap.get(cell.fieldName) || []"
-                    (select)="onFilterSelect(cell, $event)"
-        ></app-select>
+          <input class="grid__date-filter"
+                 *ngIf="cell.hasDateFromFilter"
+                 [value]="(filtersMap.get(cell.fieldName) || [])[0]"
+                 (input)="onDateFromSelect(cell, $event)"
+                 type="date"
+          >
+
+          <input class="grid__date-filter"
+                 *ngIf="cell.hasDateToFilter"
+                 [value]="(filtersMap.get(cell.fieldName) || [])[1]"
+                 (input)="onDateToSelect(cell, $event)"
+                 type="date"
+          >
+
+          <input class="grid__search-input"
+                 *ngIf="cell.isSearchable"
+                 [value]="filtersMap.get(cell.fieldName) || ''"
+                 [placeholder]="cell.placeholder || ''"
+                 (input)="onSearchInput(cell, $event)"
+                 type="text"
+                 autocomplete="none"
+          >
+
+          <app-select *ngIf="cell.filterFields?.length"
+                      [options]="cell.filterFields"
+                      [hasEmpty]="false"
+                      [isSizeSmall]="true"
+                      [isMultiSelect]="true"
+                      [initialValue]="filtersMap.get(cell.fieldName) || []"
+                      (select)="onFilterSelect(cell, $event)"
+          ></app-select>
+        </div>
       </div>
     </div>
   </div>

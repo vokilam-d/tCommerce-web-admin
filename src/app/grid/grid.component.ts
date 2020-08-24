@@ -53,7 +53,7 @@ interface ISavedGridInfo {
 export class GridComponent<T extends { isOpened?: boolean } = any> extends NgUnsubscribe implements OnInit, AfterViewInit {
 
   activeSorting: IGridSorting = null;
-  filtersMap = new Map<fieldName, string>();
+  filtersMap = new Map<fieldName, string | string[]>();
   gridScrollLeft: number = 0;
   private search$ = new Subject<IGridFilter>();
 
@@ -138,6 +138,20 @@ export class GridComponent<T extends { isOpened?: boolean } = any> extends NgUns
     this.search$.next({ fieldName: cell.fieldName, value: data })
   }
 
+  onDateFromSelect(cell: IGridCell, event: Event) {
+    const dateFrom: string = (event.target as HTMLInputElement).value;
+    const selectedDateRange = this.filtersMap.get(cell.fieldName) as string[] || [];
+    selectedDateRange[0] = dateFrom;
+    this.search$.next({ fieldName: cell.fieldName, value: selectedDateRange });
+  }
+
+  onDateToSelect(cell: IGridCell, event: Event) {
+    const dateFrom: string = (event.target as HTMLInputElement).value;
+    const selectedDateRange = this.filtersMap.get(cell.fieldName) as string[] || [];
+    selectedDateRange[1] = dateFrom;
+    this.search$.next({ fieldName: cell.fieldName, value: selectedDateRange });
+  }
+
   getRouterLinkUrl(item: T): string[] | null {
     if (!this.linkUrlSuffix || !this.linkFieldName) {
       return null;
@@ -218,5 +232,10 @@ export class GridComponent<T extends { isOpened?: boolean } = any> extends NgUns
         this.gridScrollLeft = (evt.target as HTMLElement).scrollLeft;
         this.cdr.markForCheck();
       });
+  }
+
+  clearAllFilters() {
+    this.filtersMap.clear();
+    this.emitChange();
   }
 }

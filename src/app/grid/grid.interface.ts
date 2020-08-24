@@ -3,7 +3,7 @@ import { ISelectOption } from '../shared/components/select/select-option.interfa
 
 export interface IGridFilter {
   fieldName: string;
-  value: string;
+  value: string | string[];
 }
 
 export interface IGridValue extends IPagination {
@@ -21,4 +21,6 @@ export interface IGridCell {
   initialWidth: number;
   isImage: boolean;
   filterFields?: ISelectOption[];
+  hasDateFromFilter?: boolean;
+  hasDateToFilter?: boolean;
 }

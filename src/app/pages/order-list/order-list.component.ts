@@ -117,11 +117,13 @@ const orderGridCells: IGridCell[] = [
   {
     isSearchable: false,
     label: 'Дата',
-    initialWidth: 78,
+    initialWidth: 125,
     align: 'left',
-    isImage: false,
+    isImage: true,
     isSortable: true,
-    fieldName: getPropertyOf<OrderDto>('createdAt')
+    fieldName: getPropertyOf<OrderDto>('createdAt'),
+    hasDateFromFilter: true,
+    hasDateToFilter: true
   },
   {
     isSearchable: true,
