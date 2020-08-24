@@ -33,11 +33,11 @@
     position: sticky;
     top: 0;
     z-index: 2;
-    overflow: hidden;
+    //overflow: hidden;
   }
 
   &__head-scroller {
-    overflow: auto;
+    //overflow: auto;
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
 
