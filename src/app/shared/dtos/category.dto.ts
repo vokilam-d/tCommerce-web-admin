@@ -6,6 +6,7 @@ export class AddOrUpdateCategoryDto {
   name: string;
   description: string;
   slug: string;
+  createRedirect: boolean;
   parentId: number;
   metaTags: MetaTagsDto;
   medias: MediaDto[];

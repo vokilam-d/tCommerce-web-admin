@@ -42,3 +42,11 @@
     }
   }
 }
+
+fields-group {
+  display: block;
+
+  &:first-of-type {
+    margin: 20px 0 0;
+  }
+}

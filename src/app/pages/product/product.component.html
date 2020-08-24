@@ -297,6 +297,11 @@
           </label>
           <span class="field__control">
             <input class="field__input" [formControl]="slug" [id]="'slug-' + i" type="text">
+            <redirect-control *ngIf="!isNewProduct"
+                              [formControl]="variantForm.get('createRedirect')"
+                              [initialSlug]="product.variants[i]?.slug"
+                              [newSlugControl]="slug"
+            ></redirect-control>
           </span>
         </div>
 

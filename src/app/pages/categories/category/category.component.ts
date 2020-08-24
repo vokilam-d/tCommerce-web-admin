@@ -17,6 +17,7 @@ import { EReorderPosition } from '../../../shared/enums/reorder-position.enum';
 const EMPTY_CATEGORY: AddOrUpdateCategoryDto = {
   isEnabled: true,
   slug: '',
+  createRedirect: false,
   name: '',
   description: '',
   parentId: 0,
@@ -42,6 +43,7 @@ export class CategoryComponent implements OnInit {
   get name() { return this.form?.get('name') as FormControl; }
   get description() { return this.form?.get('description') as FormControl; }
   get slug() { return this.form?.get('slug') as FormControl; }
+  get createRedirect() { return this.form?.get('createRedirect') as FormControl; }
   get metaTitle() { return this.form?.get('metaTags.title') as FormControl; }
   get metaDescription() { return this.form?.get('metaTags.description') as FormControl; }
   get metaKeywords() { return this.form?.get('metaTags.keywords') as FormControl; }
@@ -149,6 +151,8 @@ export class CategoryComponent implements OnInit {
         response => {
           this.categoriesService.categoryUpdated$.next();
           this.category = response.data;
+          this.buildForm(this.category);
+          this.headService.setTitle(this.category.name);
         },
         error => console.warn(error)
       );
@@ -160,6 +164,7 @@ export class CategoryComponent implements OnInit {
       name: [category.name, Validators.required],
       description: category.description,
       slug: category.slug,
+      createRedirect: false,
       metaTags: this.formBuilder.group({
         title: category.metaTags.title,
         description: category.metaTags.description,

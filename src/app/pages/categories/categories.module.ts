@@ -13,6 +13,7 @@ import { ProductItemSorterModule } from '../../product-item-sorter/product-item-
 import { QuillModule } from 'ngx-quill';
 import { MediaAssetModule } from '../../media-asset/media-asset.module';
 import { MediaUploaderModule } from '../../media-uploader/media-uploader.module';
+import { RedirectControlModule } from '../../redirect-control/redirect-control.module';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { MediaUploaderModule } from '../../media-uploader/media-uploader.module'
     ProductItemSorterModule,
     QuillModule,
     MediaAssetModule,
-    MediaUploaderModule
+    MediaUploaderModule,
+    RedirectControlModule
   ],
   providers: [
     CategoriesService

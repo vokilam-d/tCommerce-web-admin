@@ -4,14 +4,14 @@ import { ProductService } from '../../shared/services/product.service';
 import { EPageAction } from '../../shared/enums/category-page-action.enum';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MediaDto } from '../../shared/dtos/media.dto';
-import { ProductDto } from '../../shared/dtos/product.dto';
+import { AddOrUpdateProductDto, ProductDto } from '../../shared/dtos/product.dto';
 import { NotyService } from '../../noty/noty.service';
 import { QuillHelperService } from '../../shared/services/quill-helper.service';
 import { Blur, QuillModules } from 'ngx-quill';
 import { DEFAULT_CURRENCY_CODE, ECurrencyCode } from '../../shared/enums/currency.enum';
 import { API_HOST } from '../../shared/constants/constants';
-import { finalize, takeUntil } from 'rxjs/operators';
-import { ProductVariantDto } from '../../shared/dtos/product-variant.dto';
+import { finalize } from 'rxjs/operators';
+import { AddOrUpdateProductVariantDto, ProductVariantDto } from '../../shared/dtos/product-variant.dto';
 import { LinkedProductDto } from '../../shared/dtos/linked-product.dto';
 import { HeadService } from '../../shared/services/head.service';
 import { IDraggedEvent } from '../../shared/directives/draggable-item/draggable-item.directive';
@@ -101,10 +101,10 @@ export class ProductComponent extends NgUnsubscribe implements OnInit {
     const variantsFormArray = this.formBuilder.array([]);
 
     this.product.variants.forEach(variant => {
-      const variantControls: Partial<Record<keyof ProductVariantDto, any>> = {
-        id: [variant.id],
+      const variantControls: Record<keyof Omit<AddOrUpdateProductVariantDto, 'crossSellProducts' | 'relatedProducts'>, any> = {
         name: [variant.name, Validators.required],
         slug: variant.slug,
+        createRedirect: false,
         attributes: [variant.attributes],
         isEnabled: variant.isEnabled,
         price: [variant.price, Validators.required],
@@ -128,7 +128,7 @@ export class ProductComponent extends NgUnsubscribe implements OnInit {
       variantsFormArray.push(this.formBuilder.group(variantControls));
     });
 
-    const productControls: Partial<Record<keyof ProductDto, any>> = {
+    const productControls: Partial<Record<keyof AddOrUpdateProductDto, any>> = {
       isEnabled: this.product.isEnabled,
       name: [this.product.name, Validators.required],
       categories: [this.product.categories],

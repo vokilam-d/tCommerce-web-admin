@@ -56,12 +56,17 @@
   <fields-group id="category-seo">
     <div fields-group-title>SEO</div>
 
-    <label class="category__field field" [class.field--invalid]="isControlInvalid(slug)">
-      <span class="field__label">URL адрес</span>
+    <div class="category__field field" [class.field--invalid]="isControlInvalid(slug)">
+      <label class="field__label" for="slug">URL адрес</label>
       <span class="field__control">
-        <input class="field__input" [formControl]="slug" type="text">
+        <input class="field__input" [formControl]="slug" type="text" id="slug">
+        <redirect-control *ngIf="!isNewCategory"
+                          [formControl]="createRedirect"
+                          [initialSlug]="category?.slug"
+                          [newSlugControl]="slug"
+        ></redirect-control>
       </span>
-    </label>
+    </div>
 
     <label class="category__field field" [class.field--invalid]="isControlInvalid(metaTitle)">
       <span class="field__label">Meta заголовок</span>

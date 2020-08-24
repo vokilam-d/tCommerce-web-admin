@@ -19,6 +19,7 @@ import { ProductItemSorterModule } from '../../product-item-sorter/product-item-
 import { OrderListViewerModalComponent } from './order-list-viewer-modal/order-list-viewer-modal.component';
 import { OrderListViewerModule } from '../../order-list-viewer/order-list-viewer.module';
 import { GridModule } from '../../grid/grid.module';
+import { RedirectControlModule } from '../../redirect-control/redirect-control.module';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { GridModule } from '../../grid/grid.module';
     ProductSelectorModule,
     ProductItemSorterModule,
     OrderListViewerModule,
-    GridModule
+    GridModule,
+    RedirectControlModule
   ],
   providers: []
 })

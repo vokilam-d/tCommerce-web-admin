@@ -1,0 +1,11 @@
+@import "variables";
+
+.redirect {
+  display: block;
+  margin: 5px 0 0;
+  cursor: pointer;
+
+  &--disabled {
+    color: rgba($dark, 0.6);
+  }
+}
