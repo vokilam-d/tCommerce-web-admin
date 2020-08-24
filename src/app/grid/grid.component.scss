@@ -33,10 +33,17 @@
     position: sticky;
     top: 0;
     z-index: 2;
+    overflow: hidden;
   }
 
   &__head-scroller {
-    //overflow: hidden;
+    overflow: auto;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+
+    &::-webkit-scrollbar { /* Chrome, Safari and Opera */
+      display: none;
+    }
   }
 
   &__head {
