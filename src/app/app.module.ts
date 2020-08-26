@@ -54,6 +54,7 @@ export class AppModule {
     ImageResize = require('quill-image-resize-module').default;
 
     const BaseImageFormat = Quill.import('formats/image');
+    const BaseVideoFormat = Quill.import('formats/video');
     const ImageFormatAttributesList = [
       'alt',
       'height',
@@ -83,7 +84,25 @@ export class AppModule {
       }
     }
 
+    class VideoFormat extends BaseVideoFormat {
+      static create(value) {
+        const iframe: HTMLElement = super.create(value);
+        iframe.className = '';
+
+        const wrapper = document.createElement('div');
+        wrapper.classList.add('yt-video');
+        wrapper.insertBefore(iframe, null);
+
+        const wrapper2 = document.createElement('div');
+        wrapper2.classList.add('yt-video-wrapper');
+        wrapper2.insertBefore(wrapper, null);
+
+        return wrapper2;
+      }
+    }
+
     Quill.register(ImageFormat, true);
+    Quill.register(VideoFormat, true);
     Quill.register('modules/imageResize', ImageResize);
   }
 }

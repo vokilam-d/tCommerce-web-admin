@@ -22,7 +22,7 @@ export class QuillHelperService {
           ['bold', 'italic', 'underline'],
           [{ align: [] }],
           [{ list: 'ordered' }, { list: 'bullet' }],
-          ['link', 'image'/*, 'video'*/],
+          ['link', 'image', 'video'],
           ['clean']
         ],
         handlers: {
