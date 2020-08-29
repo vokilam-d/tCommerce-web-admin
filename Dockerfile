@@ -31,4 +31,4 @@ RUN npm install -g pm2
 EXPOSE 9228
 
 #CMD ["pm2-runtime", "dist/pm2-main.json"]
-CMD ["node", "--inspect=0.0.0.0:9228", "dist/server/main.js"]
+CMD ["node", "--inspect=0.0.0.0:9228", "dist/web-admin/server/main.js"]
