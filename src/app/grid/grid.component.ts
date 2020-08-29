@@ -6,11 +6,9 @@ import {
   ContentChildren,
   ElementRef,
   EventEmitter,
-  Inject,
   Input,
   OnInit,
   Output,
-  PLATFORM_ID,
   QueryList,
   TemplateRef,
   ViewChild
@@ -21,7 +19,7 @@ import { fromEvent, Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { NgUnsubscribe } from '../shared/directives/ng-unsubscribe/ng-unsubscribe.directive';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { isPlatformBrowser } from '@angular/common';
+import { DeviceService } from '../shared/services/device-detector/device.service';
 
 
 type fieldName = string;
@@ -79,7 +77,7 @@ export class GridComponent<T extends { isOpened?: boolean } = any> extends NgUns
   get cellContentsArray(): TemplateRef<any>[] { return this.cellContents.toArray(); }
   get subCellContentsArray(): TemplateRef<any>[] { return this.subCellContents.toArray(); }
 
-  constructor(@Inject(PLATFORM_ID) private platformId: any,
+  constructor(private deviceService: DeviceService,
               private cdr: ChangeDetectorRef) {
     super();
   }
@@ -183,7 +181,7 @@ export class GridComponent<T extends { isOpened?: boolean } = any> extends NgUns
   }
 
   private getSavedInfo(): ISavedGridInfo | null {
-    if (!this.gridName || !isPlatformBrowser(this.platformId)) {
+    if (!this.gridName || this.deviceService.isPlatformServer()) {
       return null;
     }
 
@@ -191,7 +189,7 @@ export class GridComponent<T extends { isOpened?: boolean } = any> extends NgUns
   }
 
   private saveInfo() {
-    if (!this.gridName || !isPlatformBrowser(this.platformId)) {
+    if (!this.gridName || this.deviceService.isPlatformServer()) {
       return;
     }
 
@@ -209,6 +207,8 @@ export class GridComponent<T extends { isOpened?: boolean } = any> extends NgUns
   }
 
   private handleSearch() {
+    if (this.deviceService.isPlatformServer()) { return; }
+
     this.search$
       .pipe( takeUntil(this.ngUnsubscribe), debounceTime(400) )
       .subscribe(
@@ -224,7 +224,7 @@ export class GridComponent<T extends { isOpened?: boolean } = any> extends NgUns
   }
 
   private handleHeadFixed() {
-    if (!isPlatformBrowser(this.platformId)) { return; }
+    if (this.deviceService.isPlatformServer()) { return; }
 
     fromEvent(this.gridBodyRef.nativeElement, 'scroll')
       .pipe( takeUntil(this.ngUnsubscribe) )

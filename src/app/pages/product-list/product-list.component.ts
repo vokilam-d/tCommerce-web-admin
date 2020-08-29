@@ -7,17 +7,18 @@ import { saveFileFromUrl } from '../../shared/helpers/save-file.function';
 import { IGridCell, IGridValue } from '../../grid/grid.interface';
 import { GridComponent } from '../../grid/grid.component';
 import { Subscription } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { finalize, takeUntil } from 'rxjs/operators';
 import { getPropertyOf } from '../../shared/helpers/get-property-of.function';
 import { API_HOST } from '../../shared/constants/constants';
 import { HeadService } from '../../shared/services/head.service';
+import { NgUnsubscribe } from '../../shared/directives/ng-unsubscribe/ng-unsubscribe.directive';
 
 @Component({
   selector: 'product-list',
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.scss']
 })
-export class ProductListComponent implements OnInit, AfterViewInit {
+export class ProductListComponent extends NgUnsubscribe implements OnInit, AfterViewInit {
 
   uploadedHost = API_HOST;
   private fetchAllSub: Subscription;
@@ -37,6 +38,7 @@ export class ProductListComponent implements OnInit, AfterViewInit {
               private headService: HeadService,
               private notyService: NotyService,
               private router: Router) {
+    super();
   }
 
   ngOnInit() {
@@ -58,7 +60,7 @@ export class ProductListComponent implements OnInit, AfterViewInit {
     this.isGridLoading = true;
     this.cdr.detectChanges();
     this.fetchAllSub = this.productsService.fetchAllProducts(gridValue, false)
-      .pipe(this.notyService.attachNoty(), finalize(() => this.isGridLoading = false))
+      .pipe(this.notyService.attachNoty(), finalize(() => this.isGridLoading = false), takeUntil(this.ngUnsubscribe))
       .subscribe(
         response => {
           this.products = response.data;
