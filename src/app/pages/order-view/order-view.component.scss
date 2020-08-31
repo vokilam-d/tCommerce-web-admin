@@ -121,6 +121,10 @@
   &__link {
     border-bottom: 1px dashed;
   }
+
+  &__img {
+    max-height: 100px
+  }
 }
 
 .total-order-cost {
