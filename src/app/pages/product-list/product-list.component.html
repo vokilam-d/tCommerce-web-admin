@@ -38,8 +38,8 @@
     <ng-template #cellContent let-product="item">{{ product.sellableQuantities }}</ng-template>
     <ng-template #cellContent let-product="item">
       <ng-container [ngSwitch]="product.isEnabled">
-        <ng-container *ngSwitchCase="true">Включен</ng-container>
-        <ng-container *ngSwitchCase="false">Выключен</ng-container>
+        <ng-container *ngSwitchCase="true">On</ng-container>
+        <span class="product-disabled" *ngSwitchCase="false">Off</span>
       </ng-container>
     </ng-template>
   </grid>
