@@ -7,7 +7,7 @@ import { CustomerService } from '../../shared/services/customer.service';
 import { NotyService } from '../../noty/noty.service';
 import { AddressFormComponent } from '../../address-form/address-form.component';
 import { saveFileFromUrl } from '../../shared/helpers/save-file.function';
-import { API_HOST, DEFAULT_ERROR_TEXT } from '../../shared/constants/constants';
+import { DEFAULT_ERROR_TEXT, UPLOADED_HOST } from '../../shared/constants/constants';
 import { FormControl } from '@angular/forms';
 import { HeadService } from '../../shared/services/head.service';
 import { FinalOrderStatuses, OrderStatusEnum } from '../../shared/enums/order-status.enum';
@@ -25,7 +25,7 @@ import { ShipmentStatusEnum } from '../../shared/enums/shipment-status.enum';
 })
 export class OrderViewComponent extends NgUnsubscribe implements OnInit {
 
-  uploadedHost = API_HOST;
+  uploadedHost = UPLOADED_HOST;
   order: OrderDto;
   customer: CustomerDto;
   isAddressFormVisible: boolean = false;

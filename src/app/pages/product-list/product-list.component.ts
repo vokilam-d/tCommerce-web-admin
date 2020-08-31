@@ -9,7 +9,7 @@ import { GridComponent } from '../../grid/grid.component';
 import { Subscription } from 'rxjs';
 import { finalize, takeUntil } from 'rxjs/operators';
 import { getPropertyOf } from '../../shared/helpers/get-property-of.function';
-import { API_HOST } from '../../shared/constants/constants';
+import { UPLOADED_HOST } from '../../shared/constants/constants';
 import { HeadService } from '../../shared/services/head.service';
 import { NgUnsubscribe } from '../../shared/directives/ng-unsubscribe/ng-unsubscribe.directive';
 
@@ -20,7 +20,7 @@ import { NgUnsubscribe } from '../../shared/directives/ng-unsubscribe/ng-unsubsc
 })
 export class ProductListComponent extends NgUnsubscribe implements OnInit, AfterViewInit {
 
-  uploadedHost = API_HOST;
+  uploadedHost = UPLOADED_HOST;
   private fetchAllSub: Subscription;
   products: ProductListItemDto[];
 

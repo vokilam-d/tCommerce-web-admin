@@ -13,7 +13,7 @@ import { ISelectOption } from '../../shared/components/select/select-option.inte
 import { ShipmentAddressDto } from '../../shared/dtos/shipment-address.dto';
 import { CustomerService } from '../../shared/services/customer.service';
 import { ProductSelectorComponent } from '../../product-selector/product-selector.component';
-import { API_HOST } from '../../shared/constants/constants';
+import { API_HOST, UPLOADED_HOST } from '../../shared/constants/constants';
 import { HeadService } from '../../shared/services/head.service';
 import { NgUnsubscribe } from '../../shared/directives/ng-unsubscribe/ng-unsubscribe.directive';
 import { finalize, takeUntil } from 'rxjs/operators';
@@ -29,7 +29,7 @@ import { ShipmentPaymentMethodEnum } from '../../shared/enums/shipment-payment-m
 })
 export class OrderComponent extends NgUnsubscribe implements OnInit {
 
-  uploadedHost = API_HOST;
+  uploadedHost = UPLOADED_HOST;
   isNewOrder: boolean;
   isReorder: boolean;
   isEditOrder: boolean;

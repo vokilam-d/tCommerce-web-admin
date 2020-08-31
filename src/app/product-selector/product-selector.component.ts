@@ -18,7 +18,7 @@ import { GridComponent } from '../grid/grid.component';
 import { NotyService } from '../noty/noty.service';
 import { finalize } from 'rxjs/operators';
 import { getPropertyOf } from '../shared/helpers/get-property-of.function';
-import { API_HOST } from '../shared/constants/constants';
+import { UPLOADED_HOST } from '../shared/constants/constants';
 
 class VariantForSelector extends ProductVariantListItemDto {
   selectedQty: number;
@@ -44,7 +44,7 @@ export interface ISelectedProduct {
 })
 export class ProductSelectorComponent implements OnInit, AfterViewInit {
 
-  uploadedHost = API_HOST;
+  uploadedHost = UPLOADED_HOST;
   private fetchAllSub: Subscription;
   isSelectorVisible: boolean = false;
   products: ProductForSelector[] = [];
