@@ -40,6 +40,7 @@ export class ProductVariantListItemDto {
   oldPriceInDefaultCurrency: number;
   qtyInStock: number;
   sellableQty: number;
+  salesCount: number;
 }
 
 export class ProductListItemDto {
@@ -55,4 +56,5 @@ export class ProductListItemDto {
   sellableQuantities: string;
   isEnabled: boolean;
   variants?: ProductVariantListItemDto[];
+  salesCounts: string;
 }

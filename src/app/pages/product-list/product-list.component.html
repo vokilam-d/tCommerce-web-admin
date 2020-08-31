@@ -48,5 +48,6 @@
         <span class="product-disabled" *ngSwitchCase="false">Off</span>
       </ng-container>
     </ng-template>
+    <ng-template #cellContent let-product="item">{{ product.salesCounts }}</ng-template>
   </grid>
 </div>
