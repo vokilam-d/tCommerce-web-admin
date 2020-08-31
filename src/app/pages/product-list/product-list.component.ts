@@ -1,7 +1,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { ProductService } from '../../shared/services/product.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProductListItemDto } from '../../shared/dtos/product.dto';
+import { ProductCategoryDto, ProductListItemDto } from '../../shared/dtos/product.dto';
 import { NotyService } from '../../noty/noty.service';
 import { saveFileFromUrl } from '../../shared/helpers/save-file.function';
 import { IGridCell, IGridValue } from '../../grid/grid.interface';
@@ -12,6 +12,7 @@ import { getPropertyOf } from '../../shared/helpers/get-property-of.function';
 import { UPLOADED_HOST } from '../../shared/constants/constants';
 import { HeadService } from '../../shared/services/head.service';
 import { NgUnsubscribe } from '../../shared/directives/ng-unsubscribe/ng-unsubscribe.directive';
+import { AttributeService } from '../../shared/services/attribute.service';
 
 @Component({
   selector: 'product-list',
@@ -20,7 +21,6 @@ import { NgUnsubscribe } from '../../shared/directives/ng-unsubscribe/ng-unsubsc
 })
 export class ProductListComponent extends NgUnsubscribe implements OnInit, AfterViewInit {
 
-  uploadedHost = UPLOADED_HOST;
   private fetchAllSub: Subscription;
   products: ProductListItemDto[];
 
@@ -29,10 +29,11 @@ export class ProductListComponent extends NgUnsubscribe implements OnInit, After
   pagesTotal: number = 1;
   gridLinkUrl: string = 'edit';
   isGridLoading: boolean = false;
-  gridCells: IGridCell[] = productGridCells;
+  gridCells: IGridCell[] = [];
   @ViewChild(GridComponent) gridCmp: GridComponent;
 
   constructor(private productsService: ProductService,
+              private attributeService: AttributeService,
               private route: ActivatedRoute,
               private cdr: ChangeDetectorRef,
               private headService: HeadService,
@@ -42,6 +43,7 @@ export class ProductListComponent extends NgUnsubscribe implements OnInit, After
   }
 
   ngOnInit() {
+    this.setGridCells();
     this.headService.setTitle(`Товары`);
   }
 
@@ -67,6 +69,7 @@ export class ProductListComponent extends NgUnsubscribe implements OnInit, After
           this.itemsTotal = response.itemsTotal;
           this.itemsFiltered = response.itemsFiltered;
           this.pagesTotal = response.pagesTotal;
+          setTimeout(() => this.cdr.detectChanges(), 200);
         },
         error => console.warn(error)
       );
@@ -86,96 +89,134 @@ export class ProductListComponent extends NgUnsubscribe implements OnInit, After
     this.fetchProducts(evt);
   }
 
-  setItemThumbnail(product) {
+  getItemThumbnail(product: ProductListItemDto): string {
     if (!product.mediaUrl) {
       return 'admin/assets/images/no-img.png';
     } else {
-      return this.uploadedHost + product.mediaUrl;
+      return UPLOADED_HOST + product.mediaUrl;
     }
   }
 
-}
-
-const productGridCells: IGridCell[] = [
-  {
-    isSearchable: false,
-    label: 'ID',
-    initialWidth: 35,
-    align: 'center',
-    isImage: true,
-    isSortable: true,
-    fieldName: getPropertyOf<ProductListItemDto>('id')
-  },
-  {
-    isSearchable: false,
-    label: 'Фото',
-    initialWidth: 60,
-    align: 'center',
-    isImage: true,
-    isSortable: false,
-    fieldName: getPropertyOf<ProductListItemDto>('mediaUrl')
-  },
-  {
-    isSearchable: true,
-    label: 'Название товара',
-    initialWidth: 500,
-    align: 'left',
-    isImage: false,
-    isSortable: true,
-    fieldName: getPropertyOf<ProductListItemDto>('name')
-  },
-  {
-    isSearchable: true,
-    label: 'Код',
-    initialWidth: 70,
-    align: 'left',
-    isImage: false,
-    isSortable: true,
-    fieldName: getPropertyOf<ProductListItemDto>('skus')
-  },
-  {
-    isSearchable: true,
-    label: 'Артикул',
-    initialWidth: 70,
-    align: 'left',
-    isImage: false,
-    isSortable: true,
-    fieldName: getPropertyOf<ProductListItemDto>('vendorCodes')
-  },
-  {
-    isSearchable: true,
-    label: 'Цена',
-    initialWidth: 70,
-    align: 'left',
-    isImage: false,
-    isSortable: true,
-    fieldName: getPropertyOf<ProductListItemDto>('prices')
-  },
-  {
-    isSearchable: false,
-    label: 'Кол-во на складе',
-    initialWidth: 55,
-    align: 'left',
-    isImage: false,
-    isSortable: true,
-    fieldName: getPropertyOf<ProductListItemDto>('quantitiesInStock')
-  },
-  {
-    isSearchable: false,
-    label: 'Кол-во доступно',
-    initialWidth: 55,
-    align: 'left',
-    isImage: false,
-    isSortable: true,
-    fieldName: getPropertyOf<ProductListItemDto>('sellableQuantities')
-  },
-  {
-    isSearchable: false,
-    label: 'Статус',
-    initialWidth: 45,
-    align: 'left',
-    isImage: false,
-    isSortable: true,
-    fieldName: getPropertyOf<ProductListItemDto>('isEnabled')
+  getItemCategories(product: ProductListItemDto): string {
+    return product.categories.map(category => category.name).join(', ');
   }
-];
+
+  getManufacturerAttr(product: ProductListItemDto): string {
+    const manufacturerId = 'manufacturer';
+    const manufacturerAttribute = product.attributes.find(attribute => attribute.attributeId === manufacturerId);
+    if (!manufacturerAttribute) { return ''; }
+
+    return this.attributeService.getValueLabel(manufacturerId, manufacturerAttribute.valueIds);
+  }
+
+  private setGridCells() {
+    this.attributeService.attributes$
+      .pipe( takeUntil(this.ngUnsubscribe) )
+      .subscribe(attributes => {
+        const manufacturerAttribute = attributes.find(attribute => attribute.id === 'manufacturer');
+
+        this.gridCells = [
+          {
+            isSearchable: false,
+            label: 'ID',
+            initialWidth: 35,
+            align: 'center',
+            isImage: true,
+            isSortable: true,
+            fieldName: getPropertyOf<ProductListItemDto>('id')
+          },
+          {
+            isSearchable: false,
+            label: 'Фото',
+            initialWidth: 60,
+            align: 'center',
+            isImage: true,
+            isSortable: false,
+            fieldName: getPropertyOf<ProductListItemDto>('mediaUrl')
+          },
+          {
+            isSearchable: true,
+            label: 'Название товара',
+            initialWidth: 300,
+            align: 'left',
+            isImage: false,
+            isSortable: true,
+            fieldName: getPropertyOf<ProductListItemDto>('name')
+          },
+          {
+            isSearchable: true,
+            label: 'Категории',
+            initialWidth: 200,
+            align: 'left',
+            isImage: false,
+            isSortable: true,
+            fieldName: `${getPropertyOf<ProductListItemDto>('categories')}.${getPropertyOf<ProductCategoryDto>('name')}`
+          },
+          {
+            isSearchable: true,
+            label: 'Код',
+            initialWidth: 43,
+            align: 'left',
+            isImage: false,
+            isSortable: true,
+            fieldName: getPropertyOf<ProductListItemDto>('skus')
+          },
+          {
+            isSearchable: true,
+            label: 'Артикул',
+            initialWidth: 70,
+            align: 'left',
+            isImage: false,
+            isSortable: true,
+            fieldName: getPropertyOf<ProductListItemDto>('vendorCodes')
+          },
+          {
+            isSearchable: false,
+            label: manufacturerAttribute?.label,
+            initialWidth: 120,
+            align: 'left',
+            isImage: false,
+            isSortable: false,
+            fieldName: manufacturerAttribute?.id,
+            filterFields: manufacturerAttribute?.values.map(value => ({ data: value.id, view: value.label }))
+          },
+          {
+            isSearchable: true,
+            label: 'Цена',
+            initialWidth: 70,
+            align: 'left',
+            isImage: false,
+            isSortable: true,
+            fieldName: getPropertyOf<ProductListItemDto>('prices')
+          },
+          {
+            isSearchable: false,
+            label: 'Кол-во на складе',
+            initialWidth: 55,
+            align: 'left',
+            isImage: false,
+            isSortable: true,
+            fieldName: getPropertyOf<ProductListItemDto>('quantitiesInStock')
+          },
+          {
+            isSearchable: false,
+            label: 'Кол-во доступно',
+            initialWidth: 55,
+            align: 'left',
+            isImage: false,
+            isSortable: true,
+            fieldName: getPropertyOf<ProductListItemDto>('sellableQuantities')
+          },
+          {
+            isSearchable: false,
+            label: 'Статус',
+            initialWidth: 45,
+            align: 'left',
+            isImage: false,
+            isSortable: true,
+            fieldName: getPropertyOf<ProductListItemDto>('isEnabled')
+          }
+        ];
+      });
+  }
+}

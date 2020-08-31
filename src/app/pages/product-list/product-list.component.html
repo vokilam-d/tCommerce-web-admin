@@ -28,11 +28,17 @@
 
     <ng-template #cellContent let-product="item">{{ product.id }}</ng-template>
     <ng-template #cellContent let-product="item">
-      <img class="product-thumbnail" [src]="setItemThumbnail(product)">
+      <img class="product-thumbnail" [src]="getItemThumbnail(product)">
     </ng-template>
     <ng-template #cellContent let-product="item">{{ product.name }}</ng-template>
+    <ng-template #cellContent let-product="item">
+      <span class="small">{{ getItemCategories(product) }}</span>
+    </ng-template>
     <ng-template #cellContent let-product="item">{{ product.skus }}</ng-template>
     <ng-template #cellContent let-product="item">{{ product.vendorCodes }}</ng-template>
+    <ng-template #cellContent let-product="item">
+      <span class="small">{{ getManufacturerAttr(product) }}</span>
+    </ng-template>
     <ng-template #cellContent let-product="item">{{ product.prices | readableCurrency }}</ng-template>
     <ng-template #cellContent let-product="item">{{ product.quantitiesInStock }}</ng-template>
     <ng-template #cellContent let-product="item">{{ product.sellableQuantities }}</ng-template>

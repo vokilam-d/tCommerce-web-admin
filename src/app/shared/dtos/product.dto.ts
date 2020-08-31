@@ -28,6 +28,7 @@ export class ProductDto extends AddOrUpdateProductDto {
 export class ProductVariantListItemDto {
   id: string;
   isEnabled: boolean;
+  attributes: ProductSelectedAttributeDto[];
   mediaUrl: string;
   name: string;
   sku: string;
@@ -44,6 +45,7 @@ export class ProductVariantListItemDto {
 export class ProductListItemDto {
   id: number;
   categories: ProductCategoryDto[];
+  attributes: ProductSelectedAttributeDto[];
   mediaUrl: string;
   name: string;
   skus: string;
