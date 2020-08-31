@@ -257,6 +257,10 @@
         {{ order.totalCost }} грн
       </div>
     </div>
+
+    <app-button class="order-view__finish-order" *ngIf="isFinishOrderVisible()" (click)="finishOrder()">
+      Завершить заказ
+    </app-button>
   </div>
 </div>
 

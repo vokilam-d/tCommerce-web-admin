@@ -155,6 +155,10 @@ export class OrderViewComponent extends NgUnsubscribe implements OnInit {
     return this.order.status === OrderStatusEnum.RECIPIENT_DENIED;
   }
 
+  isFinishOrderVisible(): boolean {
+    return this.order.status !== OrderStatusEnum.FINISHED && this.order.status !== OrderStatusEnum.CANCELED;
+  }
+
   openAddressForm() {
     this.isAddressFormVisible = true;
   }
@@ -251,6 +255,12 @@ export class OrderViewComponent extends NgUnsubscribe implements OnInit {
           this.order = response.data;
         }
       );
+  }
+
+  finishOrder() {
+    if (!confirm(`Заказ должен автоматически перейти в статус "Завершён". Вы уверены, что хотите сделать это вручную?`)) { return; }
+
+    this.changeStatus(OrderStatusEnum.FINISHED);
   }
 
   changeStatus(nextStatus: OrderStatusEnum, force: boolean = false, shipment?: ShipmentDto) {
