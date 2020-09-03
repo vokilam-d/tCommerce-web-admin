@@ -192,7 +192,7 @@ export class ProductListComponent extends NgUnsubscribe implements OnInit, After
           {
             isSearchable: false,
             label: 'Кол-во на складе',
-            initialWidth: 55,
+            initialWidth: 65,
             align: 'left',
             isImage: false,
             isSortable: true,
@@ -201,7 +201,7 @@ export class ProductListComponent extends NgUnsubscribe implements OnInit, After
           {
             isSearchable: false,
             label: 'Кол-во доступно',
-            initialWidth: 55,
+            initialWidth: 65,
             align: 'left',
             isImage: false,
             isSortable: true,
@@ -224,6 +224,15 @@ export class ProductListComponent extends NgUnsubscribe implements OnInit, After
             isImage: false,
             isSortable: true,
             fieldName: `${getPropertyOf<ProductListItemDto>('variants')}.${getPropertyOf<ProductVariantListItemDto>('salesCount')}`
+          },
+          {
+            isSearchable: false,
+            label: 'Дата добавления',
+            initialWidth: 82,
+            align: 'left',
+            isImage: false,
+            isSortable: true,
+            fieldName: getPropertyOf<ProductListItemDto>('createdAt')
           }
         ];
       });

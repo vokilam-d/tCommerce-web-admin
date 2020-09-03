@@ -49,5 +49,9 @@
       </ng-container>
     </ng-template>
     <ng-template #cellContent let-product="item">{{ product.salesCounts }}</ng-template>
+    <ng-template #cellContent let-product="item">
+      {{ product.createdAt | date:'dd.MM.y' }}
+      <span class="product-time">{{ product.createdAt | date:'HH:mm:ss' }}</span>
+    </ng-template>
   </grid>
 </div>
