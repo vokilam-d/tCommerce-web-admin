@@ -1,6 +1,6 @@
 <div class="page">
   <div class="header">
-    <h1 class="header__title" [ngSwitch]="isNewProduct">
+    <h1 class="header__title" [ngSwitch]="isNewProduct || isNewProductBasedOn">
       <ng-container *ngSwitchCase="true">
         Новый товар
       </ng-container>
@@ -15,11 +15,11 @@
         <i class="ai ai-arrow-left"></i> назад
       </button>
 
-      <app-button class="header__btn" *ngIf="!isNewProduct" (click)="delete()" btnStyle="danger">
+      <app-button class="header__btn" *ngIf="!isNewProduct && !isNewProductBasedOn" (click)="delete()" btnStyle="danger">
         Удалить
       </app-button>
 
-      <app-button class="header__btn" *ngIf="!isNewProduct && product" [link]="['/', product.variants[0].slug]">
+      <app-button class="header__btn" *ngIf="!isNewProduct && !isNewProductBasedOn && product" [link]="['/', product.variants[0].slug]">
         Посмотреть на сайте
       </app-button>
 
@@ -88,7 +88,7 @@
 
       <attributes-editor class="product__edit-attributes"
                          [initialFormValue]="form.value"
-                         [isSelectManufacturerAttr]="isNewProduct"
+                         [isSelectManufacturerAttr]="isNewProduct || isNewProductBasedOn"
                          (generated)="onAttributesEdit($event)"
       ></attributes-editor>
     </fields-group>
@@ -122,8 +122,8 @@
             Код
           </div>
           <div class="field__control">
-            <div class="product__sku" *ngIf="!isNewProduct">{{ product.variants[i].sku }}</div>
-            <div class="product__sku product__sku--placeholder" *ngIf="isNewProduct"> - автозаполнится - </div>
+            <div class="product__sku" *ngIf="!isNewProduct && !isNewProductBasedOn">{{ product.variants[i].sku }}</div>
+            <div class="product__sku product__sku--placeholder" *ngIf="isNewProduct || isNewProductBasedOn"> - автозаполнится - </div>
           </div>
         </div>
 
@@ -297,7 +297,7 @@
           </label>
           <span class="field__control">
             <input class="field__input" [formControl]="slug" [id]="'slug-' + i" type="text">
-            <redirect-control *ngIf="!isNewProduct"
+            <redirect-control *ngIf="!isNewProduct && !isNewProductBasedOn"
                               [formControl]="variantForm.get('createRedirect')"
                               [initialSlug]="product.variants[i]?.slug"
                               [newSlugControl]="slug"

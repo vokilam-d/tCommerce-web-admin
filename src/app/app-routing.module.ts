@@ -35,7 +35,7 @@ const routes: Routes = [
           {
             path: 'add/:id',
             loadChildren: () => import('./pages/product/product.module').then(m => m.ProductModule),
-            data: { action: EPageAction.Add }
+            data: { action: EPageAction.AddBasedOn }
           },
           {
             path: 'edit/:id',

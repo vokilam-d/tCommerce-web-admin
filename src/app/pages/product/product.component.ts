@@ -31,6 +31,7 @@ type PostAction = 'duplicate' | 'exit' | 'none';
 export class ProductComponent extends NgUnsubscribe implements OnInit {
 
   isNewProduct: boolean;
+  isNewProductBasedOn: boolean;
   product: ProductDto;
   form: FormGroup;
   currencies = ECurrencyCode;
@@ -58,6 +59,7 @@ export class ProductComponent extends NgUnsubscribe implements OnInit {
 
   private init() {
     this.isNewProduct = this.route?.snapshot.data.action === EPageAction.Add;
+    this.isNewProductBasedOn = this.route?.snapshot.data.action === EPageAction.AddBasedOn;
     const id = this.route.snapshot.paramMap.get('id');
 
     if (id) {
@@ -76,7 +78,7 @@ export class ProductComponent extends NgUnsubscribe implements OnInit {
       return;
     }
 
-    if (this.isNewProduct) {
+    if (this.isNewProduct || this.isNewProductBasedOn) {
       this.addNewProduct(postAction);
     } else {
       this.updateProduct(postAction);
@@ -144,7 +146,7 @@ export class ProductComponent extends NgUnsubscribe implements OnInit {
       .pipe(this.notyService.attachNoty(), finalize(() => this.isLoading = false))
       .subscribe(
         response => {
-          this.product = response.data;
+          this.setProduct(response.data as ProductDto)
           this.buildForm();
           this.headService.setTitle(this.product.name);
         },
@@ -352,5 +354,21 @@ export class ProductComponent extends NgUnsubscribe implements OnInit {
     if (!metaDescriptionControl.value) {
       metaDescriptionControl.setValue(description);
     }
+  }
+
+  private setProduct(productDto: ProductDto) {
+    if (!this.isNewProductBasedOn) {
+      this.product = productDto;
+      return;
+    }
+
+    this.product = {
+      isEnabled: productDto.isEnabled,
+      name: productDto.name,
+      breadcrumbs: productDto.breadcrumbs,
+      categories: productDto.categories,
+      attributes: productDto.attributes,
+      variants: productDto.variants.map(({ id, sku, ...variant }) => variant) as ProductVariantDto[],
+    } as ProductDto;
   }
 }

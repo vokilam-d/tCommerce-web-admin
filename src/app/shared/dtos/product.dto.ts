@@ -23,6 +23,8 @@ export class AddOrUpdateProductDto {
 
 export class ProductDto extends AddOrUpdateProductDto {
   id: number;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export class ProductVariantListItemDto {
