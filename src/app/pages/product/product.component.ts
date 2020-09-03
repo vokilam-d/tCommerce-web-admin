@@ -368,7 +368,7 @@ export class ProductComponent extends NgUnsubscribe implements OnInit {
       breadcrumbs: productDto.breadcrumbs,
       categories: productDto.categories,
       attributes: productDto.attributes,
-      variants: productDto.variants.map(({ id, sku, ...variant }) => variant) as ProductVariantDto[],
+      variants: productDto.variants.map(({ id, sku, slug, ...variant }) => variant) as ProductVariantDto[],
     } as ProductDto;
   }
 }
