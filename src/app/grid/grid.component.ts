@@ -137,11 +137,11 @@ export class GridComponent<T extends { isOpened?: boolean } = any> extends NgUns
   }
 
   onDateSelect(cell: IGridCell, event: Event, range: 'from' | 'to') {
-    const dateFrom: string = (event.target as HTMLInputElement).value;
+    const date: string = (event.target as HTMLInputElement).value;
     const selectedDateRange = this.filtersMap.get(cell.fieldName) as string[] || [];
 
     const rangeIdx = range === 'from' ? 0 : 1;
-    selectedDateRange[rangeIdx] = dateFrom;
+    selectedDateRange[rangeIdx] = date;
 
     this.search$.next({ fieldName: cell.fieldName, value: selectedDateRange });
   }
