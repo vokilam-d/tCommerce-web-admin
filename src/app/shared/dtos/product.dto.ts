@@ -58,7 +58,7 @@ export class ProductListItemDto {
   sellableQuantities: string;
   isEnabled: boolean;
   variants?: ProductVariantListItemDto[];
-  salesCounts: string;
+  salesCount: number;
   createdAt: Date;
   updatedAt: Date;
 }

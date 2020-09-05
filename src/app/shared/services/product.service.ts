@@ -9,6 +9,10 @@ import { API_HOST } from '../constants/constants';
 import { EReorderPosition } from '../enums/reorder-position.enum';
 import { ProductReorderDto } from '../dtos/reorder.dto';
 
+interface IFetchProductsParams extends IGridValue {
+  orderedDates?: [string, string];
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -17,8 +21,8 @@ export class ProductService {
   constructor(private http: HttpClient) {
   }
 
-  fetchAllProducts(filter: IGridValue, withVariants: boolean) {
-    const params: any = filter;
+  fetchAllProducts(paramsArg: IFetchProductsParams, withVariants: boolean) {
+    const params: any = paramsArg;
     params.withVariants = withVariants;
 
     return this.http.get<ResponseDto<ProductListItemDto[]>>(

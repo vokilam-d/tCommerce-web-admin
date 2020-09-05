@@ -5,11 +5,33 @@
     </h1>
 
     <div class="header__toolbar">
+      <app-button class="header__btn" (click)="toggleOrderedFilters()" [ngSwitch]="isOrderedFiltersVisible">
+        <ng-container *ngSwitchCase="true">Закрыть фильтр дат</ng-container>
+        <ng-container *ngSwitchCase="false">Выбрать даты продаж</ng-container>
+      </app-button>
       <app-button class="header__btn" (click)="downloadShoppingFeed()">Скачать Shopping Products feed</app-button>
       <app-button class="header__btn" (click)="downloadReviewsFeed()">Скачать Reviews feed</app-button>
       <button class="header__btn toolbar-main-btn" (click)="add()" type="button">Добавить товар</button>
     </div>
   </header>
+
+  <div class="filters" *ngIf="isOrderedFiltersVisible">
+      Показать товары, проданные с
+
+      <input class="filters__date"
+             [value]="orderedDates[0]"
+             (change)="onOrderedDateSelect($event, 'from')"
+             type="date"
+      >
+
+      по
+
+      <input class="filters__date"
+             [value]="orderedDates[1]"
+             (change)="onOrderedDateSelect($event, 'to')"
+             type="date"
+      >
+  </div>
 
   <grid class="page__grid"
         [cells]="gridCells"
@@ -48,7 +70,7 @@
         <span class="product-disabled" *ngSwitchCase="false">Off</span>
       </ng-container>
     </ng-template>
-    <ng-template #cellContent let-product="item">{{ product.salesCounts }}</ng-template>
+    <ng-template #cellContent let-product="item">{{ product.salesCount }}</ng-template>
     <ng-template #cellContent let-product="item">
       {{ product.createdAt | date:'dd.MM.y' }}
       <span class="product-time">{{ product.createdAt | date:'HH:mm:ss' }}</span>

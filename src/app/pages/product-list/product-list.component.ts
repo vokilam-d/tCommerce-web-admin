@@ -24,6 +24,9 @@ export class ProductListComponent extends NgUnsubscribe implements OnInit, After
   private fetchAllSub: Subscription;
   products: ProductListItemDto[];
 
+  isOrderedFiltersVisible: boolean = false;
+  orderedDates: [string, string] = [undefined, undefined];
+
   itemsTotal: number = 0;
   itemsFiltered: number;
   pagesTotal: number = 1;
@@ -48,20 +51,19 @@ export class ProductListComponent extends NgUnsubscribe implements OnInit, After
   }
 
   ngAfterViewInit(): void {
-    const gridValue = this.gridCmp.getValue();
-    this.fetchProducts(gridValue);
+    this.fetchProducts();
   }
 
   add() {
     this.router.navigate(['add'], { relativeTo: this.route });
   }
 
-  fetchProducts(gridValue: IGridValue) {
+  fetchProducts(gridValue: IGridValue = this.gridCmp.getValue()) {
     if (this.fetchAllSub) { this.fetchAllSub.unsubscribe(); }
 
     this.isGridLoading = true;
     this.cdr.detectChanges();
-    this.fetchAllSub = this.productsService.fetchAllProducts(gridValue, false)
+    this.fetchAllSub = this.productsService.fetchAllProducts({ ...gridValue, orderedDates: this.orderedDates }, false)
       .pipe(this.notyService.attachNoty(), finalize(() => this.isGridLoading = false), takeUntil(this.ngUnsubscribe))
       .subscribe(
         response => {
@@ -107,6 +109,24 @@ export class ProductListComponent extends NgUnsubscribe implements OnInit, After
     if (!manufacturerAttribute) { return ''; }
 
     return this.attributeService.getValueLabel(manufacturerId, manufacturerAttribute.valueIds);
+  }
+
+  toggleOrderedFilters() {
+    this.isOrderedFiltersVisible = !this.isOrderedFiltersVisible;
+
+    if (!this.isOrderedFiltersVisible) {
+      this.orderedDates = [undefined, undefined];
+      this.fetchProducts();
+    }
+  }
+
+  onOrderedDateSelect(event: Event, range: 'from' | 'to') {
+    const date: string = (event.target as HTMLInputElement).value;
+
+    const rangeIdx = range === 'from' ? 0 : 1;
+    this.orderedDates[rangeIdx] = date;
+
+    this.fetchProducts();
   }
 
   private setGridCells() {
@@ -223,7 +243,7 @@ export class ProductListComponent extends NgUnsubscribe implements OnInit, After
             align: 'left',
             isImage: false,
             isSortable: true,
-            fieldName: `${getPropertyOf<ProductListItemDto>('variants')}.${getPropertyOf<ProductVariantListItemDto>('salesCount')}`
+            fieldName: getPropertyOf<ProductListItemDto>('salesCount')
           },
           {
             isSearchable: false,
