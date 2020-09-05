@@ -40,14 +40,14 @@
           <input class="grid__date-filter"
                  *ngIf="cell.hasDateFromFilter"
                  [value]="(filtersMap.get(cell.fieldName) || [])[0]"
-                 (input)="onDateFromSelect(cell, $event)"
+                 (input)="onDateSelect(cell, $event, 'from')"
                  type="date"
           >
 
           <input class="grid__date-filter"
                  *ngIf="cell.hasDateToFilter"
                  [value]="(filtersMap.get(cell.fieldName) || [])[1]"
-                 (input)="onDateToSelect(cell, $event)"
+                 (input)="onDateSelect(cell, $event, 'to')"
                  type="date"
           >
 
