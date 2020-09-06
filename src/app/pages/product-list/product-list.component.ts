@@ -13,6 +13,7 @@ import { UPLOADED_HOST } from '../../shared/constants/constants';
 import { HeadService } from '../../shared/services/head.service';
 import { NgUnsubscribe } from '../../shared/directives/ng-unsubscribe/ng-unsubscribe.directive';
 import { AttributeService } from '../../shared/services/attribute.service';
+import { DeviceService } from '../../shared/services/device-detector/device.service';
 
 @Component({
   selector: 'product-list',
@@ -38,6 +39,7 @@ export class ProductListComponent extends NgUnsubscribe implements OnInit, After
   constructor(private productsService: ProductService,
               private attributeService: AttributeService,
               private route: ActivatedRoute,
+              private deviceService: DeviceService,
               private cdr: ChangeDetectorRef,
               private headService: HeadService,
               private notyService: NotyService,
@@ -104,6 +106,8 @@ export class ProductListComponent extends NgUnsubscribe implements OnInit, After
   }
 
   getManufacturerAttr(product: ProductListItemDto): string {
+    if (this.deviceService.isPlatformServer()) { return; }
+
     const manufacturerId = 'manufacturer';
     const manufacturerAttribute = product.attributes.find(attribute => attribute.attributeId === manufacturerId);
     if (!manufacturerAttribute) { return ''; }
