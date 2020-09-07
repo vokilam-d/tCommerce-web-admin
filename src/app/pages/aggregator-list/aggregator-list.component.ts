@@ -40,7 +40,7 @@ export class AggregatorListComponent extends NgUnsubscribe implements OnInit, Af
   }
 
   ngOnInit() {
-    this.headService.setTitle(`Атрибуты`);
+    this.headService.setTitle(`Агрегаторы`);
   }
 
   ngAfterViewInit() {
