@@ -88,5 +88,14 @@ const aggregatorGridCells: IGridCell[] = [
     isImage: false,
     isSortable: true,
     fieldName: getPropertyOf<AggregatorDto>('name')
+  },
+  {
+    isSearchable: true,
+    label: 'Название таблицы для клиента',
+    initialWidth: 300,
+    align: 'left',
+    isImage: false,
+    isSortable: true,
+    fieldName: getPropertyOf<AggregatorDto>('clientName')
   }
 ];

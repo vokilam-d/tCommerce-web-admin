@@ -95,7 +95,8 @@ export class AggregatorComponent extends NgUnsubscribe implements OnInit {
 
   private buildForm() {
     this.form = this.formBuilder.group({
-      name: [this.aggregator.name, Validators.required],
+      name: [this.aggregator.name],
+      clientName: [this.aggregator.clientName, Validators.required],
       isVisibleOnProductPage: [this.aggregator.isVisibleOnProductPage],
       productIds: [this.aggregator.productIds],
     });

@@ -28,6 +28,16 @@
       </span>
     </div>
 
+    <div class="aggregator__field field field--required"
+         *ngIf="form.get('clientName') as clientName"
+         [class.field--invalid]="isControlInvalid(clientName)"
+    >
+      <label for="clientName" class="field__label">Надпись над таблицей для клиента</label>
+      <span class="field__control">
+        <input class="field__input" [formControl]="clientName" type="text" id="clientName">
+      </span>
+    </div>
+
     <div class="aggregator__field field"
          *ngIf="form.get('isVisibleOnProductPage') as isVisibleOnProductPage"
          [class.field--invalid]="isControlInvalid(isVisibleOnProductPage)"
