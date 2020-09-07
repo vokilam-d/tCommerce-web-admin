@@ -18,7 +18,7 @@
 
   <form class="aggregator" *ngIf="form; else preloaderTmpl" [formGroup]="form">
 
-    <div class="aggregator__field field field--required"
+    <div class="aggregator__field field"
          *ngIf="form.get('name') as name"
          [class.field--invalid]="isControlInvalid(name)"
     >
