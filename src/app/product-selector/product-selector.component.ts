@@ -88,7 +88,7 @@ export class ProductSelectorComponent implements OnInit, AfterViewInit {
 
     this.isGridLoading = true;
     this.cdr.markForCheck();
-    this.fetchAllSub = this.productService.fetchAllProducts(gridValue, true)
+    this.fetchAllSub = this.productService.fetchProducts(gridValue, true)
       .pipe(
         this.notyService.attachNoty(),
         finalize(() => {

@@ -64,6 +64,25 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'aggregator',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('./pages/aggregator-list/aggregator-list.module').then(m => m.AggregatorListModule)
+          },
+          {
+            path: 'add',
+            loadChildren: () => import('./pages/aggregator/aggregator.module').then(m => m.AggregatorModule),
+            data: { action: EPageAction.Add }
+          },
+          {
+            path: 'edit/:id',
+            loadChildren: () => import('./pages/aggregator/aggregator.module').then(m => m.AggregatorModule),
+            data: { action: EPageAction.Edit }
+          }
+        ]
+      },
+      {
         path: 'customer',
         children: [
           {

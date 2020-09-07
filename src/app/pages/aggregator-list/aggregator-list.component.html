@@ -1,0 +1,28 @@
+<div class="page">
+  <div class="header">
+    <h1 class="header__title">Агрегаторы</h1>
+
+    <div class="header__toolbar">
+      <app-button (click)="add()" btnStyle="primary" btnSize="big">Добавить агрегатор</app-button>
+    </div>
+  </div>
+
+  <grid class="page__grid"
+        [cells]="gridCells"
+        [itemsArray]="aggregators"
+        [itemsFiltered]="itemsFiltered"
+        [pagesTotal]="pagesTotal"
+        [isLoading]="isGridLoading"
+        [linkFieldName]="gridLinkFieldName"
+        (gridChange)="fetchAggregators($event)"
+        trackByFieldName="id"
+        linkUrlSuffix="edit"
+        gridName="aggregator-list"
+  >
+    <span grid-total-items>Всего агрегаторов: {{ itemsTotal }}</span>
+    <span grid-no-items>Агрегаторы не найдены</span>
+
+    <ng-template #cellContent let-aggregator="item">{{ aggregator.id }}</ng-template>
+    <ng-template #cellContent let-aggregator="item">{{ aggregator.name }}</ng-template>
+  </grid>
+</div>

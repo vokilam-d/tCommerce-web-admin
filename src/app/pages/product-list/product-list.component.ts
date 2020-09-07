@@ -65,7 +65,7 @@ export class ProductListComponent extends NgUnsubscribe implements OnInit, After
 
     this.isGridLoading = true;
     this.cdr.detectChanges();
-    this.fetchAllSub = this.productsService.fetchAllProducts({ ...gridValue, orderedDates: this.orderedDates }, false)
+    this.fetchAllSub = this.productsService.fetchProducts({ ...gridValue, orderedDates: this.orderedDates }, false)
       .pipe(this.notyService.attachNoty(), finalize(() => this.isGridLoading = false), takeUntil(this.ngUnsubscribe))
       .subscribe(
         response => {

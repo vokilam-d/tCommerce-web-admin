@@ -1,0 +1,55 @@
+@import "variables";
+
+.preloader {
+  margin: 15vh 0 0;
+}
+
+.aggregator {
+  margin: 40px 0 0;
+
+  &__field {
+    margin: 30px 0 0;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  &__products {
+    position: relative;
+    margin: 20px 0 0;
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+
+.product {
+  position: relative;
+  width: 7vw;
+  margin: 0 -1px -1px 0;
+  padding: 8px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+
+  &__remove {
+    position: absolute;
+    top: 3px;
+    right: 2px;
+    color: darken($red, 30%);
+  }
+
+  &__img {
+    display: inline-block;
+    width: 100%;
+    height: 80px;
+    object-fit: contain;
+  }
+
+  &__name {
+    display: block;
+    margin: 4px 0 0;
+    font-size: 12px;
+    text-overflow: ellipsis;
+    color: rgba($dark, 0.8);
+  }
+}

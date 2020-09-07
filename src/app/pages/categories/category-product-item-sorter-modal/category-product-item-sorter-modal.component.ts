@@ -38,7 +38,7 @@ export class CategoryProductItemSorterModalComponent implements OnInit {
 
   private fetchProducts() {
     this.isLoading = true;
-    this.productService.fetchAllProducts(this.getFetchProductsParams(), false)
+    this.productService.fetchProducts(this.getFetchProductsParams(), false)
       .pipe(this.notyService.attachNoty(), finalize(() => this.isLoading = false))
       .subscribe(response => {
         this.itemsWithSortOrder = this.transformProducts(response.data);

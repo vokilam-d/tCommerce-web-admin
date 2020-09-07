@@ -36,7 +36,7 @@ export class LinkedProductsComponent implements OnInit {
     if (!this.linkedProducts.length) { return; }
 
     this.isLoading = true;
-    this.productService.fetchAllProducts(this.getFetchParams(), false)
+    this.productService.fetchProducts(this.getFetchParams(), false)
       .pipe( this.notyService.attachNoty(), finalize(() => this.isLoading = false) )
       .subscribe(
         response => {

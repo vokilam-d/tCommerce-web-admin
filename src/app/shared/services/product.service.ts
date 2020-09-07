@@ -21,7 +21,7 @@ export class ProductService {
   constructor(private http: HttpClient) {
   }
 
-  fetchAllProducts(paramsArg: IFetchProductsParams, withVariants: boolean) {
+  fetchProducts(paramsArg: IFetchProductsParams, withVariants: boolean) {
     const params: any = paramsArg;
     params.withVariants = withVariants;
 
