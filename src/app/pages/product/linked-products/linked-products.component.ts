@@ -78,7 +78,7 @@ export class LinkedProductsComponent implements OnInit {
 
   onReorder(evt: IDraggedEvent<ProductItemWithSortOrder>) {
     let newSortOrder: number;
-    if (evt.position === EReorderPosition.Start || evt.targetItem.sortOrder === 0) {
+    if (evt.position === EReorderPosition.Start) {
       newSortOrder = evt.targetItem.sortOrder + 1;
     } else {
       newSortOrder = evt.targetItem.sortOrder;
@@ -86,7 +86,7 @@ export class LinkedProductsComponent implements OnInit {
 
     // Bump sort orders in linked products and in ProductSelectorComponent
     const productsToBump = [...this.linkedProducts, ...this.productsWithSortOrder].filter(product => {
-      if (evt.position === EReorderPosition.Start || evt.targetItem.sortOrder === 0) {
+      if (evt.position === EReorderPosition.Start) {
         return product.sortOrder > evt.targetItem.sortOrder;
       } else {
         return product.sortOrder >= evt.targetItem.sortOrder;
