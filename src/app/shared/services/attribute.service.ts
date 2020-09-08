@@ -71,10 +71,10 @@ export class AttributeService {
 
   getValueLabel(attrId: string, valueIds: string[]): string {
     const found = this._attributes$.getValue().find(attr => attr.id === attrId);
-    if (!found) { throw new Error(`Attribute with id '${attrId}' not found`); }
+    if (!found) { return '- - -'; }
 
     const foundValue = found.values.filter(value => valueIds.includes(value.id));
-    if (!foundValue.length) { throw new Error(`Value with id '${valueIds}' not found in attribute '${found.label}'`); }
+    if (!foundValue.length) { return '- - -'; }
 
     return foundValue.map(values => values.label).join(', ');
   }
