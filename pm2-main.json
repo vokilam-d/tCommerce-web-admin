@@ -8,7 +8,7 @@
       "instance_var": "INSTANCE_ID",
       "instances": "2",
       "exec_mode": "cluster",
-      "max_memory_restart": "16G"
+      "max_memory_restart": "2G"
     }
   ]
 }
