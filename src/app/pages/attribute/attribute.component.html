@@ -22,6 +22,19 @@
   </div>
 
   <form class="attribute" *ngIf="form; else preloaderTmpl" [formGroup]="form">
+    <div class="attribute__field field field--required" *ngIf="form.get('isVisibleInFilters') as isVisibleInFilters">
+      <label class="field__label">Показать в фильтрах</label>
+      <div class="field__control">
+        <toggle [formControl]="isVisibleInFilters"></toggle>
+      </div>
+    </div>
+
+    <div class="attribute__field field field--required" *ngIf="form.get('isVisibleInProduct') as isVisibleInProduct">
+      <label class="field__label">Показать на странице товара</label>
+      <div class="field__control">
+        <toggle [formControl]="isVisibleInProduct"></toggle>
+      </div>
+    </div>
 
     <div class="attribute__field field field--required"
            *ngIf="form.get('id') as id"
