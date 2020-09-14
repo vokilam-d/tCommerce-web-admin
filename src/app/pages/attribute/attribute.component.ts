@@ -104,8 +104,8 @@ export class AttributeComponent implements OnInit {
       values: [attribute.values],
       type: [attribute.type],
       groupName: attribute.groupName,
-      isVisibleInProduct: attribute.isVisibleInProduct,
-      isVisibleInFilters: attribute.isVisibleInFilters
+      isVisibleInFilters: attribute.isVisibleInFilters,
+      isVisibleInProduct: attribute.isVisibleInProduct
     }
 
     this.form = this.formBuilder.group(controls);
