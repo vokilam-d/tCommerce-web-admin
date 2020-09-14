@@ -138,8 +138,6 @@ export class ProductComponent extends NgUnsubscribe implements OnInit {
       variants: variantsFormArray
     }
     this.form = this.formBuilder.group(productControls);
-
-    this.form.get('variants.metaTags.title')
   }
 
   private fetchProductAndBuildForm(id: string) {
