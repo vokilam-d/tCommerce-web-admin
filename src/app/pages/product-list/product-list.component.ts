@@ -183,7 +183,7 @@ export class ProductListComponent extends NgUnsubscribe implements OnInit, After
             align: 'left',
             isImage: false,
             isSortable: true,
-            fieldName: getPropertyOf<ProductListItemDto>('skus')
+            fieldName: `${getPropertyOf<ProductListItemDto>('variants')}.${getPropertyOf<ProductVariantListItemDto>('sku')}`
           },
           {
             isSearchable: true,
@@ -192,7 +192,7 @@ export class ProductListComponent extends NgUnsubscribe implements OnInit, After
             align: 'left',
             isImage: false,
             isSortable: true,
-            fieldName: getPropertyOf<ProductListItemDto>('vendorCodes')
+            fieldName: `${getPropertyOf<ProductListItemDto>('variants')}.${getPropertyOf<ProductVariantListItemDto>('vendorCode')}`
           },
           {
             isSearchable: false,
