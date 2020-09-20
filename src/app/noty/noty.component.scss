@@ -18,7 +18,7 @@ $bottomDistance: 25px;
   animation: slideInNoty 0.3s $cubicBezier;
   white-space: pre-line;
   line-height: 1.3;
-  z-index: 3;
+  z-index: 30;
 
   &--error {
     background: darken($red, 30%);

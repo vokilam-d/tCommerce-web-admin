@@ -69,6 +69,13 @@
         </div>
 
         <div class="field">
+          <label for="description" class="field__label">Плательщик</label>
+          <span class="field__control">
+            <app-select formControlName="payerType" [options]="payerTypeOptions"></app-select>
+          </span>
+        </div>
+
+        <div class="field">
           <label for="description" class="field__label">Описание посылки</label>
           <span class="field__control">
             <input class="field__input" formControlName="description" id="description" type="text" required>
