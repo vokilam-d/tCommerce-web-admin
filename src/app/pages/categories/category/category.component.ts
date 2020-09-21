@@ -13,6 +13,7 @@ import { API_HOST } from '../../../shared/constants/constants';
 import { MediaDto } from '../../../shared/dtos/media.dto';
 import { IDraggedEvent } from '../../../shared/directives/draggable-item/draggable-item.directive';
 import { EReorderPosition } from '../../../shared/enums/reorder-position.enum';
+import { logMemory } from '../../../shared/helpers/log-memory.function';
 
 const EMPTY_CATEGORY: AddOrUpdateCategoryDto = {
   isEnabled: true,
@@ -67,6 +68,10 @@ export class CategoryComponent implements OnInit {
     this.route.params.subscribe(_ => {
       this.init();
     });
+    setTimeout(() => {
+      console.log('After "CategoryComponent" render');
+      logMemory();
+    }, 1000);
   }
 
   init() {

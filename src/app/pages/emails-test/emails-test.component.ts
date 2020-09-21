@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { NotyService } from '../../noty/noty.service';
 import { API_HOST } from '../../shared/constants/constants';
 import { HeadService } from '../../shared/services/head.service';
+import { logMemory } from '../../shared/helpers/log-memory.function';
 
 @Component({
   selector: 'emails-test',
@@ -20,6 +21,10 @@ export class EmailsTestComponent implements OnInit {
 
   ngOnInit() {
     this.headService.setTitle(`Письма`);
+    setTimeout(() => {
+      console.log('After "EmailsTestComponent" render');
+      logMemory();
+    }, 1000);
   }
 
   sendEmailConfirmationEmail() {

@@ -11,6 +11,7 @@ import { ProductSelectorComponent } from '../../product-selector/product-selecto
 import { API_HOST } from '../../shared/constants/constants';
 import { finalize } from 'rxjs/operators';
 import { HeadService } from '../../shared/services/head.service';
+import { logMemory } from '../../shared/helpers/log-memory.function';
 
 @Component({
   selector: 'product-review',
@@ -37,6 +38,10 @@ export class ProductReviewComponent implements OnInit {
 
   ngOnInit() {
     this.init();
+    setTimeout(() => {
+      console.log('After "ProductReviewComponent" render');
+      logMemory();
+    }, 1000);
   }
 
   private init() {

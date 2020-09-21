@@ -6,6 +6,7 @@ import { NotyService } from '../../noty/noty.service';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { HeadService } from '../../shared/services/head.service';
+import { logMemory } from '../../shared/helpers/log-memory.function';
 
 @Component({
   selector: 'payment-method',
@@ -27,7 +28,11 @@ export class PaymentMethodComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.init()
+    this.init();
+    setTimeout(() => {
+      console.log('After "PaymentMethodComponent" render');
+      logMemory();
+    }, 1000);
   }
 
   private init() {

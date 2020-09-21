@@ -6,6 +6,7 @@ import { NotyService } from '../../noty/noty.service';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { HeadService } from '../../shared/services/head.service';
+import { logMemory } from '../../shared/helpers/log-memory.function';
 
 @Component({
   selector: 'shipping-method',
@@ -27,7 +28,11 @@ export class ShippingMethodComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.init()
+    this.init();
+    setTimeout(() => {
+      console.log('After "ShippingMethodComponent" render');
+      logMemory();
+    }, 1000);
   }
 
   private init() {

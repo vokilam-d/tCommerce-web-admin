@@ -8,6 +8,7 @@ import { AddOrUpdateUserDto, UserDto } from '../../shared/dtos/user.dto';
 import { CustomValidators } from '../../shared/classes/validators';
 import { validPasswordRegex } from '../../shared/constants/constants';
 import { HeadService } from '../../shared/services/head.service';
+import { logMemory } from '../../shared/helpers/log-memory.function';
 
 @Component({
   selector: 'users',
@@ -30,7 +31,11 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.init()
+    this.init();
+    setTimeout(() => {
+      console.log('After "UsersComponent" render');
+      logMemory();
+    }, 1000);
   }
 
   private init() {

@@ -4,12 +4,12 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from
 import { ActivatedRoute, Router } from '@angular/router';
 import { AttributeDto, AttributeValueDto } from '../../shared/dtos/attribute.dto';
 import { AttributeService } from '../../shared/services/attribute.service';
-import { urlFriendlyCodeRegex } from '../../shared/constants/constants';
 import { NotyService } from 'src/app/noty/noty.service';
 import { finalize } from 'rxjs/operators';
 import { HeadService } from '../../shared/services/head.service';
 import { EAttributeType } from '../../shared/enums/attribute-type.enum';
 import { ISelectOption } from '../../shared/components/select/select-option.interface';
+import { logMemory } from '../../shared/helpers/log-memory.function';
 
 @Component({
   selector: 'attribute',
@@ -34,6 +34,10 @@ export class AttributeComponent implements OnInit {
 
   ngOnInit() {
     this.init();
+    setTimeout(() => {
+      console.log('After "AttributeComponent" render');
+      logMemory();
+    }, 1000);
   }
 
   private init() {

@@ -14,6 +14,7 @@ import { HeadService } from '../../shared/services/head.service';
 import { NgUnsubscribe } from '../../shared/directives/ng-unsubscribe/ng-unsubscribe.directive';
 import { AttributeService } from '../../shared/services/attribute.service';
 import { DeviceService } from '../../shared/services/device-detector/device.service';
+import { logMemory } from '../../shared/helpers/log-memory.function';
 
 @Component({
   selector: 'product-list',
@@ -50,6 +51,10 @@ export class ProductListComponent extends NgUnsubscribe implements OnInit, After
   ngOnInit() {
     this.setGridCells();
     this.headService.setTitle(`Товары`);
+    setTimeout(() => {
+      console.log('After "ProductListComponent" render');
+      logMemory();
+    }, 1000);
   }
 
   ngAfterViewInit(): void {

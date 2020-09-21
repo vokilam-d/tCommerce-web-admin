@@ -13,14 +13,11 @@ import { ISelectOption } from '../../shared/components/select/select-option.inte
 import { ShipmentAddressDto } from '../../shared/dtos/shipment-address.dto';
 import { CustomerService } from '../../shared/services/customer.service';
 import { ProductSelectorComponent } from '../../product-selector/product-selector.component';
-import { API_HOST, UPLOADED_HOST } from '../../shared/constants/constants';
+import { UPLOADED_HOST } from '../../shared/constants/constants';
 import { HeadService } from '../../shared/services/head.service';
 import { NgUnsubscribe } from '../../shared/directives/ng-unsubscribe/ng-unsubscribe.directive';
 import { finalize, takeUntil } from 'rxjs/operators';
-import { PaymentMethodEnum } from '../../shared/enums/payment-method.enum';
-import { ShipmentTypeEnum } from '../../shared/enums/shipment-type.enum';
-import { ShipmentPayerEnum } from '../../shared/enums/shipment-payer.enum';
-import { ShipmentPaymentMethodEnum } from '../../shared/enums/shipment-payment-method.enum';
+import { logMemory } from '../../shared/helpers/log-memory.function';
 
 @Component({
   selector: 'order',
@@ -61,6 +58,10 @@ export class OrderComponent extends NgUnsubscribe implements OnInit {
 
   ngOnInit() {
     this.init();
+    setTimeout(() => {
+      console.log('After "OrderComponent" render');
+      logMemory();
+    }, 1000);
   }
 
   private init() {

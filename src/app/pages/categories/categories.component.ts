@@ -7,6 +7,7 @@ import { finalize } from 'rxjs/operators';
 import { NgUnsubscribe } from '../../shared/directives/ng-unsubscribe/ng-unsubscribe.directive';
 import { IDraggedEvent } from '../../shared/directives/draggable-item/draggable-item.directive';
 import { HeadService } from '../../shared/services/head.service';
+import { logMemory } from '../../shared/helpers/log-memory.function';
 
 @Component({
   selector: 'categories',
@@ -30,6 +31,10 @@ export class CategoriesComponent extends NgUnsubscribe implements OnInit, OnDest
     this.fetchCategoriesTree();
     this.categoriesService.categoryUpdated$.subscribe(_ => this.fetchCategoriesTree());
     this.headService.setTitle('Категории');
+    setTimeout(() => {
+      console.log('After "CategoriesComponent" render');
+      logMemory();
+    }, 1000);
   }
 
   ngOnDestroy(): void {

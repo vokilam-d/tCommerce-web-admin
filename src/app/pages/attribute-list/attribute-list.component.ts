@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 import { GridComponent } from '../../grid/grid.component';
 import { NotyService } from '../../noty/noty.service';
 import { HeadService } from '../../shared/services/head.service';
+import { logMemory } from '../../shared/helpers/log-memory.function';
 
 
 @Component({
@@ -42,6 +43,10 @@ export class AttributeListComponent extends NgUnsubscribe implements OnInit, Aft
 
   ngOnInit() {
     this.headService.setTitle(`Атрибуты`);
+    setTimeout(() => {
+      console.log('After "AttributeListComponent" render');
+      logMemory();
+    }, 1000);
   }
 
   ngAfterViewInit() {

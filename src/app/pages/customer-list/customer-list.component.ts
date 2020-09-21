@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs';
 import { GridComponent } from '../../grid/grid.component';
 import { AttributeDto } from '../../shared/dtos/attribute.dto';
 import { HeadService } from '../../shared/services/head.service';
+import { logMemory } from '../../shared/helpers/log-memory.function';
 
 
 @Component({
@@ -42,6 +43,10 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.headService.setTitle(`Клиенты`);
+    setTimeout(() => {
+      console.log('After "CustomerListComponent" render');
+      logMemory();
+    }, 1000);
   }
 
   ngAfterViewInit() {

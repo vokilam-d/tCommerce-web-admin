@@ -17,6 +17,7 @@ import { catchError, finalize, switchMap, takeUntil, tap } from 'rxjs/operators'
 import { PaymentMethodEnum } from '../../shared/enums/payment-method.enum';
 import { NgUnsubscribe } from '../../shared/directives/ng-unsubscribe/ng-unsubscribe.directive';
 import { ShipmentStatusEnum } from '../../shared/enums/shipment-status.enum';
+import { logMemory } from '../../shared/helpers/log-memory.function';
 
 @Component({
   selector: 'order-view',
@@ -69,6 +70,10 @@ export class OrderViewComponent extends NgUnsubscribe implements OnInit {
 
   ngOnInit() {
     this.init();
+    setTimeout(() => {
+      console.log('After "OrderViewComponent" render');
+      logMemory();
+    }, 1000);
   }
 
   private init() {

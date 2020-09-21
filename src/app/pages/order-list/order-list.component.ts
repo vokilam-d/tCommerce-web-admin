@@ -18,6 +18,7 @@ import { OrderStatusEnum } from '../../shared/enums/order-status.enum';
 import { ShipmentStatusEnum } from '../../shared/enums/shipment-status.enum';
 import { TRANSLATIONS_MAP } from '../../shared/constants/constants';
 import { PaymentMethodEnum } from '../../shared/enums/payment-method.enum';
+import { logMemory } from '../../shared/helpers/log-memory.function';
 
 @Component({
   selector: 'order-list',
@@ -53,6 +54,10 @@ export class OrderListComponent extends NgUnsubscribe implements OnInit, AfterVi
   ngOnInit() {
     this.headService.setTitle(`Заказы`);
     this.handleStatusControl();
+    setTimeout(() => {
+      console.log('After "OrderListComponent" render');
+      logMemory();
+    }, 1000);
   }
 
   ngAfterViewInit(): void {

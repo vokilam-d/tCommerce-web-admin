@@ -7,6 +7,7 @@ import { DEFAULT_CURRENCY_CODE } from '../../shared/enums/currency.enum';
 import { API_HOST } from '../../shared/constants/constants';
 import { finalize } from 'rxjs/operators';
 import { HeadService } from '../../shared/services/head.service';
+import { logMemory } from '../../shared/helpers/log-memory.function';
 
 @Component({
   selector: 'currency',
@@ -25,6 +26,10 @@ export class CurrencyComponent implements OnInit {
 
   ngOnInit() {
     this.init();
+    setTimeout(() => {
+      console.log('After "CurrencyComponent" render');
+      logMemory();
+    }, 1000);
   }
 
   private init() {

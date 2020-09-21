@@ -9,6 +9,7 @@ import { Subscription } from 'rxjs';
 import { GridComponent } from '../../grid/grid.component';
 import { finalize } from 'rxjs/operators';
 import { HeadService } from '../../shared/services/head.service';
+import { logMemory } from '../../shared/helpers/log-memory.function';
 
 @Component({
   selector: 'product-review-list',
@@ -39,6 +40,10 @@ export class ProductReviewListComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.headService.setTitle(`Отзывы о товарах`);
+    setTimeout(() => {
+      console.log('After "ProductReviewListComponent" render');
+      logMemory();
+    }, 1000);
   }
 
   ngAfterViewInit(): void {

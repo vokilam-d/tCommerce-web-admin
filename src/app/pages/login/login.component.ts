@@ -5,6 +5,7 @@ import { LoginDto } from '../../shared/dtos/login.dto';
 import { finalize } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { HeadService } from '../../shared/services/head.service';
+import { logMemory } from '../../shared/helpers/log-memory.function';
 
 @Component({
   selector: 'login',
@@ -25,6 +26,10 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.buildForm();
     this.headService.setTitle(`Вход`);
+    setTimeout(() => {
+      console.log('After "LoginComponent" render');
+      logMemory();
+    }, 1000);
   }
 
   submit() {

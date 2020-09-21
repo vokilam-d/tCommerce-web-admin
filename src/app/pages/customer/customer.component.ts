@@ -10,6 +10,7 @@ import { finalize } from 'rxjs/operators';
 import { HeadService } from '../../shared/services/head.service';
 import { AddressFormComponent } from '../../address-form/address-form.component';
 import { AddressTypeEnum } from '../../shared/enums/address-type.enum';
+import { logMemory } from '../../shared/helpers/log-memory.function';
 
 @Component({
   selector: 'customer',
@@ -40,6 +41,10 @@ export class CustomerComponent implements OnInit {
 
   ngOnInit() {
     this.init();
+    setTimeout(() => {
+      console.log('After "CustomerComponent" render');
+      logMemory();
+    }, 1000);
   }
 
   private init() {

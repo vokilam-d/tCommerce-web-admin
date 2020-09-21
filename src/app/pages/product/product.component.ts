@@ -20,6 +20,7 @@ import { OrderListViewerModalComponent } from './order-list-viewer-modal/order-l
 import { transliterate } from '../../shared/helpers/transliterate.function';
 import { MetaTagsDto } from '../../shared/dtos/meta-tags.dto';
 import { NgUnsubscribe } from '../../shared/directives/ng-unsubscribe/ng-unsubscribe.directive';
+import { logMemory } from '../../shared/helpers/log-memory.function';
 
 type PostAction = 'duplicate' | 'exit' | 'none';
 
@@ -55,6 +56,10 @@ export class ProductComponent extends NgUnsubscribe implements OnInit {
 
   ngOnInit() {
     this.init();
+    setTimeout(() => {
+      console.log('After "ProductComponent" render');
+      logMemory();
+    }, 1000);
   }
 
   private init() {
