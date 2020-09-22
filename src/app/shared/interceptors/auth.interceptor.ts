@@ -36,7 +36,7 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   private getHeaders(headers: HttpHeaders) {
-    if (!this.serverReq) { return headers; };
+    if (!this.serverReq) { return headers; }
     const cookieStr = this.serverReq.get('cookie');
     if (!cookieStr) { return headers; }
 

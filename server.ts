@@ -32,6 +32,9 @@ export function app() {
 
   // All regular routes use the Universal engine
   server.get('*', (req, res) => {
+    console.log('\n');
+    console.log(new Date());
+    console.log(`Before SSR on url: ${req.url}`);
     res.render(indexHtml, { req, providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }] });
   });
 
