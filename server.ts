@@ -23,6 +23,11 @@ export function app() {
   server.set('view engine', 'html');
   server.set('views', distFolder);
 
+  server.get(`/api/*`, (req, res) => {
+    console.log(`${new Date().toISOString()} - Got api request: ${req.url}`)
+    res.send(`API is not supported`);
+  });
+
   // Example Express Rest API endpoints
   // server.get('/api/**', (req, res) => { });
   // Serve static files from /browser
