@@ -48,6 +48,11 @@
   &__finish-order {
     margin: 40px 0 0;
   }
+
+  &__summary-block {
+    display: flex;
+    justify-content: flex-end;
+  }
 }
 
 .two-col {
@@ -131,13 +136,6 @@
   }
 }
 
-.total-order-cost {
-  margin: 10px 4.5% 0 0;
-  font-size: 18px;
-  font-weight: 500;
-  text-align: right;
-}
-
 .address-form {
   &__modal {
     left: 30vw;
@@ -194,5 +192,37 @@
     width: 250px;
     min-height: 50px;
     margin: 0 0 8px;
+  }
+}
+
+.summary {
+  width: 430px;
+  text-align: right;
+
+  &__row {
+    display: flex;
+    align-items: center;
+
+    &:nth-child(odd) {
+      background: $controlBg;
+    }
+  }
+
+  &__block {
+    padding: 5px 10px;
+    font-size: 16px;
+
+    &:first-child {
+      width: 70%;
+      text-align: left;
+    }
+
+    &:last-child {
+      width: 30%;
+    }
+  }
+
+  &__place-order {
+    margin: 15px 0 0;
   }
 }

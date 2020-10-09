@@ -7,7 +7,5 @@ export class OrderItemDto {
   price: number = 0;
   qty: number = 0;
   cost: number = 0;
-  discountValue: number = 0;
-  totalCost: number = 0;
   imageUrl: string = '';
 }

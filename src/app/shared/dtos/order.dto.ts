@@ -2,6 +2,7 @@ import { OrderItemDto } from './order-item.dto';
 import { ShipmentDto } from './shipment.dto';
 import { OrderStatusEnum } from '../enums/order-status.enum';
 import { PaymentMethodEnum } from '../enums/payment-method.enum';
+import { OrderPricesDto } from './order-prices.dto';
 
 export class AddOrUpdateOrderDto {
   customerId: number;
@@ -25,10 +26,7 @@ export class AddOrUpdateOrderDto {
   clientNote: string = '';
   adminNote: string = '';
   notes: string[] = [];
-  discountPercent: number = 0;
-  discountValue: number = 0;
-  totalItemsCost: number = 0;
-  totalCost: number = 0;
+  prices: OrderPricesDto = new OrderPricesDto();
   isOrderPaid: boolean = false;
 }
 

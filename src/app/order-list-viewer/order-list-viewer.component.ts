@@ -14,6 +14,7 @@ import { ShipmentDto } from '../shared/dtos/shipment.dto';
 import { OrderStatusEnum } from '../shared/enums/order-status.enum';
 import { ShipmentStatusEnum } from '../shared/enums/shipment-status.enum';
 import { TRANSLATIONS_MAP } from '../shared/constants/constants';
+import { OrderPricesDto } from '../shared/dtos/order-prices.dto';
 
 @Component({
   selector: 'order-list-viewer',
@@ -120,7 +121,7 @@ const orderGridCells: IGridCell[] = [
     align: 'left',
     isImage: false,
     isSortable: true,
-    fieldName: getPropertyOf<OrderDto>('totalCost')
+    fieldName: `${getPropertyOf<OrderDto>('prices')}.${getPropertyOf<OrderPricesDto>('totalCost')}`
   },
   {
     isSearchable: false,

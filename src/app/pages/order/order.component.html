@@ -164,12 +164,6 @@
                 <div class="grid__block grid__block--head order-item__cost">
                   Стоимость
                 </div>
-                <div class="grid__block grid__block--head order-item__discount">
-                  Скидка
-                </div>
-                <div class="grid__block grid__block--head order-item__total-cost">
-                  Общая стоимость
-                </div>
                 <div class="grid__block grid__block--head order-item__remove">
                 </div>
               </div>
@@ -204,17 +198,6 @@
                   <div class="grid__block order-item__cost">
                     {{ orderItem.cost }} грн
                   </div>
-                  <div class="grid__block order-item__discount">
-                    <input class="order-item__number-input order-item__number-input--discount"
-                           [(ngModel)]="orderItem.discountValue"
-                           numberInput
-                           min="0"
-                           type="number"
-                    > грн
-                  </div>
-                  <div class="grid__block order-item__total-cost">
-                    {{ getOrderItemTotalCost(orderItem) }} грн
-                  </div>
                   <div class="grid__block order-item__remove">
                     <div class="order-item__remove-btn" (click)="removeOrderItem(i)">
                       Убрать
@@ -234,13 +217,7 @@
                 <div class="grid__block grid__block--footer order-item__qty">
                 </div>
                 <div class="grid__block grid__block--footer order-item__cost">
-                  {{ orderItemsCost }} грн
-                </div>
-                <div class="grid__block grid__block--footer order-item__discount">
-                  {{ orderItemsDiscount }} грн
-                </div>
-                <div class="grid__block grid__block--footer order-item__total-cost">
-                  {{ orderItemsTotalCost }} грн
+                  {{ order.prices.itemsCost }} грн
                 </div>
                 <div class="grid__block grid__block--footer order-item__remove">
                 </div>
@@ -269,15 +246,28 @@
             <div class="order__summary summary">
               <div class="summary__row">
                 <div class="summary__block">Стоимость товаров</div>
-                <div class="summary__block">{{ orderItemsCost }} грн</div>
+                <div class="summary__block">{{ order.prices.itemsCost }} грн</div>
               </div>
               <div class="summary__row">
-                <div class="summary__block">Скидка</div>
-                <div class="summary__block">{{ orderItemsDiscount }} грн ({{ customer.discountPercent }}%)</div>
+                <div class="summary__block">
+                  Скидка
+                  <ng-container *ngIf="order.prices.discountPercent as discountPercent">
+                    <br> ({{ order.prices.discountLabel }} - {{ discountPercent }}%)
+                  </ng-container>
+                </div>
+                <div class="summary__block">
+                  <input class="order-item__number-input order-item__number-input--discount"
+                         [(ngModel)]="order.prices.discountValue"
+                         (input)="onDiscountValueChange($event.target)"
+                         numberInput
+                         min="0"
+                         type="number"
+                  > грн
+                </div>
               </div>
               <div class="summary__row">
                 <div class="summary__block">Итого к оплате</div>
-                <div class="summary__block">{{ orderItemsTotalCost }} грн</div>
+                <div class="summary__block">{{ order.prices.totalCost }} грн</div>
               </div>
 
               <app-button class="summary__place-order"

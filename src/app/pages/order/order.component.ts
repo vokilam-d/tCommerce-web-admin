@@ -16,7 +16,7 @@ import { ProductSelectorComponent } from '../../product-selector/product-selecto
 import { UPLOADED_HOST } from '../../shared/constants/constants';
 import { HeadService } from '../../shared/services/head.service';
 import { NgUnsubscribe } from '../../shared/directives/ng-unsubscribe/ng-unsubscribe.directive';
-import { finalize, takeUntil } from 'rxjs/operators';
+import { finalize, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { logMemory } from '../../shared/helpers/log-memory.function';
 
 @Component({
@@ -38,9 +38,6 @@ export class OrderComponent extends NgUnsubscribe implements OnInit {
   addressSelectOptions: ISelectOption[] = [];
   private newAddress: ShipmentAddressDto = new ShipmentAddressDto();
 
-  get orderItemsCost() { return this.order.items.reduce((acc, item) => acc + item.cost, 0); }
-  get orderItemsTotalCost() { return this.order.items.reduce((acc, item) => acc + this.getOrderItemTotalCost(item), 0); }
-  get orderItemsDiscount() : number { return this.order.items.reduce((acc, item) => acc + item.discountValue, 0); }
   get isNewAddress(): boolean { return this.order.shipment.recipient === this.newAddress; }
 
   @ViewChild(ProductSelectorComponent) productSelectorCmp: ProductSelectorComponent;
@@ -236,10 +233,10 @@ export class OrderComponent extends NgUnsubscribe implements OnInit {
     this.createOrderItem(variant.sku, qty);
   }
 
-  onOrderItemQtyBlur(target: any, orderItem: OrderItemDto) {
+  onOrderItemQtyBlur(target: HTMLInputElement, orderItem: OrderItemDto) {
     const newValue = parseInt(target.value);
     if (!newValue) {
-      target.value = orderItem.qty;
+      target.value = orderItem.qty.toString();
       return;
     }
 
@@ -248,25 +245,29 @@ export class OrderComponent extends NgUnsubscribe implements OnInit {
 
   createOrderItem(sku: string, qty: number) {
     this.isLoading = true;
-    this.orderService.createOrderItem(sku, qty, this.customer.id)
+    this.orderService.createOrderItem(sku, qty)
       .pipe(
         this.notyService.attachNoty(),
+        tap(response => this.addOrderItem(sku, response.data)),
+        switchMap(() => this.orderService.calculateOrderPrices(this.order.items, this.customer.id)),
         finalize(() => this.isLoading = false)
       )
       .subscribe(
         response => {
-          const foundIdx = this.order.items.findIndex(item => item.sku === sku);
-          if (foundIdx === -1) {
-            this.order.items.push(response.data);
-          } else {
-            this.order.items[foundIdx] = response.data;
-          }
+          this.order.prices = response.data;
         }
       );
   }
 
   removeOrderItem(index: number) {
     this.order.items.splice(index, 1);
+
+    this.isLoading = true;
+    this.orderService.calculateOrderPrices(this.order.items, this.customer.id)
+      .pipe( finalize(() => this.isLoading = false) )
+      .subscribe(response => {
+        this.order.prices = response.data;
+      });
   }
 
   onPaymentMethodSelect(paymentMethod: PaymentMethodDto) {
@@ -297,10 +298,6 @@ export class OrderComponent extends NgUnsubscribe implements OnInit {
       .subscribe(value => this.order.shipment.recipient = value)
   }
 
-  getOrderItemTotalCost(orderItem: OrderItemDto): number {
-    return orderItem.cost - orderItem.discountValue;
-  }
-
   private setOrder(orderDto: OrderDto) {
     if (!this.isReorder) {
       this.order = orderDto;
@@ -314,10 +311,6 @@ export class OrderComponent extends NgUnsubscribe implements OnInit {
       customerId: orderDto.customerId,
       customerPhoneNumber: orderDto.customerPhoneNumber,
       items: orderDto.items,
-      discountPercent: orderDto.discountPercent,
-      discountValue: orderDto.discountValue,
-      totalCost: orderDto.totalCost,
-      totalItemsCost: orderDto.totalItemsCost,
       paymentType: orderDto.paymentType,
       paymentMethodId: orderDto.paymentMethodId,
       paymentMethodAdminName: orderDto.paymentMethodAdminName,
@@ -330,7 +323,28 @@ export class OrderComponent extends NgUnsubscribe implements OnInit {
         shipmentType: orderDto.shipment.shipmentType,
         payerType: orderDto.shipment.payerType,
         paymentMethod: orderDto.shipment.paymentMethod
+      },
+      prices: {
+        discountPercent: orderDto.prices.discountPercent,
+        discountValue: orderDto.prices.discountValue,
+        discountLabel: orderDto.prices.discountLabel,
+        totalCost: orderDto.prices.totalCost,
+        itemsCost: orderDto.prices.itemsCost
       }
     } as OrderDto;
+  }
+
+  private addOrderItem(sku: string, item: OrderItemDto) {
+    const foundIdx = this.order.items.findIndex(item => item.sku === sku);
+    if (foundIdx === -1) {
+      this.order.items.push(item);
+    } else {
+      this.order.items[foundIdx] = item;
+    }
+  }
+
+  onDiscountValueChange(target: HTMLInputElement) {
+    const discountValue = parseInt(target.value);
+    this.order.prices.totalCost = this.order.prices.itemsCost - discountValue;
   }
 }

@@ -189,20 +189,12 @@ $darkerBorderColor: rgba(173, 173, 173, 0.7);
     border: 1px solid $borderColor;
 
     &--discount {
-      width: 50px;
+      width: 60px;
       margin-right: 3px;
     }
   }
 
   &__cost {
-    width: 9%;
-  }
-
-  &__discount {
-    width: 9%;
-  }
-
-  &__total-cost {
     width: 9%;
   }
 
@@ -217,13 +209,14 @@ $darkerBorderColor: rgba(173, 173, 173, 0.7);
 }
 
 .summary {
-  width: 400px;
+  width: 430px;
   text-align: right;
 
   &__row {
     display: flex;
+    align-items: center;
 
-    &:nth-child(2n) {
+    &:nth-child(odd) {
       background: $controlBg;
     }
   }

@@ -19,6 +19,7 @@ import { ShipmentStatusEnum } from '../../shared/enums/shipment-status.enum';
 import { TRANSLATIONS_MAP } from '../../shared/constants/constants';
 import { PaymentMethodEnum } from '../../shared/enums/payment-method.enum';
 import { logMemory } from '../../shared/helpers/log-memory.function';
+import { OrderPricesDto } from '../../shared/dtos/order-prices.dto';
 
 @Component({
   selector: 'order-list',
@@ -174,7 +175,7 @@ const orderGridCells: IGridCell[] = [
     align: 'left',
     isImage: false,
     isSortable: true,
-    fieldName: getPropertyOf<OrderDto>('totalCost')
+    fieldName: `${getPropertyOf<OrderDto>('prices')}.${getPropertyOf<OrderPricesDto>('totalCost')}`
   },
   {
     isSearchable: false,

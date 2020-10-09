@@ -168,13 +168,15 @@
     </div>
 
     <div class="order-view__block order-view__address">
+      {{ order.shippingMethodName }}<br><br>
+
       {{ order.shipment.recipient.firstName }} {{ order.shipment.recipient.lastName }}, {{ order.shipment.recipient.phone | normalizedPhone }}
       <br>
       {{ order.shipment.recipient.settlement }}, {{ order.shipment.recipient.address }}<ng-container *ngIf="order.shipment.recipient.buildingNumber as buildingNumber">, {{ buildingNumber }} {{ order.shipment.recipient.flat }}</ng-container>
     </div>
 
     <div class="order-view__subtitle">
-      Оплата и доставка
+      Оплата
     </div>
 
     <div class="order-view__block two-col">
@@ -188,10 +190,6 @@
             {{ error }}
           </div>
         </div>
-      </div>
-      <div class="two-col__col method">
-        <div class="method__title">Способ доставки</div>
-        <div class="method__name">{{ order.shippingMethodName }}</div>
       </div>
     </div>
 
@@ -210,8 +208,6 @@
             <td class="items-table__block items-table__block--price">Цена</td>
             <td class="items-table__block items-table__block--qty">Кол-во</td>
             <td class="items-table__block items-table__block--cost">Стоимость</td>
-            <td class="items-table__block items-table__block--discount">Скидка</td>
-            <td class="items-table__block items-table__block--total">Итого</td>
           </tr>
         </thead>
         <tbody>
@@ -236,7 +232,7 @@
               {{ item.vendorCode }}
             </td>
             <td class="items-table__block items-table__block--price">
-              {{ item.price }} грн<ng-container *ngIf="item.price !== item.originalPrice"> ({{ item.originalPrice }} грн)</ng-container>
+              {{ item.price }} грн
             </td>
             <td class="items-table__block items-table__block--qty">
               <div class="items-table__qty">{{ item.qty }}</div>
@@ -244,17 +240,32 @@
             <td class="items-table__block items-table__block--cost">
               {{ item.cost }} грн
             </td>
-            <td class="items-table__block items-table__block--discount">
-              {{ item.discountValue }} грн
-            </td>
-            <td class="items-table__block items-table__block--total">
-              {{ item.totalCost }} грн
-            </td>
           </tr>
         </tbody>
       </table>
-      <div class="total-order-cost">
-        {{ order.totalCost }} грн
+
+      <div class="order-view__block order-view__summary-block">
+        <div class="order-view__summary summary">
+          <div class="summary__row">
+            <div class="summary__block">Стоимость товаров</div>
+            <div class="summary__block">{{ order.prices.itemsCost }} грн</div>
+          </div>
+          <div class="summary__row">
+            <div class="summary__block">
+              Скидка
+              <ng-container *ngIf="order.prices.discountPercent as discountPercent">
+                <br> ({{ order.prices.discountLabel }} - {{ discountPercent }}%)
+              </ng-container>
+            </div>
+            <div class="summary__block">
+              {{ order.prices.discountValue }} грн
+            </div>
+          </div>
+          <div class="summary__row">
+            <div class="summary__block">Итого</div>
+            <div class="summary__block">{{ order.prices.totalCost }} грн</div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -290,7 +301,7 @@
 
 <shipment-info-modal *ngIf="order"
                      [shipment]="order.shipment"
-                     [cost]="order.totalCost"
+                     [cost]="order.prices.totalCost"
                      [setBackwardDeliveryAsCost]="isCashOnDelivery()"
                      (infoSubmit)="onShipmentInfoSubmit($event)"
 ></shipment-info-modal>

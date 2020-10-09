@@ -11,6 +11,8 @@ import { IGridValue } from '../../grid/grid.interface';
 import { API_HOST } from '../constants/constants';
 import { ShipmentDto } from '../dtos/shipment.dto';
 import { OrderStatusEnum } from '../enums/order-status.enum';
+import { CalculatePricesDto } from '../dtos/calculate-prices.dto';
+import { OrderPricesDto } from '../dtos/order-prices.dto';
 
 interface IFetchOrderOptions {
   customerId?: number;
@@ -76,14 +78,22 @@ export class OrderService {
     return this.http.put<ResponseDto<OrderDto>>(`${API_HOST}/api/v1/admin/orders/${id}/note`, payload);
   }
 
-  createOrderItem(sku: string, qty: number, customerId?: number) {
+  createOrderItem(sku: string, qty: number) {
     const payload: CreateOrderItemDto = {
       sku,
-      qty,
-      customerId
+      qty
     };
 
     return this.http.post<ResponseDto<OrderItemDto>>(`${API_HOST}/api/v1/admin/order-items`, payload);
+  }
+
+  calculateOrderPrices(items: OrderItemDto[], customerId: number) {
+    const payload: CalculatePricesDto = {
+      items,
+      customerId
+    }
+
+    return this.http.post<ResponseDto<OrderPricesDto>>(`${API_HOST}/api/v1/admin/order-items/prices`, payload);
   }
 
   updateShipmentStatus(id: number) {
