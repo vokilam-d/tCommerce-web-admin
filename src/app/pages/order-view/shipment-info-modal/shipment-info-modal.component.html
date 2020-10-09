@@ -72,6 +72,7 @@
           <label for="description" class="field__label">Плательщик</label>
           <span class="field__control">
             <app-select formControlName="payerType" [options]="payerTypeOptions"></app-select>
+            <span class="shipment__payer">Исходя из суммы заказа, плательщик - <b>{{ payerTypeNameForCost }}</b></span>
           </span>
         </div>
 

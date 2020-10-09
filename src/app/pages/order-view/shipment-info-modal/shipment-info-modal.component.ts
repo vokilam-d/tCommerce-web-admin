@@ -25,6 +25,9 @@ export class ShipmentInfoModalComponent implements OnInit {
   @Input() setBackwardDeliveryAsCost: boolean = false;
   @Output('infoSubmit') submitEmitter = new EventEmitter<ShipmentDto>();
 
+  get payerTypeForCost(): ShipmentPayerEnum { return this.cost < 1000 ? ShipmentPayerEnum.RECIPIENT : ShipmentPayerEnum.SENDER; }
+  get payerTypeNameForCost(): string { return this.payerTypeOptions.find(o => o.data === this.payerTypeForCost).view; }
+
   constructor(private shipmentSenderService: ShipmentSenderService,
               private notyService: NotyService,
               private formBuilder: FormBuilder
@@ -51,6 +54,11 @@ export class ShipmentInfoModalComponent implements OnInit {
       backwardMoneyDelivery = this.cost;
     }
 
+    let payerType: ShipmentPayerEnum = this.shipment.payerType;
+    if (!payerType) {
+      payerType = this.payerTypeForCost;
+    }
+
     const controls: Partial<Record<keyof ShipmentDto, any>> = {
       senderId: [this.defaultSenderId || this.shipment.senderId, Validators.required],
       weight: [this.shipment.weight, Validators.required],
@@ -58,7 +66,7 @@ export class ShipmentInfoModalComponent implements OnInit {
       height: [this.shipment.height, Validators.required],
       length: [this.shipment.length, Validators.required],
       description: [this.shipment.description, Validators.required],
-      payerType: [this.shipment.payerType, Validators.required],
+      payerType: [payerType, Validators.required],
       backwardMoneyDelivery: backwardMoneyDelivery,
       cost: this.cost
     };
