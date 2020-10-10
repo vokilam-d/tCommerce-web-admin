@@ -15,7 +15,6 @@ import { ProductService } from '../../shared/services/product.service';
 import { IGridFilter } from '../../grid/grid.interface';
 import { UPLOADED_HOST } from '../../shared/constants/constants';
 import { ISelectedProduct, ProductSelectorComponent } from '../../product-selector/product-selector.component';
-import { logMemory } from '../../shared/helpers/log-memory.function';
 
 @Component({
   selector: 'aggregator',
@@ -52,10 +51,6 @@ export class AggregatorComponent extends NgUnsubscribe implements OnInit {
 
   ngOnInit() {
     this.init();
-    setTimeout(() => {
-      console.log('After "AggregatorComponent" render');
-      logMemory();
-    }, 1000);
   }
 
   private init() {

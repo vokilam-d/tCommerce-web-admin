@@ -1,0 +1,36 @@
+<div class="page">
+  <div class="header">
+    <h1 class="header__title" [ngSwitch]="isNewBlogPost">
+      <ng-container *ngSwitchCase="true">Новый блог пост</ng-container>
+      <ng-container *ngSwitchCase="false">{{ post?.name }}</ng-container>
+    </h1>
+
+    <div class="header__toolbar">
+      <button class="header__btn toolbar-btn" (click)="goBack()" type="button">
+        <i class="ai ai-arrow-left"></i> назад
+      </button>
+      <button class="header__btn toolbar-btn" *ngIf="!isNewBlogPost" (click)="delete()" type="button">
+        Удалить
+      </button>
+      <button class="header__btn toolbar-main-btn" (click)="save()" type="button">Сохранить</button>
+    </div>
+  </div>
+
+  <form class="post" *ngIf="form; else preloaderTmpl" [formGroup]="form">
+
+    <div class="post__field field"
+         *ngIf="form.get('name') as name"
+         [class.field--invalid]="isControlInvalid(name)"
+    >
+      <label for="name" class="field__label">Заголовок</label>
+      <span class="field__control">
+        <input class="field__input" [formControl]="name" type="text" id="name">
+      </span>
+    </div>
+
+  </form>
+
+  <ng-template #preloaderTmpl>
+    <preloader class="preloader"></preloader>
+  </ng-template>
+</div>
