@@ -16,8 +16,10 @@ import { ProductSelectorComponent } from '../../product-selector/product-selecto
 import { UPLOADED_HOST } from '../../shared/constants/constants';
 import { HeadService } from '../../shared/services/head.service';
 import { NgUnsubscribe } from '../../shared/directives/ng-unsubscribe/ng-unsubscribe.directive';
-import { finalize, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { catchError, finalize, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { logMemory } from '../../shared/helpers/log-memory.function';
+import { EMPTY, forkJoin, Observable, of } from 'rxjs';
+import { ResponseDto } from '../../shared/dtos/response.dto';
 
 @Component({
   selector: 'order',
@@ -81,33 +83,17 @@ export class OrderComponent extends NgUnsubscribe implements OnInit {
     this.orderService.fetchOrder(id)
       .pipe(
         this.notyService.attachNoty(),
+        tap(response => this.setOrder(response.data)),
+        switchMap(() => this.isReorder || this.isEditOrder ? this.fetchCustomer(this.order.customerId) : EMPTY),
+        switchMap(() => this.isReorder ? this.recreateOrderItems() : EMPTY),
         finalize(() => this.isLoading = false)
       )
-      .subscribe(
-        response => {
-          this.setOrder(response.data);
-
-          if (this.isReorder || this.isEditOrder) {
-            this.fetchCustomer(this.order.customerId);
-          }
-          this.headService.setTitle(`Изменить заказ №${this.order.id}`);
-        },
-        error => console.warn(error)
-      )
+      .subscribe();
   }
 
   private fetchCustomer(customerId: number) {
-    this.isLoading = true;
-    this.customerService.fetchCustomer(customerId)
-      .pipe(
-        this.notyService.attachNoty(),
-        finalize(() => this.isLoading = false)
-      )
-      .subscribe(
-        response => {
-          this.selectCustomer(response.data);
-        }
-      );
+    return this.customerService.fetchCustomer(customerId)
+      .pipe( tap(response => this.selectCustomer(response.data)) )
   }
 
   navigateToOrderList() {
@@ -192,9 +178,7 @@ export class OrderComponent extends NgUnsubscribe implements OnInit {
         finalize(() => this.isLoading = false)
       )
       .subscribe(
-        response => {
-          this.navigateToOrderView();
-        },
+        _ => this.navigateToOrderView(),
         error => console.warn(error)
       );
   }
@@ -252,10 +236,24 @@ export class OrderComponent extends NgUnsubscribe implements OnInit {
         switchMap(() => this.orderService.calculateOrderPrices(this.order.items, this.customer.id)),
         finalize(() => this.isLoading = false)
       )
-      .subscribe(
-        response => {
-          this.order.prices = response.data;
-        }
+      .subscribe(response => this.order.prices = response.data);
+  }
+
+  recreateOrderItems() {
+    const items = this.order.items.splice(0);
+
+    const getItemRequest = (item: OrderItemDto): Observable<ResponseDto<OrderItemDto> | null> => this.orderService
+      .createOrderItem(item.sku, item.qty)
+      .pipe(
+        this.notyService.attachNoty(),
+        tap((response) => this.addOrderItem(response.data.sku, response.data)),
+        catchError(_ => of(null))
+      );
+
+    return forkJoin( ...items.map(getItemRequest) )
+      .pipe(
+        switchMap(() => this.orderService.calculateOrderPrices(this.order.items, this.customer.id)),
+        tap(response => this.order.prices = response.data)
       );
   }
 
@@ -300,11 +298,14 @@ export class OrderComponent extends NgUnsubscribe implements OnInit {
 
   private setOrder(orderDto: OrderDto) {
     if (!this.isReorder) {
+      this.headService.setTitle(`Изменить заказ №${orderDto.id}`);
       this.order = orderDto;
       return;
     }
 
+    this.headService.setTitle(`Повторить заказ №${orderDto.id}`);
     this.order = {
+      id: orderDto.id,
       customerEmail: orderDto.customerEmail,
       customerFirstName: orderDto.customerFirstName,
       customerLastName: orderDto.customerLastName,
