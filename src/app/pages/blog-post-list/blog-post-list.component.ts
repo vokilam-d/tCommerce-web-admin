@@ -91,9 +91,11 @@ const postGridCells: IGridCell[] = [
     fieldName: getPropertyOf<BlogPostDto>('name')
   },
   {
-    isSearchable: true,
+    isSearchable: false,
+    hasDateFromFilter: true,
+    hasDateToFilter: true,
     label: 'Создан',
-    initialWidth: 100,
+    initialWidth: 150,
     align: 'left',
     isImage: false,
     isSortable: true,
