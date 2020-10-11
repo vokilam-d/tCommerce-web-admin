@@ -15,7 +15,7 @@ export class LinkedBlogPostDto {
   sortOrder: number;
 }
 
-export class AdminBlogPostCreateDto {
+export class BlogPostCreateDto {
   name: string;
   slug: string;
   category: LinkedBlogCategoryDto;
@@ -33,7 +33,7 @@ export class AdminBlogPostCreateDto {
   featuredMedia: MediaDto;
 }
 
-export class AdminBlogPostDto extends AdminBlogPostCreateDto {
+export class BlogPostDto extends BlogPostCreateDto {
   id: number;
 }
 

@@ -42,6 +42,9 @@ import { RedirectControlModule } from '../../redirect-control/redirect-control.m
     GridModule,
     RedirectControlModule
   ],
+  exports: [
+    LinkedProductsComponent
+  ],
   providers: []
 })
 export class ProductModule {

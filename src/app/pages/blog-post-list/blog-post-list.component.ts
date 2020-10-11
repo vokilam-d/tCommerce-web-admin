@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { AdminBlogPostDto } from '../../shared/dtos/blog-post.dto';
+import { BlogPostDto } from '../../shared/dtos/blog-post.dto';
 import { getPropertyOf } from '../../shared/helpers/get-property-of.function';
 import { IGridCell, IGridValue } from '../../grid/grid.interface';
 import { GridComponent } from '../../grid/grid.component';
@@ -20,12 +20,12 @@ export class BlogPostListComponent extends NgUnsubscribe implements OnInit, Afte
 
   private fetchAllSub: Subscription;
 
-  posts: AdminBlogPostDto[] = [];
+  posts: BlogPostDto[] = [];
   postsTotal: number = 0;
   pagesTotal: number = 1;
   itemsFiltered: number;
   isGridLoading: boolean = false;
-  gridLinkFieldName: string = getPropertyOf<AdminBlogPostDto>('id');
+  gridLinkFieldName: string = getPropertyOf<BlogPostDto>('id');
   gridCells: IGridCell[] = postGridCells;
 
   @ViewChild(GridComponent) gridCmp: GridComponent;
@@ -79,7 +79,7 @@ const postGridCells: IGridCell[] = [
     align: 'left',
     isImage: false,
     isSortable: true,
-    fieldName: getPropertyOf<AdminBlogPostDto>('id')
+    fieldName: getPropertyOf<BlogPostDto>('id')
   },
   {
     isSearchable: true,
@@ -88,7 +88,7 @@ const postGridCells: IGridCell[] = [
     align: 'left',
     isImage: false,
     isSortable: true,
-    fieldName: getPropertyOf<AdminBlogPostDto>('name')
+    fieldName: getPropertyOf<BlogPostDto>('name')
   },
   {
     isSearchable: true,
@@ -97,6 +97,6 @@ const postGridCells: IGridCell[] = [
     align: 'left',
     isImage: false,
     isSortable: true,
-    fieldName: getPropertyOf<AdminBlogPostDto>('createdAt')
+    fieldName: getPropertyOf<BlogPostDto>('createdAt')
   }
 ];

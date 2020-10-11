@@ -1,0 +1,51 @@
+@import "variables";
+
+.post {
+  margin: 40px 0 0;
+
+  &__group {
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+
+    & & {
+      display: block;
+      padding: 0 50px;
+    }
+  }
+
+  &__field {
+    margin: 30px 0 0;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+}
+
+.media {
+  display: flex;
+  flex-wrap: wrap;
+
+  &__asset {
+    margin: 0 20px 25px 5px;
+
+    &--main {
+      position: relative;
+      outline: 3px solid $primary;
+      outline-offset: 1px;
+
+      &::after {
+        content: 'Главная';
+        position: absolute;
+        bottom: calc(100% + 3px);
+        left: -4px;
+        display: inline-block;
+        padding: 2px 5px;
+        font-size: 12px;
+        background: $primary;
+        color: #fff;
+      }
+    }
+  }
+}
