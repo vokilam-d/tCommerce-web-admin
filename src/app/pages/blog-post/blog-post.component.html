@@ -59,16 +59,6 @@
     </div>
 
     <div class="post__field field"
-         *ngIf="form.get('category') as category"
-         [class.field--invalid]="isControlInvalid(category)"
-    >
-      <label for="category" class="field__label">Категория</label>
-      <span class="field__control">
-        <input class="field__input" [formControl]="category" type="text" id="category">
-      </span>
-    </div>
-
-    <div class="post__field field"
          *ngIf="form.get('content') as content"
          [class.field--invalid]="isControlInvalid(content)"
     >
@@ -82,7 +72,7 @@
          *ngIf="form.get('shortContent') as shortContent"
          [class.field--invalid]="isControlInvalid(shortContent)"
     >
-      <label for="shortContent" class="field__label">Краткий контент</label>
+      <label for="shortContent" class="field__label">Краткое содержание</label>
       <span class="field__control">
         <textarea class="field__textarea" [formControl]="shortContent" id="shortContent"></textarea>
       </span>
@@ -140,6 +130,7 @@
 
       <div class="post__field media" *ngIf="form.get('featuredMedia') as featuredMediasControl">
         <media-asset class="media__asset"
+                     *ngIf="featuredMediasControl.value"
                      [media]="featuredMediasControl.value"
                      (remove)="onFeatureMediaRemove(featuredMediasControl.value, featuredMediasControl)"
         ></media-asset>

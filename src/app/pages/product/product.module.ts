@@ -13,17 +13,17 @@ import { ReviewsViewerComponent } from './reviews-viewer/reviews-viewer.componen
 import { RatingSelectorModule } from '../../rating-selector/rating-selector.module';
 import { QuillModule } from 'ngx-quill';
 import { PreloaderModule } from '../../preloader/preloader.module';
-import { LinkedProductsComponent } from './linked-products/linked-products.component';
 import { ProductSelectorModule } from '../../product-selector/product-selector.module';
 import { ProductItemSorterModule } from '../../product-item-sorter/product-item-sorter.module';
 import { OrderListViewerModalComponent } from './order-list-viewer-modal/order-list-viewer-modal.component';
 import { OrderListViewerModule } from '../../order-list-viewer/order-list-viewer.module';
 import { GridModule } from '../../grid/grid.module';
 import { RedirectControlModule } from '../../redirect-control/redirect-control.module';
+import { LinkedProductsModule } from '../../linked-products/linked-products.module';
 
 
 @NgModule({
-  declarations: [ProductComponent, AttributesEditorComponent, ReviewsViewerComponent, LinkedProductsComponent, OrderListViewerModalComponent],
+  declarations: [ProductComponent, AttributesEditorComponent, ReviewsViewerComponent, OrderListViewerModalComponent],
   imports: [
     CommonModule,
     ProductRoutingModule,
@@ -36,15 +36,12 @@ import { RedirectControlModule } from '../../redirect-control/redirect-control.m
     RatingSelectorModule,
     QuillModule,
     PreloaderModule,
-    ProductSelectorModule,
-    ProductItemSorterModule,
     OrderListViewerModule,
     GridModule,
-    RedirectControlModule
+    RedirectControlModule,
+    LinkedProductsModule
   ],
-  exports: [
-    LinkedProductsComponent
-  ],
+  exports: [],
   providers: []
 })
 export class ProductModule {

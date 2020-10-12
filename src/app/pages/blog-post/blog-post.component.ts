@@ -85,12 +85,10 @@ export class BlogPostComponent extends NgUnsubscribe implements OnInit {
     this.form = this.formBuilder.group({
       name: [this.post.name],
       slug: [this.post.slug],
-      category: [this.post.category.id],
+      category: [this.post.category?.id],
       content: [this.post.content],
       shortContent: [this.post.shortContent],
       createdAt: formatDate(this.post.createdAt, 'yyyy-MM-ddThh:mm:ss', 'en'),
-      publishedAt: [this.post.publishedAt],
-      updatedAt: [this.post.updatedAt],
       isEnabled: [this.post.isEnabled],
       linkedPosts: [this.post.linkedPosts],
       linkedProducts: [this.post.linkedProducts],
