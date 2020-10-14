@@ -39,6 +39,7 @@ export class OrderComponent extends NgUnsubscribe implements OnInit {
   addressSelectControl: FormControl;
   addressSelectOptions: ISelectOption[] = [];
   private newAddress: ShipmentAddressDto = new ShipmentAddressDto();
+  private arePricesValid: boolean = true;
 
   get isNewAddress(): boolean { return this.order.shipment.recipient === this.newAddress; }
 
@@ -127,6 +128,10 @@ export class OrderComponent extends NgUnsubscribe implements OnInit {
   placeOrder() {
     if (!this.order.items.length) {
       this.notyService.showErrorNoty(`Не выбран ни один товар`);
+      return;
+    }
+    if (!this.arePricesValid) {
+      this.notyService.showErrorNoty(`Итоговые цены неактуальны. Попробуйте передобавить любой товар, или поменять кол-во`);
       return;
     }
     if (!this.addressFormCmp.checkValidity()) {
@@ -233,10 +238,10 @@ export class OrderComponent extends NgUnsubscribe implements OnInit {
       .pipe(
         this.notyService.attachNoty(),
         tap(response => this.addOrderItem(sku, response.data)),
-        switchMap(() => this.orderService.calculateOrderPrices(this.order.items, this.customer.id)),
+        switchMap(() => this.calculateOrderPrices()),
         finalize(() => this.isLoading = false)
       )
-      .subscribe(response => this.order.prices = response.data);
+      .subscribe();
   }
 
   recreateOrderItems() {
@@ -251,21 +256,16 @@ export class OrderComponent extends NgUnsubscribe implements OnInit {
       );
 
     return forkJoin( ...items.map(getItemRequest) )
-      .pipe(
-        switchMap(() => this.orderService.calculateOrderPrices(this.order.items, this.customer.id)),
-        tap(response => this.order.prices = response.data)
-      );
+      .pipe( switchMap(() => this.calculateOrderPrices()) );
   }
 
   removeOrderItem(index: number) {
     this.order.items.splice(index, 1);
 
     this.isLoading = true;
-    this.orderService.calculateOrderPrices(this.order.items, this.customer.id)
+    this.calculateOrderPrices()
       .pipe( finalize(() => this.isLoading = false) )
-      .subscribe(response => {
-        this.order.prices = response.data;
-      });
+      .subscribe();
   }
 
   onPaymentMethodSelect(paymentMethod: PaymentMethodDto) {
@@ -347,5 +347,17 @@ export class OrderComponent extends NgUnsubscribe implements OnInit {
   onDiscountValueChange(target: HTMLInputElement) {
     const discountValue = parseInt(target.value);
     this.order.prices.totalCost = this.order.prices.itemsCost - discountValue;
+  }
+
+  calculateOrderPrices() {
+    this.arePricesValid = false;
+    return this.orderService.calculateOrderPrices(this.order.items, this.customer.id)
+      .pipe(
+        this.notyService.attachNoty(),
+        tap(response => {
+          this.order.prices = response.data;
+          this.arePricesValid = true;
+        })
+      );
   }
 }
