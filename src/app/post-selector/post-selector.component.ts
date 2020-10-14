@@ -7,7 +7,6 @@ import { BlogPostDto } from '../shared/dtos/blog-post.dto';
 import { finalize } from 'rxjs/operators';
 import { NotyService } from '../noty/noty.service';
 import { getPropertyOf } from '../shared/helpers/get-property-of.function';
-import { ISelectedProduct } from '../product-selector/product-selector.component';
 
 @Component({
   selector: 'post-selector',
@@ -32,8 +31,7 @@ export class PostSelectorComponent implements OnInit {
               private notyService: NotyService
   ) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   showSelector() {
     this.isSelectorVisible = true;

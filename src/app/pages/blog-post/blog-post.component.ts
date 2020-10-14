@@ -31,9 +31,6 @@ export class BlogPostComponent extends NgUnsubscribe implements OnInit {
   post: BlogPostDto;
   form: FormGroup;
   isLoading: boolean = false;
-
-  uploadedHost = UPLOADED_HOST;
-
   categoriesOptions: ISelectOption[] = [];
   linkedPosts: LinkedBlogPostDto[];
   private categories: BlogCategoryDto[] = [];
