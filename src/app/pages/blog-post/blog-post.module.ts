@@ -10,6 +10,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { MediaAssetModule } from '../../media-asset/media-asset.module';
 import { MediaUploaderModule } from '../../media-uploader/media-uploader.module';
 import { LinkedProductsModule } from '../../linked-products/linked-products.module';
+import { LinkedPostsModule } from './linked-posts/linked-posts.module';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { LinkedProductsModule } from '../../linked-products/linked-products.modu
     SharedModule,
     MediaAssetModule,
     MediaUploaderModule,
-    LinkedProductsModule
+    LinkedProductsModule,
+    LinkedPostsModule
   ]
 })
 export class BlogPostModule { }

@@ -1,0 +1,53 @@
+<div class="selector-overlay" *ngIf="isSelectorVisible" (click)="hideSelector()"></div>
+
+<div class="selector" [class.selector--visible]="isSelectorVisible">
+  <header class="selector__header">
+    <div class="selector__title">Добавить пост</div>
+
+    <button class="selector__close" (click)="hideSelector()" type="button">
+      <i class="ai ai-multiply selector__close-icon"></i>
+    </button>
+  </header>
+
+  <grid class="selector__grid"
+        [cells]="gridCells"
+        [itemsArray]="posts"
+        [pagesTotal]="pagesTotal"
+        [isLoading]="isGridLoading"
+        (gridChange)="fetchPosts($event)"
+        trackByFieldName="id"
+        gridName="post-selector-list"
+  >
+    <span grid-total-items>Всего товаров: {{ postsTotal }}</span>
+    <span grid-no-items>Товаров не найдено</span>
+
+    <ng-template #cellContent let-post="item">{{ post.id }}</ng-template>
+
+    <ng-template #cellContent let-post="item">
+      <img class="product__thumbnail-img" [src]="post.featuredMedia?.variantsUrls.original">
+    </ng-template>
+
+    <ng-template #cellContent let-post="item">{{ post.name }}</ng-template>
+
+    <ng-template #cellContent let-post="item">{{ post.createdAt | date:'dd.MM.y' }}</ng-template>
+
+    <ng-template #cellContent let-post="item">{{ post.category.name }}</ng-template>
+
+    <ng-template #cellContent let-post="item">
+      <ng-container [ngSwitch]="post.isEnabled">
+        <ng-container *ngSwitchCase="true">Да</ng-container>
+        <ng-container *ngSwitchCase="false">Нет</ng-container>
+      </ng-container>
+    </ng-template>
+
+    <ng-template #cellContent let-post="item">
+      <app-button class="post__select-btn"
+                  (click)="selectPost(post)"
+                  btnSize="small"
+      >
+        Выбрать
+      </app-button>
+    </ng-template>
+  </grid>
+</div>
+

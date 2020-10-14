@@ -154,6 +154,16 @@
       </div>
     </fields-group>
 
+    <fields-group class="post__group" id="post-related">
+      <div fields-group-title>Сопутствующие посты</div>
+      <div class="post__field">
+        <linked-posts
+          [linkedPosts]="linkedPosts"
+          (onChange)="onChangeRelatedPosts($event)"
+        ></linked-posts>
+      </div>
+    </fields-group>
+
   </form>
 
   <ng-template #preloaderTmpl>

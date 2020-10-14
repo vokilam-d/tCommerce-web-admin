@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BlogPostDto, LinkedBlogCategoryDto } from '../../shared/dtos/blog-post.dto';
+import { BlogPostDto, LinkedBlogCategoryDto, LinkedBlogPostDto } from '../../shared/dtos/blog-post.dto';
 import { NotyService } from '../../noty/noty.service';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
@@ -35,6 +35,7 @@ export class BlogPostComponent extends NgUnsubscribe implements OnInit {
   uploadedHost = UPLOADED_HOST;
 
   categoriesOptions: ISelectOption[] = [];
+  linkedPosts: LinkedBlogPostDto[];
   private categories: BlogCategoryDto[] = [];
   quillModules: QuillModules = this.quillHelperService.getEditorModules();
 
@@ -74,6 +75,7 @@ export class BlogPostComponent extends NgUnsubscribe implements OnInit {
       .subscribe(
         response => {
           this.post = response.data;
+          this.linkedPosts = this.post.linkedPosts;
           this.buildForm();
           this.headService.setTitle(this.post.name);
         },
@@ -252,6 +254,10 @@ export class BlogPostComponent extends NgUnsubscribe implements OnInit {
         }
       });
     });
+  }
+
+  onChangeRelatedPosts(posts: LinkedBlogPostDto[]) {
+    this.post.linkedPosts = posts;
   }
 
 }

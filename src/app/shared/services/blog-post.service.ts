@@ -6,6 +6,7 @@ import { ResponseDto } from '../dtos/response.dto';
 import { API_HOST } from '../constants/constants';
 import { toHttpParams } from '../helpers/to-http-params.function';
 import { BlogPostDto } from '../dtos/blog-post.dto';
+import { IGridValue } from '../../grid/grid.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -14,10 +15,10 @@ export class BlogPostService {
 
   constructor(private http: HttpClient) { }
 
-  fetchAllPosts(filter: IPagination): Observable<ResponseDto<BlogPostDto[]>> {
+  fetchAllPosts(gridValue: IGridValue): Observable<ResponseDto<BlogPostDto[]>> {
     return this.http.get<ResponseDto<BlogPostDto[]>>(
       `${API_HOST}/api/v1/admin/blog/posts`,
-      { params: toHttpParams(filter) }
+      { params: toHttpParams(gridValue) }
     );
   }
 
