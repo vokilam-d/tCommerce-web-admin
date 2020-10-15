@@ -46,6 +46,13 @@
     </span>
   </label>
 
+  <div class="category__field field" [class.field--invalid]="isControlInvalid(defaultItemsSort)">
+    <span class="field__label">Сортировка товаров по умолчанию</span>
+    <span class="field__control">
+      <app-select [formControl]="defaultItemsSort" [options]="sortOptions"></app-select>
+    </span>
+  </div>
+
   <label class="category__field field" *ngIf="!isNewCategory">
     <span class="field__label">Товары в этой категории</span>
     <span class="field__control">

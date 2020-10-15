@@ -1,6 +1,7 @@
 import { environment } from '../../../environments/environment';
 import { OrderStatusEnum } from '../enums/order-status.enum';
 import { ShipmentStatusEnum } from '../enums/shipment-status.enum';
+import { EProductsSort } from '../enums/product-sort.enum';
 
 // export const API_HOST = environment.production ? '' : 'http://173.249.23.253:3080';
 export const API_HOST = environment.production ? '' : 'http://localhost:3000';
@@ -39,5 +40,9 @@ export const TRANSLATIONS_MAP = {
   [ShipmentStatusEnum.ADDRESS_CHANGED]: 'Адрес изменился',
   [ShipmentStatusEnum.STORAGE_STOPPED]: 'Хранение остановлено',
   [ShipmentStatusEnum.BACK_DELIVERY_CREATED]: 'Создана обратная доставка',
-  [ShipmentStatusEnum.STATUS_NOT_SUPPORTED]: 'Статус не поддерживается'
+  [ShipmentStatusEnum.STATUS_NOT_SUPPORTED]: 'Статус не поддерживается',
+  [EProductsSort.Popularity]: 'Популярные',
+  [EProductsSort.New]: 'Новые в начале',
+  [EProductsSort.Cheap]: 'От дешёвых к дорогим',
+  [EProductsSort.Expensive]: 'От дорогих к дешёвым'
 };

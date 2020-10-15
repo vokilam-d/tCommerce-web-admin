@@ -9,26 +9,12 @@ import { CategoryProductItemSorterModalComponent } from '../category-product-ite
 import { HeadService } from '../../../shared/services/head.service';
 import { QuillModules } from 'ngx-quill';
 import { QuillHelperService } from '../../../shared/services/quill-helper.service';
-import { API_HOST } from '../../../shared/constants/constants';
+import { API_HOST, TRANSLATIONS_MAP } from '../../../shared/constants/constants';
 import { MediaDto } from '../../../shared/dtos/media.dto';
 import { IDraggedEvent } from '../../../shared/directives/draggable-item/draggable-item.directive';
 import { EReorderPosition } from '../../../shared/enums/reorder-position.enum';
-import { logMemory } from '../../../shared/helpers/log-memory.function';
-
-const EMPTY_CATEGORY: AddOrUpdateCategoryDto = {
-  isEnabled: true,
-  slug: '',
-  createRedirect: false,
-  name: '',
-  description: '',
-  parentId: 0,
-  metaTags: {
-    title: '',
-    description: '',
-    keywords: ''
-  },
-  medias: []
-};
+import { ISelectOption } from '../../../shared/components/select/select-option.interface';
+import { EProductsSort } from '../../../shared/enums/product-sort.enum';
 
 @Component({
   selector: 'category',
@@ -39,6 +25,8 @@ export class CategoryComponent implements OnInit {
 
   category: CategoryDto;
   form: FormGroup;
+  sortOptions: ISelectOption[] = [];
+  quillModules: QuillModules = this.quillHelperService.getEditorModules();
 
   get isEnabled() { return this.form?.get('isEnabled') as FormControl; }
   get name() { return this.form?.get('name') as FormControl; }
@@ -49,9 +37,8 @@ export class CategoryComponent implements OnInit {
   get metaDescription() { return this.form?.get('metaTags.description') as FormControl; }
   get metaKeywords() { return this.form?.get('metaTags.keywords') as FormControl; }
   get medias() { return this.form?.get('medias') as FormControl; }
+  get defaultItemsSort() { return this.form?.get('defaultItemsSort') as FormControl; }
   get isNewCategory(): boolean { return this.route.snapshot.data.action === EPageAction.Add; }
-
-  quillModules: QuillModules = this.quillHelperService.getEditorModules();
 
   @ViewChild(CategoryProductItemSorterModalComponent) sorterCmp: CategoryProductItemSorterModalComponent;
 
@@ -65,20 +52,17 @@ export class CategoryComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.buildSortOptions();
     this.route.params.subscribe(_ => {
       this.init();
     });
-    setTimeout(() => {
-      console.log('After "CategoryComponent" render');
-      logMemory();
-    }, 1000);
   }
 
   init() {
     this.category = null;
 
     if (this.isNewCategory) {
-      this.buildForm(EMPTY_CATEGORY);
+      this.buildForm(new AddOrUpdateCategoryDto());
       this.headService.setTitle(`Новая категория`);
     } else {
       this.getCategory();
@@ -164,7 +148,7 @@ export class CategoryComponent implements OnInit {
   }
 
   private buildForm(category: AddOrUpdateCategoryDto) {
-    this.form = this.formBuilder.group({
+    const controls: Omit<Record<keyof AddOrUpdateCategoryDto, any>, 'parentId'> = {
       isEnabled: category.isEnabled,
       name: [category.name, Validators.required],
       description: category.description,
@@ -175,8 +159,11 @@ export class CategoryComponent implements OnInit {
         description: category.metaTags.description,
         keywords: category.metaTags.keywords,
       }),
-      medias: [category.medias]
-    });
+      medias: [category.medias],
+      defaultItemsSort: [category.defaultItemsSort]
+    }
+
+    this.form = this.formBuilder.group(controls);
   }
 
   private validateAllControls() {
@@ -229,5 +216,12 @@ export class CategoryComponent implements OnInit {
     medias.splice(indexWhereToInsert, 0, itemToMove);
 
     mediasControl.setValue(medias);
+  }
+
+  private buildSortOptions() {
+    [EProductsSort.Popularity, EProductsSort.New, EProductsSort.Cheap, EProductsSort.Expensive]
+      .forEach(sort => {
+        this.sortOptions.push({ data: sort, view: TRANSLATIONS_MAP[sort] });
+      });
   }
 }
