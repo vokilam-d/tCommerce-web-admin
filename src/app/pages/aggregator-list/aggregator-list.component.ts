@@ -10,7 +10,6 @@ import { HeadService } from '../../shared/services/head.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { AggregatorService } from '../../shared/services/aggregator.service';
-import { logMemory } from '../../shared/helpers/log-memory.function';
 
 @Component({
   selector: 'aggregator-list',
@@ -42,10 +41,6 @@ export class AggregatorListComponent extends NgUnsubscribe implements OnInit, Af
 
   ngOnInit() {
     this.headService.setTitle(`Агрегаторы`);
-    setTimeout(() => {
-      console.log('After "AggregatorListComponent" render');
-      logMemory();
-    }, 1000);
   }
 
   ngAfterViewInit() {

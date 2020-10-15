@@ -1,13 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { LinkedProductDto } from '../../../shared/dtos/linked-product.dto';
-import { ProductService } from '../../../shared/services/product.service';
-import { ProductItemWithSortOrder } from '../../../product-item-sorter/product-item-with-sort-order';
-import { NotyService } from '../../../noty/noty.service';
+import { LinkedProductDto } from '../shared/dtos/linked-product.dto';
+import { ProductService } from '../shared/services/product.service';
+import { ProductItemWithSortOrder } from '../product-item-sorter/product-item-with-sort-order';
+import { NotyService } from '../noty/noty.service';
 import { finalize } from 'rxjs/operators';
-import { ProductListItemDto } from '../../../shared/dtos/product.dto';
-import { ISelectedProduct, ProductSelectorComponent } from '../../../product-selector/product-selector.component';
-import { IDraggedEvent } from '../../../shared/directives/draggable-item/draggable-item.directive';
-import { EReorderPosition } from '../../../shared/enums/reorder-position.enum';
+import { ProductListItemDto } from '../shared/dtos/product.dto';
+import { ISelectedProduct, ProductSelectorComponent } from '../product-selector/product-selector.component';
+import { IDraggedEvent } from '../shared/directives/draggable-item/draggable-item.directive';
+import { EReorderPosition } from '../shared/enums/reorder-position.enum';
 
 @Component({
   selector: 'linked-products',

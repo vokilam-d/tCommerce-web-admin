@@ -1,0 +1,29 @@
+<div class="page">
+  <div class="header">
+    <h1 class="header__title">Блог Посты</h1>
+
+    <div class="header__toolbar">
+      <app-button (click)="add()" btnStyle="primary" btnSize="big">Добавить пост</app-button>
+    </div>
+  </div>
+
+  <grid class="page__grid"
+        [cells]="gridCells"
+        [itemsArray]="posts"
+        [itemsFiltered]="itemsFiltered"
+        [pagesTotal]="pagesTotal"
+        [isLoading]="isGridLoading"
+        [linkFieldName]="gridLinkFieldName"
+        (gridChange)="fetchPosts($event)"
+        trackByFieldName="id"
+        linkUrlSuffix="edit"
+        gridName="post-list"
+  >
+    <span grid-total-items>Всего постов: {{ postsTotal }}</span>
+    <span grid-no-items>Посты не найдены</span>
+
+    <ng-template #cellContent let-post="item">{{ post.id }}</ng-template>
+    <ng-template #cellContent let-post="item">{{ post.name }}</ng-template>
+    <ng-template #cellContent let-post="item">{{ post.createdAt | date:'dd.MM.y'}}</ng-template>
+  </grid>
+</div>

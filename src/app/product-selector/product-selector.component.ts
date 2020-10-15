@@ -62,7 +62,8 @@ export class ProductSelectorComponent implements OnInit, AfterViewInit {
 
   constructor(private productService: ProductService,
               private cdr: ChangeDetectorRef,
-              private notyService: NotyService) { }
+              private notyService: NotyService
+  ) { }
 
   ngOnInit() {
   }

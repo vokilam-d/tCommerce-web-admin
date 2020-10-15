@@ -15,25 +15,25 @@ export class LinkedBlogPostDto {
   sortOrder: number;
 }
 
-export class AdminBlogPostCreateDto {
-  name: string;
-  slug: string;
+export class BlogPostCreateDto {
+  name: string = '';
+  slug: string = '';
   category: LinkedBlogCategoryDto;
-  content: string;
-  shortContent: string;
-  createdAt: Date;
+  content: string = '';
+  shortContent: string = '';
+  createdAt: Date = new Date();
   publishedAt: Date;
   updatedAt: Date;
-  isEnabled: boolean;
-  linkedPosts: LinkedBlogPostDto[];
-  linkedProducts: LinkedProductDto[];
-  medias: MediaDto[];
-  metaTags: MetaTagsDto;
-  sortOrder: number;
+  isEnabled: boolean = true;
+  linkedPosts: LinkedBlogPostDto[] = [];
+  linkedProducts: LinkedProductDto[] = [];
+  medias: MediaDto[] = [];
+  metaTags: MetaTagsDto = new MetaTagsDto();
+  sortOrder: number = 0;
   featuredMedia: MediaDto;
 }
 
-export class AdminBlogPostDto extends AdminBlogPostCreateDto {
+export class BlogPostDto extends BlogPostCreateDto {
   id: number;
 }
 

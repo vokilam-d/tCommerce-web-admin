@@ -197,6 +197,24 @@ const routes: Routes = [
         loadChildren: () => import('./pages/users/users.module').then(m => m.UsersModule)
       },
       {
+        path: 'blog-post',
+        children: [
+          {
+            path: '', loadChildren: () => import('./pages/blog-post-list/blog-post-list.module').then(m => m.BlogPostListModule)
+          },
+          {
+            path: 'add',
+            loadChildren: () => import('./pages/blog-post/blog-post.module').then(m => m.BlogPostModule),
+            data: { action: EPageAction.Add }
+          },
+          {
+            path: 'edit/:id',
+            loadChildren: () => import('./pages/blog-post/blog-post.module').then(m => m.BlogPostModule),
+            data: { action: EPageAction.Edit }
+          }
+        ]
+      },
+      {
         path: '**',
         loadChildren: () => import('./pages/not-found/not-found.module').then(m => m.NotFoundModule)
       }

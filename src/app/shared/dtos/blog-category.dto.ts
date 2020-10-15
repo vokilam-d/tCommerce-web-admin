@@ -1,6 +1,6 @@
 import { MetaTagsDto } from './meta-tags.dto';
 
-export class AdminBlogCategoryCreateDto {
+export class BlogCategoryCreateDto {
   id?: any;
   content: string;
   isEnabled: boolean;
@@ -10,6 +10,6 @@ export class AdminBlogCategoryCreateDto {
   sortOrder: number;
 }
 
-export class AdminBlogCategoryDto extends AdminBlogCategoryCreateDto {
+export class BlogCategoryDto extends BlogCategoryCreateDto {
   id: number;
 }

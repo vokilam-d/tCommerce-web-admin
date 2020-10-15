@@ -1,0 +1,173 @@
+<div class="page">
+  <div class="header">
+    <h1 class="header__title" [ngSwitch]="isNewBlogPost">
+      <ng-container *ngSwitchCase="true">Новый блог пост</ng-container>
+      <ng-container *ngSwitchCase="false">{{ post?.name }}</ng-container>
+    </h1>
+
+    <div class="header__toolbar">
+      <button class="header__btn toolbar-btn" (click)="goBack()" type="button">
+        <i class="ai ai-arrow-left"></i> назад
+      </button>
+      <button class="header__btn toolbar-btn" *ngIf="!isNewBlogPost" (click)="delete()" type="button">
+        Удалить
+      </button>
+      <button class="header__btn toolbar-main-btn" (click)="save()" type="button">Сохранить</button>
+    </div>
+  </div>
+
+  <form class="post" *ngIf="form; else preloaderTmpl" [formGroup]="form">
+
+    <div class="post__field field"
+         *ngIf="form.get('isEnabled') as isEnabled"
+         [class.field--invalid]="isControlInvalid(isEnabled)"
+    >
+      <label class="field__label">Отобразить пост на странице</label>
+      <span class="field__control">
+        <toggle [formControl]="isEnabled"></toggle>
+      </span>
+    </div>
+
+    <div class="post__field field"
+         *ngIf="form.get('category') as category"
+         [class.field--invalid]="isControlInvalid(category)"
+    >
+      <div class="field__label">Категория</div>
+      <div class="field__control">
+        <app-select [formControl]="category" [options]="categoriesOptions"></app-select>
+      </div>
+    </div>
+
+    <div class="post__field field"
+         *ngIf="form.get('name') as name"
+         [class.field--invalid]="isControlInvalid(name)"
+    >
+      <label for="name" class="field__label">Заголовок</label>
+      <span class="field__control">
+        <input class="field__input" [formControl]="name" type="text" id="name">
+      </span>
+    </div>
+
+    <div class="post__field field"
+         *ngIf="form.get('slug') as slug"
+         [class.field--invalid]="isControlInvalid(slug)"
+    >
+      <label for="slug" class="field__label">URL адрес</label>
+      <span class="field__control">
+        <input class="field__input" [formControl]="slug" type="text" id="slug">
+      </span>
+    </div>
+
+    <div class="post__field field"
+         *ngIf="form.get('content') as content"
+         [class.field--invalid]="isControlInvalid(content)"
+    >
+      <label class="field__label">Содержание</label>
+      <span class="field__control">
+        <quill-editor [formControl]="content" [strict]="false" [id]="'content'" [modules]="quillModules"></quill-editor>
+      </span>
+    </div>
+
+    <div class="post__field field"
+         *ngIf="form.get('shortContent') as shortContent"
+         [class.field--invalid]="isControlInvalid(shortContent)"
+    >
+      <label for="shortContent" class="field__label">Краткое содержание</label>
+      <span class="field__control">
+        <textarea class="field__textarea" [formControl]="shortContent" id="shortContent"></textarea>
+      </span>
+    </div>
+
+    <div class="post__field field"
+         *ngIf="form.get('createdAt') as createdAt"
+         [class.field--invalid]="isControlInvalid(createdAt)"
+    >
+      <label for="createdAt" class="field__label">Дата создания</label>
+      <span class="field__control">
+        <input class="field__input" [formControl]="createdAt" type="datetime-local" id="createdAt">
+      </span>
+    </div>
+
+    <div class="post__field field" *ngIf="form.get('metaTags.title') as metaTitle">
+      <label class="field__label" [for]="'metaTitle'">Meta заголовок</label>
+      <span class="field__control">
+        <textarea class="field__input" [formControl]="metaTitle" [id]="'metaTitle'"></textarea>
+      </span>
+    </div>
+
+    <div class="post__field field" *ngIf="form.get('sortOrder') as sortOrder">
+      <label class="field__label" [for]="sortOrder">Сортировка</label>
+      <span class="field__control">
+        <input class="field__input" [formControl]="sortOrder" type="number" [id]="sortOrder">
+      </span>
+    </div>
+
+    <fields-group class="post__group" id="post-media">
+      <div fields-group-title>Картинки и видео</div>
+
+      <div class="post__field media" *ngIf="form.get('medias') as mediasControl">
+        <media-asset class="media__asset"
+                     *ngFor="let media of mediasControl.value; index as i"
+                     [media]="media"
+                     [draggable-item]="media"
+                     [class.media__asset--main]="i === 0 && mediasControl.value.length > 1"
+                     (remove)="onMediaRemove(media, mediasControl)"
+                     (dragged)="onMediaReorder(mediasControl, $event)"
+                     draggable-item-type="media"
+                     draggable-item-direction="horizontal"
+        ></media-asset>
+
+        <media-uploader class="media_asset"
+                        [uploadUrl]="getMediaUploadUrl()"
+                        (uploaded)="mediaUploaded($event, mediasControl)"
+        ></media-uploader>
+
+      </div>
+    </fields-group>
+
+    <fields-group class="post__group" id="featured-media">
+      <div fields-group-title>Избранные фото</div>
+
+      <div class="post__field media" *ngIf="form.get('featuredMedia') as featuredMediasControl">
+        <media-asset class="media__asset"
+                     *ngIf="featuredMediasControl.value"
+                     [media]="featuredMediasControl.value"
+                     (remove)="onFeatureMediaRemove(featuredMediasControl.value, featuredMediasControl)"
+        ></media-asset>
+
+        <media-uploader class="media_asset"
+                        [uploadUrl]="getMediaUploadUrl()"
+                        (uploaded)="featureMediaUploaded($event, featuredMediasControl)"
+        ></media-uploader>
+
+      </div>
+    </fields-group>
+
+    <fields-group class="post__group" id="product-related">
+      <div fields-group-title>Сопутствующие товары</div>
+
+      <div class="product__field">
+        <linked-products [products]="post.linkedProducts"
+                         [type]="'related'"
+                         (onChange)="onChangeRelatedProducts($event)"
+        ></linked-products>
+      </div>
+    </fields-group>
+
+    <fields-group class="post__group" id="post-related">
+      <div fields-group-title>Сопутствующие посты</div>
+
+      <div class="post__field">
+        <linked-posts
+          [linkedPosts]="linkedPosts"
+          (onChange)="onChangeRelatedPosts($event)"
+        ></linked-posts>
+      </div>
+    </fields-group>
+
+  </form>
+
+  <ng-template #preloaderTmpl>
+    <preloader class="preloader"></preloader>
+  </ng-template>
+</div>

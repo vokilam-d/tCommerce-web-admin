@@ -1,0 +1,25 @@
+<div class="btn-container">
+  <app-button (click)="addNewPost()">Добавить пост</app-button>
+</div>
+
+<div class="posts">
+  <div class="no-posts" *ngIf="!linkedPosts?.length">
+    Не найдено ни одного поста
+  </div>
+
+  <div class="post" *ngFor="let post of linkedPosts">
+
+    <button class="post__remove" (click)="onRemove(post)">
+      <i class="ai ai-trash"></i>
+    </button>
+
+    <a class="post__name"
+       [routerLink]="['/', 'admin', 'blog-post', 'edit', post.id]"
+       target="_blank"
+    >
+      {{ post.name }}
+    </a>
+  </div>
+</div>
+
+<post-selector (selected)="onPostSelect($event)"></post-selector>

@@ -2,8 +2,8 @@ import { environment } from '../../../environments/environment';
 import { OrderStatusEnum } from '../enums/order-status.enum';
 import { ShipmentStatusEnum } from '../enums/shipment-status.enum';
 
-export const API_HOST = environment.production ? '' : 'http://173.249.23.253:3080';
-// export const API_HOST = environment.production ? '' : 'http://localhost:3000';
+// export const API_HOST = environment.production ? '' : 'http://173.249.23.253:3080';
+export const API_HOST = environment.production ? '' : 'http://localhost:3000';
 export const UPLOADED_HOST = API_HOST;
 // export const UPLOADED_HOST = 'http://173.249.23.253:3080';
 export const urlFriendlyCodeRegex = new RegExp('^[a-zA-Z0-9\-_]+$');
