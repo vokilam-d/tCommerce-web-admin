@@ -88,10 +88,10 @@
       </span>
     </div>
 
-    <div class="post__field field" *ngIf="form.get('metaTags.title') as metaTitle; index as i">
-      <label class="field__label" [for]="'metaTitle-' + i">Meta заголовок</label>
+    <div class="post__field field" *ngIf="form.get('metaTags.title') as metaTitle">
+      <label class="field__label" [for]="'metaTitle'">Meta заголовок</label>
       <span class="field__control">
-        <textarea class="field__input" [formControl]="metaTitle" [id]="'metaTitle-' + i"></textarea>
+        <textarea class="field__input" [formControl]="metaTitle" [id]="'metaTitle'"></textarea>
       </span>
     </div>
 

@@ -70,7 +70,7 @@ export class PostSelectorComponent implements OnInit {
 
   selectPost(post: BlogPostDto) {
     this.selectedEmitter.emit(post);
-    this.notyService.showSuccessNoty(`Товар добавлен`);
+    this.notyService.showSuccessNoty(`Пост добавлен`);
   }
 }
 
