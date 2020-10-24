@@ -10,17 +10,17 @@ import { NotyService } from '../noty/noty.service';
 type CategorySelectOption = CategoryTreeItem & { isSelected: boolean; children: CategorySelectOption[]; };
 
 @Component({
-  selector: 'category-select',
-  templateUrl: './category-select.component.html',
-  styleUrls: ['./category-select.component.scss'],
+  selector: 'product-category-select',
+  templateUrl: './product-category-select.component.html',
+  styleUrls: ['./product-category-select.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => CategorySelectComponent),
+    useExisting: forwardRef(() => ProductCategorySelectComponent),
     multi: true
   }]
 })
-export class CategorySelectComponent implements OnInit, ControlValueAccessor {
+export class ProductCategorySelectComponent implements OnInit, ControlValueAccessor {
 
   isVisible: boolean = false;
   isDisabled: boolean = false;
@@ -92,7 +92,7 @@ export class CategorySelectComponent implements OnInit, ControlValueAccessor {
     }
 
     if (!Array.isArray(value)) {
-      throw new Error(`Value for ${CategorySelectComponent.name} must be an array`);
+      throw new Error(`Value for ${ProductCategorySelectComponent.name} must be an array`);
     }
 
     this.value = value;

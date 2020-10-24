@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CategorySelectComponent } from './category-select.component';
+import { ProductCategorySelectComponent } from './product-category-select.component';
 import { SharedModule } from '../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -8,7 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
-    CategorySelectComponent
+    ProductCategorySelectComponent
   ],
   imports: [
     CommonModule,
@@ -17,7 +17,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FormsModule
   ],
   exports: [
-    CategorySelectComponent
+    ProductCategorySelectComponent
   ]
 })
-export class CategorySelectModule { }
+export class ProductCategorySelectModule { }

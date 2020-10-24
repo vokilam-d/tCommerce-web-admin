@@ -7,14 +7,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../../shared/shared.module';
 import { MediaAssetModule } from '../../media-asset/media-asset.module';
 import { MediaUploaderModule } from '../../media-uploader/media-uploader.module';
-import { CategorySelectModule } from '../../category-select/category-select.module';
+import { ProductCategorySelectModule } from '../../product-category-select/product-category-select.module';
 import { AttributesEditorComponent } from './attribute-editor/attributes-editor.component';
 import { ReviewsViewerComponent } from './reviews-viewer/reviews-viewer.component';
 import { RatingSelectorModule } from '../../rating-selector/rating-selector.module';
 import { QuillModule } from 'ngx-quill';
 import { PreloaderModule } from '../../preloader/preloader.module';
-import { ProductSelectorModule } from '../../product-selector/product-selector.module';
-import { ProductItemSorterModule } from '../../product-item-sorter/product-item-sorter.module';
 import { OrderListViewerModalComponent } from './order-list-viewer-modal/order-list-viewer-modal.component';
 import { OrderListViewerModule } from '../../order-list-viewer/order-list-viewer.module';
 import { GridModule } from '../../grid/grid.module';
@@ -32,7 +30,7 @@ import { LinkedProductsModule } from '../../linked-products/linked-products.modu
     SharedModule,
     MediaAssetModule,
     MediaUploaderModule,
-    CategorySelectModule,
+    ProductCategorySelectModule,
     RatingSelectorModule,
     QuillModule,
     PreloaderModule,
