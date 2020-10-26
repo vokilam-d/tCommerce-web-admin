@@ -1,0 +1,34 @@
+<div class="select autocomplete" (clickOutside)="toggleVisibility(false)">
+  <button class="select__active"
+          [class.select__active--focused]="isVisible"
+          [disabled]="isDisabled"
+          (click)="toggleVisibility()"
+          type="button"
+  >
+    <span *ngIf="activeOptionLabel as label">{{ label }}</span>
+    <span *ngIf="!activeOptionLabel" class="autocomplete__empty-active">- Не выбрано -</span>
+  </button>
+
+  <div class="select__options autocomplete__options" [class.autocomplete__options--hidden]="!isVisible">
+
+    <div class="autocomplete__input-container">
+      <input class="autocomplete__input field__input" (input)="onSearch($event)" autofocus>
+    </div>
+
+    <div class="autocomplete__no-options" *ngIf="!options.length">Не найдено ни одной категории</div>
+
+    <preloader class="autocomplete__preloader" *ngIf="isLoading" [hasMargins]="false" [hasOverlay]="true"></preloader>
+
+    <div class="select__option autocomplete__option"
+         *ngFor="let option of options"
+         [class.select__option--active]="option.isSelected"
+         (click)="selectOption(option)"
+    >
+      <span class="select__checkbox" *ngIf="isMultiSelect">
+        <i class="ai ai-checkmark select__checkmark" *ngIf="option.isSelected"></i>
+      </span>
+
+      {{ option.view || option.data }}
+    </div>
+  </div>
+</div>

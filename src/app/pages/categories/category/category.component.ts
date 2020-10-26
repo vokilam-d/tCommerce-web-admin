@@ -27,9 +27,11 @@ export class CategoryComponent implements OnInit {
   form: FormGroup;
   sortOptions: ISelectOption[] = [];
   quillModules: QuillModules = this.quillHelperService.getEditorModules();
+  isClone: boolean = false;
 
   get isEnabled() { return this.form?.get('isEnabled') as FormControl; }
   get name() { return this.form?.get('name') as FormControl; }
+  get canonicalCategoryId() { return this.form?.get('canonicalCategoryId') as FormControl; }
   get description() { return this.form?.get('description') as FormControl; }
   get slug() { return this.form?.get('slug') as FormControl; }
   get createRedirect() { return this.form?.get('createRedirect') as FormControl; }
@@ -79,6 +81,7 @@ export class CategoryComponent implements OnInit {
           this.category = response.data;
           this.buildForm(this.category);
           this.headService.setTitle(this.category.name);
+          this.isClone = Boolean(this.category.canonicalCategoryId);
         },
         error => console.warn(error)
       );
@@ -151,6 +154,7 @@ export class CategoryComponent implements OnInit {
     const controls: Omit<Record<keyof AddOrUpdateCategoryDto, any>, 'parentId'> = {
       isEnabled: category.isEnabled,
       name: [category.name, Validators.required],
+      canonicalCategoryId: category.canonicalCategoryId,
       description: category.description,
       slug: category.slug,
       createRedirect: false,

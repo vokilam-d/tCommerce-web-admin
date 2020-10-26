@@ -14,7 +14,7 @@
       Удалить
     </app-button>
 
-    <app-button class="header__btn" *ngIf="category" g [link]="['/', category.slug]">
+    <app-button class="header__btn" *ngIf="category" [link]="['/', category.slug]">
       Посмотреть на сайте
     </app-button>
 
@@ -32,93 +32,109 @@
     </span>
   </label>
 
-  <label class="category__field field field--required" [class.field--invalid]="isControlInvalid(name)">
-    <span class="field__label">Имя</span>
+  <label class="category__field field" *ngIf="isNewCategory">
+    <span class="field__label">Эта категория клон?</span>
     <span class="field__control">
-      <input class="field__input" [formControl]="name" type="text">
+      <toggle [(ngModel)]="isClone" [ngModelOptions]="{ standalone: true }"></toggle>
     </span>
   </label>
 
-  <label class="category__field field" [class.field--invalid]="isControlInvalid(description)">
-    <span class="field__label">Описание</span>
+  <div class="category__field field" *ngIf="isClone">
+    <span class="field__label">Категория-источник</span>
     <span class="field__control">
-      <quill-editor [formControl]="description" [strict]="false" [id]="'description'" [modules]="quillModules"></quill-editor>
-    </span>
-  </label>
-
-  <div class="category__field field" [class.field--invalid]="isControlInvalid(defaultItemsSort)">
-    <span class="field__label">Сортировка товаров по умолчанию</span>
-    <span class="field__control">
-      <app-select [formControl]="defaultItemsSort" [options]="sortOptions"></app-select>
+      <canonical-category-select [formControl]="canonicalCategoryId"></canonical-category-select>
     </span>
   </div>
 
-  <label class="category__field field" *ngIf="!isNewCategory">
-    <span class="field__label">Товары в этой категории</span>
+  <label class="category__field field field--required" [class.field--invalid]="isControlInvalid(name)">
+    <span class="field__label">Имя</span>
     <span class="field__control">
-      <app-button (click)="openItemSorter()">Отсортировать</app-button>
-    </span>
+        <input class="field__input" [formControl]="name" type="text">
+      </span>
   </label>
 
-  <fields-group id="category-seo">
-    <div fields-group-title>SEO</div>
-
-    <div class="category__field field" [class.field--invalid]="isControlInvalid(slug)">
-      <label class="field__label" for="slug">URL адрес</label>
+  <ng-container *ngIf="(isNewCategory && !isClone) || !isClone">
+    <label class="category__field field" [class.field--invalid]="isControlInvalid(description)">
+      <span class="field__label">Описание</span>
       <span class="field__control">
-        <input class="field__input" [formControl]="slug" type="text" id="slug">
-        <redirect-control *ngIf="!isNewCategory"
-                          [formControl]="createRedirect"
-                          [initialSlug]="category?.slug"
-                          [newSlugControl]="slug"
-        ></redirect-control>
+        <quill-editor [formControl]="description" [strict]="false" [id]="'description'" [modules]="quillModules"></quill-editor>
+      </span>
+    </label>
+
+    <div class="category__field field" [class.field--invalid]="isControlInvalid(defaultItemsSort)">
+      <span class="field__label">Сортировка товаров по умолчанию</span>
+      <span class="field__control">
+        <app-select [formControl]="defaultItemsSort" [options]="sortOptions"></app-select>
       </span>
     </div>
 
-    <label class="category__field field" [class.field--invalid]="isControlInvalid(metaTitle)">
-      <span class="field__label">Meta заголовок</span>
+    <label class="category__field field" *ngIf="!isNewCategory">
+      <span class="field__label">Товары в этой категории</span>
       <span class="field__control">
-        <textarea class="field__input" [formControl]="metaTitle"></textarea>
+        <app-button (click)="openItemSorter()">Отсортировать</app-button>
       </span>
     </label>
 
-    <label class="category__field field" [class.field--invalid]="isControlInvalid(metaDescription)">
-      <span class="field__label">Meta описание</span>
-      <span class="field__control">
-        <textarea class="field__textarea" [formControl]="metaDescription"></textarea>
-      </span>
-    </label>
+    <fields-group id="category-seo">
+      <div fields-group-title>SEO</div>
 
-    <label class="category__field field" [class.field--invalid]="isControlInvalid(metaKeywords)">
-      <span class="field__label">Meta ключевые слова</span>
-      <span class="field__control">
-        <textarea class="field__textarea" [formControl]="metaKeywords"></textarea>
-      </span>
-    </label>
-  </fields-group>
+      <div class="category__field field" [class.field--invalid]="isControlInvalid(slug)">
+        <label class="field__label" for="slug">URL адрес</label>
+        <span class="field__control">
+          <input class="field__input" [formControl]="slug" type="text" id="slug">
+          <redirect-control *ngIf="!isNewCategory"
+                            [formControl]="createRedirect"
+                            [initialSlug]="category?.slug"
+                            [newSlugControl]="slug"
+          ></redirect-control>
+        </span>
+      </div>
 
-  <fields-group id="category-media">
-    <div fields-group-title>Картинки и видео</div>
+      <label class="category__field field" [class.field--invalid]="isControlInvalid(metaTitle)">
+        <span class="field__label">Meta заголовок</span>
+        <span class="field__control">
+          <textarea class="field__input" [formControl]="metaTitle"></textarea>
+        </span>
+      </label>
 
-    <div class="category__field media" *ngIf="medias">
-      <media-asset class="media__asset"
-                   *ngFor="let media of medias.value, index as i"
-                   [media]="media"
-                   [draggable-item]="media"
-                   [class.media__asset--main]="i === 0 && medias.value.length > 1"
-                   (remove)="onMediaRemove(media, medias)"
-                   (dragged)="onMediaReorder(medias, $event)"
-                   draggable-item-type="media"
-                   draggable-item-direction="horizontal"
-      ></media-asset>
+      <label class="category__field field" [class.field--invalid]="isControlInvalid(metaDescription)">
+        <span class="field__label">Meta описание</span>
+        <span class="field__control">
+          <textarea class="field__textarea" [formControl]="metaDescription"></textarea>
+        </span>
+      </label>
 
-      <media-uploader class="media_asset"
-                      [uploadUrl]="getMediaUploadUrl()"
-                      (uploaded)="mediaUploaded($event, medias)"
-      ></media-uploader>
+      <label class="category__field field" [class.field--invalid]="isControlInvalid(metaKeywords)">
+        <span class="field__label">Meta ключевые слова</span>
+        <span class="field__control">
+          <textarea class="field__textarea" [formControl]="metaKeywords"></textarea>
+        </span>
+      </label>
+    </fields-group>
 
-    </div>
-  </fields-group>
+    <fields-group id="category-media">
+      <div fields-group-title>Картинки и видео</div>
+
+      <div class="category__field media" *ngIf="medias">
+        <media-asset class="media__asset"
+                     *ngFor="let media of medias.value, index as i"
+                     [media]="media"
+                     [draggable-item]="media"
+                     [class.media__asset--main]="i === 0 && medias.value.length > 1"
+                     (remove)="onMediaRemove(media, medias)"
+                     (dragged)="onMediaReorder(medias, $event)"
+                     draggable-item-type="media"
+                     draggable-item-direction="horizontal"
+        ></media-asset>
+
+        <media-uploader class="media_asset"
+                        [uploadUrl]="getMediaUploadUrl()"
+                        (uploaded)="mediaUploaded($event, medias)"
+        ></media-uploader>
+
+      </div>
+    </fields-group>
+  </ng-container>
 
 </form>
 

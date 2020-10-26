@@ -5,6 +5,7 @@ import { EProductsSort } from '../enums/product-sort.enum';
 export class AddOrUpdateCategoryDto {
   isEnabled: boolean = true;
   name: string = '';
+  canonicalCategoryId: number = null;
   description: string = '';
   slug: string = '';
   createRedirect: boolean = false;

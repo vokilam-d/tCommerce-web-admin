@@ -37,7 +37,7 @@ export class SelectAutocompleteComponent extends SelectComponent implements Afte
   searchError: string = null;
 
   private _activeOptionLabel: string;
-  get activeOptionLabel(): string { return this._activeOptionLabel;};
+  get activeOptionLabel(): string { return this._activeOptionLabel; };
   @Input() set activeOptionLabel(label: string) { this._activeOptionLabel = label; };
   @Input() type: 'settlement' | 'warehouse' | 'street';
   @Input() settlementId?: string;
@@ -54,10 +54,6 @@ export class SelectAutocompleteComponent extends SelectComponent implements Afte
     }
 
     this.listenForInput();
-  }
-
-  selectOption(option: ISelectOption) {
-    super.selectOption(option);
   }
 
   toggleVisibility(isVisible: boolean = !this.isVisible) {

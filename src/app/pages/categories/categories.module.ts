@@ -14,13 +14,15 @@ import { QuillModule } from 'ngx-quill';
 import { MediaAssetModule } from '../../media-asset/media-asset.module';
 import { MediaUploaderModule } from '../../media-uploader/media-uploader.module';
 import { RedirectControlModule } from '../../redirect-control/redirect-control.module';
+import { CanonicalCategorySelectComponent } from './canonical-category-select/canonical-category-select.component';
 
 
 @NgModule({
   declarations: [
     CategoriesComponent,
     CategoryComponent,
-    CategoryProductItemSorterModalComponent
+    CategoryProductItemSorterModalComponent,
+    CanonicalCategorySelectComponent
   ],
   imports: [
     CommonModule,
