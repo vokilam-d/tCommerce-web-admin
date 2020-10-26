@@ -55,9 +55,9 @@ export class ShipmentInfoModalComponent implements OnInit {
     }
 
     let payerType: ShipmentPayerEnum = this.shipment.payerType;
-    if (!payerType) {
-      payerType = this.payerTypeForCost;
-    }
+    // if (!payerType) {
+    //   payerType = this.payerTypeForCost;
+    // }
 
     const controls: Partial<Record<keyof ShipmentDto, any>> = {
       senderId: [this.defaultSenderId || this.shipment.senderId, Validators.required],
