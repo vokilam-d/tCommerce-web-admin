@@ -105,6 +105,7 @@ export class ProductReviewComponent implements OnInit {
       text: [this.productReview.text, Validators.required],
       email: this.productReview.email,
       sortOrder: this.productReview.sortOrder,
+      managerComment: this.productReview.managerComment,
       medias: [this.productReview.medias],
       rating: [this.productReview.rating],
       createdAt: formatDate(this.productReview.createdAt, 'yyyy-MM-ddThh:mm:ss', 'en'),

@@ -25,5 +25,6 @@ export class ProductReviewDto {
   sortOrder: number = 0;
   medias: MediaDto[] = [];
   comments: ProductReviewCommentDto[] = [];
+  managerComment: string = '';
   createdAt: Date = new Date();
 }

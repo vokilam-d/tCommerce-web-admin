@@ -122,6 +122,16 @@
       </span>
     </div>
 
+    <div class="product-review__field field"
+         *ngIf="reviewForm.get('managerComment') as managerComment"
+         [class.field--invalid]="isControlInvalid(managerComment)"
+    >
+      <label for="managerComment" class="field__label">Ответ менеджера</label>
+      <span class="field__control">
+        <textarea class="field__input" [formControl]="managerComment" type="text" id="managerComment"></textarea>
+      </span>
+    </div>
+
     <div class="product-review__field field">
       <div class="field__label">Картинки и видео</div>
 
