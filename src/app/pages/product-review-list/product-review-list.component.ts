@@ -136,5 +136,14 @@ const storeReviewsGridCells: IGridCell[] = [
     isImage: false,
     isSortable: true,
     fieldName: getPropertyOf<ProductReviewDto>('isEnabled')
+  },
+  {
+    isSearchable: true,
+    label: 'Ответ менеджера',
+    initialWidth: 300,
+    align: 'left',
+    isImage: false,
+    isSortable: false,
+    fieldName: getPropertyOf<ProductReviewDto>('managerComment')
   }
 ];

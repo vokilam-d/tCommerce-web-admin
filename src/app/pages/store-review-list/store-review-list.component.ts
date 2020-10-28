@@ -35,8 +35,8 @@ export class StoreReviewListComponent implements OnInit, AfterViewInit {
               private route: ActivatedRoute,
               private headService: HeadService,
               private notyService: NotyService,
-              private router: Router) {
-  }
+              private router: Router
+  ) { }
 
   ngOnInit() {
     this.headService.setTitle(`Отзывы о магазине`);
