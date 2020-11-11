@@ -145,15 +145,6 @@ export class ProductListComponent extends NgUnsubscribe implements OnInit, After
         const manufacturerAttribute = attributes.find(attribute => attribute.id === 'manufacturer');
 
         this.gridCells = [
-          /* {
-            isSearchable: false,
-            label: 'ID',
-            initialWidth: 35,
-            align: 'center',
-            isImage: true,
-            isSortable: true,
-            fieldName: getPropertyOf<ProductListItemDto>('id')
-          }, */
           {
             isSearchable: true,
             label: 'Код',
@@ -190,15 +181,6 @@ export class ProductListComponent extends NgUnsubscribe implements OnInit, After
             isSortable: true,
             fieldName: `${getPropertyOf<ProductListItemDto>('categories')}.${getPropertyOf<ProductCategoryDto>('name')}`
           },
-          /* {
-            isSearchable: true,
-            label: 'Код',
-            initialWidth: 43,
-            align: 'left',
-            isImage: false,
-            isSortable: true,
-            fieldName: `${getPropertyOf<ProductListItemDto>('variants')}.${getPropertyOf<ProductVariantListItemDto>('sku')}`
-          }, */
           {
             isSearchable: true,
             label: 'Артикул',
