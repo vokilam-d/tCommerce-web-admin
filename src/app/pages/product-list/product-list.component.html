@@ -48,15 +48,14 @@
     <span grid-total-items>Всего товаров: {{ itemsTotal }}</span>
     <span grid-no-items>Товары не найдены</span>
 
-    <ng-template #cellContent let-product="item">{{ product.id }}</ng-template>
+    <ng-template #cellContent let-product="item">{{ product.skus }}</ng-template>
     <ng-template #cellContent let-product="item">
       <img class="product-thumbnail" [src]="getItemThumbnail(product)">
     </ng-template>
     <ng-template #cellContent let-product="item">{{ product.name }}</ng-template>
     <ng-template #cellContent let-product="item">
       <span class="small">{{ getItemCategories(product) }}</span>
-    </ng-template>
-    <ng-template #cellContent let-product="item">{{ product.skus }}</ng-template>
+    </ng-template>    
     <ng-template #cellContent let-product="item">{{ product.vendorCodes }}</ng-template>
     <ng-template #cellContent let-product="item">
       <span class="small">{{ getManufacturerAttr(product) }}</span>
