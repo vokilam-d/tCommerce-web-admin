@@ -11,32 +11,40 @@
     </h1>
 
     <div class="header__toolbar">
-      <button class="header__btn toolbar-btn" (click)="goBack()" type="button">
-        <i class="ai ai-arrow-left"></i> назад
-      </button>
-
-      <app-button class="header__btn" *ngIf="!isNewProduct && !isNewProductBasedOn" (click)="delete()" btnStyle="danger">
-        Удалить
-      </app-button>
-
-      <app-button class="header__btn" *ngIf="!isNewProduct && !isNewProductBasedOn && product" [link]="['/', product.variants[0].slug]">
-        Посмотреть на сайте
-      </app-button>
-
-      <app-button class="header__btn" (click)="save('duplicate')">
-        Сохранить и дублировать
-      </app-button>
-
-      <app-button class="header__btn" (click)="save()" type="button">
-        Сохранить
-      </app-button>
-
-      <app-button class="header__btn"
-                  (click)="save('exit')"
-                  btnStyle="primary"
-      >
-        Сохранить и закрыть
-      </app-button>
+      <div class="header__codes">
+        <div class="header__codes_product-id">ID {{product.id}}</div>
+        <div class="header__codes_sku" *ngIf="!isNewProduct && !isNewProductBasedOn">Код {{  product.variants[0].sku }}</div>
+      </div>
+      
+      <div class="header__buttons">
+        <button class="header__btn toolbar-btn" (click)="goBack()" type="button">
+          <i class="ai ai-arrow-left"></i> назад
+        </button>
+  
+        <app-button class="header__btn" *ngIf="!isNewProduct && !isNewProductBasedOn" (click)="delete()" btnStyle="danger">
+          Удалить
+        </app-button>
+  
+        <app-button class="header__btn" *ngIf="!isNewProduct && !isNewProductBasedOn && product" [link]="['/', product.variants[0].slug]">
+          Посмотреть на сайте
+        </app-button>
+  
+        <app-button class="header__btn" (click)="save('duplicate')">
+          Сохранить и дублировать
+        </app-button>
+  
+        <app-button class="header__btn" (click)="save()" type="button">
+          Сохранить
+        </app-button>
+  
+        <app-button class="header__btn"
+                    (click)="save('exit')"
+                    btnStyle="primary"
+        >
+          Сохранить и закрыть
+        </app-button>
+      </div>
+      
     </div>
   </div>
 
@@ -115,16 +123,6 @@
           <span class="field__control">
             <input class="field__input" [formControl]="name" (blur)="onVariantNameControlBlur(name, i)" type="text" [id]="'name-' + i">
           </span>
-        </div>
-
-        <div class="product__field field">
-          <div class="field__label">
-            Код
-          </div>
-          <div class="field__control">
-            <div class="product__sku" *ngIf="!isNewProduct && !isNewProductBasedOn">{{ product.variants[i].sku }}</div>
-            <div class="product__sku product__sku--placeholder" *ngIf="isNewProduct || isNewProductBasedOn"> - автозаполнится - </div>
-          </div>
         </div>
 
         <div class="product__field field field--required"
