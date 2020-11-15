@@ -26,11 +26,11 @@
     align-content: flex-start;
     font-size: 18px;
 
-    &_product-id {
+    &--product-id {
       padding: 0 15px;
     }
 
-    &_sku {
+    &--sku {
       padding: 0 15px;
     }
   }
@@ -38,10 +38,6 @@
   &__buttons {
     align-content: flex-end;
   } 
-}
-
-.field_hide {
-  display: none;
 }
 
 .preloader {
