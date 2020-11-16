@@ -60,9 +60,9 @@
     <label class="field__label">Тип доставки</label>
     <div class="field__control address-form__control">
       <div class="tabs">
-        <button class="tab"
+        <button class="tabs__tab"
                 *ngFor="let type of addressTypes"
-                [class.tab--active]="type.data === addressType.value"
+                [class.tabs__tab--active]="type.data === addressType.value"
                 (click)="setAddressType(type)"
         >
           {{ type.view }}

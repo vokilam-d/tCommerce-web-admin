@@ -258,6 +258,20 @@ export class OrderViewComponent extends NgUnsubscribe implements OnInit {
       );
   }
 
+  onTrackingIdSubmit(trackingId: string) {
+    this.isLoading = true;
+    this.orderService.createInternetDocumentByTrackingId(this.order.id, trackingId)
+      .pipe(
+        this.notyService.attachNoty({ successText: `Накладная успешно добавлена` }),
+        finalize(() => this.isLoading = false)
+      )
+      .subscribe(
+        response => {
+          this.order = response.data;
+        }
+      );
+  }
+
   updateShipmentStatus() {
     this.isLoading = true;
     this.orderService.updateShipmentStatus(this.order.id)

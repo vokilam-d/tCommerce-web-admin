@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ShipmentDto } from '../../../shared/dtos/shipment.dto';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ShipmentSenderService } from '../../../shared/services/shipment-sender.service';
 import { ISelectOption } from '../../../shared/components/select/select-option.interface';
 import { ShipmentSenderDto } from '../../../shared/dtos/shipment-sender.dto';
@@ -18,19 +18,23 @@ export class ShipmentInfoModalComponent implements OnInit {
   form: FormGroup;
   sendersSelectOptions: ISelectOption[];
   payerTypeOptions: ISelectOption[] = [{ view: 'Получатель', data: ShipmentPayerEnum.RECIPIENT }, { view: 'Отправитель', data: ShipmentPayerEnum.SENDER }];
+  creationType: 'manual' | 'existing' = 'manual';
+  trackingIdControl: FormControl = new FormControl('', Validators.required);
   private defaultSenderId: number;
 
   @Input() shipment: ShipmentDto;
   @Input() cost: number;
   @Input() setBackwardDeliveryAsCost: boolean = false;
-  @Output('infoSubmit') submitEmitter = new EventEmitter<ShipmentDto>();
+  @Output('infoSubmit') infoSubmitEmitter = new EventEmitter<ShipmentDto>();
+  @Output('trackingId') trackingIdEmitter = new EventEmitter<string>();
 
   get payerTypeForCost(): ShipmentPayerEnum { return this.cost < 1000 ? ShipmentPayerEnum.RECIPIENT : ShipmentPayerEnum.SENDER; }
   get payerTypeNameForCost(): string { return this.payerTypeOptions.find(o => o.data === this.payerTypeForCost).view; }
 
-  constructor(private shipmentSenderService: ShipmentSenderService,
-              private notyService: NotyService,
-              private formBuilder: FormBuilder
+  constructor(
+    private shipmentSenderService: ShipmentSenderService,
+    private notyService: NotyService,
+    private formBuilder: FormBuilder
   ) { }
 
   ngOnInit(): void {
@@ -89,7 +93,7 @@ export class ShipmentInfoModalComponent implements OnInit {
       return;
     }
 
-    this.submitEmitter.emit(this.form.value);
+    this.infoSubmitEmitter.emit(this.form.value);
     this.closeModal();
   }
 
@@ -103,5 +107,16 @@ export class ShipmentInfoModalComponent implements OnInit {
         view: `${sender.firstName} ${sender.lastName}, ${sender.phone}, ${sender.address}`
       };
     });
+  }
+
+  onTrackingIdSubmit() {
+    const trackingId = this.trackingIdControl.value;
+    if (!trackingId) {
+      this.notyService.showErrorNoty(`Введите номер накладной`);
+      return;
+    }
+
+    this.trackingIdEmitter.emit(trackingId);
+    this.closeModal();
   }
 }

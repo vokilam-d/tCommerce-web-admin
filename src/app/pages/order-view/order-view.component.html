@@ -53,7 +53,7 @@
                     btnStyle="primary"
                     type="button"
         >
-          Создать ЭН
+          Электронная накладная
         </app-button>
       </ng-container>
     </div>
@@ -121,16 +121,15 @@
     <div class="order-view__subtitle">
       Новая Почта
 
-      <button class="order-view__edit-btn" *ngIf="!trackingIdControl" (click)="openTrackingIdForm()">
-        изменить
-      </button>
+      <ng-container *ngIf="order.shipment.trackingNumber && !trackingIdControl">
+        <button class="order-view__edit-btn" *ngIf="!trackingIdControl" (click)="openTrackingIdForm()">
+          изменить
+        </button>
 
-      <button class="order-view__edit-btn"
-              *ngIf="order.shipment.trackingNumber && !trackingIdControl"
-              (click)="updateShipmentStatus()"
-      >
-        обновить статус
-      </button>
+        <button class="order-view__edit-btn" (click)="updateShipmentStatus()">
+          обновить статус
+        </button>
+      </ng-container>
     </div>
 
     <div class="order-view__block">
@@ -304,6 +303,7 @@
                      [cost]="order.prices.totalCost"
                      [setBackwardDeliveryAsCost]="isCashOnDelivery()"
                      (infoSubmit)="onShipmentInfoSubmit($event)"
+                     (trackingId)="onTrackingIdSubmit($event)"
 ></shipment-info-modal>
 
 <preloader class="preloader" *ngIf="!customer || isLoading" [hasMargins]="false"></preloader>

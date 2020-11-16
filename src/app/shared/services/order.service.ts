@@ -108,6 +108,11 @@ export class OrderService {
     return this.http.post<ResponseDto<OrderDto>>(`${API_HOST}/api/v1/admin/orders/${id}/internet-document`, shipment);
   }
 
+  createInternetDocumentByTrackingId(id: number, trackingId: string) {
+    const shipment = { trackingNumber: trackingId } as ShipmentDto;
+    return this.createInternetDocument(id, shipment);
+  }
+
   changeStatus(id: number, nextStatus: OrderStatusEnum, shipment?: ShipmentDto) {
     return this.http.put<ResponseDto<OrderDto>>(`${API_HOST}/api/v1/admin/orders/${id}/status/${nextStatus}`, shipment);
   }
