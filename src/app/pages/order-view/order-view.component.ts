@@ -245,7 +245,17 @@ export class OrderViewComponent extends NgUnsubscribe implements OnInit {
   }
 
   onShipmentInfoSubmit(shipment: ShipmentDto) {
-    this.changeStatus(OrderStatusEnum.PACKED, true, shipment);
+    this.isLoading = true;
+    this.orderService.createInternetDocument(this.order.id, shipment)
+      .pipe(
+        this.notyService.attachNoty({ successText: `Накладная успешно создана` }),
+        finalize(() => this.isLoading = false)
+      )
+      .subscribe(
+        response => {
+          this.order = response.data;
+        }
+      );
   }
 
   updateShipmentStatus() {

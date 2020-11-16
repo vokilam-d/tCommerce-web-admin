@@ -104,6 +104,10 @@ export class OrderService {
     return `${API_HOST}/api/v1/admin/orders/${id}/invoice`;
   }
 
+  createInternetDocument(id: number, shipment: ShipmentDto) {
+    return this.http.post<ResponseDto<OrderDto>>(`${API_HOST}/api/v1/admin/orders/${id}/internet-document`, shipment);
+  }
+
   changeStatus(id: number, nextStatus: OrderStatusEnum, shipment?: ShipmentDto) {
     return this.http.put<ResponseDto<OrderDto>>(`${API_HOST}/api/v1/admin/orders/${id}/status/${nextStatus}`, shipment);
   }
