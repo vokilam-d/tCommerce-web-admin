@@ -367,13 +367,32 @@ export class ProductComponent extends NgUnsubscribe implements OnInit {
       return;
     }
 
+    const variantToCopy = (variant: ProductVariantDto): ProductVariantDto => ({
+      relatedProducts: variant.relatedProducts,
+      crossSellProducts: variant.crossSellProducts,
+      qtyInStock: variant.qtyInStock,
+      attributes: variant.attributes,
+      price: variant.price,
+      oldPrice: variant.oldPrice,
+      currency: variant.currency,
+      fullDescription: variant.fullDescription,
+      googleAdsProductTitle: variant.googleAdsProductTitle,
+      isDiscountApplicable: variant.isDiscountApplicable,
+      isIncludedInShoppingFeed: variant.isIncludedInShoppingFeed,
+      medias: variant.medias,
+      metaTags: variant.metaTags,
+      isEnabled: variant.isEnabled,
+      name: variant.name,
+      shortDescription: variant.shortDescription,
+    }) as ProductVariantDto;
+
     this.product = {
       isEnabled: productDto.isEnabled,
       name: productDto.name,
       breadcrumbs: productDto.breadcrumbs,
       categories: productDto.categories,
       attributes: productDto.attributes,
-      variants: productDto.variants.map(({ id, sku, slug, ...variant }) => variant) as ProductVariantDto[],
+      variants: productDto.variants.map(variantToCopy),
     } as ProductDto;
   }
 }
