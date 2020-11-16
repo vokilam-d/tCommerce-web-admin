@@ -14,9 +14,30 @@
   }
 
   &__toolbar {
+    display: inline-flex;
+    width: 100%;
     margin: 20px 0 0;
-    text-align: right;
+    justify-content: space-between;
+    align-items: center;
   }
+
+  &__codes {
+    display: inline-flex;
+    align-content: flex-start;
+    font-size: 18px;
+
+    &--product-id {
+      padding: 0 15px;
+    }
+
+    &--sku {
+      padding: 0 15px;
+    }
+  }
+
+  &__buttons {
+    align-content: flex-end;
+  } 
 }
 
 .preloader {
