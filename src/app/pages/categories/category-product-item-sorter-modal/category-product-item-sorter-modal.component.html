@@ -13,6 +13,7 @@
     <product-item-sorter [items]="itemsWithSortOrder"
                          [isLoading]="isLoading"
                          (reorder)="onReorder($event)"
+                         (unfix)="onUnfix($event)"
     ></product-item-sorter>
   </div>
 </div>

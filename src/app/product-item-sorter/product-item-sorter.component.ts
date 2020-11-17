@@ -19,6 +19,7 @@ export class ProductItemSorterComponent implements OnInit {
   @Input() hasRemoveBtn: boolean = false;
   @Output() reorder = new EventEmitter<IDraggedEvent<ProductItemWithSortOrder>>();
   @Output() remove = new EventEmitter<ProductItemWithSortOrder>();
+  @Output() unfix = new EventEmitter<ProductItemWithSortOrder>();
 
   constructor() { }
 
@@ -40,6 +41,12 @@ export class ProductItemSorterComponent implements OnInit {
       return 'admin/assets/images/no-img.png';
     } else {
       return this.uploadedHost + product.mediaUrl;
+    }
+  }
+
+  onSortClick(product: ProductItemWithSortOrder) {
+    if (product.isSortOrderFixed) {
+      this.unfix.emit(product);
     }
   }
 }

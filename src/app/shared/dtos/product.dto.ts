@@ -8,6 +8,8 @@ export class ProductCategoryDto {
   name?: string;
   slug?: string;
   sortOrder?: number;
+  reversedSortOrder?: number;
+  isSortOrderFixed?: boolean;
 }
 
 export class AddOrUpdateProductDto {

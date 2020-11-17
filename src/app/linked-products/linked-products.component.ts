@@ -58,7 +58,8 @@ export class LinkedProductsComponent implements OnInit {
       const linked = this.linkedProducts.find(p => p.productId === item.id);
       return {
         ...item,
-        sortOrder: linked.sortOrder
+        sortOrder: linked.sortOrder,
+        isSortOrderFixed: false
       };
     });
   }
@@ -72,7 +73,8 @@ export class LinkedProductsComponent implements OnInit {
     this.linkedProducts.push({ productId: evt.product.id, variantId: evt.variant.id, sortOrder });
     this.productsWithSortOrder.push({
       ...evt.product,
-      sortOrder
+      sortOrder,
+      isSortOrderFixed: false
     });
   }
 

@@ -13,7 +13,10 @@
        draggable-item-direction="horizontal"
        (dragged)="onReorder($event)"
   >
-    <div class="product__sort">
+    <div class="product__sort"
+         [class.product__sort--fixed]="product.isSortOrderFixed"
+         (click)="onSortClick(product)"
+    >
       {{ product.sortOrder }}
     </div>
 

@@ -35,6 +35,11 @@
     background: #ddd;
     border-radius: 100%;
     font-size: 10px;
+
+    &--fixed {
+      background: rgba($blue, 0.8);
+      color: #fff;
+    }
   }
 
   &__remove {

@@ -8,6 +8,7 @@ import { IGridValue } from '../../grid/grid.interface';
 import { API_HOST } from '../constants/constants';
 import { EReorderPosition } from '../enums/reorder-position.enum';
 import { ProductReorderDto } from '../dtos/reorder.dto';
+import { UnfixProductOrderDto } from '../dtos/unfix-product-order.dto';
 
 interface IFetchProductsParams extends IGridValue {
   orderedDates?: [string, string];
@@ -43,14 +44,14 @@ export class ProductService {
     return this.http.put<ResponseDto<ProductDto>>(`${API_HOST}/api/v1/admin/products/${id}`, dto);
   }
 
-  reorderProduct(
+  fixSortOrder(
     item: ProductListItemDto,
     target: ProductListItemDto,
     position: EReorderPosition,
     categoryId: number,
     filter: IGridValue
   ) {
-    const apiUrl = `${API_HOST}/api/v1/admin/products/action/reorder`;
+    const apiUrl = `${API_HOST}/api/v1/admin/products/action/fix-sort-order`;
     const reorderDto: ProductReorderDto = {
       id: item.id,
       targetId: target.id,
@@ -58,11 +59,17 @@ export class ProductService {
       categoryId
     };
 
-    return this.http.post<ResponseDto<ProductListItemDto[]>>(
-      apiUrl,
-      reorderDto,
-      { params: toHttpParams(filter) }
-    );
+    return this.http.post<ResponseDto<ProductListItemDto[]>>(apiUrl, reorderDto, { params: toHttpParams(filter) });
+  }
+
+  unFixSortOrder(item: ProductListItemDto, categoryId: number, filter: IGridValue) {
+    const apiUrl = `${API_HOST}/api/v1/admin/products/action/unfix-sort-order`;
+    const dto: UnfixProductOrderDto = {
+      id: item.id,
+      categoryId
+    };
+
+    return this.http.post<ResponseDto<ProductListItemDto[]>>(apiUrl, dto, { params: toHttpParams(filter) });
   }
 
   deleteProduct(id: number) {

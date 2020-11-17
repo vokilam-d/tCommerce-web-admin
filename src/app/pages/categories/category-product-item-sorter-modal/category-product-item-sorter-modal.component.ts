@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ProductService } from '../../../shared/services/product.service';
 import { NotyService } from '../../../noty/noty.service';
 import { finalize } from 'rxjs/operators';
-import { ProductListItemDto } from '../../../shared/dtos/product.dto';
+import { ProductCategoryDto, ProductListItemDto } from '../../../shared/dtos/product.dto';
 import { IDraggedEvent } from '../../../shared/directives/draggable-item/draggable-item.directive';
 import { ProductItemWithSortOrder } from '../../../product-item-sorter/product-item-with-sort-order';
 
@@ -48,7 +48,7 @@ export class CategoryProductItemSorterModalComponent implements OnInit {
   onReorder(draggedEvt: IDraggedEvent) {
     this.isLoading = true;
 
-    this.productService.reorderProduct(
+    this.productService.fixSortOrder(
       draggedEvt.item,
       draggedEvt.targetItem,
       draggedEvt.position,
@@ -64,10 +64,29 @@ export class CategoryProductItemSorterModalComponent implements OnInit {
       );
   }
 
+  onUnfix(item: ProductItemWithSortOrder) {
+    if (!confirm(`Вы уверены, что хотите открепить сортировку этого товара?`)) {
+      return;
+    }
+
+    this.isLoading = true;
+
+    this.productService.unFixSortOrder(item, this.categoryId, this.getFetchProductsParams())
+      .pipe(this.notyService.attachNoty(), finalize(() => this.isLoading = false))
+      .subscribe(
+        response => {
+          this.itemsWithSortOrder = this.transformProducts(response.data);
+        },
+        error => console.warn(error)
+      );
+  }
+
   private getFetchProductsParams() {
+    const categoriesProp: keyof ProductListItemDto = 'categories';
+    const sortOrderProp: keyof ProductCategoryDto = 'reversedSortOrder';
     return {
-      filters: [{ fieldName: 'categories.id', value: `${this.categoryId}` }],
-      sort: '-categories.sortOrder',
+      filters: [{ fieldName: `${categoriesProp}.id`, value: `${this.categoryId}` }],
+      sort: `${categoriesProp}.${sortOrderProp}`,
       limit: 1000,
       page: 1
     };
@@ -78,7 +97,8 @@ export class CategoryProductItemSorterModalComponent implements OnInit {
       const foundCategory = item.categories.find(c => c.id === this.categoryId);
       return {
         ...item,
-        sortOrder: foundCategory?.sortOrder
+        sortOrder: foundCategory?.reversedSortOrder,
+        isSortOrderFixed: foundCategory?.isSortOrderFixed,
       }
     });
   }
