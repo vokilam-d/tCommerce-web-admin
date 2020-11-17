@@ -70,7 +70,7 @@ export class AdditionalServiceComponent extends NgUnsubscribe implements OnInit 
     }
 
     this.additionalServicesService.deleteAdditionalService(this.additionalService.id)
-      .pipe(this.notyService.attachNoty({ successText: 'Доп. услуга успешно удалён' }))
+      .pipe(this.notyService.attachNoty({ successText: 'Доп. услуга успешно удалена' }))
       .subscribe(
         _ => {
           this.goBack();
@@ -125,7 +125,7 @@ export class AdditionalServiceComponent extends NgUnsubscribe implements OnInit 
     const dto = { ...this.additionalService, ...this.form.value };
 
     this.additionalServicesService.addNewAdditionalService(dto)
-      .pipe(this.notyService.attachNoty({ successText: 'Доп. услуга успешно добавлна' }))
+      .pipe(this.notyService.attachNoty({ successText: 'Доп. услуга успешно добавлена' }))
       .subscribe(
         response => {
           this.router.navigate(['admin', 'additional-service', 'edit', response.data.id]);
@@ -138,7 +138,7 @@ export class AdditionalServiceComponent extends NgUnsubscribe implements OnInit 
     const dto = { ...this.additionalService, ...this.form.value };
 
     this.additionalServicesService.updateAdditionalService(this.additionalService.id, dto)
-      .pipe(this.notyService.attachNoty({ successText: 'Доп. услуга успешно обновлён' }))
+      .pipe(this.notyService.attachNoty({ successText: 'Доп. услуга успешно обновлена' }))
       .subscribe(
         response => {
           this.additionalService = response.data;
