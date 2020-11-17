@@ -215,6 +215,24 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'additional-service',
+        children: [
+          {
+            path: '', loadChildren: () => import('./pages/additional-service-list/additional-service-list.module').then(m => m.AdditionalServiceListModule)
+          },
+          {
+            path: 'add',
+            loadChildren: () => import('./pages/additional-service/additional-service.module').then(m => m.AdditionalServiceModule),
+            data: { action: EPageAction.Add }
+          },
+          {
+            path: 'edit/:id',
+            loadChildren: () => import('./pages/additional-service/additional-service.module').then(m => m.AdditionalServiceModule),
+            data: { action: EPageAction.Edit }
+          }
+        ]
+      },
+      {
         path: '**',
         loadChildren: () => import('./pages/not-found/not-found.module').then(m => m.NotFoundModule)
       }

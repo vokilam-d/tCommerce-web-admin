@@ -1,0 +1,67 @@
+<div class="page">
+  <div class="header">
+    <h1 class="header__title" [ngSwitch]="isNewAdditionalService">
+      <ng-container *ngSwitchCase="true">Новая дополнительная услуга</ng-container>
+      <ng-container *ngSwitchCase="false">Доп. услуга {{ additionalService?.name }}</ng-container>
+    </h1>
+
+    <div class="header__toolbar">
+      <button class="header__btn toolbar-btn" (click)="goBack()" type="button">
+        <i class="ai ai-arrow-left"></i> назад
+      </button>
+      <button class="header__btn toolbar-btn" *ngIf="!isNewAdditionalService" (click)="delete()" type="button">
+        Удалить
+      </button>
+      <button class="header__btn toolbar-main-btn" (click)="save()" type="button">Сохранить</button>
+    </div>
+  </div>
+
+  <form class="additional-service" *ngIf="form; else preloaderTmpl" [formGroup]="form">
+
+    <div class="additional-service__field field"
+         *ngIf="form.get('isEnabled') as isEnabled"
+         [class.field--invalid]="isControlInvalid(isEnabled)"
+    >
+      <label class="field__label">Включена?</label>
+      <div class="field__control">
+        <toggle [formControl]="isEnabled"></toggle>
+      </div>
+    </div>
+
+    <div class="additional-service__field field field--required"
+         *ngIf="form.get('name') as name"
+         [class.field--invalid]="isControlInvalid(name)"
+    >
+      <label for="name" class="field__label">Название</label>
+      <span class="field__control">
+        <input class="field__input" [formControl]="name" type="text" id="name">
+      </span>
+    </div>
+
+    <div class="additional-service__field field"
+         *ngIf="form.get('clientName') as clientName"
+         [class.field--invalid]="isControlInvalid(clientName)"
+    >
+      <label for="clientName" class="field__label">Название для клиента</label>
+      <span class="field__control">
+        <input class="field__input" [formControl]="clientName" type="text" id="clientName">
+      </span>
+    </div>
+
+    <div class="additional-service__field field field--required"
+         *ngIf="form.get('price') as price"
+         [class.field--invalid]="isControlInvalid(price)"
+    >
+      <label for="price" class="field__label">Цена, грн</label>
+      <span class="field__control">
+        <input class="field__input" [formControl]="price" type="number" id="price">
+      </span>
+    </div>
+
+  </form>
+
+  <ng-template #preloaderTmpl>
+    <preloader class="preloader"></preloader>
+  </ng-template>
+
+</div>
