@@ -12,31 +12,33 @@
 
     <div class="header__toolbar">
       <div class="header__codes">
-        <div class="header__codes--product-id">ID {{product.id}}</div>
-        <div class="header__codes--sku" *ngIf="!isNewProduct && !isNewProductBasedOn">Код {{  product.variants[0].sku }}</div>
+        <ng-container *ngIf="product && !isNewProduct && !isNewProductBasedOn">
+          <div class="header__codes--product-id">ID {{ product.id }}</div>
+          <div class="header__codes--sku">Код {{ product.variants[0].sku }}</div>
+        </ng-container>
       </div>
-      
+
       <div class="header__buttons">
         <button class="header__btn toolbar-btn" (click)="goBack()" type="button">
           <i class="ai ai-arrow-left"></i> назад
         </button>
-  
+
         <app-button class="header__btn" *ngIf="!isNewProduct && !isNewProductBasedOn" (click)="delete()" btnStyle="danger">
           Удалить
         </app-button>
-  
+
         <app-button class="header__btn" *ngIf="!isNewProduct && !isNewProductBasedOn && product" [link]="['/', product.variants[0].slug]">
           Посмотреть на сайте
         </app-button>
-  
+
         <app-button class="header__btn" (click)="save('duplicate')">
           Сохранить и дублировать
         </app-button>
-  
+
         <app-button class="header__btn" (click)="save()" type="button">
           Сохранить
         </app-button>
-  
+
         <app-button class="header__btn"
                     (click)="save('exit')"
                     btnStyle="primary"
@@ -44,7 +46,7 @@
           Сохранить и закрыть
         </app-button>
       </div>
-      
+
     </div>
   </div>
 
@@ -78,6 +80,15 @@
       </label>
       <span class="field__control">
         <product-category-select [formControl]="categories"></product-category-select>
+      </span>
+    </div>
+
+    <div class="product__field field" *ngIf="form.get('additionalServiceIds') as additionalServiceIds">
+      <label class="field__label">
+         Доп. услуги
+      </label>
+      <span class="field__control">
+        <additional-service-select [formControl]="additionalServiceIds"></additional-service-select>
       </span>
     </div>
 

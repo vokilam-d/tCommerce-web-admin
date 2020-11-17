@@ -16,6 +16,7 @@ export class AddOrUpdateProductDto {
   isEnabled: boolean = true;
   name: string = '';
   categories: ProductCategoryDto[] = [];
+  additionalServiceIds: number[] = [];
   breadcrumbs: ProductBreadcrumbDto[] = [];
   attributes: ProductSelectedAttributeDto[] = [];
   variants: ProductVariantDto[] = [new ProductVariantDto()];

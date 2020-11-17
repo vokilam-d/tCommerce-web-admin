@@ -15,6 +15,7 @@ import { PreloaderModule } from '../preloader/preloader.module';
 import { AutofocusDirective } from './directives/autofocus/autofocus.directive';
 import { DraggableItemDirective } from './directives/draggable-item/draggable-item.directive';
 import { RouterModule } from '@angular/router';
+import { AdditionalServiceSelectComponent } from './components/additional-service-select/additional-service-select.component';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { RouterModule } from '@angular/router';
     SelectComponent,
     FieldsGroupComponent,
     AttributeSelectComponent,
+    AdditionalServiceSelectComponent,
     NgUnsubscribe,
     TabsComponent,
     ButtonComponent,
@@ -38,6 +40,7 @@ import { RouterModule } from '@angular/router';
     SelectComponent,
     FieldsGroupComponent,
     AttributeSelectComponent,
+    AdditionalServiceSelectComponent,
     NgUnsubscribe,
     TabsComponent,
     ButtonComponent,

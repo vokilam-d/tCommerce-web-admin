@@ -139,6 +139,7 @@ export class ProductComponent extends NgUnsubscribe implements OnInit {
       isEnabled: this.product.isEnabled,
       name: [this.product.name, Validators.required],
       categories: [this.product.categories],
+      additionalServiceIds: [this.product.additionalServiceIds || []],
       attributes: [this.product.attributes],
       variants: variantsFormArray
     }
