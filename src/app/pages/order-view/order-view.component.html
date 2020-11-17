@@ -204,6 +204,7 @@
             <td class="items-table__block items-table__block--name">Название</td>
             <td class="items-table__block items-table__block--sku">Код</td>
             <td class="items-table__block items-table__block--vendor">Артикул</td>
+            <td class="items-table__block items-table__block--vendor">Доп. услуги</td>
             <td class="items-table__block items-table__block--price">Цена</td>
             <td class="items-table__block items-table__block--qty">Кол-во</td>
             <td class="items-table__block items-table__block--cost">Стоимость</td>
@@ -229,6 +230,11 @@
             </td>
             <td class="items-table__block items-table__block--vendor">
               {{ item.vendorCode }}
+            </td>
+            <td class="items-table__block items-table__block--additional-services">
+              <div *ngFor="let service of item.additionalServices">
+                {{ service.name }} (+{{ service.price }}грн)
+              </div>
             </td>
             <td class="items-table__block items-table__block--price">
               {{ item.price }} грн

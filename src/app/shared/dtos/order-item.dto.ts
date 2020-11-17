@@ -1,3 +1,5 @@
+import { OrderItemAdditionalServiceDto } from './order-item-additional-service.dto';
+
 export class OrderItemDto {
   name: string = '';
   productId: number = 0;
@@ -8,4 +10,5 @@ export class OrderItemDto {
   qty: number = 0;
   cost: number = 0;
   imageUrl: string = '';
+  additionalServices: OrderItemAdditionalServiceDto[] = [];
 }
