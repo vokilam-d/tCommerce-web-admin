@@ -14,7 +14,7 @@
       <div class="header__codes">
         <ng-container *ngIf="product && !isNewProduct && !isNewProductBasedOn">
           <div class="header__codes--product-id">ID {{ product.id }}</div>
-          <div class="header__codes--sku">Код {{ product.variants[0].sku }}</div>
+          <div class="header__codes--sku" *ngIf="!isMultiVariant">Код {{ product.variants[0].sku }}</div>
         </ng-container>
       </div>
 
@@ -118,7 +118,7 @@
     >
 
       <div fields-group-title *ngIf="isMultiVariant">
-        Вариация {{ i + 1 }}<ng-container *ngIf="variantForm.get('name') as name"> - {{ name.value }}</ng-container>
+        Вариация {{ i + 1 }} - Код {{ product.variants[i].sku || '_____' }}<ng-container *ngIf="variantForm.get('name')?.value as name"> - {{ name }}</ng-container>
       </div>
 
       <fields-group class="product__group" id="product-info">
@@ -247,16 +247,6 @@
           </span>
         </div>
 
-        <ng-container *ngIf="variantForm.get('attributes') as attributes">
-          <attribute-select class="product__field"
-                            *ngFor="let attribute of attributes.value"
-                            [selectedAttr]="attribute"
-                            [ngModelOptions]="{standalone: true}"
-                            [(ngModel)]="attribute.valueIds"
-          >
-          </attribute-select>
-        </ng-container>
-
         <div class="product__field field"
              *ngIf="variantForm.get('isDiscountApplicable') as isDiscountApplicable"
         >
@@ -267,6 +257,21 @@
             <toggle [formControl]="isDiscountApplicable"></toggle>
           </div>
         </div>
+      </fields-group>
+
+      <fields-group class="product__group"
+                    *ngIf="variantForm.get('attributes') as attributes"
+                    id="product-variant-attributes"
+      >
+        <div fields-group-title>Атрибуты</div>
+
+        <attribute-select class="product__field"
+                          *ngFor="let attribute of attributes.value"
+                          [selectedAttr]="attribute"
+                          [ngModelOptions]="{standalone: true}"
+                          [(ngModel)]="attribute.valueIds"
+        >
+        </attribute-select>
       </fields-group>
 
       <fields-group class="product__group" id="product-content">

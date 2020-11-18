@@ -54,15 +54,9 @@ export class AttributesEditorComponent extends NgUnsubscribe implements OnInit {
   preGeneratedAttrsForProduct: AttributeDto[] = [];
   variantsToCreate: ITruncatedVariant[] = [];
   variantsToLeave: ProductVariantDto[] = [];
-  get variantsToRemove(): ProductVariantDto[] {
-    if (this.initialFormValue.variants.length === 1) {
-      return [];
-    } else {
-      return this.initialFormValue.variants.filter(v => !this.variantsToLeave.includes(v))
-    }
-  };
 
   stepsEnum = ESelectionStep;
+  attrTypeEnum = EAttributeType;
 
   itemsTotal: number = 0;
   itemsFiltered: number;
@@ -73,6 +67,13 @@ export class AttributesEditorComponent extends NgUnsubscribe implements OnInit {
   @Input() initialFormValue: ProductDto;
   @Input() isSelectManufacturerAttr: boolean = false;
   @Output('generated') generatedEmitter = new EventEmitter<ProductDto>();
+  get variantsToRemove(): ProductVariantDto[] {
+    if (this.initialFormValue.variants.length === 1) {
+      return [];
+    } else {
+      return this.initialFormValue.variants.filter(v => !this.variantsToLeave.includes(v))
+    }
+  };
 
   constructor(public attributeService: AttributeService,
               private notyService: NotyService,
@@ -205,7 +206,30 @@ export class AttributesEditorComponent extends NgUnsubscribe implements OnInit {
       if (this.initialFormValue.variants.length === 1 && index === 0) {
         newVariant = this.initialFormValue.variants[0];
       } else {
-        newVariant = new ProductVariantDto();
+        const firstVariantClone = JSON.parse(JSON.stringify(this.initialFormValue.variants[0]));
+        newVariant = {
+          name: `КОПИЯ - ${firstVariantClone.name}`,
+          price: firstVariantClone.price,
+          oldPrice: firstVariantClone.oldPrice,
+          qtyInStock: firstVariantClone.qtyInStock,
+          isIncludedInShoppingFeed: firstVariantClone.isIncludedInShoppingFeed,
+          isEnabled: firstVariantClone.isEnabled,
+          googleAdsProductTitle: `КОПИЯ - ${firstVariantClone.googleAdsProductTitle}`,
+          isDiscountApplicable: firstVariantClone.isDiscountApplicable,
+          vendorCode: `КОПИЯ - ${firstVariantClone.vendorCode}`,
+          gtin: `КОПИЯ - ${firstVariantClone.gtin}`,
+          fullDescription: `КОПИЯ - ${firstVariantClone.fullDescription}`,
+          slug: firstVariantClone.slug,
+          metaTags: {
+            title: `КОПИЯ - ${firstVariantClone.metaTags.title}`,
+            description: `КОПИЯ - ${firstVariantClone.metaTags.description}`,
+            keywords: `КОПИЯ - ${firstVariantClone.metaTags.keywords}`,
+          },
+          crossSellProducts: firstVariantClone.crossSellProducts,
+          relatedProducts: firstVariantClone.relatedProducts,
+          medias: firstVariantClone.medias,
+          attributes: []
+        } as ProductVariantDto;
       }
 
       Object.keys(truncVariant).forEach(attributeId => {

@@ -87,7 +87,10 @@
     <ng-container *ngSwitchCase="stepsEnum.AttributeValues">
       <div class="attribute" *ngFor="let attribute of selectedAttributes">
         <div class="attribute__header">
-          <div class="attribute__label">{{ attribute.label }}</div>
+          <div class="attribute__label">
+            {{ attribute.label }}
+            <ng-container *ngIf="attribute.type === attrTypeEnum.MultiSelect"> (мультивыбор)</ng-container>
+          </div>
           <div class="attribute__remove" (click)="toggleAttribute(attribute, false)">
             <i class="ai ai-trash attribute__remove-icon"></i>
           </div>

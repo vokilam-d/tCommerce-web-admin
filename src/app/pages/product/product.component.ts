@@ -108,7 +108,7 @@ export class ProductComponent extends NgUnsubscribe implements OnInit {
     const variantsFormArray = this.formBuilder.array([]);
 
     this.product.variants.forEach(variant => {
-      const variantControls: Record<keyof Omit<AddOrUpdateProductVariantDto, 'crossSellProducts' | 'relatedProducts'>, any> = {
+      const variantControls: Record<keyof AddOrUpdateProductVariantDto, any> = {
         name: [variant.name, Validators.required],
         slug: variant.slug,
         createRedirect: false,
@@ -130,7 +130,9 @@ export class ProductComponent extends NgUnsubscribe implements OnInit {
           keywords: variant.metaTags.keywords
         }),
         qtyInStock: [variant.qtyInStock, Validators.required],
-        isDiscountApplicable: variant.isDiscountApplicable
+        isDiscountApplicable: variant.isDiscountApplicable,
+        relatedProducts: [variant.relatedProducts],
+        crossSellProducts: [variant.crossSellProducts]
       };
       variantsFormArray.push(this.formBuilder.group(variantControls));
     });
@@ -271,11 +273,9 @@ export class ProductComponent extends NgUnsubscribe implements OnInit {
     const variants = [];
     product2.variants.forEach((product2Variant, index) => {
       let resultVariant = { ...product2Variant };
+      const product1Variant = product1.variants[index] || new ProductVariantDto();
 
-      const product1Variant = product1.variants[index];
-      if (product1Variant) {
-        resultVariant = { ...product1Variant, ...resultVariant };
-      }
+      resultVariant = { ...product1Variant, ...resultVariant };
 
       variants.push(resultVariant);
     });
