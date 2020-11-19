@@ -28,10 +28,10 @@ export class AddOrUpdateProductVariantDto {
 }
 
 export class ProductVariantDto extends AddOrUpdateProductVariantDto {
-  id: string = '';
-  sku: string = '';
+  id: string;
+  sku: string;
   priceInDefaultCurrency: number;
   oldPriceInDefaultCurrency: number;
-  sellableQty: number = 0;
-  salesCount: number = 0;
+  sellableQty: number;
+  salesCount: number;
 }

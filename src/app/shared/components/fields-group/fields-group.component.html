@@ -13,6 +13,8 @@
   </div>
 
   <div class="group__content" [@slideToggle]="isOpened">
-    <ng-content></ng-content>
+    <ng-container *ngIf="isOpened">
+      <ng-content></ng-content>
+    </ng-container>
   </div>
 </div>

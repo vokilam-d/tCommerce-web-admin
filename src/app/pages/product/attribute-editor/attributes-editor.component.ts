@@ -9,8 +9,8 @@ import {
 } from '@angular/core';
 import { AttributeService } from '../../../shared/services/attribute.service';
 import { AttributeDto, AttributeValueDto } from '../../../shared/dtos/attribute.dto';
-import { ProductVariantDto } from '../../../shared/dtos/product-variant.dto';
-import { ProductDto } from '../../../shared/dtos/product.dto';
+import { AddOrUpdateProductVariantDto } from '../../../shared/dtos/product-variant.dto';
+import { AddOrUpdateProductDto } from '../../../shared/dtos/product.dto';
 import { NgUnsubscribe } from '../../../shared/directives/ng-unsubscribe/ng-unsubscribe.directive';
 import { finalize, takeUntil } from 'rxjs/operators';
 import { EAttributeType } from '../../../shared/enums/attribute-type.enum';
@@ -23,7 +23,7 @@ enum ESelectionStep {
   SelectAttributes,
   AttributeValues,
   // Images,
-  // Summary
+  Summary
 }
 
 class SelectedAttributeValue extends AttributeValueDto {
@@ -35,7 +35,12 @@ class SelectedAttribute extends AttributeDto {
 }
 
 interface ITruncatedVariant {
-  [attrId: string]: SelectedAttributeValue['id'];
+  existingVariantIndex?: number;
+  variantIndexForSorting?: number;
+  needToCopy?: boolean;
+  attributes: {
+    [attrId: string]: SelectedAttributeValue['id'];
+  };
 }
 
 @Component({
@@ -52,8 +57,7 @@ export class AttributesEditorComponent extends NgUnsubscribe implements OnInit {
   selectedAttributes: SelectedAttribute[] = [];
 
   preGeneratedAttrsForProduct: AttributeDto[] = [];
-  variantsToCreate: ITruncatedVariant[] = [];
-  variantsToLeave: ProductVariantDto[] = [];
+  truncVariants: ITruncatedVariant[] = [];
 
   stepsEnum = ESelectionStep;
   attrTypeEnum = EAttributeType;
@@ -64,16 +68,27 @@ export class AttributesEditorComponent extends NgUnsubscribe implements OnInit {
   isGridLoading: boolean = false;
   gridCells: IGridCell[] = attributeGridCells;
 
-  @Input() initialFormValue: ProductDto;
+  @Input() initialFormValue: AddOrUpdateProductDto;
   @Input() isSelectManufacturerAttr: boolean = false;
-  @Output('generated') generatedEmitter = new EventEmitter<ProductDto>();
-  get variantsToRemove(): ProductVariantDto[] {
-    if (this.initialFormValue.variants.length === 1) {
-      return [];
-    } else {
-      return this.initialFormValue.variants.filter(v => !this.variantsToLeave.includes(v))
-    }
+  @Output('generated') generatedEmitter = new EventEmitter<AddOrUpdateProductDto>();
+
+  get variantsToCreate(): ITruncatedVariant[] {
+    return this.truncVariants.filter(variant =>
+      variant.existingVariantIndex === -1 || variant.needToCopy
+    );
+  }
+
+  get variantsToRemove(): AddOrUpdateProductVariantDto[] {
+    return this.initialFormValue.variants.filter((variant, index) =>
+      this.truncVariants.every(truncVariant => truncVariant.existingVariantIndex !== index)
+    );
   };
+
+  get variantsToLeave(): AddOrUpdateProductVariantDto[] {
+    return this.initialFormValue.variants.filter((variant, index) =>
+      this.truncVariants.find(truncVariant => truncVariant.existingVariantIndex === index && !truncVariant.needToCopy)
+    );
+  }
 
   constructor(public attributeService: AttributeService,
               private notyService: NotyService,
@@ -111,8 +126,7 @@ export class AttributesEditorComponent extends NgUnsubscribe implements OnInit {
 
   private resetPreGenerated() {
     this.preGeneratedAttrsForProduct = [];
-    this.variantsToCreate = [];
-    this.variantsToLeave = [];
+    this.truncVariants = [];
   }
 
   prevStep() {
@@ -124,17 +138,20 @@ export class AttributesEditorComponent extends NgUnsubscribe implements OnInit {
   }
 
   nextStep() {
-    // if (this.activeStep === ESelectionStep.Summary) {
-    if (this.activeStep === ESelectionStep.AttributeValues) {
-      this.preGenerateVariants(); // remove this line after uncomment ESelectionStep.Summary
+    if (this.activeStep === ESelectionStep.Summary) {
       this.finish();
-    } else {
-      ++this.activeStep;
+      return;
     }
 
-    // if (this.activeStep === ESelectionStep.Summary) {
-    //   this.preGenerateVariants();
-    // }
+    ++this.activeStep;
+
+    if (this.activeStep === ESelectionStep.Summary) {
+      this.preGenerateVariants();
+
+      if (!this.truncVariants.length) {
+        this.nextStep();
+      }
+    }
   }
 
   private preGenerateVariants() {
@@ -153,20 +170,20 @@ export class AttributesEditorComponent extends NgUnsubscribe implements OnInit {
       }
     });
 
-    const truncVariants: ITruncatedVariant[] = [];
-    const populateTruncVariants = (variant: ITruncatedVariant = {}, attrIdx = 0, valueIdx = 0) => {
+    this.truncVariants = [];
+    const populateTruncVariants = (variant: ITruncatedVariant = { attributes: {} }, attrIdx = 0, valueIdx = 0) => {
       const attr = attributesForVariants[attrIdx];
       if (!attr) { return; }
       const value = attr.values[valueIdx];
       if (!value) { return; }
 
       variant = JSON.parse(JSON.stringify(variant));
-      variant[attr.id] = value.id;
+      variant.attributes[attr.id] = value.id;
 
       if (attributesForVariants[attrIdx + 1]) {
         populateTruncVariants(variant, attrIdx + 1, 0);
       } else {
-        truncVariants.push(variant);
+        this.truncVariants.push(variant);
       }
 
       if (attr.values[valueIdx + 1]) {
@@ -175,81 +192,145 @@ export class AttributesEditorComponent extends NgUnsubscribe implements OnInit {
     };
     populateTruncVariants();
 
-    truncVariants.forEach(truncVariant => {
-      const found = this.initialFormValue.variants.find(variant => {
-        return Object.keys(truncVariant).every(attributeId => {
-          const foundAttr = variant.attributes.find(attr => {
-            return attr.attributeId === attributeId && attr.valueIds.includes(truncVariant[attributeId]);
-          });
-          return !!foundAttr;
-        });
-      });
+    const usedExistingIndices = new Set<number>();
+    this.truncVariants = this.truncVariants.map(truncVariant => {
+      const attributeKeys = Object.keys(truncVariant.attributes);
 
-      if (found) {
-        this.variantsToLeave.push(found);
-      } else {
-        this.variantsToCreate.push(truncVariant);
+      const setExistingVariantIndex = (matchEveryAttr: boolean, attrAndValue: boolean) => {
+        truncVariant.existingVariantIndex = this.initialFormValue.variants.findIndex(variant => {
+
+          const hasAttrAndValue = (attribute: ProductSelectedAttributeDto) =>
+            attributeKeys.find(attrKey =>
+              attribute.attributeId === attrKey && attribute.valueIds.includes(truncVariant.attributes[attrKey])
+            );
+
+          const hasAttr = (attribute: ProductSelectedAttributeDto) =>
+            attributeKeys.find(attrKey =>
+              attribute.attributeId === attrKey
+            );
+
+          if (matchEveryAttr) {
+            if (attrAndValue) {
+              return variant.attributes.every(hasAttrAndValue);
+            } else {
+              return variant.attributes.every(hasAttr) && variant.attributes.some(hasAttrAndValue);
+            }
+          } else {
+            if (attrAndValue) {
+              return variant.attributes.some(hasAttrAndValue);
+            } else {
+              return variant.attributes.some(hasAttr)
+            }
+          }
+        });
+      };
+
+      setExistingVariantIndex(true, true);
+      const isFullMatch: boolean = truncVariant.existingVariantIndex > -1;
+
+      if (truncVariant.existingVariantIndex === -1) {
+        setExistingVariantIndex(true, false);
       }
+
+      if (truncVariant.existingVariantIndex === -1) {
+        setExistingVariantIndex(false, true);
+      }
+
+      if (truncVariant.existingVariantIndex === -1) {
+        setExistingVariantIndex(false, false);
+      }
+
+
+      if (isFullMatch) {
+        truncVariant.needToCopy = usedExistingIndices.has(truncVariant.existingVariantIndex);
+        truncVariant.variantIndexForSorting = truncVariant.needToCopy ? -1 : truncVariant.existingVariantIndex;
+        usedExistingIndices.add(truncVariant.existingVariantIndex);
+      } else {
+        truncVariant.needToCopy = true;
+        truncVariant.variantIndexForSorting = -1;
+      }
+
+      return truncVariant;
+    });
+
+    this.truncVariants.sort((a, b) => {
+      if (a.variantIndexForSorting === b.variantIndexForSorting) {
+        return 0;
+      }
+      if (a.variantIndexForSorting === -1) {
+        return 1;
+      }
+      if (b.variantIndexForSorting === -1) {
+        return -1;
+      }
+
+      return a.variantIndexForSorting - b.variantIndexForSorting;
     });
   }
 
   private finish() {
-    let variants: ProductVariantDto[] = [...this.variantsToLeave];
-
-    if (variants.length === 0 && this.variantsToCreate.length === 0) {
-      variants = this.initialFormValue.variants;
-    }
-
-    this.variantsToCreate.forEach((truncVariant, index) => {
-
-      let newVariant: ProductVariantDto;
-      if (this.initialFormValue.variants.length === 1 && index === 0) {
-        newVariant = this.initialFormValue.variants[0];
-      } else {
-        const firstVariantClone = JSON.parse(JSON.stringify(this.initialFormValue.variants[0]));
-        newVariant = {
-          name: `КОПИЯ - ${firstVariantClone.name}`,
-          price: firstVariantClone.price,
-          oldPrice: firstVariantClone.oldPrice,
-          qtyInStock: firstVariantClone.qtyInStock,
-          isIncludedInShoppingFeed: firstVariantClone.isIncludedInShoppingFeed,
-          isEnabled: firstVariantClone.isEnabled,
-          googleAdsProductTitle: `КОПИЯ - ${firstVariantClone.googleAdsProductTitle}`,
-          isDiscountApplicable: firstVariantClone.isDiscountApplicable,
-          vendorCode: `КОПИЯ - ${firstVariantClone.vendorCode}`,
-          gtin: `КОПИЯ - ${firstVariantClone.gtin}`,
-          fullDescription: `КОПИЯ - ${firstVariantClone.fullDescription}`,
-          slug: firstVariantClone.slug,
-          metaTags: {
-            title: `КОПИЯ - ${firstVariantClone.metaTags.title}`,
-            description: `КОПИЯ - ${firstVariantClone.metaTags.description}`,
-            keywords: `КОПИЯ - ${firstVariantClone.metaTags.keywords}`,
-          },
-          crossSellProducts: firstVariantClone.crossSellProducts,
-          relatedProducts: firstVariantClone.relatedProducts,
-          medias: firstVariantClone.medias,
-          attributes: []
-        } as ProductVariantDto;
+    const getVariantCopy = (idx: number) => {
+      if (idx === -1) {
+        idx = 0;
       }
 
-      Object.keys(truncVariant).forEach(attributeId => {
-        newVariant.attributes.push({
+      const variantClone: AddOrUpdateProductVariantDto = JSON.parse(JSON.stringify(this.initialFormValue.variants[idx]));
+      return {
+        name: `КОПИЯ - ${variantClone.name}`,
+        price: variantClone.price,
+        oldPrice: variantClone.oldPrice,
+        qtyInStock: variantClone.qtyInStock,
+        isIncludedInShoppingFeed: variantClone.isIncludedInShoppingFeed,
+        isEnabled: variantClone.isEnabled,
+        googleAdsProductTitle: `КОПИЯ - ${variantClone.googleAdsProductTitle}`,
+        isDiscountApplicable: variantClone.isDiscountApplicable,
+        vendorCode: `КОПИЯ - ${variantClone.vendorCode}`,
+        gtin: `КОПИЯ - ${variantClone.gtin}`,
+        fullDescription: `КОПИЯ - ${variantClone.fullDescription}`,
+        slug: variantClone.slug,
+        metaTags: {
+          title: `КОПИЯ - ${variantClone.metaTags.title}`,
+          description: `КОПИЯ - ${variantClone.metaTags.description}`,
+          keywords: `КОПИЯ - ${variantClone.metaTags.keywords}`,
+        },
+        crossSellProducts: variantClone.crossSellProducts,
+        relatedProducts: variantClone.relatedProducts,
+        medias: variantClone.medias,
+        attributes: []
+      } as AddOrUpdateProductVariantDto;
+    };
+
+    const variants: AddOrUpdateProductVariantDto[] = this.truncVariants.map(truncVariant => {
+      const idx = truncVariant.existingVariantIndex;
+
+      let variant: AddOrUpdateProductVariantDto;
+      if (idx === -1 || truncVariant.needToCopy) {
+        variant = getVariantCopy(idx);
+      } else {
+        variant = {
+          ...this.initialFormValue.variants[truncVariant.existingVariantIndex],
+          attributes: []
+        };
+      }
+
+      Object.keys(truncVariant.attributes).forEach(attributeId => {
+        variant.attributes.push({
           attributeId,
-          valueIds: [truncVariant[attributeId]]
+          valueIds: [truncVariant.attributes[attributeId]]
         });
       });
 
-      variants.push(newVariant);
+      return variant;
     });
 
-    if (variants.length === 0 && this.variantsToRemove[0]) {
+    if (!variants.length) {
       variants.push({
-        ...this.variantsToRemove[0],
+        ...this.initialFormValue.variants[0],
         attributes: []
       });
     }
 
-    const changedFormValue: ProductDto = {
+    const changedFormValue: AddOrUpdateProductDto = {
       ...this.initialFormValue,
       attributes: this.preGeneratedAttrsForProduct.map(a => ({
         attributeId: a.id,

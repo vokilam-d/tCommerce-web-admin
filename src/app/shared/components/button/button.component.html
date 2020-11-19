@@ -1,21 +1,28 @@
 <a class="btn"
-   *ngIf="link; else btnTmpl"
+   *ngIf="type === 'link'"
    [routerLink]="link"
-   [ngClass]="['btn--color-' + btnStyle, 'btn--size-' + btnSize]"
+   [ngClass]="ngClass"
+>
+  <ng-container *ngTemplateOutlet="contentTmpl"></ng-container>
+</a>
+
+<a class="btn"
+   *ngIf="type === 'external-link'"
+   [href]="link"
+   [ngClass]="ngClass"
    target="_blank"
 >
   <ng-container *ngTemplateOutlet="contentTmpl"></ng-container>
 </a>
 
-<ng-template #btnTmpl>
-  <button class="btn"
-          [ngClass]="['btn--color-' + btnStyle, 'btn--size-' + btnSize]"
-          [disabled]="disabled"
-          [type]="type"
-  >
-    <ng-container *ngTemplateOutlet="contentTmpl"></ng-container>
-  </button>
-</ng-template>
+<button class="btn"
+        *ngIf="type === 'button' || type === 'submit'"
+        [ngClass]="ngClass"
+        [disabled]="disabled"
+        [type]="type"
+>
+  <ng-container *ngTemplateOutlet="contentTmpl"></ng-container>
+</button>
 
 <ng-template #contentTmpl>
   <ng-content></ng-content>

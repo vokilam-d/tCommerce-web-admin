@@ -21,6 +21,7 @@ import { transliterate } from '../../shared/helpers/transliterate.function';
 import { MetaTagsDto } from '../../shared/dtos/meta-tags.dto';
 import { NgUnsubscribe } from '../../shared/directives/ng-unsubscribe/ng-unsubscribe.directive';
 import { logMemory } from '../../shared/helpers/log-memory.function';
+import { getClientLinkPrefix } from '../../shared/helpers/get-client-link-prefix.function';
 
 type PostAction = 'duplicate' | 'exit' | 'none';
 
@@ -248,7 +249,7 @@ export class ProductComponent extends NgUnsubscribe implements OnInit {
     }
   }
 
-  onAttributesEdit(generatedFormValue: ProductDto) {
+  onAttributesEdit(generatedFormValue: AddOrUpdateProductDto) {
     this.product = this.mergeProducts(this.product, generatedFormValue);
     this.buildForm();
   }
@@ -269,7 +270,7 @@ export class ProductComponent extends NgUnsubscribe implements OnInit {
     this.product.variants[index].crossSellProducts = products;
   }
 
-  private mergeProducts(product1: ProductDto, product2: ProductDto): ProductDto {
+  mergeProducts(product1: ProductDto, product2: AddOrUpdateProductDto): ProductDto {
     const variants = [];
     product2.variants.forEach((product2Variant, index) => {
       let resultVariant = { ...product2Variant };
@@ -360,6 +361,10 @@ export class ProductComponent extends NgUnsubscribe implements OnInit {
     if (!metaDescriptionControl.value) {
       metaDescriptionControl.setValue(description);
     }
+  }
+
+  getClientProductLink(): string {
+    return getClientLinkPrefix() + this.product.variants[0].slug;
   }
 
   private setProduct(productDto: ProductDto) {

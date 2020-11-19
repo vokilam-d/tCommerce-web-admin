@@ -1,4 +1,4 @@
-import { ProductVariantDto } from './product-variant.dto';
+import { AddOrUpdateProductVariantDto, ProductVariantDto } from './product-variant.dto';
 import { ProductSelectedAttributeDto } from './selected-attribute.dto';
 import { ProductBreadcrumbDto } from './product-breadcrumb.dto';
 import { ECurrencyCode } from '../enums/currency.enum';
@@ -19,7 +19,7 @@ export class AddOrUpdateProductDto {
   additionalServiceIds: number[] = [];
   breadcrumbs: ProductBreadcrumbDto[] = [];
   attributes: ProductSelectedAttributeDto[] = [];
-  variants: ProductVariantDto[] = [new ProductVariantDto()];
+  variants: AddOrUpdateProductVariantDto[] = [new AddOrUpdateProductVariantDto()];
   reviewsCount: number;
   reviewsAvgRating: number;
 }
@@ -28,6 +28,7 @@ export class ProductDto extends AddOrUpdateProductDto {
   id: number;
   createdAt: Date;
   updatedAt: Date;
+  variants: ProductVariantDto[] = [new ProductVariantDto()];
 }
 
 export class ProductVariantListItemDto {

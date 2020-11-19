@@ -27,7 +27,11 @@
           Удалить
         </app-button>
 
-        <app-button class="header__btn" *ngIf="!isNewProduct && !isNewProductBasedOn && product" [link]="['/', product.variants[0].slug]">
+        <app-button class="header__btn"
+                    *ngIf="!isNewProduct && !isNewProductBasedOn && product"
+                    [type]="'external-link'"
+                    [link]="getClientProductLink()"
+        >
           Посмотреть на сайте
         </app-button>
 
@@ -260,7 +264,7 @@
       </fields-group>
 
       <fields-group class="product__group"
-                    *ngIf="variantForm.get('attributes') as attributes"
+                    *ngIf="isMultiVariant && variantForm.get('attributes') as attributes"
                     id="product-variant-attributes"
       >
         <div fields-group-title>Атрибуты</div>

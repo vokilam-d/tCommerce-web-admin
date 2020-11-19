@@ -20,8 +20,8 @@
       <div class="editor__step" [class.editor__step--active]="activeStep === stepsEnum.AttributeValues">Значения атрибутов</div>
       <!--
       <div class="editor__step" [class.editor__step--active]="activeStep === stepsEnum.Images">Картинки и цены</div>
-      <div class="editor__step" [class.editor__step--active]="activeStep === stepsEnum.Summary">Итог</div>
       -->
+      <div class="editor__step" *ngIf="truncVariants.length" [class.editor__step--active]="activeStep === stepsEnum.Summary">Итог</div>
     </div>
 
     <div class="editor__toolbar-buttons">
@@ -36,8 +36,8 @@
       </button>
 
       <button class="toolbar-main-btn editor__button-next" (click)="nextStep()" type="button">
-        <!--<ng-container *ngIf="activeStep !== stepsEnum.Summary; else finishBtn">Вперёд</ng-container>-->
-        <ng-container *ngIf="activeStep !== stepsEnum.AttributeValues; else finishBtn">Вперёд</ng-container>
+        <ng-container *ngIf="activeStep !== stepsEnum.Summary; else finishBtn">Вперёд</ng-container>
+<!--        <ng-container *ngIf="activeStep !== stepsEnum.AttributeValues; else finishBtn">Вперёд</ng-container>-->
         <ng-template #finishBtn>Завершить</ng-template>
       </button>
     </div>
@@ -112,12 +112,13 @@
     <ng-container *ngSwitchCase="stepsEnum.Images">
       In progress...
     </ng-container>
+    -->
 
     <ng-container *ngSwitchCase="stepsEnum.Summary">
 
       <div class="summary-block" *ngIf="preGeneratedAttrsForProduct.length">
         <div class="summary-block__title">
-          <ng-container *ngIf="variantsToLeave.length + variantsToCreate.length > 1; else noVariantsTitle">Общие атрибуты:</ng-container>
+          <ng-container *ngIf="variantsToLeave?.length + variantsToCreate?.length > 1; else noVariantsTitle">Общие атрибуты:</ng-container>
           <ng-template #noVariantsTitle>Атрибуты:</ng-template>
         </div>
 
@@ -129,14 +130,14 @@
         </div>
       </div>
 
-      <div class="summary-block" *ngIf="variantsToCreate.length">
+      <div class="summary-block" *ngIf="variantsToCreate?.length">
         <div class="summary-block__title">
           Новые вариации:
         </div>
 
         <div class="summary-block__body">
           <div class="summary-block__variant" *ngFor="let variant of variantsToCreate, index as i">
-             {{ i + 1}}. <span *ngFor="let keyValue of variant | keyvalue, last as last">
+             {{ i + 1}}. <span *ngFor="let keyValue of variant.attributes | keyvalue, last as last">
               {{ attributeService.getAttributeLabel(keyValue.key) }}: <span class="summary-block__attr-value">{{ attributeService.getValueLabel(keyValue.key, [keyValue.value]) }}</span><ng-container *ngIf="!last">, </ng-container>
             </span>
           </div>
@@ -150,28 +151,32 @@
 
         <div class="summary-block__body">
           <div class="summary-block__variant" *ngFor="let variant of variantsToRemove, index as i">
-             {{ i + 1}}. {{ variant.name }} <span *ngFor="let attribute of variant.attributes, last as last">
-              ({{ attributeService.getAttributeLabel(attribute.attributeId) }}: <span class="summary-block__attr-value">{{ attributeService.getValueLabel(attribute.attributeId, attribute.valueIds) }}</span><ng-container *ngIf="!last">, </ng-container>)
-            </span>
+             {{ i + 1}}.
+            <span *ngFor="let attribute of variant.attributes, last as last">
+              {{ attributeService.getAttributeLabel(attribute.attributeId) }}: <span class="summary-block__attr-value">{{ attributeService.getValueLabel(attribute.attributeId, attribute.valueIds) }}</span><ng-container *ngIf="!last">, </ng-container>
+            </span> - {{ variant.name }}
           </div>
         </div>
       </div>
 
-      <div class="summary-block" *ngIf="variantsToLeave.length">
+      <div class="summary-block" *ngIf="variantsToLeave?.length">
         <div class="summary-block__title">
-          Оставить как есть:
+          Оставить (изменить):
         </div>
 
         <div class="summary-block__body">
           <div class="summary-block__variant" *ngFor="let variant of variantsToLeave, index as i">
-             {{ i + 1}}. {{ variant.name }} <span *ngFor="let attribute of variant.attributes, last as last">
-              ({{ attributeService.getAttributeLabel(attribute.attributeId) }}: <span class="summary-block__attr-value">{{ attributeService.getValueLabel(attribute.attributeId, attribute.valueIds) }}</span><ng-container *ngIf="!last">, </ng-container>)
-            </span>
+
+            {{ i + 1}}.
+            <span *ngFor="let attribute of variant.attributes, last as last"> {{ attributeService.getAttributeLabel(attribute.attributeId) }}:
+              <span class="summary-block__attr-value"> {{ attributeService.getValueLabel(attribute.attributeId, attribute.valueIds) }}</span>
+              <ng-container *ngIf="!last">, </ng-container>
+            </span>  - {{ variant.name }}
+
           </div>
         </div>
       </div>
     </ng-container>
-    -->
   </div>
 
 </div>
