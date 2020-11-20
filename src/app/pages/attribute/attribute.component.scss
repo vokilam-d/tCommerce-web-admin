@@ -56,7 +56,24 @@
     width: 300px;
   }
 
+  &__color-container {
+    display: flex;
+    width: 110px;
+    margin: 0 0 0 20px;
+  }
+
   &__delete-container {
     margin: 0 0 0 20px;
   }
+
+  &__color-picker {
+    height: 100%;
+  }
+}
+
+.preloader {
+  top: initial;
+  bottom: 15vh;
+  position: fixed;
+  z-index: 21;
 }

@@ -287,7 +287,7 @@ export class AttributesEditorComponent extends NgUnsubscribe implements OnInit {
         vendorCode: `КОПИЯ - ${variantClone.vendorCode}`,
         gtin: `КОПИЯ - ${variantClone.gtin}`,
         fullDescription: `КОПИЯ - ${variantClone.fullDescription}`,
-        slug: variantClone.slug,
+        slug: '',
         metaTags: {
           title: `КОПИЯ - ${variantClone.metaTags.title}`,
           description: `КОПИЯ - ${variantClone.metaTags.description}`,

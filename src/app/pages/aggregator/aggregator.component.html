@@ -16,7 +16,7 @@
     </div>
   </div>
 
-  <form class="aggregator" *ngIf="form; else preloaderTmpl" [formGroup]="form">
+  <form class="aggregator" *ngIf="form" [formGroup]="form">
 
     <div class="aggregator__field field"
          *ngIf="form.get('name') as name"
@@ -77,11 +77,9 @@
 
   </form>
 
-  <ng-template #preloaderTmpl>
-    <preloader class="preloader"></preloader>
-  </ng-template>
-
 </div>
+
+<preloader class="preloader" *ngIf="isLoading" [hasMargins]="false"></preloader>
 
 <product-selector [canInputQty]="false"
                   (selected)="onProductSelect($event)"

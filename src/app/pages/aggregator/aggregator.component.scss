@@ -1,7 +1,10 @@
 @import "variables";
 
 .preloader {
-  margin: 15vh 0 0;
+  top: initial;
+  bottom: 15vh;
+  position: fixed;
+  z-index: 21;
 }
 
 .aggregator {

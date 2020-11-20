@@ -21,16 +21,16 @@
     </div>
   </div>
 
-  <form class="attribute" *ngIf="form; else preloaderTmpl" [formGroup]="form">
+  <form class="attribute" *ngIf="form" [formGroup]="form">
     <div class="attribute__field field field--required" *ngIf="form.get('isVisibleInFilters') as isVisibleInFilters">
-      <label class="field__label">Показать в фильтрах</label>
+      <label class="field__label">Показывать в фильтрах</label>
       <div class="field__control">
         <toggle [formControl]="isVisibleInFilters"></toggle>
       </div>
     </div>
 
     <div class="attribute__field field field--required" *ngIf="form.get('isVisibleInProduct') as isVisibleInProduct">
-      <label class="field__label">Показать на странице товара</label>
+      <label class="field__label">Показывать на странице товара</label>
       <div class="field__control">
         <toggle [formControl]="isVisibleInProduct"></toggle>
       </div>
@@ -55,7 +55,7 @@
            *ngIf="form.get('label') as label"
            [class.field--invalid]="isControlInvalid(label)"
     >
-      <label for="label" class="field__label">Ярлык (label)</label>
+      <label for="label" class="field__label">Название</label>
       <div class="field__control">
         <input class="field__input" [formControl]="label" type="text" id="label">
       </div>
@@ -81,8 +81,15 @@
       </div>
     </div>
 
+    <div class="attribute__field field" *ngIf="hasColorControl">
+      <label class="field__label">Со цветом</label>
+      <div class="field__control">
+        <toggle [formControl]="hasColorControl"></toggle>
+      </div>
+    </div>
+
     <div class="attribute__field field"
-           *ngIf="form.get('values').value as options"
+           *ngIf="values"
     >
       <div class="field__label">Опции (значения атрибута)</div>
       <div class="attribute__options">
@@ -94,6 +101,9 @@
           <div class="option__label-container">
             Имя опции
           </div>
+          <div class="option__color-container" *ngIf="hasColorControl.value">
+            Цвет
+          </div>
           <div class="option__code-container">
             Код опции
             <span class="option__code-note">
@@ -102,12 +112,12 @@
           </div>
         </div>
 
-        <div class="option" *ngFor="let option of options, index as index">
+        <div class="option" *ngFor="let value of values, index as index">
           <div class="option__radio-container">
             <input class="option__radio"
                    [id]="index"
                    (change)="onRadioChange(index)"
-                   [checked]="option.isDefault"
+                   [checked]="value.isDefault"
                    type="radio"
                    name="attribute"
             >
@@ -115,17 +125,30 @@
 
           <div class="option__label-container">
             <input class="option__label field__input"
-                   [(ngModel)]="option.label"
+                   [(ngModel)]="value.label"
                    [ngModelOptions]="{ standalone: true }"
                    type="text"
             >
           </div>
 
+          <div class="option__color-container" *ngIf="hasColorControl.value">
+            <input class="field__input"
+                   [(ngModel)]="value.color"
+                   [ngModelOptions]="{ standalone: true }"
+                   type="text"
+            >
+            <input class="option__color-picker"
+                   [(ngModel)]="value.color"
+                   [ngModelOptions]="{ standalone: true }"
+                   type="color"
+            >
+          </div>
+
           <div class="option__code-container">
             <input class="option__code field__input"
-                   [(ngModel)]="option.id"
+                   [(ngModel)]="value.id"
                    [ngModelOptions]="{ standalone: true }"
-                   [disabled]="option.isNew !== true"
+                   [disabled]="value.isNew !== true"
                    type="text"
                    placeholder='a-z, 0-9, -, _'
             >
@@ -150,8 +173,6 @@
     </div>
 
   </form>
-
-  <ng-template #preloaderTmpl>
-    <preloader class="preloader"></preloader>
-  </ng-template>
 </div>
+
+<preloader class="preloader" *ngIf="isLoading" [hasMargins]="false"></preloader>
