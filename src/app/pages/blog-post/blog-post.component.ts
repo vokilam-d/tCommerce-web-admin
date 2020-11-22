@@ -87,7 +87,7 @@ export class BlogPostComponent extends NgUnsubscribe implements OnInit {
       category: [this.post.category?.id],
       content: [this.post.content],
       shortContent: [this.post.shortContent],
-      createdAt: formatDate(this.post.createdAt, 'yyyy-MM-ddThh:mm:ss', 'en'),
+      publishedAt: formatDate(this.post.publishedAt, 'yyyy-MM-ddThh:mm:ss', 'en'),
       isEnabled: [this.post.isEnabled],
       linkedPosts: [this.post.linkedPosts],
       linkedProducts: [this.post.linkedProducts],
