@@ -79,12 +79,12 @@
     </div>
 
     <div class="post__field field"
-         *ngIf="form.get('createdAt') as createdAt"
-         [class.field--invalid]="isControlInvalid(createdAt)"
+         *ngIf="form.get('publishedAt') as publishedAt"
+         [class.field--invalid]="isControlInvalid(publishedAt)"
     >
-      <label for="createdAt" class="field__label">Дата создания</label>
+      <label for="publishedAt" class="field__label">Дата публикации</label>
       <span class="field__control">
-        <input class="field__input" [formControl]="createdAt" type="datetime-local" id="createdAt">
+        <input class="field__input" [formControl]="publishedAt" type="datetime-local" id="publishedAt">
       </span>
     </div>
 

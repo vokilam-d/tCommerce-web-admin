@@ -75,8 +75,8 @@ const postGridCells: IGridCell[] = [
   {
     isSearchable: true,
     label: 'ID',
-    initialWidth: 70,
-    align: 'left',
+    initialWidth: 40,
+    align: 'center',
     isImage: false,
     isSortable: true,
     fieldName: getPropertyOf<BlogPostDto>('id')
@@ -95,10 +95,21 @@ const postGridCells: IGridCell[] = [
     hasDateFromFilter: true,
     hasDateToFilter: true,
     label: 'Создан',
-    initialWidth: 150,
+    initialWidth: 130,
     align: 'left',
     isImage: false,
     isSortable: true,
     fieldName: getPropertyOf<BlogPostDto>('createdAt')
+  },
+  {
+    isSearchable: false,
+    hasDateFromFilter: true,
+    hasDateToFilter: true,
+    label: 'Опубликован',
+    initialWidth: 130,
+    align: 'left',
+    isImage: false,
+    isSortable: true,
+    fieldName: getPropertyOf<BlogPostDto>('publishedAt')
   }
 ];
