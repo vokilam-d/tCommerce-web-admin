@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IPagination } from '../../pagination/pagination.interface';
 import { Observable } from 'rxjs';
 import { ResponseDto } from '../dtos/response.dto';
 import { API_HOST } from '../constants/constants';

@@ -8,7 +8,7 @@ import { BlogPostService } from '../../shared/services/blog-post.service';
 import { NgUnsubscribe } from '../../shared/directives/ng-unsubscribe/ng-unsubscribe.directive';
 import { EPageAction } from '../../shared/enums/category-page-action.enum';
 import { HeadService } from '../../shared/services/head.service';
-import { API_HOST, UPLOADED_HOST } from '../../shared/constants/constants';
+import { API_HOST } from '../../shared/constants/constants';
 import { QuillModules } from 'ngx-quill';
 import { QuillHelperService } from '../../shared/services/quill-helper.service';
 import { formatDate } from '@angular/common';
@@ -223,7 +223,7 @@ export class BlogPostComponent extends NgUnsubscribe implements OnInit {
   }
 
   getMediaUploadUrl() {
-    return `${API_HOST}/api/v1/admin/blog-post/media`;
+    return `${API_HOST}/api/v1/admin/blog/posts/media`;
   }
 
   onFeatureMediaRemove(media: MediaDto, featuredMediasControl: AbstractControl) {
