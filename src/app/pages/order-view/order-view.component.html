@@ -121,12 +121,12 @@
     <div class="order-view__subtitle">
       Новая Почта
 
-      <ng-container *ngIf="order.shipment.trackingNumber && !trackingIdControl">
+      <ng-container >
         <button class="order-view__edit-btn" *ngIf="!trackingIdControl" (click)="openTrackingIdForm()">
           изменить
         </button>
 
-        <button class="order-view__edit-btn" (click)="updateShipmentStatus()">
+        <button class="order-view__edit-btn" *ngIf="order.shipment.trackingNumber && !trackingIdControl" (click)="updateShipmentStatus()">
           обновить статус
         </button>
       </ng-container>
