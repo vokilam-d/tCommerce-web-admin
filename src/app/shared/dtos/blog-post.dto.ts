@@ -22,8 +22,8 @@ export class BlogPostCreateDto {
   content: string = '';
   shortContent: string = '';
   createdAt: Date = new Date();
-  publishedAt: Date;
-  updatedAt: Date;
+  publishedAt: Date = new Date();
+  updatedAt: Date = new Date();
   isEnabled: boolean = true;
   linkedPosts: LinkedBlogPostDto[] = [];
   linkedProducts: LinkedProductDto[] = [];
