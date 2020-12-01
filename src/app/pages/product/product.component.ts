@@ -390,6 +390,7 @@ export class ProductComponent extends NgUnsubscribe implements OnInit {
       isEnabled: variant.isEnabled,
       name: variant.name,
       shortDescription: variant.shortDescription,
+      vendorCode: variant.vendorCode
     }) as ProductVariantDto;
 
     this.product = {
@@ -398,6 +399,7 @@ export class ProductComponent extends NgUnsubscribe implements OnInit {
       breadcrumbs: productDto.breadcrumbs,
       categories: productDto.categories,
       attributes: productDto.attributes,
+      additionalServiceIds: productDto.additionalServiceIds,
       variants: productDto.variants.map(variantToCopy),
     } as ProductDto;
   }
