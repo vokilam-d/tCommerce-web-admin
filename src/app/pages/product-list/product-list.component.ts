@@ -148,7 +148,7 @@ export class ProductListComponent extends NgUnsubscribe implements OnInit, After
           {
             isSearchable: true,
             label: 'Код',
-            initialWidth: 43,
+            initialWidth: 55,
             align: 'left',
             isImage: false,
             isSortable: true,
