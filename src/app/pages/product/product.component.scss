@@ -37,7 +37,7 @@
 
   &__buttons {
     align-content: flex-end;
-  } 
+  }
 }
 
 .preloader {
@@ -88,6 +88,10 @@
     &--placeholder {
       color: rgba($dark, 0.6);
     }
+  }
+
+  &__is-enabled-variant {
+    margin: 0 0 20px;
   }
 }
 

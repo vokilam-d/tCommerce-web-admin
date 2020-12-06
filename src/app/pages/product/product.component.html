@@ -125,6 +125,18 @@
         Вариация {{ i + 1 }} - Код {{ product.variants[i].sku || '_____' }}<ng-container *ngIf="variantForm.get('name')?.value as name"> - {{ name }}</ng-container>
       </div>
 
+      <div class="product__field product__is-enabled-variant field"
+           *ngIf="isMultiVariant && variantForm.get('isEnabled') as isEnabled"
+           [class.field--invalid]="isControlInvalid(isEnabled)"
+      >
+        <label class="field__label">
+          Включить вариацию
+        </label>
+        <div class="field__control">
+          <toggle [formControl]="isEnabled"></toggle>
+        </div>
+      </div>
+
       <fields-group class="product__group" id="product-info">
         <div fields-group-title>Инфо</div>
 
