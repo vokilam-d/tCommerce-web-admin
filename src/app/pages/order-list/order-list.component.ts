@@ -107,7 +107,7 @@ export class OrderListComponent extends NgUnsubscribe implements OnInit, AfterVi
     return `${order.customerFirstName} ${order.customerLastName}`;
   }
 
-  copyOrders() {
+  copyOrdersToClipboard() {
     const headerStr: string = orderGridCells
       .map(cell => cell.label)
       .join('\t');

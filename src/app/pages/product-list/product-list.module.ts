@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 import { ProductListRoutingModule } from './product-list-routing.module';
 import { ProductListComponent } from './product-list.component';
 import { SharedModule } from '../../shared/shared.module';
 import { GridModule } from '../../grid/grid.module';
+import { ReadableCurrencyPipe } from '../../shared/pipes/readable-currency.pipe';
 
 
 @NgModule({
@@ -15,7 +16,10 @@ import { GridModule } from '../../grid/grid.module';
     SharedModule,
     GridModule
   ],
-  providers: []
+  providers: [
+    ReadableCurrencyPipe,
+    DatePipe
+  ]
 })
 export class ProductListModule {
 }

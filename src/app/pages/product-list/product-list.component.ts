@@ -15,6 +15,10 @@ import { NgUnsubscribe } from '../../shared/directives/ng-unsubscribe/ng-unsubsc
 import { AttributeService } from '../../shared/services/attribute.service';
 import { DeviceService } from '../../shared/services/device-detector/device.service';
 import { logMemory } from '../../shared/helpers/log-memory.function';
+import { copyToClipboard } from '../../shared/helpers/copy-to-clipboard.function';
+import { DEFAULT_CURRENCY_CODE } from '../../shared/enums/currency.enum';
+import { ReadableCurrencyPipe } from '../../shared/pipes/readable-currency.pipe';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'product-list',
@@ -26,6 +30,7 @@ export class ProductListComponent extends NgUnsubscribe implements OnInit, After
   private fetchAllSub: Subscription;
   products: ProductListItemDto[];
 
+  defaultCurrency = DEFAULT_CURRENCY_CODE;
   isOrderedFiltersVisible: boolean = false;
   orderedDates: [string, string] = [undefined, undefined];
 
@@ -44,7 +49,10 @@ export class ProductListComponent extends NgUnsubscribe implements OnInit, After
               private cdr: ChangeDetectorRef,
               private headService: HeadService,
               private notyService: NotyService,
-              private router: Router) {
+              private router: Router,
+              private readableCurrencyPipe: ReadableCurrencyPipe,
+              private datePipe: DatePipe
+  ) {
     super();
   }
 
@@ -136,6 +144,36 @@ export class ProductListComponent extends NgUnsubscribe implements OnInit, After
     this.orderedDates[rangeIdx] = date;
 
     this.fetchProducts();
+  }
+
+  copyProductsToClipboard() {
+    const headerStr: string = this.gridCells
+      .filter(cell => cell.fieldName !== getPropertyOf<ProductListItemDto>('mediaUrl'))
+      .map(cell => cell.label)
+      .join('\t');
+
+    const productsStrArray = this.products
+      .map(product => {
+        const fields: (string | number)[] = [
+          product.skus,
+          product.name,
+          this.getItemCategories(product),
+          product.vendorCodes,
+          this.getManufacturerAttr(product),
+          `${product.prices} ${this.readableCurrencyPipe.transform(this.defaultCurrency)}`,
+          product.quantitiesInStock,
+          product.sellableQuantities,
+          `${product.isEnabled ? 'On' : 'Off'}`,
+          product.salesCount,
+          `${this.datePipe.transform(product.createdAt, 'dd.MM.y')} ${this.datePipe.transform(product.createdAt, 'HH:mm:ss')}`
+        ];
+
+        return fields.join('\t');
+      });
+
+    const productsStr = [headerStr, ...productsStrArray].join('\n');
+    copyToClipboard(productsStr);
+    this.notyService.showSuccessNoty(`Скопировано`);
   }
 
   private setGridCells() {

@@ -5,6 +5,7 @@
     </h1>
 
     <div class="header__toolbar">
+      <app-button class="header__btn" (click)="copyProductsToClipboard()">Скопировать в буфер</app-button>
       <app-button class="header__btn" (click)="toggleOrderedFilters()" [ngSwitch]="isOrderedFiltersVisible">
         <ng-container *ngSwitchCase="true">Закрыть фильтр дат</ng-container>
         <ng-container *ngSwitchCase="false">Выбрать даты продаж</ng-container>
@@ -55,12 +56,12 @@
     <ng-template #cellContent let-product="item">{{ product.name }}</ng-template>
     <ng-template #cellContent let-product="item">
       <span class="small">{{ getItemCategories(product) }}</span>
-    </ng-template>    
+    </ng-template>
     <ng-template #cellContent let-product="item">{{ product.vendorCodes }}</ng-template>
     <ng-template #cellContent let-product="item">
       <span class="small">{{ getManufacturerAttr(product) }}</span>
     </ng-template>
-    <ng-template #cellContent let-product="item">{{ product.prices | readableCurrency }}</ng-template>
+    <ng-template #cellContent let-product="item">{{ product.prices }} {{ defaultCurrency | readableCurrency }}</ng-template>
     <ng-template #cellContent let-product="item">{{ product.quantitiesInStock }}</ng-template>
     <ng-template #cellContent let-product="item">{{ product.sellableQuantities }}</ng-template>
     <ng-template #cellContent let-product="item">
