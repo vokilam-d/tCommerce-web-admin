@@ -33,6 +33,7 @@ export class AddOrUpdateOrderDto {
 export class OrderDto extends AddOrUpdateOrderDto {
   id: number;
   statusDescription: string;
+  source: 'client' | 'manager';
 }
 
 export class UpdateOrderAdminNote {

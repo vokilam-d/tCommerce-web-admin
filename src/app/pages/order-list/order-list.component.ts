@@ -254,5 +254,18 @@ const orderGridCells: IGridCell[] = [
     isImage: false,
     isSortable: true,
     fieldName: getPropertyOf<OrderDto>('clientNote')
+  },
+  {
+    isSearchable: false,
+    label: 'Оформил',
+    initialWidth: 105,
+    align: 'left',
+    isImage: false,
+    isSortable: true,
+    fieldName: getPropertyOf<OrderDto>('source'),
+    filterFields: [
+      { data: 'client', view: 'Клиент' },
+      { data: 'manager', view: 'Менеджер' }
+    ]
   }
 ];
