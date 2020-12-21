@@ -234,7 +234,7 @@ export class OrderComponent extends NgUnsubscribe implements OnInit {
 
   createOrderItem(sku: string, qty: number) {
     this.isLoading = true;
-    this.orderService.createOrderItem(sku, qty)
+    this.orderService.createOrderItem(sku, qty, this.isEditOrder)
       .pipe(
         this.notyService.attachNoty(),
         tap(response => this.addOrderItem(sku, response.data)),
@@ -248,7 +248,7 @@ export class OrderComponent extends NgUnsubscribe implements OnInit {
     const items = this.order.items.splice(0);
 
     const getItemRequest = (item: OrderItemDto): Observable<ResponseDto<OrderItemDto> | null> => this.orderService
-      .createOrderItem(item.sku, item.qty)
+      .createOrderItem(item.sku, item.qty, this.isEditOrder)
       .pipe(
         this.notyService.attachNoty(),
         tap((response) => this.addOrderItem(response.data.sku, response.data)),

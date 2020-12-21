@@ -78,10 +78,11 @@ export class OrderService {
     return this.http.put<ResponseDto<OrderDto>>(`${API_HOST}/api/v1/admin/orders/${id}/note`, payload);
   }
 
-  createOrderItem(sku: string, qty: number) {
+  createOrderItem(sku: string, qty: number, omitReserved: boolean) {
     const payload: CreateOrderItemDto = {
       sku,
-      qty
+      qty,
+      omitReserved
     };
 
     return this.http.post<ResponseDto<OrderItemDto>>(`${API_HOST}/api/v1/admin/order-items`, payload);
