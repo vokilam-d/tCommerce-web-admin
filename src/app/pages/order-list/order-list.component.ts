@@ -20,6 +20,9 @@ import { TRANSLATIONS_MAP } from '../../shared/constants/constants';
 import { PaymentMethodEnum } from '../../shared/enums/payment-method.enum';
 import { logMemory } from '../../shared/helpers/log-memory.function';
 import { OrderPricesDto } from '../../shared/dtos/order-prices.dto';
+import { copyToClipboard } from '../../shared/helpers/copy-to-clipboard.function';
+import { DatePipe } from '@angular/common';
+import { ReadableCurrencyPipe } from '../../shared/pipes/readable-currency.pipe';
 
 @Component({
   selector: 'order-list',
@@ -48,7 +51,10 @@ export class OrderListComponent extends NgUnsubscribe implements OnInit, AfterVi
               private headService: HeadService,
               private cdr: ChangeDetectorRef,
               private notyService: NotyService,
-              private router: Router) {
+              private router: Router,
+              private datePipe: DatePipe,
+              private readableCurrencyPipe: ReadableCurrencyPipe
+  ) {
     super();
   }
 
@@ -99,6 +105,48 @@ export class OrderListComponent extends NgUnsubscribe implements OnInit, AfterVi
     if (order.customerFirstName === order.shipment.recipient.firstName && order.customerLastName === order.shipment.recipient.lastName) { return; }
 
     return `${order.customerFirstName} ${order.customerLastName}`;
+  }
+
+  copyOrders() {
+    const headerStr: string = orderGridCells
+      .map(cell => cell.label)
+      .join('\t');
+
+    const ordersStrArray = this.orders
+      .map(order => {
+        const fields: (string | number)[] = [
+          order.id,
+          `${this.datePipe.transform(order.createdAt, 'dd.MM.y')} ${this.datePipe.transform(order.createdAt, 'HH:mm:ss')}`,
+          `${order.shipment.recipient.firstName} ${order.shipment.recipient.lastName} ${order.shipment.recipient.phone}`,
+          order.customerNote,
+          order.shipment.recipient.settlement,
+          order.shipment.recipient.address,
+          `${order.prices.totalCost} ${this.readableCurrencyPipe.transform(this.defaultCurrency)}`,
+          order.statusDescription,
+          order.shipment.statusDescription,
+          order.shipment.trackingNumber,
+          order.adminNote,
+          `${order.isOrderPaid ? 'Да' : 'Нет'}`,
+          order.paymentMethodAdminName,
+          `${order.isCallbackNeeded ? 'Да' : 'Нет'}`,
+          order.clientNote
+        ];
+
+        switch (order.source) {
+          case 'client':
+            fields.push(`Клиент`);
+            break;
+          case 'manager':
+            fields.push(`Менеджер`);
+            break;
+        }
+
+        return fields.join('\t');
+      });
+
+    const ordersStr = [headerStr, ...ordersStrArray].join('\n');
+    copyToClipboard(ordersStr);
+    this.notyService.showSuccessNoty(`Скопировано`);
   }
 
   private handleStatusControl() {
