@@ -29,5 +29,12 @@
     <ng-template #cellContent let-storeReview="item">{{ storeReview.text }}</ng-template>
     <ng-template #cellContent let-storeReview="item">{{ storeReview.isEnabled ? 'Включен' : 'Выключен' }}</ng-template>
     <ng-template #cellContent let-storeReview="item">{{ storeReview.managerComment }}</ng-template>
+    <ng-template #cellContent let-storeReview="item">
+      <ng-container [ngSwitch]="storeReview.source">
+        <ng-container *ngSwitchCase="'manager'">Менеджер</ng-container>
+        <ng-container *ngSwitchCase="'website'">Сайт</ng-container>
+        <ng-container *ngSwitchCase="'email'">Письмо</ng-container>
+      </ng-container>
+    </ng-template>
   </grid>
 </div>

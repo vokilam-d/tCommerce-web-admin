@@ -12,4 +12,5 @@ export class StoreReviewDto {
   medias: MediaDto[] = [];
   managerComment: string = '';
   createdAt: Date = new Date();
+  source: 'manager' | 'website' | 'email' = 'manager';
 }

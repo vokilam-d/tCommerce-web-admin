@@ -118,5 +118,19 @@ const storeReviewsGridCells: IGridCell[] = [
     isImage: false,
     isSortable: false,
     fieldName: getPropertyOf<StoreReviewDto>('managerComment')
+  },
+  {
+    isSearchable: false,
+    label: 'Источник',
+    initialWidth: 105,
+    align: 'left',
+    isImage: false,
+    isSortable: true,
+    fieldName: getPropertyOf<StoreReviewDto>('source'),
+    filterFields: [
+      { data: 'manager', view: 'Менеджер' },
+      { data: 'website', view: 'Сайт' },
+      { data: 'email', view: 'Письмо' },
+    ]
   }
 ];
