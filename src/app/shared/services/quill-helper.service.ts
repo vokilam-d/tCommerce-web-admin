@@ -9,8 +9,9 @@ import { NotyService } from '../../noty/noty.service';
 })
 export class QuillHelperService {
 
-  constructor(private http: HttpClient,
-              private notyService: NotyService,
+  constructor(
+    private http: HttpClient,
+    private notyService: NotyService
   ) { }
 
   getEditorModules(): QuillModules {

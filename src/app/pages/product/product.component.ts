@@ -45,22 +45,20 @@ export class ProductComponent extends NgUnsubscribe implements OnInit {
 
   @ViewChild(OrderListViewerModalComponent) ordersModal: OrderListViewerModalComponent;
 
-  constructor(private productsService: ProductService,
-              private formBuilder: FormBuilder,
-              private router: Router,
-              private headService: HeadService,
-              private quillHelperService: QuillHelperService,
-              private notyService: NotyService,
-              private route: ActivatedRoute) {
+  constructor(
+    private productsService: ProductService,
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private headService: HeadService,
+    private quillHelperService: QuillHelperService,
+    private notyService: NotyService,
+    private route: ActivatedRoute
+  ) {
     super();
   }
 
   ngOnInit() {
     this.init();
-    setTimeout(() => {
-      console.log('After "ProductComponent" render');
-      logMemory();
-    }, 1000);
   }
 
   private init() {
@@ -146,7 +144,12 @@ export class ProductComponent extends NgUnsubscribe implements OnInit {
       attributes: [this.product.attributes],
       variants: variantsFormArray
     }
+
+    setTimeout(() => {
+
+    }, 5000)
     this.form = this.formBuilder.group(productControls);
+    this.form.get('variants.0.fullDescription').valueChanges.subscribe(console.log);
   }
 
   private fetchProductAndBuildForm(id: string) {
