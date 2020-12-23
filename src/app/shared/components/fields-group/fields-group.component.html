@@ -13,8 +13,9 @@
   </div>
 
   <div class="group__content" [@slideToggle]="isOpened">
-    <ng-container *ngIf="isOpened">
+<!--    Can't use *ngIf because Quill Editor won't show render inserted html as html -->
+<!--    <ng-container *ngIf="isOpened">-->
       <ng-content></ng-content>
-    </ng-container>
+<!--    </ng-container>-->
   </div>
 </div>
