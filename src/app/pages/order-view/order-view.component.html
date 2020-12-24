@@ -16,8 +16,11 @@
         <app-button class="header__btn" (click)="reorder()" type="button">
           Повторить заказ
         </app-button>
+        <app-button class="header__btn" (click)="printInvoice()" type="button">
+          PDF счета-фактуры
+        </app-button>
         <app-button class="header__btn" (click)="printOrder()" type="button">
-          Распечатать PDF
+          PDF заказа
         </app-button>
         <app-button class="header__btn" *ngIf="isCancelOrderVisible()" (click)="cancelOrder()" type="button">
           Отменить заказ

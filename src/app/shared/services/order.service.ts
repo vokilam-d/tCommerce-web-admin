@@ -102,7 +102,11 @@ export class OrderService {
   }
 
   getPrintOrderUrl(id: number): string {
-    return `${API_HOST}/api/v1/admin/orders/${id}/invoice`;
+    return `${API_HOST}/api/v1/admin/orders/${id}/order-pdf`;
+  }
+
+  getPrintInvoiceUrl(id: number): string {
+    return `${API_HOST}/api/v1/admin/orders/${id}/invoice-pdf`;
   }
 
   createInternetDocument(id: number, shipment: ShipmentDto) {
