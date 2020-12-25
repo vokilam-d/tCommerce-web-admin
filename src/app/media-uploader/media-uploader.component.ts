@@ -2,8 +2,7 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild }
 import { HttpClient } from '@angular/common/http';
 import { finalize } from 'rxjs/operators';
 import { MediaDto } from '../shared/dtos/media.dto';
-import { inputMediaAcceptTypes } from '../shared/constants/constants';
-import { ProductService } from '../shared/services/product.service';
+import { INPUT_MEDIA_ACCEPT_TYPES } from '../shared/constants/constants';
 import { NotyService } from '../noty/noty.service';
 
 @Component({
@@ -16,7 +15,7 @@ export class MediaUploaderComponent implements OnInit {
   @Input() uploadUrl: string;
   @Output('uploaded') uploadedEmitter = new EventEmitter<MediaDto>();
   @ViewChild('input') inputRef: ElementRef<HTMLInputElement>;
-  acceptTypes: string = inputMediaAcceptTypes;
+  acceptTypes: string = INPUT_MEDIA_ACCEPT_TYPES;
 
   constructor(private http: HttpClient,
               private notyService: NotyService) {

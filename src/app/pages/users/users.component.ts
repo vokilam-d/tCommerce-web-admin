@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { UserService } from '../../shared/services/user.service';
 import { AddOrUpdateUserDto, UserDto } from '../../shared/dtos/user.dto';
 import { CustomValidators } from '../../shared/classes/validators';
-import { validPasswordRegex } from '../../shared/constants/constants';
+import { VALID_PASSWORD_REGEX } from '../../shared/constants/constants';
 import { HeadService } from '../../shared/services/head.service';
 import { logMemory } from '../../shared/helpers/log-memory.function';
 
@@ -59,7 +59,7 @@ export class UsersComponent implements OnInit {
 
     const controls: Partial<Record<keyof AddOrUpdateUserDto, any>> = {
       login: [user.login, Validators.required],
-      password: ['', Validators.pattern(validPasswordRegex)]
+      password: ['', Validators.pattern(VALID_PASSWORD_REGEX)]
     };
     (controls as any).passwordConfirm = [''];
     if (!this.isNewUser) {

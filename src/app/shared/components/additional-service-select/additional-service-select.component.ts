@@ -4,6 +4,7 @@ import { SelectComponent } from '../select/select.component';
 import { takeUntil } from 'rxjs/operators';
 import { AdditionalServiceDto } from '../../dtos/additional-service.dto';
 import { AdditionalServiceService } from '../../services/additional-service.service';
+import { DEFAULT_LANG } from '../../constants/constants';
 
 @Component({
   selector: 'additional-service-select',
@@ -32,7 +33,7 @@ export class AdditionalServiceSelectComponent extends SelectComponent implements
       .subscribe(response => {
         this.additionalServices = response.data;
 
-        this.options = this.additionalServices.map(service => ({ data: service.id, view: service.name }));
+        this.options = this.additionalServices.map(service => ({ data: service.id, view: service.name[DEFAULT_LANG] }));
 
         this.markSelectedOptions();
         this.cdr.markForCheck();

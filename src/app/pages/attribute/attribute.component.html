@@ -71,16 +71,6 @@
       </div>
     </div>
 
-    <div class="attribute__field field"
-           *ngIf="form.get('groupName') as groupName"
-           [class.field--invalid]="isControlInvalid(groupName)"
-    >
-      <label for="groupName" class="field__label">Имя групы</label>
-      <div class="field__control">
-        <input class="field__input" [formControl]="groupName" type="text" id="groupName">
-      </div>
-    </div>
-
     <div class="attribute__field field" *ngIf="hasColorControl">
       <label class="field__label">Со цветом</label>
       <div class="field__control">

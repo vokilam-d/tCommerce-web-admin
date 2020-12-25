@@ -1,7 +1,7 @@
 import { MultilingualTextDto } from './multilingual-text.dto';
 
-export class OrderItemAdditionalServiceDto {
+export class BreadcrumbDto {
   id: number;
   name: MultilingualTextDto = new MultilingualTextDto();
-  price: number;
+  slug: string;
 }

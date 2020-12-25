@@ -114,7 +114,6 @@ export class AttributeComponent implements OnInit {
       label: [attribute.label, Validators.required],
       values: [attribute.values],
       type: [attribute.type],
-      groupName: attribute.groupName,
       isVisibleInFilters: attribute.isVisibleInFilters,
       isVisibleInProduct: attribute.isVisibleInProduct,
       hasColor: attribute.hasColor,
