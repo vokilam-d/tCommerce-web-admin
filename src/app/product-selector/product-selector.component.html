@@ -26,7 +26,7 @@
     <ng-template #cellContent let-product="item">{{ product.id }}</ng-template>
 
     <ng-template #cellContent let-product="item">
-      <img class="product__thumbnail-img" [src]="setItemThumbnail(product)">
+      <img class="product__thumbnail-img" [src]="getItemThumbnail(product)">
     </ng-template>
 
     <ng-template #cellContent let-product="item">{{ product.name }}</ng-template>
@@ -98,8 +98,7 @@
 
     <ng-template #subCellContent let-variant="subItem">
       <img class="product__thumbnail-img"
-           *ngIf="variant.mediaUrl as media"
-           [src]="uploadedHost + media"
+           [src]="getItemThumbnail(variant)"
       >
     </ng-template>
 

@@ -18,6 +18,7 @@ import { OrderListViewerModule } from '../../order-list-viewer/order-list-viewer
 import { GridModule } from '../../grid/grid.module';
 import { RedirectControlModule } from '../../redirect-control/redirect-control.module';
 import { LinkedProductsModule } from '../../linked-products/linked-products.module';
+import { MultilingualControlModule } from '../../multilingual-control/multilingual-control.module';
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import { LinkedProductsModule } from '../../linked-products/linked-products.modu
     OrderListViewerModule,
     GridModule,
     RedirectControlModule,
-    LinkedProductsModule
+    LinkedProductsModule,
+    MultilingualControlModule
   ],
   exports: [],
   providers: []

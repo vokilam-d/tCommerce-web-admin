@@ -44,8 +44,6 @@ export interface ISelectedProduct {
 })
 export class ProductSelectorComponent implements OnInit, AfterViewInit {
 
-  uploadedHost = UPLOADED_HOST;
-  private fetchAllSub: Subscription;
   isSelectorVisible: boolean = false;
   products: ProductForSelector[] = [];
   itemsTotal: number = 0;
@@ -56,13 +54,16 @@ export class ProductSelectorComponent implements OnInit, AfterViewInit {
   variantsFieldName = getPropertyOf<ProductForSelector>('variants');
   defaultCurrency = DEFAULT_CURRENCY_CODE;
 
+  private fetchAllSub: Subscription;
+
   @Input() canInputQty: boolean = false;
   @Output('selected') selectedEmitter: EventEmitter<ISelectedProduct> = new EventEmitter();
   @ViewChild(GridComponent) gridCmp: GridComponent;
 
-  constructor(private productService: ProductService,
-              private cdr: ChangeDetectorRef,
-              private notyService: NotyService
+  constructor(
+    private productService: ProductService,
+    private cdr: ChangeDetectorRef,
+    private notyService: NotyService
   ) { }
 
   ngOnInit() {
@@ -131,11 +132,11 @@ export class ProductSelectorComponent implements OnInit, AfterViewInit {
     this.notyService.showSuccessNoty(`Товар добавлен`);
   }
 
-  setItemThumbnail(product) {
+  getItemThumbnail(product: ProductForSelector | VariantForSelector) {
     if (!product.mediaUrl) {
       return 'admin/assets/images/no-img.png';
     } else {
-      return this.uploadedHost + product.mediaUrl;
+      return UPLOADED_HOST + product.mediaUrl;
     }
   }
 

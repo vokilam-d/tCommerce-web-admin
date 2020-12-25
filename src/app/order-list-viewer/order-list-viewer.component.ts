@@ -23,8 +23,6 @@ import { OrderPricesDto } from '../shared/dtos/order-prices.dto';
 })
 export class OrderListViewerComponent implements OnInit, AfterViewInit {
 
-  private fetchAllSub: Subscription;
-
   orders: OrderDto[] = [];
   itemsTotal: number = 0;
   itemsFiltered: number;
@@ -34,15 +32,18 @@ export class OrderListViewerComponent implements OnInit, AfterViewInit {
   gridCells: IGridCell[] = orderGridCells;
   defaultCurrency = DEFAULT_CURRENCY_CODE;
 
+  private fetchAllSub: Subscription;
+
   @Input() customerId: number;
   @Input() ids: number[];
   @ViewChild(GridComponent) gridCmp: GridComponent;
 
-  constructor(private ordersService: OrderService,
-              private cdr: ChangeDetectorRef,
-              private route: ActivatedRoute,
-              private notyService: NotyService) {
-  }
+  constructor(
+    private ordersService: OrderService,
+    private cdr: ChangeDetectorRef,
+    private route: ActivatedRoute,
+    private notyService: NotyService
+  ) { }
 
   ngOnInit() {
   }

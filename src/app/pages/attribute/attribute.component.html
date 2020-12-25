@@ -57,7 +57,7 @@
     >
       <label for="label" class="field__label">Название</label>
       <div class="field__control">
-        <input class="field__input" [formControl]="label" type="text" id="label">
+        <multilingual-control [formControl]="label" id="label"></multilingual-control>
       </div>
     </div>
 
@@ -119,6 +119,7 @@
                    [ngModelOptions]="{ standalone: true }"
                    type="text"
             >
+            <multilingual-control [(ngModel)]="value.label" [ngModelOptions]="{ standalone: true }"></multilingual-control>
           </div>
 
           <div class="option__color-container" *ngIf="hasColorControl.value">
