@@ -100,7 +100,7 @@ export class PaymentMethodComponent implements OnInit {
 
     this.paymentMethodService.deletePaymentMethod(this.activeMethod.id)
       .pipe(this.notyService.attachNoty({ successText: `Способ оплаты успешно удалён` }))
-      .subscribe(response => this.init());
+      .subscribe(_ => this.init());
   }
 
   private validateControls(form: FormGroup | FormArray = this.form) {

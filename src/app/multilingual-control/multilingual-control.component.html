@@ -4,6 +4,7 @@
             *ngFor="let lang of languages"
             [class.control__tab--active]="lang === activeLanguage"
             [ngSwitch]="lang"
+            (click)="activeLanguage = lang"
     >
       <ng-container *ngSwitchCase="languagesEnum.UK">Укр</ng-container>
       <ng-container *ngSwitchCase="languagesEnum.RU">Рус</ng-container>

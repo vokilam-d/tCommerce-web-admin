@@ -4,6 +4,7 @@ import { Language } from '../shared/enums/language.enum';
 import { MultilingualTextDto } from '../shared/dtos/multilingual-text.dto';
 import { QuillModules } from 'ngx-quill';
 import { QuillHelperService } from '../shared/services/quill-helper.service';
+import { NgUnsubscribe } from '../shared/directives/ng-unsubscribe/ng-unsubscribe.directive';
 
 @Component({
   selector: 'multilingual-control',
@@ -15,10 +16,10 @@ import { QuillHelperService } from '../shared/services/quill-helper.service';
     multi: true
   }]
 })
-export class MultilingualControlComponent implements OnInit, ControlValueAccessor {
+export class MultilingualControlComponent extends NgUnsubscribe implements OnInit, ControlValueAccessor {
 
   form: FormGroup;
-  languages: Language[] = [Language.UK, Language.RU];
+  languages: Language[] = [Language.RU, Language.UK];
   activeLanguage: Language = this.languages[0];
   languagesEnum = Language;
   quillModules: QuillModules = this.quillHelperService.getEditorModules();
@@ -32,7 +33,9 @@ export class MultilingualControlComponent implements OnInit, ControlValueAccesso
   constructor(
     private formBuilder: FormBuilder,
     private quillHelperService: QuillHelperService
-  ) { }
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
     this.buildControls();
@@ -72,6 +75,9 @@ export class MultilingualControlComponent implements OnInit, ControlValueAccesso
     };
 
     this.form = this.formBuilder.group(controlsConfig);
+    this.form.valueChanges
+      .pipe( this.takeUntil() )
+      .subscribe(value => this.onChange(value));
   }
 
   onControlBlur() {
