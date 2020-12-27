@@ -28,6 +28,7 @@ export class MultilingualControlComponent extends NgUnsubscribe implements OnIni
 
   @Input() type: 'text' | 'textarea' | 'editor' = 'text';
   @Input() id: string;
+  @Input() rows: number = 4;
   @Output() onBlur = new EventEmitter<MultilingualTextDto>();
 
   constructor(
