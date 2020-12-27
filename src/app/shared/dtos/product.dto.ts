@@ -57,6 +57,7 @@ export class ProductListItemDto {
   mediaUrl: string;
   name: MultilingualTextDto = new MultilingualTextDto();
   skus: string;
+  currency: ECurrencyCode;
   vendorCodes: string;
   prices: string;
   quantitiesInStock: string;

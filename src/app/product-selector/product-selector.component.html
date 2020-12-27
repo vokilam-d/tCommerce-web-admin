@@ -29,7 +29,7 @@
       <img class="product__thumbnail-img" [src]="getItemThumbnail(product)">
     </ng-template>
 
-    <ng-template #cellContent let-product="item">{{ product.name }}</ng-template>
+    <ng-template #cellContent let-product="item">{{ product.name[lang] }}</ng-template>
 
     <ng-template #cellContent let-product="item">
       <ng-container *ngIf="product.isSingleVariant">
@@ -97,12 +97,10 @@
     </ng-template>
 
     <ng-template #subCellContent let-variant="subItem">
-      <img class="product__thumbnail-img"
-           [src]="getItemThumbnail(variant)"
-      >
+      <img class="product__thumbnail-img" [src]="getItemThumbnail(variant)">
     </ng-template>
 
-    <ng-template #subCellContent let-variant="subItem"> {{ variant.name }} </ng-template>
+    <ng-template #subCellContent let-variant="subItem"> {{ variant.name[lang] }} </ng-template>
 
     <ng-template #subCellContent let-variant="subItem"> {{ variant.sku }} </ng-template>
 

@@ -262,7 +262,7 @@
             Google product ads название товара
           </label>
           <span class="field__control">
-            <input class="field__input" [formControl]="googleAdsProductTitle" [id]="'googleAdsProductTitle-' + i" type="text">
+            <multilingual-control [formControl]="googleAdsProductTitle" [id]="'googleAdsProductTitle-' + i"></multilingual-control>
           </span>
         </div>
 
@@ -318,7 +318,10 @@
             Короткое описание
           </label>
           <span class="field__control">
-            <textarea class="field__textarea" [formControl]="shortDescription" [id]="'s-desc-' + i"></textarea>
+            <multilingual-control [formControl]="shortDescription"
+                                  [id]="'s-desc-' + i"
+                                  type="textarea"
+            ></multilingual-control>
           </span>
         </div>
       </fields-group>

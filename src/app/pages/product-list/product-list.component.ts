@@ -115,7 +115,7 @@ export class ProductListComponent extends NgUnsubscribe implements OnInit, After
   }
 
   getItemCategories(product: ProductListItemDto): string {
-    return product.categories.map(category => category.name).join(', ');
+    return product.categories.map(category => category.name[DEFAULT_LANG]).join(', ');
   }
 
   getManufacturerAttr(product: ProductListItemDto): string {

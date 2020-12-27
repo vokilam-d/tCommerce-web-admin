@@ -31,6 +31,7 @@ import { NotyService } from '../../../noty/noty.service';
 export class AttributeSelectComponent extends SelectComponent implements OnInit, ControlValueAccessor, OnDestroy {
 
   attribute: AttributeDto;
+  lang = DEFAULT_LANG;
 
   @Input('selectedAttr') productSelectedAttr: ProductSelectedAttributeDto;
 
