@@ -80,7 +80,7 @@ export class AddressFormComponent extends NgUnsubscribe implements OnChanges {
     });
   }
 
-  isControlInvalid(control: AbstractControl) {
+  isControlInvalid(control: AbstractControl): boolean {
     return !control.valid && control.touched;
   }
 

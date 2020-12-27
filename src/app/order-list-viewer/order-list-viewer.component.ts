@@ -13,7 +13,7 @@ import { ShipmentAddressDto } from '../shared/dtos/shipment-address.dto';
 import { ShipmentDto } from '../shared/dtos/shipment.dto';
 import { OrderStatusEnum } from '../shared/enums/order-status.enum';
 import { ShipmentStatusEnum } from '../shared/enums/shipment-status.enum';
-import { TRANSLATIONS_MAP } from '../shared/constants/constants';
+import { DEFAULT_LANG, TRANSLATIONS_MAP } from '../shared/constants/constants';
 import { OrderPricesDto } from '../shared/dtos/order-prices.dto';
 
 @Component({
@@ -31,6 +31,7 @@ export class OrderListViewerComponent implements OnInit, AfterViewInit {
   gridLinkUrl: string = '/admin/order/view';
   gridCells: IGridCell[] = orderGridCells;
   defaultCurrency = DEFAULT_CURRENCY_CODE;
+  lang = DEFAULT_LANG;
 
   private fetchAllSub: Subscription;
 

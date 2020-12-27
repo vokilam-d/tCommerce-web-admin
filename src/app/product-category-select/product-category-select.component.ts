@@ -28,6 +28,7 @@ export class ProductCategorySelectComponent implements OnInit, ControlValueAcces
   options: CategorySelectOption[] = [];
 
   private _value: ProductCategoryDto[];
+
   get value(): ProductCategoryDto[] {
     const selected = [];
     const populate = (options: CategorySelectOption[]) => {
@@ -43,6 +44,7 @@ export class ProductCategorySelectComponent implements OnInit, ControlValueAcces
     populate(this.options);
     return selected;
   }
+
   set value(categories: ProductCategoryDto[]) {
     this._value = categories;
     this.setOptionsSelectedState(this.options);
@@ -50,10 +52,11 @@ export class ProductCategorySelectComponent implements OnInit, ControlValueAcces
     this.onTouched();
   }
 
-  constructor(private http: HttpClient,
-              private notyService: NotyService,
-              private cdr: ChangeDetectorRef) {
-  }
+  constructor(
+    private http: HttpClient,
+    private notyService: NotyService,
+    private cdr: ChangeDetectorRef
+  ) { }
 
   ngOnInit() {
     setTimeout(() => this.init());

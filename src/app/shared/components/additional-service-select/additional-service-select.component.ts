@@ -22,8 +22,10 @@ export class AdditionalServiceSelectComponent extends SelectComponent implements
   additionalServices: AdditionalServiceDto[];
   isMultiSelect = true;
 
-  constructor(private additionalServiceService: AdditionalServiceService,
-              private cdr: ChangeDetectorRef) {
+  constructor(
+    private additionalServiceService: AdditionalServiceService,
+    private cdr: ChangeDetectorRef
+  ) {
     super();
   }
 

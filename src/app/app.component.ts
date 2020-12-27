@@ -11,9 +11,10 @@ export class AppComponent implements OnInit {
 
   get isLoggedIn(): boolean { return this.userService.user !== null; };
 
-  constructor(private userService: UserService,
-              private headService: HeadService) {
-  }
+  constructor(
+    private userService: UserService,
+    private headService: HeadService
+  ) { }
 
   ngOnInit(): void {
     this.headService.setNoindex();

@@ -12,17 +12,20 @@ import { NotyService } from '../noty/noty.service';
 })
 export class MediaUploaderComponent implements OnInit {
 
+  acceptTypes: string = INPUT_MEDIA_ACCEPT_TYPES;
+
   @Input() uploadUrl: string;
   @Output('uploaded') uploadedEmitter = new EventEmitter<MediaDto>();
   @ViewChild('input') inputRef: ElementRef<HTMLInputElement>;
-  acceptTypes: string = INPUT_MEDIA_ACCEPT_TYPES;
 
-  constructor(private http: HttpClient,
-              private notyService: NotyService) {
-  }
+  constructor(
+    private http: HttpClient,
+    private notyService: NotyService
+  ) { }
 
   ngOnInit() {
     if (!this.uploadUrl) {
+      this.notyService.showErrorNoty(`[${MediaUploaderComponent.name}]: Input property 'uploadUrl' is mandatory`);
       throw new Error(`Input property 'uploadUrl' is mandatory`);
     }
   }
