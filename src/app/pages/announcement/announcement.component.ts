@@ -35,17 +35,17 @@ export class AnnouncementComponent implements OnInit {
   }
 
   private init() {
-    this.fetchAnnouncementAndBuildForm(new AnnouncementDto());
+    this.fetchAnnouncementAndBuildForm();
   }
 
-  private fetchAnnouncementAndBuildForm(announcement: AnnouncementDto) {
+  private fetchAnnouncementAndBuildForm() {
     this.isLoading = true;
     this.announcementService.fetchAnnouncement()
       .pipe(this.notyService.attachNoty(), finalize(() => this.isLoading = false))
       .subscribe(
         response => {
           this.announcement = response.data;
-          this.buildForm(announcement);
+          this.buildForm(this.announcement);
         },
         error => console.warn(error)
       );
