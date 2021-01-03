@@ -27,8 +27,8 @@ COPY --from=builder /app/dist ./dist
 
 RUN npm install -g pm2
 
-#EXPOSE 3001
-EXPOSE 9228
+EXPOSE 3001
+#EXPOSE 9228
 
-#CMD ["pm2-runtime", "dist/pm2-main.json"]
-CMD ["node", "--inspect=0.0.0.0:9228", "dist/web-admin/server/main.js"]
+CMD ["pm2-runtime", "dist/pm2-main.json"]
+#CMD ["node", "--inspect=0.0.0.0:9228", "dist/web-admin/server/main.js"]
