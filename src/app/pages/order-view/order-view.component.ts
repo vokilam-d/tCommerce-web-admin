@@ -355,7 +355,7 @@ export class OrderViewComponent extends NgUnsubscribe implements OnInit {
   }
 
   public copyOrderIdToClipboard(id: number) {
-    copyToClipboard(id.toString());
+    copyToClipboard(`Заказ № ${id}`);
     this.notyService.showSuccessNoty(`Скопировано`);
   }
 }
