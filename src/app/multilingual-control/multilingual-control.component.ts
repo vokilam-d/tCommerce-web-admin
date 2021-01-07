@@ -62,6 +62,8 @@ export class MultilingualControlComponent extends NgUnsubscribe implements OnIni
   }
 
   writeValue(value: MultilingualTextDto): void {
+    if (value === null || value === undefined) { return; }
+
     Object.entries(value).forEach(([lang, text]) => {
       const control = this.form.get(lang);
       control.setValue(text);

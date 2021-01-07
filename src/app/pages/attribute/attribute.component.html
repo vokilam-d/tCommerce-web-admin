@@ -85,7 +85,7 @@
       <div class="attribute__options">
 
         <div class="option option--head">
-          <div class="option__radio-container">
+          <div class="option__radio-container option__radio-container--head">
             По умолчанию
           </div>
           <div class="option__label-container">
@@ -114,11 +114,6 @@
           </div>
 
           <div class="option__label-container">
-            <input class="option__label field__input"
-                   [(ngModel)]="value.label"
-                   [ngModelOptions]="{ standalone: true }"
-                   type="text"
-            >
             <multilingual-control [(ngModel)]="value.label" [ngModelOptions]="{ standalone: true }"></multilingual-control>
           </div>
 
