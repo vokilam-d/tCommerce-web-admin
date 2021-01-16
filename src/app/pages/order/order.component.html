@@ -132,6 +132,19 @@
         </span>
             </div>
           </div>
+          <div class="order__block">
+            <div class="order__field field">
+              <label class="field__label">Менеджер</label>
+              <span class="field__control">
+          <div class="field__control">
+              <app-select class="order-view__manager-selector"
+                          [options]="managerSelectOptions"
+                          [formControl]="orderManagerControl">
+              </app-select>
+            </div>
+                        </span>
+            </div>
+          </div>
         </div>
 
       </div>

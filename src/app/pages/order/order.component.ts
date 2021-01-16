@@ -37,9 +37,13 @@ export class OrderComponent extends NgUnsubscribe implements OnInit {
   order: OrderDto;
   customer: CustomerDto;
   addressSelectControl: FormControl;
+  orderManagerControl: FormControl;
   addressSelectOptions: ISelectOption[] = [];
   private newAddress: ShipmentAddressDto = new ShipmentAddressDto();
   private arePricesValid: boolean = true;
+  managerSelectOptions: ISelectOption[] = [{ view: 'Елена', data: '5ef9c63aae2fd882393081c3' },
+    { view: 'Кристина', data: '5fff628d7db0790020149858' }];
+
 
   get isNewAddress(): boolean { return this.order.shipment.recipient === this.newAddress; }
 
@@ -67,6 +71,14 @@ export class OrderComponent extends NgUnsubscribe implements OnInit {
     this.isReorder = this.route.snapshot.data.action === EPageAction.AddBasedOn;
     this.isEditOrder = this.route.snapshot.data.action === EPageAction.Edit;
 
+    this.orderManagerControl = new FormControl();
+    this.orderManagerControl.valueChanges.subscribe(userId => {
+      if (!this.order.manager) {
+        this.order.manager = {};
+      }
+      this.order.manager.userId = userId;
+    });
+
     if (this.isNewOrder) {
       this.order = new OrderDto();
       this.headService.setTitle(`Новый заказ`);
@@ -82,7 +94,10 @@ export class OrderComponent extends NgUnsubscribe implements OnInit {
     this.orderService.fetchOrder(id)
       .pipe(
         this.notyService.attachNoty(),
-        tap(response => this.setOrder(response.data)),
+        tap(response => {
+          this.setOrder(response.data);
+          this.orderManagerControl.setValue(this.order.manager?.userId);
+        }),
         switchMap(() => this.isReorder || this.isEditOrder ? this.fetchCustomer(this.order.customerId) : EMPTY),
         switchMap(() => this.isReorder ? this.recreateOrderItems() : EMPTY),
         finalize(() => this.isLoading = false)
@@ -328,6 +343,10 @@ export class OrderComponent extends NgUnsubscribe implements OnInit {
         discountLabel: orderDto.prices.discountLabel,
         totalCost: orderDto.prices.totalCost,
         itemsCost: orderDto.prices.itemsCost
+      },
+      manager: {
+        name: orderDto.manager?.name,
+        userId: orderDto.manager?.userId
       }
     } as OrderDto;
   }

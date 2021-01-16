@@ -8,6 +8,12 @@
   flex-wrap: wrap;
   justify-content: space-between;
 
+
+  &__manager-selector {
+    width: 200px;
+    float: right;
+  }
+
   &__block {
     width: 100%;
 
@@ -109,6 +115,7 @@
 .info-table {
   &__row {
     display: flex;
+    align-items: center;
     justify-content: space-between;
     padding: 5px;
 

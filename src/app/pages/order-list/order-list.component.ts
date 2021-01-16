@@ -23,6 +23,7 @@ import { copyToClipboard } from '../../shared/helpers/copy-to-clipboard.function
 import { DatePipe } from '@angular/common';
 import { ReadableCurrencyPipe } from '../../shared/pipes/readable-currency.pipe';
 import { MultilingualTextDto } from '../../shared/dtos/multilingual-text.dto';
+import { ManagerDto } from '../../shared/dtos/manager.dto';
 
 @Component({
   selector: 'order-list',
@@ -155,6 +156,7 @@ export class OrderListComponent extends NgUnsubscribe implements OnInit, AfterVi
 }
 
 const shipmentProp = getPropertyOf<OrderDto>('shipment');
+const managerProp = getPropertyOf<OrderDto>('manager');
 const recipientProp = getPropertyOf<ShipmentDto>('recipient');
 const orderGridCells: IGridCell[] = [
   {
@@ -300,6 +302,19 @@ const orderGridCells: IGridCell[] = [
     isImage: false,
     isSortable: true,
     fieldName: getPropertyOf<OrderDto>('clientNote')
+  },
+  {
+    isSearchable: false,
+    label: 'Менеджер',
+    initialWidth: 105,
+    align: 'left',
+    isImage: false,
+    isSortable: true,
+    fieldName: `${managerProp}.${getPropertyOf<ManagerDto>('name')}`,
+    filterFields: [
+      { data: '5ef9c63aae2fd882393081c3', view: 'Елена' },
+      { data: '5fff628d7db0790020149858', view: 'Кристина' }
+    ]
   },
   {
     isSearchable: false,

@@ -74,6 +74,15 @@
             <div class="info-table__block">{{ order.createdAt | date:'medium' }}</div>
           </div>
           <div class="info-table__row">
+            <div class="info-table__block">Менеджер</div>
+            <div class="field__control">
+              <app-select class="order-view__manager-selector"
+                          [options]="managerSelectOptions"
+                          [formControl] = "orderManagerControl">
+              </app-select>
+            </div>
+          </div>
+          <div class="info-table__row">
             <div class="info-table__block">Оплачен ли товар поставщику</div>
             <div class="info-table__block"></div>
           </div>
