@@ -29,8 +29,7 @@ jobs:
     - name: Build images (multistage)
       run: |
         VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-        echo ${VERSION}
-        echo $VERSION
+
         docker build \
           --target builder \
           --cache-from ${GH_DOCKER_IMAGE_NAME}:builder \
@@ -46,8 +45,8 @@ jobs:
 
     - name: Push images
       run: |
-        docker push ${GH_DOCKER_IMAGE_NAME} --all-tags
-        docker push ${DOCKER_IMAGE_NAME} --all-tags
+        docker push --all-tags ${GH_DOCKER_IMAGE_NAME}
+        docker push --all-tags ${DOCKER_IMAGE_NAME}
 
   deploy:
     needs: build-push
