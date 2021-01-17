@@ -5,7 +5,10 @@ on:
     tags: v[0-9]+.[0-9]+.[0-9]+
 
 env:
-  IMAGE_NAME: ${{ secrets.DOCKER_LOGIN }}/tcommerce-web-admin
+  GITHUB_DOCKER_HUB: ghcr.io
+  BASE_IMAGE_NAME: tcommerce-web-admin
+  DOCKER_IMAGE_NAME: ${{ secrets.DOCKER_LOGIN }}/${IMAGE_NAME}
+  GITHUB_DOCKER_IMAGE_NAME: ${GITHUB_DOCKER_HUB}/${{ secrets.GHCR_DOCKER_USERNAME }}/${IMAGE_NAME}
 
 jobs:
   build-push:
@@ -17,24 +20,24 @@ jobs:
     - name: Log into Docker registry
       run: |
         echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_LOGIN }} --password-stdin
-        echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u ${{ secrets.GHCR_DOCKER_USERNAME }} --password-stdin
+        echo "${{ secrets.GHCR_PAT }}" | docker login ${GITHUB_DOCKER_HUB} -u ${{ secrets.GHCR_DOCKER_USERNAME }} --password-stdin
 
     - name: Pull images
       run: |
-        docker pull ghcr.io/$GITHUB_REPOSITORY:builder || true
-        docker pull ghcr.io/$GITHUB_REPOSITORY:latest || true
+        docker pull ${GITHUB_DOCKER_IMAGE_NAME}:builder || true
+        docker pull ${GITHUB_DOCKER_IMAGE_NAME}:latest || true
 
     - name: Build images (multistage)
       run: |
         docker build \
           --target builder \
-          --cache-from ghcr.io/$GITHUB_REPOSITORY:builder \
-          -t ghcr.io/$GITHUB_REPOSITORY:builder \
+          --cache-from ${GITHUB_DOCKER_IMAGE_NAME}:builder \
+          -t ${GITHUB_DOCKER_IMAGE_NAME}:builder \
           .
         docker build \
-          --cache-from ghcr.io/$GITHUB_REPOSITORY:latest \
-          --cache-from ghcr.io/$GITHUB_REPOSITORY:builder \
-          -t ${IMAGE_NAME}:latest \
+          --cache-from ${GITHUB_DOCKER_IMAGE_NAME}:latest \
+          --cache-from ${GITHUB_DOCKER_IMAGE_NAME}:builder \
+          -t ${{ secrets.DOCKER_LOGIN }}${DOCKER_IMAGE_NAME}:latest \
           .
 
     - name: Push images
@@ -42,12 +45,12 @@ jobs:
         # Strip git ref prefix from version
         VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
 
-        docker tag ${IMAGE_NAME}:latest ${IMAGE_NAME}:${VERSION} ghcr.io/$GITHUB_REPOSITORY:latest
+        docker tag ${DOCKER_IMAGE_NAME}:latest ${DOCKER_IMAGE_NAME}:${VERSION} ${GITHUB_DOCKER_IMAGE_NAME}:latest
 
-        docker push ghcr.io/$GITHUB_REPOSITORY:builder
-        docker push ghcr.io/$GITHUB_REPOSITORY:latest
-        docker push ${IMAGE_NAME}:latest
-        docker push ${IMAGE_NAME}:${VERSION}
+        docker push ${GITHUB_DOCKER_IMAGE_NAME}:builder
+        docker push ${GITHUB_DOCKER_IMAGE_NAME}:latest
+        docker push ${DOCKER_IMAGE_NAME}:latest
+        docker push ${DOCKER_IMAGE_NAME}:${VERSION}
 
   deploy:
     needs: build-push
