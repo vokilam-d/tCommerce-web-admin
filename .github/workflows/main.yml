@@ -47,8 +47,13 @@ jobs:
 
     - name: Push images
       run: |
-        docker push --all-tags ${GH_DOCKER_IMAGE_NAME}
-        docker push --all-tags ${DOCKER_IMAGE_NAME}
+        # Remove this and use "--all-tags" option after github updates to docker 20
+        VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+
+        docker push ${GH_DOCKER_IMAGE_NAME}:builder
+        docker push ${GH_DOCKER_IMAGE_NAME}:latest
+        docker push ${DOCKER_IMAGE_NAME}:latest
+        docker push ${DOCKER_IMAGE_NAME}:${VERSION}
 
   deploy:
     needs: build-push
