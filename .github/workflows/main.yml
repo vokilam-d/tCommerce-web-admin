@@ -32,6 +32,8 @@ jobs:
         VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
 
     - name: Build images (multistage)
+      env:
+        VERSION: $(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
       run: |
         echo ${VERSION}
         echo $VERSION
@@ -50,10 +52,8 @@ jobs:
 
     - name: Push images
       run: |
-        docker push ${GH_DOCKER_IMAGE_NAME}:builder
-        docker push ${GH_DOCKER_IMAGE_NAME}:latest
-        docker push ${DOCKER_IMAGE_NAME}:latest
-        docker push ${DOCKER_IMAGE_NAME}:${VERSION}
+        docker push ${GH_DOCKER_IMAGE_NAME} --all-tags
+        docker push ${DOCKER_IMAGE_NAME} --all-tags
 
   deploy:
     needs: build-push
