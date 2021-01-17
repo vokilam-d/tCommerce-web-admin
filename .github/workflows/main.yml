@@ -34,7 +34,7 @@ jobs:
         docker build \
           --target builder \
           --cache-from ${GITHUB_DOCKER_IMAGE_NAME}:builder \
-          -t ghcr.io/vokilam-d/tcommerce-web-admin:builder \
+          -t ${GITHUB_DOCKER_IMAGE_NAME}:builder \
           .
 #        docker build \
 #          --cache-from ${GITHUB_DOCKER_IMAGE_NAME}:latest \
