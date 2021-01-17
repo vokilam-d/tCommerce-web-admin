@@ -54,69 +54,75 @@
     </div>
   </div>
 
-  <form class="product" *ngIf="form" [formGroup]="form">
+  <form class="product block" *ngIf="form" [formGroup]="form">
+    <div class="block__item">
+      <div class="block__title">Основное</div>
+      <div class="block__content">
+        <div class="product__field field"
+             *ngIf="form.get('isEnabled') as isEnabled"
+             [class.field--invalid]="isControlInvalid(isEnabled)"
+        >
+          <label class="field__label">
+            Включить товар
+          </label>
+          <div class="field__control">
+            <toggle [formControl]="isEnabled"></toggle>
+          </div>
+        </div>
 
-    <div class="product__field field"
-           *ngIf="form.get('isEnabled') as isEnabled"
-           [class.field--invalid]="isControlInvalid(isEnabled)"
-    >
-      <label class="field__label">
-        Включить товар
-      </label>
-      <div class="field__control">
-        <toggle [formControl]="isEnabled"></toggle>
+        <div class="product__field field field--required"
+             *ngIf="form.get('name') as name"
+             [class.field--invalid]="isControlInvalid(name)"
+        >
+          <label for="name" class="field__label">Название товара</label>
+          <span class="field__control">
+        <multilingual-control [formControl]="name" (onBlur)="onNameControlBlur(name)" id="name"></multilingual-control>
+      </span>
+        </div>
+
+        <div class="product__field field" *ngIf="form.get('categories') as categories">
+          <label class="field__label">
+            Категории
+          </label>
+          <span class="field__control">
+        <product-category-select [formControl]="categories"></product-category-select>
+      </span>
+        </div>
+
+        <div class="product__field field" *ngIf="form.get('additionalServiceIds') as additionalServiceIds">
+          <label class="field__label">
+            Доп. услуги
+          </label>
+          <span class="field__control">
+        <additional-service-select [formControl]="additionalServiceIds"></additional-service-select>
+      </span>
+        </div>
       </div>
     </div>
 
-    <div class="product__field field field--required"
-         *ngIf="form.get('name') as name"
-         [class.field--invalid]="isControlInvalid(name)"
-    >
-      <label for="name" class="field__label">Название товара</label>
-      <span class="field__control">
-        <multilingual-control [formControl]="name" (onBlur)="onNameControlBlur(name)" id="name"></multilingual-control>
-      </span>
+    <div class="block__item">
+      <div class="block__title">Атрибуты</div>
+      <div class="block__content">
+        <ng-container *ngIf="form.get('attributes') as attributes">
+          <attribute-select class="product__field"
+                            *ngFor="let attribute of attributes.value"
+                            [selectedAttr]="attribute"
+                            [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="attribute.valueIds"
+          >
+          </attribute-select>
+        </ng-container>
+
+        <attributes-editor class="product__edit-attributes"
+                           [initialFormValue]="form.value"
+                           [isSelectManufacturerAttr]="isNewProduct || isNewProductBasedOn"
+                           (generated)="onAttributesEdit($event)"
+        ></attributes-editor>
+      </div>
     </div>
 
-    <div class="product__field field" *ngIf="form.get('categories') as categories">
-      <label class="field__label">
-        Категории
-      </label>
-      <span class="field__control">
-        <product-category-select [formControl]="categories"></product-category-select>
-      </span>
-    </div>
-
-    <div class="product__field field" *ngIf="form.get('additionalServiceIds') as additionalServiceIds">
-      <label class="field__label">
-         Доп. услуги
-      </label>
-      <span class="field__control">
-        <additional-service-select [formControl]="additionalServiceIds"></additional-service-select>
-      </span>
-    </div>
-
-    <fields-group class="product__group product__group--first" id="product-attributes">
-      <div fields-group-title>Атрибуты<span *ngIf="isMultiVariant"> (общие)</span></div>
-
-      <ng-container *ngIf="form.get('attributes') as attributes">
-        <attribute-select class="product__field"
-                          *ngFor="let attribute of attributes.value"
-                          [selectedAttr]="attribute"
-                          [ngModelOptions]="{standalone: true}"
-                          [(ngModel)]="attribute.valueIds"
-        >
-        </attribute-select>
-      </ng-container>
-
-      <attributes-editor class="product__edit-attributes"
-                         [initialFormValue]="form.value"
-                         [isSelectManufacturerAttr]="isNewProduct || isNewProductBasedOn"
-                         (generated)="onAttributesEdit($event)"
-      ></attributes-editor>
-    </fields-group>
-
-    <fields-group *ngFor="let variantForm of variantsFormArray?.controls, index as i"
+    <fields-group class="block__variation variation"
+                  *ngFor="let variantForm of variantsFormArray?.controls, index as i"
                   [class.product__group]="isMultiVariant"
                   [showHeader]="isMultiVariant"
     >
@@ -137,303 +143,313 @@
         </div>
       </div>
 
-      <fields-group class="product__group" id="product-info">
-        <div fields-group-title>Инфо</div>
-
-        <div class="product__field field field--required"
-             *ngIf="isMultiVariant && variantForm.get('name') as name"
-             [class.field--invalid]="isControlInvalid(name)"
-        >
-          <label class="field__label" [for]="'name-' + i">
-            Название товара
-          </label>
-          <span class="field__control">
-            <multilingual-control [formControl]="name"
-                                  [id]="'name-' + i"
-                                  (blur)="onVariantNameControlBlur(name, i)"
-            ></multilingual-control>
-          </span>
-        </div>
-
-        <div class="product__field field field--required"
-               *ngIf="variantForm.get('price') as price"
-               [class.field--invalid]="isControlInvalid(price)"
-        >
-          <label class="field__label" [for]="'price-' + i">
-            Цена
-          </label>
-          <span class="field__control price">
-            <input class="field__input price__input" [formControl]="price" [id]="'price-' + i" type="number">
-
-            <select class="price__currency"
-                    *ngIf="variantForm.get('currency') as currency"
-                    [formControl]="currency"
-                    name="currency"
+      <div class="variation__content">
+        <div class="block__item" id="product-info">
+          <div class="block__title">Инфо</div>
+          <div class="block__content">
+            <div class="product__field field field--required"
+                 *ngIf="isMultiVariant && variantForm.get('name') as name"
+                 [class.field--invalid]="isControlInvalid(name)"
             >
-              <option [value]="currencies.UAH">{{ currencies.UAH | readableCurrency }}</option>
-              <option [value]="currencies.EUR">{{ currencies.EUR | readableCurrency }}</option>
-              <option [value]="currencies.USD">{{ currencies.USD | readableCurrency }}</option>
-            </select>
-
-            <span class="price__default-currency" *ngIf="!isDefaultCurrency(i)">
-              {{ product.variants[i].priceInDefaultCurrency }} грн
-            </span>
-          </span>
-        </div>
-
-        <div class="product__field field"
-               *ngIf="variantForm.get('oldPrice') as oldPrice"
-               [class.field--invalid]="isControlInvalid(oldPrice)"
-        >
-          <label class="field__label" [for]="'oldPrice-' + i">
-            Cтарая цена
-          </label>
-          <span class="field__control price">
-            <input class="field__input price__input" [formControl]="oldPrice" [id]="'oldPrice-' + i" type="number">
-
-            <span class="price__default-currency" *ngIf="!isDefaultCurrency(i) && product.variants[i].oldPriceInDefaultCurrency as oldDefaultPrice">
-              {{ oldDefaultPrice }} грн
-            </span>
-          </span>
-        </div>
-
-        <div class="product__field field"
-               *ngIf="variantForm.get('qtyInStock') as qtyInStock"
-        >
-          <label class="field__label" [for]="'qtyInStock-' + i">
-            Количество всего на складе
-          </label>
-          <div class="field__control">
-            <input class="field__input" [formControl]="qtyInStock" [id]="'qtyInStock-' + i" type="number" required>
-
-            <div class="sellable-qty">
-              Количество, доступное для продажи: <span class="sellable-qty__count">{{ product.variants[i].sellableQty }}</span>
-              <button class="product__reserved"
-                      *ngIf="product.variants[i].qtyInStock !== product.variants[i].sellableQty"
-                      (click)="showReservedOrders(i)"
-              >
-                Показать заказы
-              </button>
+              <label class="field__label" [for]="'name-' + i">
+                Название товара
+              </label>
+              <span class="field__control">
+        <multilingual-control [formControl]="name"
+                              [id]="'name-' + i"
+                              (blur)="onVariantNameControlBlur(name, i)"
+        ></multilingual-control>
+      </span>
             </div>
 
+            <div class="product__field field field--required"
+                 *ngIf="variantForm.get('price') as price"
+                 [class.field--invalid]="isControlInvalid(price)"
+            >
+              <label class="field__label" [for]="'price-' + i">
+                Цена
+              </label>
+              <span class="field__control price">
+        <input class="field__input price__input" [formControl]="price" [id]="'price-' + i" type="number">
+
+        <select class="price__currency"
+                *ngIf="variantForm.get('currency') as currency"
+                [formControl]="currency"
+                name="currency"
+        >
+          <option [value]="currencies.UAH">{{ currencies.UAH | readableCurrency }}</option>
+          <option [value]="currencies.EUR">{{ currencies.EUR | readableCurrency }}</option>
+          <option [value]="currencies.USD">{{ currencies.USD | readableCurrency }}</option>
+        </select>
+
+        <span class="price__default-currency" *ngIf="!isDefaultCurrency(i)">
+          {{ product.variants[i].priceInDefaultCurrency }} грн
+        </span>
+      </span>
+            </div>
+
+            <div class="product__field field"
+                 *ngIf="variantForm.get('oldPrice') as oldPrice"
+                 [class.field--invalid]="isControlInvalid(oldPrice)"
+            >
+              <label class="field__label" [for]="'oldPrice-' + i">
+                Cтарая цена
+              </label>
+              <span class="field__control price">
+        <input class="field__input price__input" [formControl]="oldPrice" [id]="'oldPrice-' + i" type="number">
+
+        <span class="price__default-currency" *ngIf="!isDefaultCurrency(i) && product.variants[i].oldPriceInDefaultCurrency as oldDefaultPrice">
+          {{ oldDefaultPrice }} грн
+        </span>
+      </span>
+            </div>
+
+            <div class="product__field field"
+                 *ngIf="variantForm.get('qtyInStock') as qtyInStock"
+            >
+              <label class="field__label" [for]="'qtyInStock-' + i">
+                Количество всего на складе
+              </label>
+              <div class="field__control">
+                <input class="field__input" [formControl]="qtyInStock" [id]="'qtyInStock-' + i" type="number" required>
+
+                <div class="sellable-qty">
+                  Количество, доступное для продажи: <span class="sellable-qty__count">{{ product.variants[i].sellableQty }}</span>
+                  <button class="product__reserved"
+                          *ngIf="product.variants[i].qtyInStock !== product.variants[i].sellableQty"
+                          (click)="showReservedOrders(i)"
+                  >
+                    Показать заказы
+                  </button>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="product__field field"
+                 *ngIf="variantForm.get('vendorCode') as vendorCode"
+                 [class.field--invalid]="isControlInvalid(vendorCode)"
+            >
+              <label class="field__label" [for]="'vendorCode-' + i">
+                Артикул
+              </label>
+              <span class="field__control">
+        <input class="field__input" [formControl]="vendorCode" [id]="'vendorCode-' + i" type="text">
+      </span>
+            </div>
+
+            <div class="product__field field"
+                 *ngIf="variantForm.get('gtin') as gtin"
+                 [class.field--invalid]="isControlInvalid(gtin)"
+            >
+              <label class="field__label" [for]="'gtin-' + i">
+                GTIN
+              </label>
+              <span class="field__control">
+        <input class="field__input" [formControl]="gtin" [id]="'gtin-' + i" type="text">
+      </span>
+            </div>
+
+            <div class="product__field field"
+                 *ngIf="variantForm.get('isIncludedInShoppingFeed') as isIncludedInShoppingFeed"
+            >
+              <label class="field__label">
+                Включён ли товар в Shopping feed?
+              </label>
+              <div class="field__control">
+                <toggle [formControl]="isIncludedInShoppingFeed"></toggle>
+              </div>
+            </div>
+
+            <div class="product__field field"
+                 *ngIf="variantForm.get('googleAdsProductTitle') as googleAdsProductTitle"
+                 [class.field--invalid]="isControlInvalid(googleAdsProductTitle)"
+            >
+              <label class="field__label" [for]="'googleAdsProductTitle-' + i">
+                Google product ads название товара
+              </label>
+              <span class="field__control">
+        <multilingual-control [formControl]="googleAdsProductTitle" [id]="'googleAdsProductTitle-' + i"></multilingual-control>
+      </span>
+            </div>
+
+            <div class="product__field field"
+                 *ngIf="variantForm.get('isDiscountApplicable') as isDiscountApplicable"
+            >
+              <label class="field__label">
+                Скидки применимы?
+              </label>
+              <div class="field__control">
+                <toggle [formControl]="isDiscountApplicable"></toggle>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div class="product__field field"
-             *ngIf="variantForm.get('vendorCode') as vendorCode"
-             [class.field--invalid]="isControlInvalid(vendorCode)"
+        <div class="block__item"
+             *ngIf="isMultiVariant && variantForm.get('attributes') as attributes"
+             id="product-variant-attributes"
         >
-          <label class="field__label" [for]="'vendorCode-' + i">
-            Артикул
-          </label>
-          <span class="field__control">
-            <input class="field__input" [formControl]="vendorCode" [id]="'vendorCode-' + i" type="text">
-          </span>
+          <div class="block__title">Атрибуты</div>
+          <div class="block__content">
+            <attribute-select class="product__field"
+                              *ngFor="let attribute of attributes.value"
+                              [selectedAttr]="attribute"
+                              [ngModelOptions]="{standalone: true}"
+                              [(ngModel)]="attribute.valueIds"
+            >
+            </attribute-select>
+          </div>
+
         </div>
 
-        <div class="product__field field"
-             *ngIf="variantForm.get('gtin') as gtin"
-             [class.field--invalid]="isControlInvalid(gtin)"
-        >
-          <label class="field__label" [for]="'gtin-' + i">
-            GTIN
-          </label>
-          <span class="field__control">
-            <input class="field__input" [formControl]="gtin" [id]="'gtin-' + i" type="text">
-          </span>
-        </div>
+        <div class="block__item" id="product-content">
+          <div class="block__title">Контент</div>
+          <div class="block__content">
+            <div class="product__field field"
+                 *ngIf="variantForm.get('fullDescription') as fullDescription"
+            >
+              <label class="field__label" [for]="'desc-' + i">
+                Описание
+              </label>
+              <span class="field__control">
+          <multilingual-control [formControl]="fullDescription"
+                                [id]="'desc-' + i"
+                                (blur)="onDescriptionControlBlur(fullDescription, i)"
+                                type="editor"
+          ></multilingual-control>
+        </span>
+            </div>
 
-        <div class="product__field field"
-             *ngIf="variantForm.get('isIncludedInShoppingFeed') as isIncludedInShoppingFeed"
-        >
-          <label class="field__label">
-            Включён ли товар в Shopping feed?
-          </label>
-          <div class="field__control">
-            <toggle [formControl]="isIncludedInShoppingFeed"></toggle>
+            <div class="product__field field"
+                 *ngIf="variantForm.get('shortDescription') as shortDescription"
+            >
+              <label class="field__label" [for]="'s-desc-' + i">
+                Короткое описание
+              </label>
+              <span class="field__control">
+          <multilingual-control [formControl]="shortDescription"
+                                [id]="'s-desc-' + i"
+                                type="textarea"
+          ></multilingual-control>
+        </span>
+            </div>
           </div>
         </div>
 
-        <div class="product__field field"
-             *ngIf="variantForm.get('googleAdsProductTitle') as googleAdsProductTitle"
-             [class.field--invalid]="isControlInvalid(googleAdsProductTitle)"
-        >
-          <label class="field__label" [for]="'googleAdsProductTitle-' + i">
-            Google product ads название товара
-          </label>
-          <span class="field__control">
-            <multilingual-control [formControl]="googleAdsProductTitle" [id]="'googleAdsProductTitle-' + i"></multilingual-control>
-          </span>
-        </div>
+        <div class="block__item" id="product-seo">
+          <div class="block__title">SEO</div>
+          <div class="block__content">
+            <div class="product__field field"
+                 *ngIf="variantForm.get('slug') as slug"
+            >
+              <label class="field__label" [for]="'slug-' + i">
+                URL адрес
+              </label>
+              <span class="field__control">
+          <input class="field__input" [formControl]="slug" [id]="'slug-' + i" type="text">
+          <redirect-control *ngIf="!isNewProduct && !isNewProductBasedOn && product.variants[i]?.slug"
+                            [formControl]="variantForm.get('createRedirect')"
+                            [initialSlug]="product.variants[i]?.slug"
+                            [newSlugControl]="slug"
+          ></redirect-control>
+        </span>
+            </div>
 
-        <div class="product__field field"
-             *ngIf="variantForm.get('isDiscountApplicable') as isDiscountApplicable"
-        >
-          <label class="field__label">
-            Скидки применимы?
-          </label>
-          <div class="field__control">
-            <toggle [formControl]="isDiscountApplicable"></toggle>
+            <div class="product__field field"
+                 *ngIf="variantForm.get('metaTags.title') as metaTitle"
+            >
+              <label class="field__label" [for]="'metaTitle-' + i">
+                Meta заголовок
+              </label>
+              <span class="field__control">
+          <multilingual-control [formControl]="metaTitle" [id]="'metaTitle-' + i" type="textarea"></multilingual-control>
+        </span>
+            </div>
+
+            <div class="product__field field"
+                 *ngIf="variantForm.get('metaTags.description') as metaDescription"
+            >
+              <label class="field__label" [for]="'metaDesc-' + i">
+                Meta описание
+              </label>
+              <span class="field__control">
+          <multilingual-control [formControl]="metaDescription" [id]="'metaDesc-' + i" type="textarea"></multilingual-control>
+        </span>
+            </div>
+
+            <div class="product__field field"
+                 *ngIf="variantForm.get('metaTags.keywords') as metaKeywords"
+            >
+              <label class="field__label" [for]="'metaKeys-' + i">
+                Meta ключевые слова
+              </label>
+              <span class="field__control">
+          <multilingual-control [formControl]="metaKeywords" [id]="'metaKeys-' + i" type="textarea"></multilingual-control>
+        </span>
+            </div>
           </div>
         </div>
-      </fields-group>
 
-      <fields-group class="product__group"
-                    *ngIf="isMultiVariant && variantForm.get('attributes') as attributes"
-                    id="product-variant-attributes"
-      >
-        <div fields-group-title>Атрибуты</div>
-
-        <attribute-select class="product__field"
-                          *ngFor="let attribute of attributes.value"
-                          [selectedAttr]="attribute"
-                          [ngModelOptions]="{standalone: true}"
-                          [(ngModel)]="attribute.valueIds"
-        >
-        </attribute-select>
-      </fields-group>
-
-      <fields-group class="product__group" id="product-content">
-        <div fields-group-title>Контент</div>
-
-        <div class="product__field field"
-               *ngIf="variantForm.get('fullDescription') as fullDescription"
-        >
-          <label class="field__label" [for]="'desc-' + i">
-            Описание
-          </label>
-          <span class="field__control">
-            <multilingual-control [formControl]="fullDescription"
-                                  [id]="'desc-' + i"
-                                  (blur)="onDescriptionControlBlur(fullDescription, i)"
-                                  type="editor"
-            ></multilingual-control>
-          </span>
+        <div class="block__item" id="product-related">
+          <div class="block__title">Сопутствующие товары</div>
+          <div class="block__content">
+            <div class="product__field">
+              <linked-products [products]="product.variants[i].relatedProducts"
+                               [type]="'related'"
+                               (onChange)="onChangeRelatedProducts($event, i)"
+              ></linked-products>
+            </div>
+          </div>
         </div>
 
-        <div class="product__field field"
-               *ngIf="variantForm.get('shortDescription') as shortDescription"
-        >
-          <label class="field__label" [for]="'s-desc-' + i">
-            Короткое описание
-          </label>
-          <span class="field__control">
-            <multilingual-control [formControl]="shortDescription"
-                                  [id]="'s-desc-' + i"
-                                  type="textarea"
-            ></multilingual-control>
-          </span>
-        </div>
-      </fields-group>
+        <div class="block__item" id="product-media">
+          <div class="block__title">Картинки и видео</div>
+          <div class="block__content">
+            <div class="product__field media" *ngIf="variantForm.get('medias') as mediasControl">
+              <media-asset class="media__asset"
+                           *ngFor="let media of mediasControl.value, index as i"
+                           [media]="media"
+                           [draggable-item]="media"
+                           [class.media__asset--main]="i === 0 && mediasControl.value.length > 1"
+                           (remove)="onMediaRemove(media, mediasControl)"
+                           (dragged)="onMediaReorder(mediasControl, $event)"
+                           draggable-item-type="media"
+                           draggable-item-direction="horizontal"
+              ></media-asset>
 
-      <fields-group class="product__group" id="product-seo">
-        <div fields-group-title>SEO</div>
+              <media-uploader class="media_asset"
+                              [uploadUrl]="getMediaUploadUrl()"
+                              (uploaded)="mediaUploaded($event, mediasControl)"
+              ></media-uploader>
 
-        <div class="product__field field"
-               *ngIf="variantForm.get('slug') as slug"
-        >
-          <label class="field__label" [for]="'slug-' + i">
-            URL адрес
-          </label>
-          <span class="field__control">
-            <input class="field__input" [formControl]="slug" [id]="'slug-' + i" type="text">
-            <redirect-control *ngIf="!isNewProduct && !isNewProductBasedOn && product.variants[i]?.slug"
-                              [formControl]="variantForm.get('createRedirect')"
-                              [initialSlug]="product.variants[i]?.slug"
-                              [newSlugControl]="slug"
-            ></redirect-control>
-          </span>
+            </div>
+          </div>
         </div>
 
-        <div class="product__field field"
-               *ngIf="variantForm.get('metaTags.title') as metaTitle"
-        >
-          <label class="field__label" [for]="'metaTitle-' + i">
-            Meta заголовок
-          </label>
-          <span class="field__control">
-            <multilingual-control [formControl]="metaTitle" [id]="'metaTitle-' + i" type="textarea"></multilingual-control>
-          </span>
+        <div class="block__item" id="product-cross">
+          <div class="block__title">Кросс-товары</div>
+          <div class="block__content">
+            <div class="product__field">
+              <linked-products [products]="product.variants[i].crossSellProducts"
+                               [type]="'cross-sell'"
+                               (onChange)="onChangeCrossSellProducts($event, i)"
+              ></linked-products>
+            </div>
+          </div>
         </div>
-
-        <div class="product__field field"
-               *ngIf="variantForm.get('metaTags.description') as metaDescription"
-        >
-          <label class="field__label" [for]="'metaDesc-' + i">
-            Meta описание
-          </label>
-          <span class="field__control">
-            <multilingual-control [formControl]="metaDescription" [id]="'metaDesc-' + i" type="textarea"></multilingual-control>
-          </span>
-        </div>
-
-        <div class="product__field field"
-               *ngIf="variantForm.get('metaTags.keywords') as metaKeywords"
-        >
-          <label class="field__label" [for]="'metaKeys-' + i">
-            Meta ключевые слова
-          </label>
-          <span class="field__control">
-            <multilingual-control [formControl]="metaKeywords" [id]="'metaKeys-' + i" type="textarea"></multilingual-control>
-          </span>
-        </div>
-      </fields-group>
-
-      <fields-group class="product__group" id="product-media">
-        <div fields-group-title>Картинки и видео</div>
-
-        <div class="product__field media" *ngIf="variantForm.get('medias') as mediasControl">
-          <media-asset class="media__asset"
-                       *ngFor="let media of mediasControl.value, index as i"
-                       [media]="media"
-                       [draggable-item]="media"
-                       [class.media__asset--main]="i === 0 && mediasControl.value.length > 1"
-                       (remove)="onMediaRemove(media, mediasControl)"
-                       (dragged)="onMediaReorder(mediasControl, $event)"
-                       draggable-item-type="media"
-                       draggable-item-direction="horizontal"
-          ></media-asset>
-
-          <media-uploader class="media_asset"
-                          [uploadUrl]="getMediaUploadUrl()"
-                          (uploaded)="mediaUploaded($event, mediasControl)"
-          ></media-uploader>
-
-        </div>
-      </fields-group>
-
-      <fields-group class="product__group" id="product-related">
-        <div fields-group-title>Сопутствующие товары</div>
-
-        <div class="product__field">
-          <linked-products [products]="product.variants[i].relatedProducts"
-                           [type]="'related'"
-                           (onChange)="onChangeRelatedProducts($event, i)"
-          ></linked-products>
-        </div>
-      </fields-group>
-
-      <fields-group class="product__group" id="product-cross">
-        <div fields-group-title>Кросс-товары</div>
-
-        <div class="product__field">
-          <linked-products [products]="product.variants[i].crossSellProducts"
-                           [type]="'cross-sell'"
-                           (onChange)="onChangeCrossSellProducts($event, i)"
-          ></linked-products>
-        </div>
-      </fields-group>
-
+      </div>
     </fields-group>
 
-    <fields-group class="product__group" id="product-reviews">
-      <div fields-group-title>
+    <div class="block__item" id="product-reviews">
+      <div class="block__title">
         Отзывы
         <span *ngIf="product.reviewsCount"> ({{ product.reviewsCount }} шт., средняя оценка - {{ product.reviewsAvgRating }})</span>
       </div>
-
-      <reviews-viewer [productId]="product.id"></reviews-viewer>
-    </fields-group>
+      <div class="block__content">
+        <reviews-viewer [productId]="product.id"></reviews-viewer>
+      </div>
+    </div>
 
   </form>
 </div>
