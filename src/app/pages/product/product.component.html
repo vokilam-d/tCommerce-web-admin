@@ -76,7 +76,7 @@
         >
           <label for="name" class="field__label">Название товара</label>
           <span class="field__control">
-            <multilingual-control [formControl]="name" (onBlur)="onNameControlBlur(name)" id="name"></multilingual-control>
+            <multilingual-control [formControl]="name" (onBlur)="onNameControlBlur(name)" id="name" type="textarea" rows="2"></multilingual-control>
           </span>
         </div>
 
@@ -274,7 +274,7 @@
                   Google product ads название товара
                 </label>
                 <span class="field__control">
-                  <multilingual-control [formControl]="googleAdsProductTitle" [id]="'googleAdsProductTitle-' + i"></multilingual-control>
+                  <multilingual-control [formControl]="googleAdsProductTitle" [id]="'googleAdsProductTitle-' + i" type="textarea" rows="2"></multilingual-control>
                 </span>
               </div>
 
@@ -355,7 +355,7 @@
               URL адрес
             </label>
             <span class="field__control">
-              <input class="field__input" [formControl]="slug" [id]="'slug-' + i" type="text">
+              <textarea class="field__input" [formControl]="slug" [id]="'slug-' + i" rows="1"></textarea>
               <redirect-control *ngIf="!isNewProduct && !isNewProductBasedOn && product.variants[i]?.slug"
                                 [formControl]="variantForm.get('createRedirect')"
                                 [initialSlug]="product.variants[i]?.slug"
@@ -393,7 +393,7 @@
               Meta ключевые слова
             </label>
             <span class="field__control">
-              <multilingual-control [formControl]="metaKeywords" [id]="'metaKeys-' + i"></multilingual-control>
+              <multilingual-control [formControl]="metaKeywords" [id]="'metaKeys-' + i" type="textarea" rows="2"></multilingual-control>
             </span>
             </div>
           </div>
