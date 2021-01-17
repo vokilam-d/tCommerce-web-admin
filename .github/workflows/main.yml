@@ -6,10 +6,10 @@ on:
     branches: master
 
 env:
-  GITHUB_DOCKER_HUB: ghcr.io
+  GH_DOCKER_HUB: ghcr.io
   BASE_IMAGE_NAME: tcommerce-web-admin
   DOCKER_IMAGE_NAME: ${{ secrets.DOCKER_LOGIN }}/${BASE_IMAGE_NAME}
-  GITHUB_DOCKER_IMAGE_NAME: ${GITHUB_DOCKER_HUB}/${{ secrets.GHCR_DOCKER_USERNAME }}/tcommerce-web-admin
+  GH_DOCKER_IMAGE_NAME: ${GH_DOCKER_HUB}/${{ secrets.GHCR_DOCKER_USERNAME }}/${BASE_IMAGE_NAME}
 
 jobs:
   build-push:
@@ -21,24 +21,24 @@ jobs:
     - name: Log into Docker registry
       run: |
         echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_LOGIN }} --password-stdin
-        echo "${{ secrets.GHCR_PAT }}" | docker login ${GITHUB_DOCKER_HUB} -u ${{ secrets.GHCR_DOCKER_USERNAME }} --password-stdin
+        echo "${{ secrets.GHCR_PAT }}" | docker login ${GH_DOCKER_HUB} -u ${{ secrets.GHCR_DOCKER_USERNAME }} --password-stdin
 
     - name: Pull images
       run: |
-        docker pull ${GITHUB_DOCKER_IMAGE_NAME}:builder || true
-        docker pull ${GITHUB_DOCKER_IMAGE_NAME}:latest || true
+        docker pull ${GH_DOCKER_IMAGE_NAME}:builder || true
+        docker pull ${GH_DOCKER_IMAGE_NAME}:latest || true
 
     - name: Build images (multistage)
       run: |
-        echo ${GITHUB_DOCKER_IMAGE_NAME}
+        echo ${GH_DOCKER_IMAGE_NAME}
         docker build \
           --target builder \
-          --cache-from ${GITHUB_DOCKER_IMAGE_NAME}:builder \
-          -t ${GITHUB_DOCKER_IMAGE_NAME}:builder \
+          --cache-from ${GH_DOCKER_IMAGE_NAME}:builder \
+          -t ${GH_DOCKER_IMAGE_NAME}:builder \
           .
         docker build \
-          --cache-from ${GITHUB_DOCKER_IMAGE_NAME}:latest \
-          --cache-from ${GITHUB_DOCKER_IMAGE_NAME}:builder \
+          --cache-from ${GH_DOCKER_IMAGE_NAME}:latest \
+          --cache-from ${GH_DOCKER_IMAGE_NAME}:builder \
           -t ${DOCKER_IMAGE_NAME}:latest \
           .
 
@@ -47,10 +47,10 @@ jobs:
         # Strip git ref prefix from version
         VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
 
-        docker tag ${DOCKER_IMAGE_NAME}:latest ${DOCKER_IMAGE_NAME}:${VERSION} ${GITHUB_DOCKER_IMAGE_NAME}:latest
+        docker tag ${DOCKER_IMAGE_NAME}:latest ${DOCKER_IMAGE_NAME}:${VERSION} ${GH_DOCKER_IMAGE_NAME}:latest
 
-        docker push ${GITHUB_DOCKER_IMAGE_NAME}:builder
-        docker push ${GITHUB_DOCKER_IMAGE_NAME}:latest
+        docker push ${GH_DOCKER_IMAGE_NAME}:builder
+        docker push ${GH_DOCKER_IMAGE_NAME}:latest
         docker push ${DOCKER_IMAGE_NAME}:latest
         docker push ${DOCKER_IMAGE_NAME}:${VERSION}
 
