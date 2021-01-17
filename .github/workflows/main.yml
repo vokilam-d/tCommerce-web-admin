@@ -26,6 +26,11 @@ jobs:
         docker pull ${GH_DOCKER_IMAGE_NAME}:builder || true
         docker pull ${GH_DOCKER_IMAGE_NAME}:latest || true
 
+    - name: Set version
+      run: |
+        # Strip git ref prefix from version
+        VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+
     - name: Build images (multistage)
       run: |
         echo ${GH_DOCKER_IMAGE_NAME}
@@ -44,9 +49,6 @@ jobs:
 
     - name: Push images
       run: |
-        # Strip git ref prefix from version
-        VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-
         docker push ${GH_DOCKER_IMAGE_NAME}:builder
         docker push ${GH_DOCKER_IMAGE_NAME}:latest
         docker push ${DOCKER_IMAGE_NAME}:latest

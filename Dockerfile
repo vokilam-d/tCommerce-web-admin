@@ -21,11 +21,11 @@ FROM node:12-alpine
 
 ENV TZ 'Europe/Kiev'
 
+RUN npm install -g pm2
+
 WORKDIR /app
 
 COPY --from=builder /app/dist ./dist
-
-RUN npm install -g pm2
 
 EXPOSE 3001
 #EXPOSE 9228
