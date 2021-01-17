@@ -9,7 +9,7 @@ env:
   GITHUB_DOCKER_HUB: ghcr.io
   BASE_IMAGE_NAME: tcommerce-web-admin
   DOCKER_IMAGE_NAME: ${{ secrets.DOCKER_LOGIN }}/${BASE_IMAGE_NAME}
-  GITHUB_DOCKER_IMAGE_NAME: ${GITHUB_DOCKER_HUB}/vokilam-d/${BASE_IMAGE_NAME}
+  GITHUB_DOCKER_IMAGE_NAME: ghcr.io/vokilam-d/tcommerce-web-admin
 
 jobs:
   build-push:
@@ -34,7 +34,7 @@ jobs:
         docker build \
           --target builder \
           --cache-from ${GITHUB_DOCKER_IMAGE_NAME}:builder \
-          -t ${GITHUB_DOCKER_IMAGE_NAME}:builder \
+          -t ghcr.io/vokilam-d/tcommerce-web-admin:builder \
           .
 #        docker build \
 #          --cache-from ${GITHUB_DOCKER_IMAGE_NAME}:latest \
