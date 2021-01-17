@@ -18,6 +18,7 @@ jobs:
 
     - name: Log into Docker registry
       run: |
+        docker --version
         echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_LOGIN }} --password-stdin
         echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u ${{ secrets.GHCR_DOCKER_USERNAME }} --password-stdin
 
@@ -35,6 +36,7 @@ jobs:
           --cache-from ${GH_DOCKER_IMAGE_NAME}:builder \
           -t ${GH_DOCKER_IMAGE_NAME}:builder \
           .
+
         docker build \
           --cache-from ${GH_DOCKER_IMAGE_NAME}:latest \
           --cache-from ${GH_DOCKER_IMAGE_NAME}:builder \
