@@ -9,7 +9,7 @@ env:
   GITHUB_DOCKER_HUB: ghcr.io
   BASE_IMAGE_NAME: tcommerce-web-admin
   DOCKER_IMAGE_NAME: ${{ secrets.DOCKER_LOGIN }}/${BASE_IMAGE_NAME}
-  GITHUB_DOCKER_IMAGE_NAME: ghcr.io/vokilam-d/tcommerce-web-admin
+  GITHUB_DOCKER_IMAGE_NAME: ghcr.io/${{ secrets.GHCR_DOCKER_USERNAME }}/tcommerce-web-admin
 
 jobs:
   build-push:
