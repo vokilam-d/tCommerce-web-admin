@@ -8,7 +8,7 @@ import { AddOrUpdateProductDto, ProductDto } from '../../shared/dtos/product.dto
 import { NotyService } from '../../noty/noty.service';
 import { DEFAULT_CURRENCY_CODE, ECurrencyCode } from '../../shared/enums/currency.enum';
 import { API_HOST, DEFAULT_LANG } from '../../shared/constants/constants';
-import { finalize } from 'rxjs/operators';
+import { finalize, takeUntil } from 'rxjs/operators';
 import { AddOrUpdateProductVariantDto, ProductVariantDto } from '../../shared/dtos/product-variant.dto';
 import { LinkedProductDto } from '../../shared/dtos/linked-product.dto';
 import { HeadService } from '../../shared/services/head.service';
@@ -131,7 +131,9 @@ export class ProductComponent extends NgUnsubscribe implements OnInit {
         relatedProducts: [variant.relatedProducts],
         crossSellProducts: [variant.crossSellProducts]
       };
-      variantsFormArray.push(this.formBuilder.group(variantControls));
+      const variantFormGroup = this.formBuilder.group(variantControls);
+      this.setAltTextOnNameChange(variantFormGroup);
+      variantsFormArray.push(variantFormGroup);
     });
 
     const productControls: Record<keyof Pick<AddOrUpdateProductDto, 'isEnabled' | 'name' | 'categories' | 'additionalServiceIds' | 'attributes' | 'variants'>, any> = {
@@ -415,5 +417,18 @@ export class ProductComponent extends NgUnsubscribe implements OnInit {
       additionalServiceIds: productDto.additionalServiceIds,
       variants: productDto.variants.map(variantToCopy),
     } as ProductDto;
+  }
+
+  private setAltTextOnNameChange(form) {
+    const nameControl = form.controls.name;
+    const mediasControl = form.controls.medias;
+
+    nameControl.valueChanges
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(name => {
+        mediasControl.value.forEach(media => {
+          media.altText = name;
+        });
+      });
   }
 }
