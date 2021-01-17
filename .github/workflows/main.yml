@@ -21,20 +21,14 @@ jobs:
         echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_LOGIN }} --password-stdin
         echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u ${{ secrets.GHCR_DOCKER_USERNAME }} --password-stdin
 
-    - name: Pull images
+    - name: Pull images for cache
       run: |
         docker pull ${GH_DOCKER_IMAGE_NAME}:builder || true
         docker pull ${GH_DOCKER_IMAGE_NAME}:latest || true
 
-    - name: Set version
-      run: |
-        # Strip git ref prefix from version
-        VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-
     - name: Build images (multistage)
-      env:
-        VERSION: $(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
       run: |
+        VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
         echo ${VERSION}
         echo $VERSION
         docker build \
