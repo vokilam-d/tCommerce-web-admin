@@ -37,15 +37,15 @@ jobs:
         docker build \
           --cache-from ${GH_DOCKER_IMAGE_NAME}:latest \
           --cache-from ${GH_DOCKER_IMAGE_NAME}:builder \
+          -t ${GH_DOCKER_IMAGE_NAME}:latest \
           -t ${DOCKER_IMAGE_NAME}:latest \
+          -t ${DOCKER_IMAGE_NAME}:${VERSION} \
           .
 
     - name: Push images
       run: |
         # Strip git ref prefix from version
         VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-
-        docker tag ${DOCKER_IMAGE_NAME}:latest ${DOCKER_IMAGE_NAME}:${VERSION} ${GH_DOCKER_IMAGE_NAME}:latest
 
         docker push ${GH_DOCKER_IMAGE_NAME}:builder
         docker push ${GH_DOCKER_IMAGE_NAME}:latest
