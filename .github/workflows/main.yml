@@ -13,32 +13,40 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+
     - name: Log into Docker registry
-      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_LOGIN }} --password-stdin
+      run: |
+        echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_LOGIN }} --password-stdin
+        echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ secrets.GHCR_DOCKER_USERNAME }} --password-stdin
+
+    - name: Pull images
+      run: |
+        docker pull ghcr.io/$GITHUB_REPOSITORY:builder || true
+        docker pull ghcr.io/$GITHUB_REPOSITORY:latest || true
+
     - name: Build images (multistage)
       run: |
-        docker pull ${IMAGE_NAME}:builder
-        docker pull ${IMAGE_NAME}:latest
-
         docker build \
           --target builder \
-          --cache-from ${IMAGE_NAME}:builder \
-          -t ${IMAGE_NAME}:builder \
+          --cache-from ghcr.io/$GITHUB_REPOSITORY:builder \
+          -t ghcr.io/$GITHUB_REPOSITORY:builder \
           .
         docker build \
-          --cache-from ${IMAGE_NAME}:latest \
-          --cache-from ${IMAGE_NAME}:builder \
+          --cache-from ghcr.io/$GITHUB_REPOSITORY:latest \
+          --cache-from ghcr.io/$GITHUB_REPOSITORY:builder \
           -t ${IMAGE_NAME}:latest \
           .
+
     - name: Push images
       run: |
         # Strip git ref prefix from version
         VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
 
-        docker push ${IMAGE_NAME}:builder
-        docker push ${IMAGE_NAME}:latest
+        docker tag ${IMAGE_NAME}:latest ${IMAGE_NAME}:${VERSION} ghcr.io/$GITHUB_REPOSITORY:latest
 
-        docker tag ${IMAGE_NAME}:latest ${IMAGE_NAME}:${VERSION}
+        docker push ghcr.io/$GITHUB_REPOSITORY:builder
+        docker push ghcr.io/$GITHUB_REPOSITORY:latest
+        docker push ${IMAGE_NAME}:latest
         docker push ${IMAGE_NAME}:${VERSION}
 
   deploy:
