@@ -33,6 +33,10 @@ $fieldBorderColorFocus: $blue;
 
   &__control {
     width: 60%;
+
+    &--wide {
+      width: 80%;
+    }
   }
 
   &__input,

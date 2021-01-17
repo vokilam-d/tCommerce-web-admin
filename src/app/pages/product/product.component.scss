@@ -175,6 +175,10 @@
     &:hover {
       box-shadow: 0 0 4px 0 #a7a7a7;
     }
+
+    &--info {
+      width: calc(90% + 20px);
+    }
   }
 
   &__title {
@@ -192,5 +196,13 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+  }
+}
+
+.info {
+  display: flex;
+
+  &__col {
+    width: 50%;
   }
 }
