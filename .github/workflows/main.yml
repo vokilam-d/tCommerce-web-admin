@@ -37,7 +37,7 @@ jobs:
         docker build \
           --cache-from ${GITHUB_DOCKER_IMAGE_NAME}:latest \
           --cache-from ${GITHUB_DOCKER_IMAGE_NAME}:builder \
-          -t ${{ secrets.DOCKER_LOGIN }}${DOCKER_IMAGE_NAME}:latest \
+          -t ${DOCKER_IMAGE_NAME}:latest \
           .
 
     - name: Push images
