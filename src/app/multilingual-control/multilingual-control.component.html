@@ -1,19 +1,23 @@
-<div class="control">
-  <div class="control__tabs">
-    <button class="control__tab"
-            *ngFor="let lang of languages"
-            [class.control__tab--active]="lang === activeLanguage"
-            [ngSwitch]="lang"
-            (click)="activeLanguage = lang"
-    >
-      <ng-container *ngSwitchCase="languagesEnum.UK">Укр</ng-container>
-      <ng-container *ngSwitchCase="languagesEnum.RU">Рус</ng-container>
-      <ng-container *ngSwitchCase="languagesEnum.EN">Eng</ng-container>
-    </button>
-  </div>
+<div class="controls">
+  <div class="control" *ngFor="let lang of languages" [class.control--highlighted]="lang === languagesEnum.UK">
 
-  <ng-container *ngFor="let lang of languages" [ngSwitch]="type">
-    <ng-container *ngIf="lang === activeLanguage && form.get(lang) as control">
+    <div class="control__language" [ngSwitch]="lang">
+      <ng-container *ngSwitchCase="languagesEnum.UK">
+        Укр
+        <img class="control__flag" src="https://upload.wikimedia.org/wikipedia/commons/4/49/Flag_of_Ukraine.svg" alt="">
+      </ng-container>
+
+      <ng-container *ngSwitchCase="languagesEnum.RU">
+        Рус
+        <img class="control__flag" src="https://upload.wikimedia.org/wikipedia/en/thumb/f/f3/Flag_of_Russia.svg/1200px-Flag_of_Russia.svg.png" alt="">
+      </ng-container>
+
+      <ng-container *ngSwitchCase="languagesEnum.EN">
+        Eng
+      </ng-container>
+    </div>
+
+    <ng-container *ngIf="form.get(lang) as control" [ngSwitch]="type">
 
       <input *ngSwitchCase="'text'"
              class="field__input control__input"
@@ -38,8 +42,9 @@
                     [strict]="false"
                     [id]="id"
                     [modules]="quillModules"
+                    [styles]="{height: '150px'}"
                     (onBlur)="onControlBlur()"
       ></quill-editor>
     </ng-container>
-  </ng-container>
+  </div>
 </div>
