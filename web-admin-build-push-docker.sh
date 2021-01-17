@@ -8,6 +8,7 @@ docker build \
   --cache-from ${CI_REGISTRY_IMAGE}:builder \
   -t ${CI_REGISTRY_IMAGE}:builder \
   .
+
 docker build \
   --cache-from ${CI_REGISTRY_IMAGE}:latest \
   --cache-from ${CI_REGISTRY_IMAGE}:builder \
