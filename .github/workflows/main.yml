@@ -33,7 +33,8 @@ jobs:
 
     - name: Build images (multistage)
       run: |
-        echo ${GH_DOCKER_IMAGE_NAME}
+        echo ${VERSION}
+        echo $VERSION
         docker build \
           --target builder \
           --cache-from ${GH_DOCKER_IMAGE_NAME}:builder \
