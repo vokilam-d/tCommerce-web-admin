@@ -3,7 +3,7 @@ name: CI
 on:
   push:
 #    tags: v[0-9]+.[0-9]+.[0-9]+
-    tags: master
+    branches: master
 
 env:
   GITHUB_DOCKER_HUB: ghcr.io
