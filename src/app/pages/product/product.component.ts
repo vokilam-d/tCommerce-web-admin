@@ -419,7 +419,7 @@ export class ProductComponent extends NgUnsubscribe implements OnInit {
     } as ProductDto;
   }
 
-  private setAltTextOnNameChange(form) {
+  private setAltTextOnNameChange(form: FormGroup) {
     const nameControl = form.controls.name;
     const mediasControl = form.controls.medias;
 
