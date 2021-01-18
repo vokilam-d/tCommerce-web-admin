@@ -234,7 +234,11 @@ export class ProductComponent extends NgUnsubscribe implements OnInit {
     return `${API_HOST}/api/v1/admin/products/media`;
   }
 
-  mediaUploaded(media: MediaDto, mediasControl: AbstractControl) {
+  mediaUploaded(media: MediaDto, mediasControl: AbstractControl, index: number) {
+    const variantForm = this.variantsFormArray.controls[index];
+    const nameControl = variantForm.get('name');
+
+    media.altText = nameControl.value;
     mediasControl.value.push(media);
   }
 
