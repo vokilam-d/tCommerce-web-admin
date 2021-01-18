@@ -5,6 +5,7 @@ import { PaymentMethodEnum } from '../enums/payment-method.enum';
 import { OrderPricesDto } from './order-prices.dto';
 import { MultilingualTextDto } from './multilingual-text.dto';
 import { LogDto } from './log.dto';
+import { ManagerDto } from './manager.dto';
 
 export class AddOrUpdateOrderDto {
   customerId: number;
@@ -28,6 +29,7 @@ export class AddOrUpdateOrderDto {
   clientNote: string = '';
   adminNote: string = '';
   prices: OrderPricesDto = new OrderPricesDto();
+  manager: ManagerDto = new ManagerDto();
   isOrderPaid: boolean = false;
   logs: LogDto[];
 }
@@ -40,4 +42,8 @@ export class OrderDto extends AddOrUpdateOrderDto {
 
 export class UpdateOrderAdminNote {
   adminNote: string;
+}
+
+export class UpdateOrderAdminManager {
+  userId: string;
 }

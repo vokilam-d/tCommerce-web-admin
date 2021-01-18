@@ -3,6 +3,7 @@ import { OrderStatusEnum } from '../enums/order-status.enum';
 import { ShipmentStatusEnum } from '../enums/shipment-status.enum';
 import { EProductsSort } from '../enums/product-sort.enum';
 import { Language } from '../enums/language.enum';
+import { ISelectOption } from '../components/select/select-option.interface';
 
 // export const API_HOST = environment.production ? '' : 'http://173.249.23.253:3080';
 export const API_HOST = environment.production ? '' : 'http://localhost:3000';
@@ -48,3 +49,7 @@ export const TRANSLATIONS_MAP = {
   [EProductsSort.Cheap]: 'От дешёвых к дорогим',
   [EProductsSort.Expensive]: 'От дорогих к дешёвым'
 };
+export const MANAGER_SELECT_OPTIONS: ISelectOption[] = [
+  { data: '5ef9c63aae2fd882393081c3', view: 'Елена' },
+  { data: '5fff628d7db0790020149858', view: 'Кристина' }
+];

@@ -7,7 +7,12 @@ import { CustomerService } from '../../shared/services/customer.service';
 import { NotyService } from '../../noty/noty.service';
 import { AddressFormComponent } from '../../address-form/address-form.component';
 import { saveFileFromUrl } from '../../shared/helpers/save-file.function';
-import { DEFAULT_ERROR_TEXT, DEFAULT_LANG, UPLOADED_HOST } from '../../shared/constants/constants';
+import {
+  DEFAULT_ERROR_TEXT,
+  DEFAULT_LANG,
+  MANAGER_SELECT_OPTIONS,
+  UPLOADED_HOST
+} from '../../shared/constants/constants';
 import { FormControl } from '@angular/forms';
 import { HeadService } from '../../shared/services/head.service';
 import { FinalOrderStatuses, OrderStatusEnum } from '../../shared/enums/order-status.enum';
@@ -19,6 +24,7 @@ import { NgUnsubscribe } from '../../shared/directives/ng-unsubscribe/ng-unsubsc
 import { ShipmentStatusEnum } from '../../shared/enums/shipment-status.enum';
 import { OrderItemDto } from '../../shared/dtos/order-item.dto';
 import { copyToClipboard } from '../../shared/helpers/copy-to-clipboard.function';
+import { ISelectOption } from '../../shared/components/select/select-option.interface';
 
 @Component({
   selector: 'order-view',
@@ -34,10 +40,12 @@ export class OrderViewComponent extends NgUnsubscribe implements OnInit {
   trackingIdControl: FormControl;
   adminNoteControl: FormControl;
   paymentStatusControl: FormControl;
+  orderManagerControl: FormControl;
   paymentStatusError: string | null = null;
   isLoading: boolean = false;
 
   orderStatuses = OrderStatusEnum;
+  managerSelectOptions: ISelectOption[] = MANAGER_SELECT_OPTIONS;
 
   @ViewChild(AddressFormComponent) addressFormCmp: AddressFormComponent;
   @ViewChild(ShipmentInfoModalComponent) shipmentInfoModalCmp: ShipmentInfoModalComponent;
@@ -86,8 +94,16 @@ export class OrderViewComponent extends NgUnsubscribe implements OnInit {
           this.handlePaymentStatusControl();
           this.fetchCustomer(this.order.customerId);
           this.headService.setTitle(`Заказ №${this.order.id}`);
+          this.handleManagerControl();
         }
       );
+  }
+
+  private handleManagerControl() {
+    this.orderManagerControl = new FormControl(this.order.manager.userId);
+    this.orderManagerControl.valueChanges
+      .pipe( takeUntil(this.ngUnsubscribe) )
+      .subscribe(userId => this.updateOrderManager(userId));
   }
 
   private fetchCustomer(customerId: number) {
@@ -240,6 +256,20 @@ export class OrderViewComponent extends NgUnsubscribe implements OnInit {
         response => {
           this.order = response.data;
           this.closeAdminNoteForm();
+        }
+      );
+  }
+
+  updateOrderManager(userId) {
+    this.isLoading = true;
+    this.orderService.updateOrderManager(this.order.id, userId)
+      .pipe(
+        this.notyService.attachNoty({ successText: 'Менеджер успешно изменён' }),
+        finalize(() => this.isLoading = false)
+      )
+      .subscribe(
+        response => {
+          this.order = response.data;
         }
       );
   }

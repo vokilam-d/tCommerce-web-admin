@@ -16,13 +16,14 @@ import { FormControl } from '@angular/forms';
 import { NgUnsubscribe } from '../../shared/directives/ng-unsubscribe/ng-unsubscribe.directive';
 import { OrderStatusEnum } from '../../shared/enums/order-status.enum';
 import { ShipmentStatusEnum } from '../../shared/enums/shipment-status.enum';
-import { DEFAULT_LANG, TRANSLATIONS_MAP } from '../../shared/constants/constants';
+import { DEFAULT_LANG, MANAGER_SELECT_OPTIONS, TRANSLATIONS_MAP } from '../../shared/constants/constants';
 import { PaymentMethodEnum } from '../../shared/enums/payment-method.enum';
 import { OrderPricesDto } from '../../shared/dtos/order-prices.dto';
 import { copyToClipboard } from '../../shared/helpers/copy-to-clipboard.function';
 import { DatePipe } from '@angular/common';
 import { ReadableCurrencyPipe } from '../../shared/pipes/readable-currency.pipe';
 import { MultilingualTextDto } from '../../shared/dtos/multilingual-text.dto';
+import { ManagerDto } from '../../shared/dtos/manager.dto';
 
 @Component({
   selector: 'order-list',
@@ -300,6 +301,16 @@ const orderGridCells: IGridCell[] = [
     isImage: false,
     isSortable: true,
     fieldName: getPropertyOf<OrderDto>('clientNote')
+  },
+  {
+    isSearchable: false,
+    label: 'Менеджер',
+    initialWidth: 105,
+    align: 'left',
+    isImage: false,
+    isSortable: true,
+    fieldName: `${getPropertyOf<OrderDto>('manager')}.${getPropertyOf<ManagerDto>('name')}`,
+    filterFields: MANAGER_SELECT_OPTIONS
   },
   {
     isSearchable: false,

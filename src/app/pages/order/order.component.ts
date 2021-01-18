@@ -13,12 +13,13 @@ import { ISelectOption } from '../../shared/components/select/select-option.inte
 import { ShipmentAddressDto } from '../../shared/dtos/shipment-address.dto';
 import { CustomerService } from '../../shared/services/customer.service';
 import { ProductSelectorComponent } from '../../product-selector/product-selector.component';
-import { DEFAULT_LANG, UPLOADED_HOST } from '../../shared/constants/constants';
+import { DEFAULT_LANG, MANAGER_SELECT_OPTIONS, UPLOADED_HOST } from '../../shared/constants/constants';
 import { HeadService } from '../../shared/services/head.service';
 import { NgUnsubscribe } from '../../shared/directives/ng-unsubscribe/ng-unsubscribe.directive';
 import { catchError, finalize, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { EMPTY, forkJoin, Observable, of } from 'rxjs';
 import { ResponseDto } from '../../shared/dtos/response.dto';
+import { ManagerDto } from '../../shared/dtos/manager.dto';
 
 @Component({
   selector: 'order',
@@ -38,6 +39,7 @@ export class OrderComponent extends NgUnsubscribe implements OnInit {
   customer: CustomerDto;
   addressSelectControl: FormControl;
   addressSelectOptions: ISelectOption[] = [];
+  managerSelectOptions: ISelectOption[] = MANAGER_SELECT_OPTIONS;
   private newAddress: ShipmentAddressDto = new ShipmentAddressDto();
   private arePricesValid: boolean = true;
 
@@ -294,6 +296,10 @@ export class OrderComponent extends NgUnsubscribe implements OnInit {
   }
 
   private setOrder(orderDto: OrderDto) {
+    if (!this.order.manager) {
+      this.order.manager = new ManagerDto();
+    }
+
     if (!this.isReorder) {
       this.headService.setTitle(`Изменить заказ №${orderDto.id}`);
       this.order = orderDto;
@@ -328,6 +334,10 @@ export class OrderComponent extends NgUnsubscribe implements OnInit {
         discountLabel: orderDto.prices.discountLabel,
         totalCost: orderDto.prices.totalCost,
         itemsCost: orderDto.prices.itemsCost
+      },
+      manager: {
+        name: orderDto.manager?.name,
+        userId: orderDto.manager?.userId
       }
     } as OrderDto;
   }
