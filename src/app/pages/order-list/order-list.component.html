@@ -75,12 +75,7 @@
     <ng-template #cellContent let-order="item">{{ order.paymentMethodAdminName[lang] }}</ng-template>
     <ng-template #cellContent let-order="item">{{ order.isCallbackNeeded ? 'Да' : 'Нет' }}</ng-template>
     <ng-template #cellContent let-order="item">{{ order.clientNote }}</ng-template>
-    <ng-template #cellContent let-order="item">
-      <ng-container [ngSwitch]="order.manager.name">
-        <ng-container *ngSwitchCase="'Елена'">Елена</ng-container>
-        <ng-container *ngSwitchCase="'Кристина'">Кристина</ng-container>
-      </ng-container>
-    </ng-template>
+    <ng-template #cellContent let-order="item">{{ order.manager.name }}</ng-template>
     <ng-template #cellContent let-order="item">
       <ng-container [ngSwitch]="order.source">
         <ng-container *ngSwitchCase="'client'">Клиент</ng-container>

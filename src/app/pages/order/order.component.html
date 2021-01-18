@@ -56,15 +56,15 @@
               <div class="order__field field">
                 <label for="email" class="field__label">Email</label>
                 <span class="field__control">
-          <input class="field__input" [(ngModel)]="order.customerEmail" type="text" id="email">
-        </span>
+                  <input class="field__input" [(ngModel)]="order.customerEmail" type="text" id="email">
+                </span>
               </div>
 
               <div class="order__field field">
                 <label for="phoneNumber" class="field__label">Телефон</label>
                 <span class="field__control">
-          <input class="field__input" [(ngModel)]="order.customerPhoneNumber" type="text" id="phoneNumber">
-        </span>
+                  <input class="field__input" [(ngModel)]="order.customerPhoneNumber" type="text" id="phoneNumber">
+                </span>
               </div>
             </ng-container>
 
@@ -128,21 +128,16 @@
             <div class="order__field field">
               <label for="adminNote" class="field__label">Комментарий менеджера</label>
               <span class="field__control">
-          <input class="field__input" [(ngModel)]="order.adminNote" type="text" id="adminNote">
-        </span>
+                <input class="field__input" [(ngModel)]="order.adminNote" type="text" id="adminNote">
+              </span>
             </div>
           </div>
           <div class="order__block">
             <div class="order__field field">
               <label class="field__label">Менеджер</label>
-              <span class="field__control">
-          <div class="field__control">
-              <app-select class="order-view__manager-selector"
-                          [options]="managerSelectOptions"
-                          [formControl]="orderManagerControl">
-              </app-select>
-            </div>
-                        </span>
+              <div class="field__control">
+                <app-select [options]="managerSelectOptions" [(ngModel)]="order.manager.userId"></app-select>
+              </div>
             </div>
           </div>
         </div>

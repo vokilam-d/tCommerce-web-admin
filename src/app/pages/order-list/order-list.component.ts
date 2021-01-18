@@ -16,7 +16,7 @@ import { FormControl } from '@angular/forms';
 import { NgUnsubscribe } from '../../shared/directives/ng-unsubscribe/ng-unsubscribe.directive';
 import { OrderStatusEnum } from '../../shared/enums/order-status.enum';
 import { ShipmentStatusEnum } from '../../shared/enums/shipment-status.enum';
-import { DEFAULT_LANG, TRANSLATIONS_MAP } from '../../shared/constants/constants';
+import { DEFAULT_LANG, MANAGER_SELECT_OPTIONS, TRANSLATIONS_MAP } from '../../shared/constants/constants';
 import { PaymentMethodEnum } from '../../shared/enums/payment-method.enum';
 import { OrderPricesDto } from '../../shared/dtos/order-prices.dto';
 import { copyToClipboard } from '../../shared/helpers/copy-to-clipboard.function';
@@ -156,7 +156,6 @@ export class OrderListComponent extends NgUnsubscribe implements OnInit, AfterVi
 }
 
 const shipmentProp = getPropertyOf<OrderDto>('shipment');
-const managerProp = getPropertyOf<OrderDto>('manager');
 const recipientProp = getPropertyOf<ShipmentDto>('recipient');
 const orderGridCells: IGridCell[] = [
   {
@@ -310,11 +309,8 @@ const orderGridCells: IGridCell[] = [
     align: 'left',
     isImage: false,
     isSortable: true,
-    fieldName: `${managerProp}.${getPropertyOf<ManagerDto>('name')}`,
-    filterFields: [
-      { data: '5ef9c63aae2fd882393081c3', view: 'Елена' },
-      { data: '5fff628d7db0790020149858', view: 'Кристина' }
-    ]
+    fieldName: `${getPropertyOf<OrderDto>('manager')}.${getPropertyOf<ManagerDto>('name')}`,
+    filterFields: MANAGER_SELECT_OPTIONS
   },
   {
     isSearchable: false,

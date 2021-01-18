@@ -7,7 +7,12 @@ import { CustomerService } from '../../shared/services/customer.service';
 import { NotyService } from '../../noty/noty.service';
 import { AddressFormComponent } from '../../address-form/address-form.component';
 import { saveFileFromUrl } from '../../shared/helpers/save-file.function';
-import { DEFAULT_ERROR_TEXT, DEFAULT_LANG, UPLOADED_HOST } from '../../shared/constants/constants';
+import {
+  DEFAULT_ERROR_TEXT,
+  DEFAULT_LANG,
+  MANAGER_SELECT_OPTIONS,
+  UPLOADED_HOST
+} from '../../shared/constants/constants';
 import { FormControl } from '@angular/forms';
 import { HeadService } from '../../shared/services/head.service';
 import { FinalOrderStatuses, OrderStatusEnum } from '../../shared/enums/order-status.enum';
@@ -40,8 +45,7 @@ export class OrderViewComponent extends NgUnsubscribe implements OnInit {
   isLoading: boolean = false;
 
   orderStatuses = OrderStatusEnum;
-  managerSelectOptions: ISelectOption[] = [{ view: 'Елена', data: '5ef9c63aae2fd882393081c3' },
-    { view: 'Кристина', data: '5fff628d7db0790020149858' }];
+  managerSelectOptions: ISelectOption[] = MANAGER_SELECT_OPTIONS;
 
   @ViewChild(AddressFormComponent) addressFormCmp: AddressFormComponent;
   @ViewChild(ShipmentInfoModalComponent) shipmentInfoModalCmp: ShipmentInfoModalComponent;
@@ -97,9 +101,9 @@ export class OrderViewComponent extends NgUnsubscribe implements OnInit {
 
   private handleManagerControl() {
     this.orderManagerControl = new FormControl(this.order.manager.userId);
-    this.orderManagerControl.valueChanges.subscribe(userId => {
-      this.updateOrderManager(userId);
-    });
+    this.orderManagerControl.valueChanges
+      .pipe( takeUntil(this.ngUnsubscribe) )
+      .subscribe(userId => this.updateOrderManager(userId));
   }
 
   private fetchCustomer(customerId: number) {
@@ -268,7 +272,6 @@ export class OrderViewComponent extends NgUnsubscribe implements OnInit {
           this.order = response.data;
         }
       );
-    // console.log(event);
   }
 
   openShipmentInfo() {

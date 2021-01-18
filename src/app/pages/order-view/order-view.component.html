@@ -75,10 +75,11 @@
           </div>
           <div class="info-table__row">
             <div class="info-table__block">Менеджер</div>
-            <div class="field__control">
-              <app-select class="order-view__manager-selector"
+            <div class="field__control order-view__manager-container">
+              <app-select class="order-view__manager"
                           [options]="managerSelectOptions"
-                          [formControl] = "orderManagerControl">
+                          [formControl] = "orderManagerControl"
+              >
               </app-select>
             </div>
           </div>

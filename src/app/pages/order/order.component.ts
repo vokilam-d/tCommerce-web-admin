@@ -13,12 +13,13 @@ import { ISelectOption } from '../../shared/components/select/select-option.inte
 import { ShipmentAddressDto } from '../../shared/dtos/shipment-address.dto';
 import { CustomerService } from '../../shared/services/customer.service';
 import { ProductSelectorComponent } from '../../product-selector/product-selector.component';
-import { DEFAULT_LANG, UPLOADED_HOST } from '../../shared/constants/constants';
+import { DEFAULT_LANG, MANAGER_SELECT_OPTIONS, UPLOADED_HOST } from '../../shared/constants/constants';
 import { HeadService } from '../../shared/services/head.service';
 import { NgUnsubscribe } from '../../shared/directives/ng-unsubscribe/ng-unsubscribe.directive';
 import { catchError, finalize, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { EMPTY, forkJoin, Observable, of } from 'rxjs';
 import { ResponseDto } from '../../shared/dtos/response.dto';
+import { ManagerDto } from '../../shared/dtos/manager.dto';
 
 @Component({
   selector: 'order',
@@ -37,13 +38,10 @@ export class OrderComponent extends NgUnsubscribe implements OnInit {
   order: OrderDto;
   customer: CustomerDto;
   addressSelectControl: FormControl;
-  orderManagerControl: FormControl;
   addressSelectOptions: ISelectOption[] = [];
+  managerSelectOptions: ISelectOption[] = MANAGER_SELECT_OPTIONS;
   private newAddress: ShipmentAddressDto = new ShipmentAddressDto();
   private arePricesValid: boolean = true;
-  managerSelectOptions: ISelectOption[] = [{ view: 'Елена', data: '5ef9c63aae2fd882393081c3' },
-    { view: 'Кристина', data: '5fff628d7db0790020149858' }];
-
 
   get isNewAddress(): boolean { return this.order.shipment.recipient === this.newAddress; }
 
@@ -71,14 +69,6 @@ export class OrderComponent extends NgUnsubscribe implements OnInit {
     this.isReorder = this.route.snapshot.data.action === EPageAction.AddBasedOn;
     this.isEditOrder = this.route.snapshot.data.action === EPageAction.Edit;
 
-    this.orderManagerControl = new FormControl();
-    this.orderManagerControl.valueChanges.subscribe(userId => {
-      if (!this.order.manager) {
-        this.order.manager = {};
-      }
-      this.order.manager.userId = userId;
-    });
-
     if (this.isNewOrder) {
       this.order = new OrderDto();
       this.headService.setTitle(`Новый заказ`);
@@ -94,10 +84,7 @@ export class OrderComponent extends NgUnsubscribe implements OnInit {
     this.orderService.fetchOrder(id)
       .pipe(
         this.notyService.attachNoty(),
-        tap(response => {
-          this.setOrder(response.data);
-          this.orderManagerControl.setValue(this.order.manager?.userId);
-        }),
+        tap(response => this.setOrder(response.data)),
         switchMap(() => this.isReorder || this.isEditOrder ? this.fetchCustomer(this.order.customerId) : EMPTY),
         switchMap(() => this.isReorder ? this.recreateOrderItems() : EMPTY),
         finalize(() => this.isLoading = false)
@@ -309,6 +296,10 @@ export class OrderComponent extends NgUnsubscribe implements OnInit {
   }
 
   private setOrder(orderDto: OrderDto) {
+    if (!this.order.manager) {
+      this.order.manager = new ManagerDto();
+    }
+
     if (!this.isReorder) {
       this.headService.setTitle(`Изменить заказ №${orderDto.id}`);
       this.order = orderDto;

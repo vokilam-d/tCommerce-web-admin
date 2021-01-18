@@ -1,4 +1,4 @@
 export class ManagerDto {
-  userId?: string;
-  name?: string;
+  userId: string = '';
+  name: string = '';
 }
