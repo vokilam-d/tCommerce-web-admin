@@ -336,8 +336,8 @@ export class OrderComponent extends NgUnsubscribe implements OnInit {
         itemsCost: orderDto.prices.itemsCost
       },
       manager: {
-        name: orderDto.manager?.name,
-        userId: orderDto.manager?.userId
+        name: orderDto.manager.name,
+        userId: orderDto.manager.userId
       }
     } as OrderDto;
   }
