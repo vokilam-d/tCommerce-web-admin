@@ -114,7 +114,7 @@
             <div class="info-table__block">Комментарий менеджера <a class="order-view__edit-btn" *ngIf="!adminNoteControl" (click)="openAdminNoteForm()">изменить</a></div>
             <div class="info-table__block">
               <div class="update-note" *ngIf="adminNoteControl; else adminNoteText">
-                <textarea class="update-note__control" [formControl]="adminNoteControl"></textarea>
+                <textarea class="update-note__control field__textarea" [formControl]="adminNoteControl"></textarea>
 
                 <button class="order-view__edit-btn" (click)="updateAdminNote()">
                   сохранить
