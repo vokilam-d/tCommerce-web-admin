@@ -296,8 +296,8 @@ export class OrderComponent extends NgUnsubscribe implements OnInit {
   }
 
   private setOrder(orderDto: OrderDto) {
-    if (!this.order.manager) {
-      this.order.manager = new ManagerDto();
+    if (!orderDto.manager) {
+      orderDto.manager = new ManagerDto();
     }
 
     if (!this.isReorder) {
