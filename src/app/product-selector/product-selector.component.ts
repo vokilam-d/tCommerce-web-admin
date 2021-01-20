@@ -115,7 +115,7 @@ export class ProductSelectorComponent implements OnInit, AfterViewInit {
       const variants = product.variants.map(variant => {
         return {
           ...variant,
-          selectedQty: 0
+          selectedQty: variant.sellableQty > 0 ? 1 : 0
         }
       });
 
@@ -130,7 +130,7 @@ export class ProductSelectorComponent implements OnInit, AfterViewInit {
 
   selectProduct(product: ProductForSelector, variant: VariantForSelector) {
     this.selectedEmitter.emit({ product, variant, qty: variant.selectedQty });
-    variant.selectedQty = 0;
+    variant.selectedQty = variant.sellableQty > 0 ? 1 : 0;
     this.notyService.showSuccessNoty(`Товар добавлен`);
   }
 
