@@ -170,9 +170,8 @@ const orderGridCells: IGridCell[] = [
   {
     isSearchable: false,
     label: 'Дата',
-    initialWidth: 125,
+    initialWidth: 90,
     align: 'left',
-    isImage: true,
     isSortable: true,
     fieldName: getPropertyOf<OrderDto>('createdAt'),
     hasDateFromFilter: true,
@@ -182,7 +181,7 @@ const orderGridCells: IGridCell[] = [
     isSearchable: true,
     label: 'Получатель',
     placeholder: 'Фамилия или телефон',
-    initialWidth: 200,
+    initialWidth: 150,
     align: 'left',
     isImage: false,
     isSortable: false,
@@ -191,7 +190,7 @@ const orderGridCells: IGridCell[] = [
   {
     isSearchable: true,
     label: 'Коммент о клиенте',
-    initialWidth: 75,
+    initialWidth: 65,
     align: 'left',
     isImage: false,
     isSortable: false,
@@ -200,7 +199,7 @@ const orderGridCells: IGridCell[] = [
   {
     isSearchable: true,
     label: 'Город',
-    initialWidth: 100,
+    initialWidth: 80,
     align: 'left',
     isImage: false,
     isSortable: true,
@@ -208,8 +207,8 @@ const orderGridCells: IGridCell[] = [
   },
   {
     isSearchable: true,
-    label: 'Отделение',
-    initialWidth: 100,
+    label: '№ отд.',
+    initialWidth: 50,
     align: 'left',
     isImage: false,
     isSortable: true,
@@ -251,9 +250,8 @@ const orderGridCells: IGridCell[] = [
   {
     isSearchable: false,
     label: 'Дата отправки',
-    initialWidth: 125,
+    initialWidth: 90,
     align: 'left',
-    isImage: true,
     isSortable: true,
     fieldName: getPropertyOf<OrderDto>('shippedAt'),
     hasDateFromFilter: true,
@@ -262,7 +260,7 @@ const orderGridCells: IGridCell[] = [
   {
     isSearchable: true,
     label: 'ТТН',
-    initialWidth: 120,
+    initialWidth: 112,
     align: 'left',
     isImage: false,
     isSortable: false,
@@ -307,7 +305,7 @@ const orderGridCells: IGridCell[] = [
   {
     isSearchable: true,
     label: 'Комментарий клиента к заказу',
-    initialWidth: 100,
+    initialWidth: 120,
     align: 'left',
     isImage: false,
     isSortable: true,

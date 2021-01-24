@@ -19,7 +19,7 @@ export interface IGridCell {
   isSortable: boolean;
   isSearchable: boolean;
   initialWidth: number;
-  isImage: boolean;
+  isImage?: boolean;
   filterFields?: ISelectOption[];
   hasDateFromFilter?: boolean;
   hasDateToFilter?: boolean;

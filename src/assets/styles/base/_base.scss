@@ -89,6 +89,12 @@ quill-editor {
   }
 }
 
+input[type="date"] {
+  &::-webkit-calendar-picker-indicator {
+    margin-left: 0;
+  }
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;

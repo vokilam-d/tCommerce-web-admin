@@ -133,6 +133,10 @@
       text-align: center;
     }
 
+    &--date {
+      padding: 10px 1px;
+    }
+
     &--center {
       align-items: center;
       text-align: center;
@@ -171,7 +175,7 @@
 
   &__date-filter {
     font-size: 12px;
-    width: 125px;
+    width: 90px;
 
     & + & {
       margin-top: 5px;

@@ -17,6 +17,7 @@
              (click)="onHeadCellClick(cell)"
              [ngClass]="{
                'grid__block--image': cell.isImage,
+               'grid__block--date': cell.hasDateFromFilter || cell.hasDateToFilter,
                'grid__block--sortable': cell.isSortable,
                'grid__block--left': cell.align === 'left',
                'grid__block--center': cell.align === 'center',
@@ -34,6 +35,7 @@
         <div class="grid__block grid__block--search"
              *ngFor="let cell of cells"
              [class.grid__block--image]="cell.isImage"
+             [class.grid__block--date]="cell.hasDateFromFilter || cell.hasDateToFilter"
              [style.width.px]="cell.initialWidth"
         >
 
@@ -95,6 +97,7 @@
                *ngFor="let cell of cells, index as i"
                [ngClass]="{
                  'grid__block--image': cell.isImage,
+                 'grid__block--date': cell.hasDateFromFilter || cell.hasDateToFilter,
                  'grid__block--left': cell.align === 'left',
                  'grid__block--center': cell.align === 'center',
                  'grid__block--right': cell.align === 'right'
@@ -111,6 +114,7 @@
                  *ngFor="let cell of cells, index as subIdx"
                  [ngClass]="{
                    'grid__block--image': cell.isImage,
+                   'grid__block--date': cell.hasDateFromFilter || cell.hasDateToFilter,
                    'grid__block--left': cell.align === 'left',
                    'grid__block--center': cell.align === 'center',
                    'grid__block--right': cell.align === 'right'
