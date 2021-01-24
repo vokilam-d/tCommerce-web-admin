@@ -249,6 +249,17 @@ const orderGridCells: IGridCell[] = [
       .map(value => ({data: value, view: TRANSLATIONS_MAP[value]}))
   },
   {
+    isSearchable: false,
+    label: 'Дата отправки',
+    initialWidth: 125,
+    align: 'left',
+    isImage: true,
+    isSortable: true,
+    fieldName: getPropertyOf<OrderDto>('shippedAt'),
+    hasDateFromFilter: true,
+    hasDateToFilter: true
+  },
+  {
     isSearchable: true,
     label: 'ТТН',
     initialWidth: 120,

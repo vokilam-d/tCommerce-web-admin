@@ -62,6 +62,10 @@
         {{ order.shipment.statusDescription }}
       </span>
     </ng-template>
+    <ng-template #cellContent let-order="item">
+      {{ order.shippedAt | date:'dd.MM.y' }}
+      <span class="order__time">{{ order.shippedAt | date:'HH:mm:ss' }}</span>
+    </ng-template>
     <ng-template #cellContent let-order="item">{{ order.shipment.trackingNumber }}</ng-template>
     <ng-template #cellContent let-order="item">{{ order.adminNote }}</ng-template>
     <ng-template #cellContent let-order="item">

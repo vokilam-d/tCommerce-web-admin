@@ -38,6 +38,7 @@ export class OrderDto extends AddOrUpdateOrderDto {
   id: number;
   statusDescription: MultilingualTextDto = new MultilingualTextDto();
   source: 'client' | 'manager';
+  shippedAt: Date;
 }
 
 export class UpdateOrderAdminNote {
