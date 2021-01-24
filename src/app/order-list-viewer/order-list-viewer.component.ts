@@ -114,7 +114,7 @@ const orderGridCells: IGridCell[] = [
     align: 'left',
     isImage: false,
     isSortable: true,
-    fieldName: `${shipmentProp}.${recipientProp}.${getPropertyOf<ShipmentAddressDto>('settlement')}`
+    fieldName: `${shipmentProp}.${recipientProp}.${getPropertyOf<ShipmentAddressDto>('settlement')}|${shipmentProp}.${recipientProp}.${getPropertyOf<ShipmentAddressDto>('settlementFull')}`
   },
   {
     isSearchable: true,

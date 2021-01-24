@@ -117,7 +117,7 @@
               {{ address.phone | normalizedPhone }}
             </div>
             <div class="address__block">
-              {{ address.settlement }}
+              {{ address.settlementFull || address.settlement }}
             </div>
             <div class="address__block" [ngSwitch]="address.addressType">
               Тип доставки: <ng-container *ngSwitchCase="addressTypes.WAREHOUSE">в отделение</ng-container><ng-container *ngSwitchCase="addressTypes.DOORS">адресная Новой Почтой</ng-container>

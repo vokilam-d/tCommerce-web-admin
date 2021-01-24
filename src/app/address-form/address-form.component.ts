@@ -43,18 +43,16 @@ export class AddressFormComponent extends NgUnsubscribe implements OnChanges {
       phone: [address.phone, Validators.required],
       addressType: [address.addressType, Validators.required],
       settlement: [address.settlement, Validators.required],
+      settlementFull: [address.settlementFull],
       settlementId: [address.settlementId, Validators.required],
       address: [address.address, Validators.required],
+      addressFull: [address.addressFull],
       addressId: [address.addressId, Validators.required],
       buildingNumber: address.buildingNumber,
       flat: address.flat
     }
 
     this.addressForm = this.formBuilder.group(controls);
-
-    const addressTypeProp: keyof ShipmentAddressDto = 'addressType';
-    const addressIdProp: keyof ShipmentAddressDto = 'addressId';
-    const addressProp: keyof ShipmentAddressDto = 'address';
     this.addressForm.get(addressTypeProp).valueChanges
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((addressType: AddressTypeEnum) => {
@@ -62,10 +60,8 @@ export class AddressFormComponent extends NgUnsubscribe implements OnChanges {
         this.addressForm.get(addressProp).reset('');
 
         if (addressType === AddressTypeEnum.WAREHOUSE) {
-          const buildingProp: keyof ShipmentAddressDto = 'buildingNumber';
-          const flantProp: keyof ShipmentAddressDto = 'flat';
           this.addressForm.get(buildingProp).reset('');
-          this.addressForm.get(flantProp).reset('');
+          this.addressForm.get(flatProp).reset('');
         }
       })
   }
@@ -86,9 +82,6 @@ export class AddressFormComponent extends NgUnsubscribe implements OnChanges {
 
   checkValidity(): boolean {
     if (this.addressForm.valid) {
-      const addressTypeProp: keyof ShipmentAddressDto = 'addressType';
-      const buildingProp: keyof ShipmentAddressDto = 'buildingNumber';
-
       if (this.addressForm.get(addressTypeProp).value === AddressTypeEnum.DOORS) {
         return !!this.addressForm.get(buildingProp).value;
       } else {
@@ -106,31 +99,24 @@ export class AddressFormComponent extends NgUnsubscribe implements OnChanges {
   }
 
   onSettlementSelect(settlement: SettlementDto) {
-    const settlementIdProp: keyof ShipmentAddressDto = 'settlementId';
-    const settlementProp: keyof ShipmentAddressDto = 'settlement';
-
     this.addressForm.get(settlementIdProp).setValue(settlement.id);
-    this.addressForm.get(settlementProp).setValue(settlement.fullName);
+    this.addressForm.get(settlementProp).setValue(settlement.nameWithType);
+    this.addressForm.get(settlementFullProp).setValue(settlement.fullName);
   }
 
   onWarehouseSelect(warehouse: WarehouseDto) {
-    const addressIdProp: keyof ShipmentAddressDto = 'addressId';
-    const addressProp: keyof ShipmentAddressDto = 'address';
-
     this.addressForm.get(addressIdProp).setValue(warehouse.id);
-    this.addressForm.get(addressProp).setValue(warehouse.description);
+    this.addressForm.get(addressProp).setValue(warehouse.name);
+    this.addressForm.get(addressFullProp).setValue(warehouse.description);
   }
 
   onStreetSelect(street: StreetDto) {
-    const addressIdProp: keyof ShipmentAddressDto = 'addressId';
-    const addressProp: keyof ShipmentAddressDto = 'address';
-
     this.addressForm.get(addressIdProp).setValue(street.id);
     this.addressForm.get(addressProp).setValue(street.name);
+    this.addressForm.get(addressFullProp).setValue(street.name);
   }
 
   isOptionalControlInvalid(prop: keyof ShipmentAddressDto) {
-    const addressTypeProp: keyof ShipmentAddressDto = 'addressType';
     const addressType: AddressTypeEnum = this.addressForm.get(addressTypeProp).value;
     const control = this.addressForm.get(prop);
 
@@ -141,7 +127,16 @@ export class AddressFormComponent extends NgUnsubscribe implements OnChanges {
   }
 
   setAddressType(type: { view: string; data: AddressTypeEnum }) {
-    const addressTypeProp: keyof ShipmentAddressDto = 'addressType';
     this.addressForm.get(addressTypeProp).setValue(type.data);
   }
 }
+
+const settlementIdProp: keyof ShipmentAddressDto = 'settlementId';
+const settlementProp: keyof ShipmentAddressDto = 'settlement';
+const settlementFullProp: keyof ShipmentAddressDto = 'settlementFull';
+const addressIdProp: keyof ShipmentAddressDto = 'addressId';
+const addressProp: keyof ShipmentAddressDto = 'address';
+const addressFullProp: keyof ShipmentAddressDto = 'addressFull';
+const addressTypeProp: keyof ShipmentAddressDto = 'addressType';
+const buildingProp: keyof ShipmentAddressDto = 'buildingNumber';
+const flatProp: keyof ShipmentAddressDto = 'flat';

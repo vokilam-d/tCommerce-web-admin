@@ -277,7 +277,7 @@ export class OrderComponent extends NgUnsubscribe implements OnInit {
     this.addressSelectOptions = [
       { data: this.newAddress, view: 'Создать новый адрес' },
       ...this.customer.addresses.map(address => {
-        let view = `${address.lastName} ${address.firstName}, ${address.settlement}, ${address.address}`;
+        let view = `${address.lastName} ${address.firstName}, ${address.settlementFull || address.settlement}, ${address.addressFull || address.address}`;
         if (address.buildingNumber) {
           view += `${address.buildingNumber}, ${address.flat}`;
         }
