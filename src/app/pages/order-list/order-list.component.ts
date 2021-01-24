@@ -309,7 +309,7 @@ const orderGridCells: IGridCell[] = [
     align: 'left',
     isImage: false,
     isSortable: true,
-    fieldName: `${getPropertyOf<OrderDto>('manager')}.${getPropertyOf<ManagerDto>('name')}`,
+    fieldName: `${getPropertyOf<OrderDto>('manager')}.${getPropertyOf<ManagerDto>('userId')}`,
     filterFields: MANAGER_SELECT_OPTIONS
   },
   {
