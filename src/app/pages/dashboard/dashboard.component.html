@@ -1,4 +1,10 @@
 <div class="chart">
   <h2 class="chart__title">Заказы</h2>
-  <div class="chart__chart" echarts [options]="chartOptions" [loading]="isLoading" (chartInit)="onChartInit($event)"></div>
+  <div class="chart__chart"
+       *ngIf="isBrowser"
+       echarts
+       [options]="chartOptions"
+       [loading]="isOrdersLoading"
+       (chartInit)="onChartInit($event, isOrdersLoading)"
+  ></div>
 </div>

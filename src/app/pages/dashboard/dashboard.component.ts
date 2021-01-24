@@ -4,6 +4,7 @@ import { DashboardService } from '../../shared/services/dashboard.service';
 import { EChartsOption } from 'echarts';
 import { NotyService } from '../../noty/noty.service';
 import { finalize } from 'rxjs/operators';
+import { DeviceService } from '../../shared/services/device-detector/device.service';
 
 @Component({
   selector: 'dashboard',
@@ -12,24 +13,29 @@ import { finalize } from 'rxjs/operators';
 })
 export class DashboardComponent implements OnInit {
   chartOptions: EChartsOption = DEFAULT_ORDERS_CHART_OPTIONS;
-  isLoading: boolean = true;
+  isOrdersLoading: boolean = true;
+  isBrowser: boolean;
 
   constructor(
+    private deviceService: DeviceService,
     private headService: HeadService,
     private dashboardService: DashboardService,
     private notyService: NotyService
   ) { }
 
   ngOnInit() {
+    this.isBrowser = this.deviceService.isPlatformBrowser();
     this.headService.setTitle(`Dashboard`);
 
-    this.getOrders();
+    if (this.isBrowser) {
+      this.getOrders();
+    }
   }
 
   private getOrders() {
-    this.isLoading = true;
+    this.isOrdersLoading = true;
     this.dashboardService.getOrdersChart()
-      .pipe( this.notyService.attachNoty(), finalize(() => this.isLoading = false))
+      .pipe( this.notyService.attachNoty(), finalize(() => this.isOrdersLoading = false))
       .subscribe(
         response => {
 
@@ -111,8 +117,8 @@ export class DashboardComponent implements OnInit {
       );
   }
 
-  onChartInit(chartInstance: any) {
-    if (this.isLoading) {
+  onChartInit(chartInstance: any, isLoading: boolean) {
+    if (isLoading) {
       chartInstance.showLoading();
     }
   }
