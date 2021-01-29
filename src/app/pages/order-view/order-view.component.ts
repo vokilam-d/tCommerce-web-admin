@@ -43,6 +43,7 @@ export class OrderViewComponent extends NgUnsubscribe implements OnInit {
   orderManagerControl: FormControl;
   paymentStatusError: string | null = null;
   isLoading: boolean = false;
+  isPdfButtonsVisible: boolean = false;
 
   orderStatuses = OrderStatusEnum;
   managerSelectOptions: ISelectOption[] = MANAGER_SELECT_OPTIONS;
@@ -140,6 +141,11 @@ export class OrderViewComponent extends NgUnsubscribe implements OnInit {
 
   printInvoice() {
     const url = this.orderService.getPrintInvoiceUrl(this.order.id);
+    saveFileFromUrl(url);
+  }
+
+  printDeliveryNote() {
+    const url = this.orderService.getDeliveryNoteUrl(this.order.id);
     saveFileFromUrl(url);
   }
 
@@ -387,5 +393,9 @@ export class OrderViewComponent extends NgUnsubscribe implements OnInit {
   public copyOrderIdToClipboard(id: number) {
     copyToClipboard(`Заказ № ${id}`);
     this.notyService.showSuccessNoty(`Скопировано`);
+  }
+
+  public togglePdfTooltip() {
+    this.isPdfButtonsVisible = !this.isPdfButtonsVisible;
   }
 }
