@@ -16,11 +16,22 @@
         <app-button class="header__btn" (click)="reorder()" type="button">
           Повторить заказ
         </app-button>
-        <app-button class="header__btn" (click)="printInvoice()" type="button">
-          PDF счета-фактуры
-        </app-button>
-        <app-button class="header__btn" (click)="printOrder()" type="button">
-          PDF заказа
+        <app-button class="header__btn pdf-btn" (click)="togglePdfTooltip()" type="button">
+          Распечатать PDF
+
+          <div class="tooltip tooltip--bottom" *ngIf="isPdfButtonsVisible">
+            <app-button class="header__btn pdf-btn__action" (click)="printOrder()" type="button">
+              Заказ
+            </app-button>
+
+            <app-button class="header__btn pdf-btn__action" (click)="printInvoice()" type="button">
+              Счет-фактура
+            </app-button>
+
+            <app-button class="header__btn pdf-btn__action" (click)="printDeliveryNote()" type="button">
+              Расходная накладная
+            </app-button>
+          </div>
         </app-button>
         <app-button class="header__btn" *ngIf="isCancelOrderVisible()" (click)="cancelOrder()" type="button">
           Отменить заказ
