@@ -133,7 +133,6 @@ export class OrderViewComponent extends NgUnsubscribe implements OnInit {
     saveFileFromUrl(url);
   }
 
-
   editOrder() {
     if (!confirm(`Вы уверены, что хотите изменить этот заказ?`)) { return; }
 
