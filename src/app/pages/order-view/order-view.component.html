@@ -16,7 +16,7 @@
         <app-button class="header__btn" (click)="reorder()" type="button">
           Повторить заказ
         </app-button>
-        <app-button class="header__btn pdf-btn" (click)="togglePdfTooltip()" type="button">
+        <app-button class="header__btn pdf-btn" (click)="togglePdfTooltip()" (clickOutside)="isPdfButtonsVisible = false" type="button">
           Распечатать PDF
 
           <div class="tooltip tooltip--bottom" *ngIf="isPdfButtonsVisible">
