@@ -9,6 +9,7 @@ import { Subscription } from 'rxjs';
 import { GridComponent } from '../../grid/grid.component';
 import { finalize } from 'rxjs/operators';
 import { HeadService } from '../../shared/services/head.service';
+import { ReviewSource } from '../../shared/enums/review-source.enum';
 
 @Component({
   selector: 'store-review-list',
@@ -24,6 +25,8 @@ export class StoreReviewListComponent implements OnInit, AfterViewInit {
   isGridLoading: boolean = false;
   idFieldName = getPropertyOf<StoreReviewDto>('id');
   gridCells: IGridCell[] = storeReviewsGridCells;
+
+  reviewSourceEnum = ReviewSource;
 
   private fetchAllSub: Subscription;
 
@@ -124,9 +127,11 @@ const storeReviewsGridCells: IGridCell[] = [
     isSortable: true,
     fieldName: getPropertyOf<StoreReviewDto>('source'),
     filterFields: [
-      { data: 'manager', view: 'Менеджер' },
-      { data: 'website', view: 'Сайт' },
-      { data: 'email', view: 'Письмо' },
+      { data: ReviewSource.Manager, view: 'Менеджер' },
+      { data: ReviewSource.Website, view: 'Сайт' },
+      { data: ReviewSource.Email, view: 'Письмо' },
+      { data: ReviewSource.LinkFromEmail, view: 'Ссылка из письма' },
+      { data: ReviewSource.Sms, view: 'Sms' },
     ]
   }
 ];

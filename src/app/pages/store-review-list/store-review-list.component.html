@@ -31,9 +31,12 @@
     <ng-template #cellContent let-storeReview="item">{{ storeReview.managerComment }}</ng-template>
     <ng-template #cellContent let-storeReview="item">
       <ng-container [ngSwitch]="storeReview.source">
-        <ng-container *ngSwitchCase="'manager'">Менеджер</ng-container>
-        <ng-container *ngSwitchCase="'website'">Сайт</ng-container>
-        <ng-container *ngSwitchCase="'email'">Письмо</ng-container>
+        <ng-container *ngSwitchCase="reviewSourceEnum.Manager">Менеджер</ng-container>
+        <ng-container *ngSwitchCase="reviewSourceEnum.Website">Сайт</ng-container>
+        <ng-container *ngSwitchCase="reviewSourceEnum.Email">Письмо</ng-container>
+        <ng-container *ngSwitchCase="reviewSourceEnum.LinkFromEmail">Ссылка из письма</ng-container>
+        <ng-container *ngSwitchCase="reviewSourceEnum.Sms">Sms</ng-container>
+        <ng-container *ngSwitchDefault>storeReview.source</ng-container>
       </ng-container>
     </ng-template>
   </grid>

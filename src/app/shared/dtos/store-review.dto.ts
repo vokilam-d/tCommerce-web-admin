@@ -1,4 +1,5 @@
 import { MediaDto } from './media.dto';
+import { ReviewSource } from '../enums/review-source.enum';
 
 export class StoreReviewDto {
   id: string = '';
@@ -12,5 +13,5 @@ export class StoreReviewDto {
   medias: MediaDto[] = [];
   managerComment: string = '';
   createdAt: Date = new Date();
-  source: 'manager' | 'website' | 'email' = 'manager';
+  source: ReviewSource = ReviewSource.Manager;
 }
