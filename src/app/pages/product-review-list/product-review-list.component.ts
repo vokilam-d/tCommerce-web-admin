@@ -43,7 +43,6 @@ export class ProductReviewListComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.headService.setTitle(`Отзывы о товарах`);
-
   }
 
   ngAfterViewInit(): void {
