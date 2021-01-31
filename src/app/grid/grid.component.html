@@ -69,6 +69,7 @@
                       [isMultiSelect]="true"
                       [initialValue]="filtersMap.get(cell.fieldName) || []"
                       (select)="onFilterSelect(cell, $event)"
+                      #selectComponentRef
           ></app-select>
         </div>
       </div>

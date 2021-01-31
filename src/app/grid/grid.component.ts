@@ -11,7 +11,7 @@ import {
   Output,
   QueryList,
   TemplateRef,
-  ViewChild
+  ViewChild, ViewChildren
 } from '@angular/core';
 import { IGridCell, IGridFilter, IGridValue } from './grid.interface';
 import { PaginationComponent } from '../pagination/pagination.component';
@@ -20,6 +20,7 @@ import { debounceTime, takeUntil } from 'rxjs/operators';
 import { NgUnsubscribe } from '../shared/directives/ng-unsubscribe/ng-unsubscribe.directive';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { DeviceService } from '../shared/services/device-detector/device.service';
+import { SelectComponent } from '../shared/components/select/select.component';
 
 
 type fieldName = string;
@@ -73,6 +74,7 @@ export class GridComponent<T extends { isOpened?: boolean } = any> extends NgUns
 
   @ViewChild(PaginationComponent) paginationCmp: PaginationComponent;
   @ViewChild('gridBodyRef') gridBodyRef: ElementRef<HTMLElement>;
+  @ViewChildren(SelectComponent) selectCmpsList: QueryList<SelectComponent>;
   @ContentChildren('cellContent') cellContents: QueryList<TemplateRef<any>>;
   @ContentChildren('subCellContent') subCellContents: QueryList<TemplateRef<any>>;
 
@@ -236,6 +238,7 @@ export class GridComponent<T extends { isOpened?: boolean } = any> extends NgUns
 
   clearAllFilters() {
     this.filtersMap.clear();
+    this.selectCmpsList.forEach(selectCmp => selectCmp.writeValue([], false));
     this.emitChange();
   }
 }

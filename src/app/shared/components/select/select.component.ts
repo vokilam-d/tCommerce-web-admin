@@ -88,10 +88,12 @@ export class SelectComponent extends NgUnsubscribe implements OnInit, OnChanges,
     this.isDisabled = isDisabled;
   }
 
-  writeValue(value: any): void {
+  writeValue(value: any, emit: boolean = true): void {
     this.value = value;
     this.onChange(value);
-    this.select.emit(value);
+    if (emit) {
+      this.select.emit(value);
+    }
   }
 
   selectOption(option: ISelectOption) {
