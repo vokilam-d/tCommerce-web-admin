@@ -95,6 +95,11 @@ input[type="date"] {
   }
 }
 
+.ql-editor {
+  height: 150px;
+  resize: vertical;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
