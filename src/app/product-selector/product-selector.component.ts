@@ -221,6 +221,15 @@ const PRODUCT_GRID_CELLS: IGridCell[] = [
     fieldName: `${getPropertyOf<ProductForSelector>('variants')}.${getPropertyOf<VariantForSelector>('qtyInStock')}`
   },
   {
+    isSearchable: true,
+    label: 'Комментарий о товаре',
+    initialWidth: 100,
+    align: 'left',
+    isImage: false,
+    isSortable: true,
+    fieldName: getPropertyOf<ProductForSelector>('note')
+  },
+  {
     isSearchable: false,
     label: 'Статус',
     initialWidth: 80,

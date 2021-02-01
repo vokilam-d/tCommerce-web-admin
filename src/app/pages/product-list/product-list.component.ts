@@ -275,6 +275,15 @@ export class ProductListComponent extends NgUnsubscribe implements OnInit, After
             fieldName: `${getPropertyOf<ProductListItemDto>('variants')}.${getPropertyOf<ProductVariantListItemDto>('sellableQty')}`
           },
           {
+            isSearchable: true,
+            label: 'Комментарий о товаре',
+            initialWidth: 100,
+            align: 'left',
+            isImage: false,
+            isSortable: true,
+            fieldName: getPropertyOf<ProductListItemDto>('note')
+          },
+          {
             isSearchable: false,
             label: 'Статус',
             initialWidth: 45,

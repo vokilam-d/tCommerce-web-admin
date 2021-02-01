@@ -71,6 +71,8 @@
       </ng-template>
     </ng-template>
 
+    <ng-template #cellContent let-product="item">{{ product.note }}</ng-template>
+
     <ng-template #cellContent let-product="item">
       <ng-container [ngSwitch]="product.isEnabled">
         <ng-container *ngSwitchCase="true">Включен</ng-container>
@@ -128,6 +130,8 @@
         > из {{ variant.sellableQty }}
       </ng-container>
     </ng-template>
+
+    <ng-template #subCellContent let-variant="subItem"></ng-template>
 
     <ng-template #subCellContent let-variant="subItem">
       <ng-container [ngSwitch]="variant.isEnabled">

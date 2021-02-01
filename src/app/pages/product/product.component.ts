@@ -136,14 +136,15 @@ export class ProductComponent extends NgUnsubscribe implements OnInit {
       variantsFormArray.push(variantFormGroup);
     });
 
-    const productControls: Record<keyof Pick<AddOrUpdateProductDto, 'isEnabled' | 'name' | 'categories' | 'additionalServiceIds' | 'attributes' | 'variants'>, any> = {
+    const productControls: Record<keyof Pick<AddOrUpdateProductDto, 'isEnabled' | 'name' | 'categories' | 'additionalServiceIds' | 'attributes' | 'variants' | 'note'>, any> = {
       isEnabled: this.product.isEnabled,
       name: [this.product.name, Validators.required],
       categories: [this.product.categories],
       additionalServiceIds: [this.product.additionalServiceIds || []],
       attributes: [this.product.attributes],
-      variants: variantsFormArray
-    }
+      variants: variantsFormArray,
+      note: [this.product.note],
+    };
 
     this.form = this.formBuilder.group(productControls);
   }

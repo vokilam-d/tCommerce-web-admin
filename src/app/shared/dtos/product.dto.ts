@@ -23,6 +23,7 @@ export class AddOrUpdateProductDto {
   variants: AddOrUpdateProductVariantDto[] = [new AddOrUpdateProductVariantDto()];
   reviewsCount: number;
   reviewsAvgRating: number;
+  note: string = '';
 }
 
 export class ProductDto extends AddOrUpdateProductDto {
@@ -69,4 +70,5 @@ export class ProductListItemDto {
   salesCount: number;
   createdAt: Date;
   updatedAt: Date;
+  note: string;
 }

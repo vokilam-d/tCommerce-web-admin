@@ -65,6 +65,7 @@
     <ng-template #cellContent let-product="item">{{ product.prices }} {{ product.currency | readableCurrency }}</ng-template>
     <ng-template #cellContent let-product="item">{{ product.quantitiesInStock }}</ng-template>
     <ng-template #cellContent let-product="item">{{ product.sellableQuantities }}</ng-template>
+    <ng-template #cellContent let-product="item">{{ product.note }}</ng-template>
     <ng-template #cellContent let-product="item">
       <ng-container [ngSwitch]="product.isEnabled">
         <ng-container *ngSwitchCase="true">On</ng-container>
