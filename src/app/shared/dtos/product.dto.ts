@@ -39,6 +39,7 @@ export class ProductVariantListItemDto {
   mediaUrl: string;
   name: MultilingualTextDto;
   sku: string;
+  gtin: string;
   vendorCode: string;
   price: number;
   oldPrice: number;
@@ -57,6 +58,7 @@ export class ProductListItemDto {
   mediaUrl: string;
   name: MultilingualTextDto = new MultilingualTextDto();
   skus: string;
+  gtins: string;
   currency: ECurrencyCode;
   vendorCodes: string;
   prices: string;

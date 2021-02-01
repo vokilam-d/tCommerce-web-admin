@@ -187,11 +187,20 @@ const PRODUCT_GRID_CELLS: IGridCell[] = [
   {
     isSearchable: true,
     label: 'Артикул',
-    initialWidth: 65,
+    initialWidth: 70,
     align: 'left',
     isImage: false,
     isSortable: true,
     fieldName: `${getPropertyOf<ProductForSelector>('variants')}.${getPropertyOf<VariantForSelector>('vendorCode')}`
+  },
+  {
+    isSearchable: true,
+    label: 'GTIN',
+    initialWidth: 105,
+    align: 'left',
+    isImage: false,
+    isSortable: true,
+    fieldName: `${getPropertyOf<ProductListItemDto>('variants')}.${getPropertyOf<ProductVariantListItemDto>('gtin')}`
   },
   {
     isSearchable: true,
@@ -214,7 +223,7 @@ const PRODUCT_GRID_CELLS: IGridCell[] = [
   {
     isSearchable: false,
     label: 'Статус',
-    initialWidth: 70,
+    initialWidth: 80,
     align: 'left',
     isImage: false,
     isSortable: true,

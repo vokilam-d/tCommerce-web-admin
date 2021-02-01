@@ -229,6 +229,15 @@ export class ProductListComponent extends NgUnsubscribe implements OnInit, After
             fieldName: `${getPropertyOf<ProductListItemDto>('variants')}.${getPropertyOf<ProductVariantListItemDto>('vendorCode')}`
           },
           {
+            isSearchable: true,
+            label: 'GTIN',
+            initialWidth: 105,
+            align: 'left',
+            isImage: false,
+            isSortable: true,
+            fieldName: `${getPropertyOf<ProductListItemDto>('variants')}.${getPropertyOf<ProductVariantListItemDto>('gtin')}`
+          },
+          {
             isSearchable: false,
             label: manufacturerAttribute?.label[DEFAULT_LANG],
             initialWidth: 120,
