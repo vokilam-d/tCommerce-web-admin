@@ -302,6 +302,13 @@ export class ProductListComponent extends NgUnsubscribe implements OnInit, After
             fieldName: getPropertyOf<ProductListItemDto>('salesCount')
           },
           {
+            label: 'Shopping feed?',
+            initialWidth: 70,
+            align: 'left',
+            fieldName: getPropertyOf<ProductListItemDto>('isIncludedInShoppingFeed'),
+            filterFields: [{ data: true, view: 'Да' }, { data: false, view: 'Нет' }]
+          },
+          {
             isSearchable: false,
             label: 'Дата добавления',
             initialWidth: 82,

@@ -16,8 +16,8 @@ export interface IGridCell {
   placeholder?: string;
   align: 'center' | 'left' | 'right';
   fieldName: string;
-  isSortable: boolean;
-  isSearchable: boolean;
+  isSortable?: boolean;
+  isSearchable?: boolean;
   initialWidth: number;
   isImage?: boolean;
   filterFields?: ISelectOption[];

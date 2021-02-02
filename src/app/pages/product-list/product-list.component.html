@@ -74,6 +74,12 @@
     </ng-template>
     <ng-template #cellContent let-product="item">{{ product.salesCount }}</ng-template>
     <ng-template #cellContent let-product="item">
+      <ng-container [ngSwitch]="product.isIncludedInShoppingFeed">
+        <ng-container *ngSwitchCase="true">Да</ng-container>
+        <ng-container *ngSwitchCase="false">Нет</ng-container>
+      </ng-container>
+    </ng-template>
+    <ng-template #cellContent let-product="item">
       {{ product.createdAt | date:'dd.MM.y' }}
       <span class="product-time">{{ product.createdAt | date:'HH:mm:ss' }}</span>
     </ng-template>

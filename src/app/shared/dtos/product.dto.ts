@@ -50,6 +50,7 @@ export class ProductVariantListItemDto {
   qtyInStock: number;
   sellableQty: number;
   salesCount: number;
+  isIncludedInShoppingFeed: boolean;
 }
 
 export class ProductListItemDto {
@@ -71,4 +72,5 @@ export class ProductListItemDto {
   createdAt: Date;
   updatedAt: Date;
   note: string;
+  isIncludedInShoppingFeed: boolean;
 }
