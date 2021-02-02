@@ -70,14 +70,14 @@ export class DashboardComponent implements OnInit {
               trigger: 'axis',
               formatter: params => {
                 const name = params[0].name;
-                const seriesLines = params.map(series => this.buildTooltipLine(series.seriesName, series.value, series.marker));
+                const seriesLines: any[] = params.map(series => this.buildTooltipLine(series.seriesName, series.value, series.marker));
                 const sum = params.reduce((acc, series) => acc + series.value, 0);
 
                 return `
                   <div style="color: #666; font-size: 14px; line-height: 1;">
                       <div style="font-weight: 900;">${name}</div>
-                      ${seriesLines.join('')}
-                      ${this.buildTooltipLine('Всего', sum)}
+                      ${seriesLines.reverse().join('')}
+                      ${this.buildTooltipLine('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Всего</b>', sum)}
                   </div>
                 `;
               }
@@ -87,13 +87,13 @@ export class DashboardComponent implements OnInit {
                 type: 'slider',
                 xAxisIndex: 0,
                 filterMode: 'empty',
-                start: 90
+                start: 80
               },
               {
                 type: 'inside',
                 xAxisIndex: 0,
                 filterMode: 'empty',
-                start: 90
+                start: 80
               }
             ],
             series: [
@@ -151,13 +151,13 @@ const DEFAULT_ORDERS_CHART_OPTIONS: EChartsOption = {
       type: 'slider',
       xAxisIndex: 0,
       filterMode: 'empty',
-      start: 90
+      start: 80
     },
     {
       type: 'inside',
       xAxisIndex: 0,
       filterMode: 'empty',
-      start: 90
+      start: 80
     }
   ],
 };
