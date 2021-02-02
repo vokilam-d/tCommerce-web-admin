@@ -38,13 +38,13 @@ export class SelectComponent extends NgUnsubscribe implements OnInit, OnChanges,
   @Input() initialValue: any | any[];
   @Output() select: EventEmitter<any> = new EventEmitter();
 
-  get activeOptionLabel(): string {
+  get activeOptionLabel(): string | null {
     const selectedOptions = this.options.filter(option => option.isSelected);
 
     if (selectedOptions.length) {
       return selectedOptions.map(option => option.view || option.data).join(', ');
     } else {
-      return '- Не выбрано -';
+      return null;
     }
   };
 

@@ -9,7 +9,12 @@
           (click)="toggleVisibility()"
           type="button"
   >
-    {{ activeOptionLabel }}
+    <span class="select__empty" *ngIf="activeOptionLabel === null; else activeOptionLabelTmpl">
+      - Не выбрано -
+    </span>
+    <ng-template #activeOptionLabelTmpl>
+      {{ activeOptionLabel }}
+    </ng-template>
   </button>
 
   <div class="select__options" *ngIf="isVisible">

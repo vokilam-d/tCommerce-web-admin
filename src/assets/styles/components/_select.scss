@@ -140,4 +140,10 @@ $fieldBorderColorFocus: $blue;
     font-size: 12px;
     animation: scaleIn 0.2s ease;
   }
+
+  &__empty {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+  }
 }
