@@ -79,7 +79,7 @@ export class MultilingualControlComponent extends NgUnsubscribe implements OnIni
 
     this.form = this.formBuilder.group(controlsConfig);
     this.form.valueChanges
-      .pipe( this.takeUntil() )
+      .pipe( this.takeUntilDestroy() )
       .subscribe(value => this.onChange(value));
   }
 

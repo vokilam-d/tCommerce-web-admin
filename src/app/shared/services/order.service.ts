@@ -117,10 +117,6 @@ export class OrderService {
     return `${API_HOST}/api/v1/admin/orders/${id}/invoice-pdf`;
   }
 
-  getDeliveryNoteUrl(id: number): string {
-    return `${API_HOST}/api/v1/admin/orders/${id}/delivery-note-pdf`;
-  }
-
   createInternetDocument(id: number, shipment: ShipmentDto) {
     return this.http.post<ResponseDto<OrderDto>>(`${API_HOST}/api/v1/admin/orders/${id}/internet-document`, shipment);
   }

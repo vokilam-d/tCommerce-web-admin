@@ -334,6 +334,24 @@
       transform: translateX(0) rotate(45deg);
     }
   }
+
+  &--right-bottom {
+    left: auto;
+    right: 0;
+    bottom: auto;
+    top: calc(100% + 15px);
+    transform: translate(0, -50%);
+
+    @include appear('tooltip-right-bottom', $translateY: 20px);
+
+    &::after {
+      bottom: auto;
+      top: -(10px / 2);
+      left: auto;
+      right: 20%;
+      transform: translateX(0) rotate(45deg);
+    }
+  }
 }
 
 .pdf-btn {

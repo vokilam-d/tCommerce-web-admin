@@ -19,17 +19,13 @@
         <app-button class="header__btn pdf-btn" (click)="togglePdfTooltip()" (clickOutside)="isPdfButtonsVisible = false" type="button">
           Распечатать PDF
 
-          <div class="tooltip tooltip--bottom" *ngIf="isPdfButtonsVisible">
+          <div class="tooltip tooltip--right-bottom" *ngIf="isPdfButtonsVisible">
             <app-button class="header__btn pdf-btn__action" (click)="printOrder()" type="button">
               Заказ
             </app-button>
 
-            <app-button class="header__btn pdf-btn__action" (click)="printInvoice()" type="button">
-              Счет-фактура
-            </app-button>
-
-            <app-button class="header__btn pdf-btn__action" (click)="printDeliveryNote()" type="button">
-              Расходная накладная
+            <app-button class="header__btn pdf-btn__action" (click)="openInvoicePopup()" type="button">
+              Накладная / Счёт
             </app-button>
           </div>
         </app-button>
@@ -342,5 +338,7 @@
                      (infoSubmit)="onShipmentInfoSubmit($event)"
                      (trackingId)="onTrackingIdSubmit($event)"
 ></shipment-info-modal>
+
+<invoice-modal *ngIf="order" [order]="order" (print)="printInvoice($event)"></invoice-modal>
 
 <preloader class="preloader" *ngIf="!customer || isLoading" [hasMargins]="false"></preloader>

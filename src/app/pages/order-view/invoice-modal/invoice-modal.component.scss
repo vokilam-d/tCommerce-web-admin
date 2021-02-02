@@ -1,0 +1,27 @@
+@import "variables";
+
+.field {
+  margin: 30px 0 0;
+}
+
+.invoice {
+  &__modal {
+    left: auto;
+    width: 950px;
+  }
+
+  &__tabs {
+    display: flex;
+    justify-content: center;
+  }
+
+  &__checkbox {
+    width: 24px;
+    height: 24px;
+  }
+
+  &__submit {
+    margin: 30px 0 0;
+    text-align: center;
+  }
+}

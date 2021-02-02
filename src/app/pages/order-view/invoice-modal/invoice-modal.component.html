@@ -1,0 +1,106 @@
+<ng-container *ngIf="isModalVisible">
+  <div class="modal-overlay" (click)="closeModal()"></div>
+  <div class="modal invoice__modal">
+    <div class="modal__header">
+      <div class="modal__title">
+        Распечатать <b>"{{ form.get('title').value }}"</b>
+      </div>
+      <div class="modal__close" (click)="closeModal()">
+        <i class="ai ai-multiply modal__close-icon"></i>
+      </div>
+    </div>
+
+    <div class="modal__content">
+
+      <div class="invoice__tabs">
+        <div class="tabs">
+          <button class="tabs__tab"
+                  *ngFor="let title of titles, index as i"
+                  [class.tabs__tab--active]="activeTitleIndex === i"
+                  (click)="selectTitle(i)"
+          >
+            {{ title }}
+          </button>
+        </div>
+      </div>
+
+      <form class="shipment__form"
+            [formGroup]="form"
+            (ngSubmit)="onFormSubmit()"
+            ngNativeValidate
+      >
+
+        <div class="field">
+          <label for="title" class="field__label">Заголовок</label>
+          <span class="field__control">
+            <input class="field__input" formControlName="title" id="title" type="text" required>
+          </span>
+        </div>
+
+        <div class="field">
+          <label for="addressName" class="field__label">Имя фамилия</label>
+          <span class="field__control">
+            <input class="field__input" formControlName="addressName" id="addressName" type="text" required>
+          </span>
+        </div>
+
+        <div class="field">
+          <label for="addressPhone" class="field__label">Телефон</label>
+          <span class="field__control">
+            <input class="field__input" formControlName="addressPhone" id="addressPhone" type="text" required>
+          </span>
+        </div>
+
+        <div class="field">
+          <label for="addressCity" class="field__label">Город</label>
+          <span class="field__control">
+            <input class="field__input" formControlName="addressCity" id="addressCity" type="text" required>
+          </span>
+        </div>
+
+        <div class="field">
+          <label for="address" class="field__label">№ отделения/Улица</label>
+          <span class="field__control">
+            <input class="field__input" formControlName="address" id="address" type="text" required>
+          </span>
+        </div>
+
+        <ng-container *ngIf="isWarehouseShipment">
+          <div class="field">
+            <label for="addressBuildingNumber" class="field__label">Номер дома</label>
+            <span class="field__control">
+              <input class="field__input" formControlName="addressBuildingNumber" id="addressBuildingNumber" type="text" required>
+            </span>
+          </div>
+
+          <div class="field">
+            <label for="addressFlatNumber" class="field__label">Квартира</label>
+            <span class="field__control">
+              <input class="field__input" formControlName="addressFlatNumber" id="addressFlatNumber" type="text" required>
+            </span>
+          </div>
+        </ng-container>
+
+        <div class="field">
+          <label class="field__label">Скрыть печать?</label>
+          <span class="field__control">
+            <toggle formControlName="hideStamp"></toggle>
+          </span>
+        </div>
+
+        <div class="field" *ngIf="true">
+          <label  class="field__label">Не учитывать скидки?</label>
+          <span class="field__control">
+            <toggle formControlName="withoutDiscounts"></toggle>
+          </span>
+        </div>
+
+        <div class="invoice__submit">
+          <app-button btnStyle="primary" type="submit">
+            Распечатать
+          </app-button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-container>

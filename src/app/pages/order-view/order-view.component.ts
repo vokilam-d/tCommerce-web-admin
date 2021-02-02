@@ -25,6 +25,8 @@ import { ShipmentStatusEnum } from '../../shared/enums/shipment-status.enum';
 import { OrderItemDto } from '../../shared/dtos/order-item.dto';
 import { copyToClipboard } from '../../shared/helpers/copy-to-clipboard.function';
 import { ISelectOption } from '../../shared/components/select/select-option.interface';
+import { InvoiceModalComponent } from './invoice-modal/invoice-modal.component';
+import { InvoiceEditDto } from '../../shared/dtos/invoice-edit.dto';
 
 @Component({
   selector: 'order-view',
@@ -50,6 +52,7 @@ export class OrderViewComponent extends NgUnsubscribe implements OnInit {
 
   @ViewChild(AddressFormComponent) addressFormCmp: AddressFormComponent;
   @ViewChild(ShipmentInfoModalComponent) shipmentInfoModalCmp: ShipmentInfoModalComponent;
+  @ViewChild(InvoiceModalComponent) invoiceModalCmp: InvoiceModalComponent;
 
   get nextOrderStatus(): OrderStatusEnum | null {
     switch (this.order.status) {
@@ -139,14 +142,15 @@ export class OrderViewComponent extends NgUnsubscribe implements OnInit {
     saveFileFromUrl(url);
   }
 
-  printInvoice() {
-    const url = this.orderService.getPrintInvoiceUrl(this.order.id);
-    saveFileFromUrl(url);
-  }
+  printInvoice(editDto: InvoiceEditDto) {
+    const queryString = Object.entries(editDto)
+      .filter(([key, value]) => value !== '')
+      .map(([key, value]) => `${key}=${value}`)
+      .join('&');
+    console.log(queryString);
 
-  printDeliveryNote() {
-    const url = this.orderService.getDeliveryNoteUrl(this.order.id);
-    saveFileFromUrl(url);
+    const url = this.orderService.getPrintInvoiceUrl(this.order.id);
+    saveFileFromUrl(`${url}?${queryString}`);
   }
 
   editOrder() {
@@ -397,5 +401,9 @@ export class OrderViewComponent extends NgUnsubscribe implements OnInit {
 
   public togglePdfTooltip() {
     this.isPdfButtonsVisible = !this.isPdfButtonsVisible;
+  }
+
+  openInvoicePopup() {
+    this.invoiceModalCmp.openModal();
   }
 }

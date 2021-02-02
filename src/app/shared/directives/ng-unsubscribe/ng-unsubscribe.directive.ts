@@ -16,7 +16,7 @@ export class NgUnsubscribe implements OnDestroy {
     this.ngUnsubscribe.complete();
   }
 
-  protected takeUntil() {
+  protected takeUntilDestroy() {
     return takeUntil(this.ngUnsubscribe);
   }
 
