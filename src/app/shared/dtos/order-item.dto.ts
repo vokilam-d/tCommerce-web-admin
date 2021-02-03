@@ -12,4 +12,5 @@ export class OrderItemDto {
   cost: number = 0;
   imageUrl: string = '';
   additionalServices: OrderItemAdditionalServiceDto[] = [];
+  isPacked: boolean;
 }

@@ -13,6 +13,7 @@ import { ShipmentDto } from '../dtos/shipment.dto';
 import { OrderStatusEnum } from '../enums/order-status.enum';
 import { CalculatePricesDto } from '../dtos/calculate-prices.dto';
 import { OrderPricesDto } from '../dtos/order-prices.dto';
+import { PackOrderItemDto } from '../dtos/pack-order-item.dto';
 
 interface IFetchOrderOptions {
   customerId?: number;
@@ -132,5 +133,14 @@ export class OrderService {
 
   changePaymentStatus(id: number, isPaid: boolean) {
     return this.http.put<ResponseDto<OrderDto>>(`${API_HOST}/api/v1/admin/orders/${id}/is-paid/${isPaid}`, {});
+  }
+
+  packOrderItem(id: number, item: OrderItemDto, qty: number) {
+    const dto: PackOrderItemDto = {
+      sku: item.sku,
+      qty
+    };
+
+    return this.http.put<ResponseDto<OrderDto>>(`${API_HOST}/api/v1/admin/orders/${id}/is-packed`, dto);
   }
 }

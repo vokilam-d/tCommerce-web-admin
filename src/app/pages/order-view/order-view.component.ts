@@ -130,7 +130,7 @@ export class OrderViewComponent extends NgUnsubscribe implements OnInit {
       return;
     }
 
-    this.changeStatus(OrderStatusEnum.CANCELED, true);
+    this.changeStatus(OrderStatusEnum.CANCELED);
   }
 
   reorder() {
@@ -336,11 +336,7 @@ export class OrderViewComponent extends NgUnsubscribe implements OnInit {
     this.changeStatus(OrderStatusEnum.FINISHED);
   }
 
-  changeStatus(nextStatus: OrderStatusEnum, force: boolean = false, shipment?: ShipmentDto) {
-    if (!force && !confirm(`Вы уверены, что хотите изменить статус заказа?`)) {
-      return;
-    }
-
+  changeStatus(nextStatus: OrderStatusEnum, shipment?: ShipmentDto) {
     this.isLoading = true;
     this.orderService.changeStatus(this.order.id, nextStatus, shipment)
       .pipe(
@@ -405,5 +401,28 @@ export class OrderViewComponent extends NgUnsubscribe implements OnInit {
 
   openInvoicePopup() {
     this.invoiceModalCmp.openModal();
+  }
+
+  packOrderItem(item: OrderItemDto): void {
+    let qty: number;
+    if (item.qty === 1) {
+      qty = item.qty
+    } else {
+      const result = prompt(`Сколько шт. "${item.name[this.lang]}" было упаковано?`);
+      if (!result) { return; }
+      qty = parseInt(result);
+    }
+
+    this.isLoading = true;
+    this.orderService.packOrderItem(this.order.id, item, qty)
+      .pipe(
+        this.notyService.attachNoty({ successText: `Товар "${item.name[this.lang]}" успешно упакован` }),
+        finalize(() => this.isLoading = false)
+      )
+      .subscribe(
+        response => {
+          this.order = response.data;
+        }
+      );
   }
 }

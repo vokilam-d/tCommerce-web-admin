@@ -172,6 +172,13 @@
     &--name {
       width: 40%;
     }
+
+    &--packed {
+      width: 120px;
+      padding-left: 10px;
+      padding-right: 10px;
+      text-align: center;
+    }
   }
 
   &__qty {
@@ -185,6 +192,10 @@
 
   &__img {
     max-height: 100px
+  }
+
+  &__packed {
+    color: #23af33;
   }
 }
 
