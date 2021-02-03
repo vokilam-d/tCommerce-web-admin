@@ -4,6 +4,7 @@ import { ShipmentStatusEnum } from '../enums/shipment-status.enum';
 import { EProductsSort } from '../enums/product-sort.enum';
 import { Language } from '../enums/language.enum';
 import { ISelectOption } from '../components/select/select-option.interface';
+import { ProductLabelTypeEnum } from '../enums/product-label-type.enum';
 
 // export const API_HOST = environment.production ? '' : 'http://173.249.23.253:3080';
 export const API_HOST = environment.production ? '' : 'http://localhost:3000';

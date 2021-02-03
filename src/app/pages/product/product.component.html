@@ -263,6 +263,22 @@
                   <input class="field__input" [formControl]="gtin" [id]="'gtin-' + i" type="text">
                 </span>
               </div>
+
+              <div class="product__field field"
+                   *ngIf="variantForm.get('label') as label"
+                   [class.field--invalid]="isControlInvalid(label)"
+              >
+                <label class="field__label">
+                  Лейбл
+                </label>
+                <div class="field__control">
+                  <app-select
+                    [formControl]="label"
+                    [options]="productLabelSelectOptions"
+                  >
+                  </app-select>
+                </div>
+              </div>
             </div>
 
             <div class="info__col">

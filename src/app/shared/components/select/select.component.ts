@@ -132,7 +132,7 @@ export class SelectComponent extends NgUnsubscribe implements OnInit, OnChanges,
 
   private getEmptyOption(): ISelectOption {
     return {
-      data: undefined
+      data: null
     };
   }
 

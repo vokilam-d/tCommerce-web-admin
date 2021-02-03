@@ -10,6 +10,7 @@ export class AddOrUpdateProductVariantDto {
   createRedirect: boolean;
   vendorCode: string = '';
   gtin: string = '';
+  label: string = '';
   slug: string = '';
   attributes: ProductSelectedAttributeDto[] = [];
   isEnabled: boolean = true;
