@@ -57,14 +57,20 @@
           <ng-container *ngSwitchCase="orderStatuses.RETURNED">Посылка возвращена</ng-container>
         </app-button>
 
-        <app-button class="header__btn"
-                    *ngIf="isCreateInternetDocumentVisible()"
-                    (click)="openShipmentInfo()"
-                    btnStyle="primary"
-                    type="button"
-        >
-          Накладная
-        </app-button>
+        <div class="header__btn internet-document-btn" *ngIf="isCreateInternetDocumentVisible()">
+          <app-button (click)="openShipmentInfo()"
+                      [disabled]="!isAllOrderItemsPacked()"
+                      [style.position]="'relative'"
+                      btnStyle="primary"
+                      type="button"
+          >
+            Накладная
+          </app-button>
+
+          <span class="tooltip tooltip--right-bottom" *ngIf="!isAllOrderItemsPacked()">
+            Не все товары упакованы
+          </span>
+        </div>
       </ng-container>
     </div>
   </div>
@@ -224,6 +230,7 @@
         <table class="items-table">
           <thead>
             <tr class="items-table__row items-table__row--head">
+              <td class="items-table__block items-table__block--packed"></td>
               <td class="items-table__block items-table__block--img">Фото</td>
               <td class="items-table__block items-table__block--name">Название</td>
               <td class="items-table__block items-table__block--sku">Код</td>
@@ -239,6 +246,21 @@
                  *ngFor="let item of order.items, even as even"
                  [class.items-table__row--even]="even"
             >
+              <td class="items-table__block items-table__block--packed">
+                <app-button class="items-table__pack"
+                            *ngIf="!item.isPacked; else packedTextTmpl"
+                            (click)="packOrderItem(item)"
+                            btnSize="small"
+                >
+                  Упаковать
+                </app-button>
+
+                <ng-template #packedTextTmpl>
+                  <span class="items-table__packed">
+                    <i class="ai ai-checkmark items-table__packed-icon"></i> Упаковано
+                  </span>
+                </ng-template>
+              </td>
               <td class="items-table__block items-table__block--img">
                 <img class="items-table__img" [src]="getItemThumbnail(item)">
               </td>
