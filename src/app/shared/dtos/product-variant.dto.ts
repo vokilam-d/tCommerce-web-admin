@@ -4,13 +4,14 @@ import { MetaTagsDto } from './meta-tags.dto';
 import { DEFAULT_CURRENCY_CODE, ECurrencyCode } from '../enums/currency.enum';
 import { LinkedProductDto } from './linked-product.dto';
 import { MultilingualTextDto } from './multilingual-text.dto';
+import { ProductLabelTypeEnum } from '../enums/product-label-type.enum';
 
 export class AddOrUpdateProductVariantDto {
   name: MultilingualTextDto = new MultilingualTextDto();
   createRedirect: boolean;
   vendorCode: string = '';
   gtin: string = '';
-  label: string = '';
+  label: ProductLabelTypeEnum = ProductLabelTypeEnum.Empty;
   slug: string = '';
   attributes: ProductSelectedAttributeDto[] = [];
   isEnabled: boolean = true;
