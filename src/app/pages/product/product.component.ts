@@ -403,35 +403,38 @@ export class ProductComponent extends NgUnsubscribe implements OnInit {
       return;
     }
 
-    const variantToCopy = (variant: ProductVariantDto): ProductVariantDto => ({
-      relatedProducts: variant.relatedProducts,
-      crossSellProducts: variant.crossSellProducts,
-      qtyInStock: variant.qtyInStock,
-      attributes: variant.attributes,
-      price: variant.price,
-      oldPrice: variant.oldPrice,
-      currency: variant.currency,
-      fullDescription: variant.fullDescription,
-      googleAdsProductTitle: variant.googleAdsProductTitle,
-      isDiscountApplicable: variant.isDiscountApplicable,
-      isIncludedInShoppingFeed: variant.isIncludedInShoppingFeed,
-      medias: variant.medias,
-      metaTags: variant.metaTags,
-      isEnabled: variant.isEnabled,
-      name: variant.name,
-      shortDescription: variant.shortDescription,
-      vendorCode: variant.vendorCode
-    }) as ProductVariantDto;
+    const variantToCopy = (variant: ProductVariantDto): ProductVariantDto => {
+      const newVariant = new ProductVariantDto();
+      newVariant.relatedProducts = variant.relatedProducts;
+      newVariant.crossSellProducts = variant.crossSellProducts;
+      newVariant.qtyInStock = variant.qtyInStock;
+      newVariant.attributes = variant.attributes;
+      newVariant.price = variant.price;
+      newVariant.oldPrice = variant.oldPrice;
+      newVariant.currency = variant.currency;
+      newVariant.fullDescription = variant.fullDescription;
+      newVariant.googleAdsProductTitle = variant.googleAdsProductTitle;
+      newVariant.isDiscountApplicable = variant.isDiscountApplicable;
+      newVariant.isIncludedInShoppingFeed = variant.isIncludedInShoppingFeed;
+      newVariant.medias = variant.medias;
+      newVariant.metaTags = variant.metaTags;
+      newVariant.isEnabled = variant.isEnabled;
+      newVariant.name = variant.name;
+      newVariant.label = variant.label;
+      newVariant.shortDescription = variant.shortDescription;
+      newVariant.vendorCode = variant.vendorCode;
+      return newVariant;
+    };
 
-    this.product = {
-      isEnabled: productDto.isEnabled,
-      name: productDto.name,
-      breadcrumbs: productDto.breadcrumbs,
-      categories: productDto.categories,
-      attributes: productDto.attributes,
-      additionalServiceIds: productDto.additionalServiceIds,
-      variants: productDto.variants.map(variantToCopy),
-    } as ProductDto;
+    this.product = new ProductDto();
+    this.product.isEnabled = productDto.isEnabled;
+    this.product.name = productDto.name;
+    this.product.breadcrumbs = productDto.breadcrumbs;
+    this.product.categories = productDto.categories;
+    this.product.attributes = productDto.attributes;
+    this.product.additionalServiceIds = productDto.additionalServiceIds;
+    this.product.variants = productDto.variants.map(variantToCopy);
+    this.product.note = productDto.note;
   }
 
   private setAltTextOnNameChange(form: FormGroup) {
