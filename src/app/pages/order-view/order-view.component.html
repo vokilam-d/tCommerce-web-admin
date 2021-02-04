@@ -230,7 +230,7 @@
         <table class="items-table">
           <thead>
             <tr class="items-table__row items-table__row--head">
-              <td class="items-table__block items-table__block--packed"></td>
+              <td class="items-table__block items-table__block--packed" *ngIf="false"></td>
               <td class="items-table__block items-table__block--img">Фото</td>
               <td class="items-table__block items-table__block--name">Название</td>
               <td class="items-table__block items-table__block--sku">Код</td>
@@ -246,7 +246,7 @@
                  *ngFor="let item of order.items, even as even"
                  [class.items-table__row--even]="even"
             >
-              <td class="items-table__block items-table__block--packed">
+              <td class="items-table__block items-table__block--packed" *ngIf="false">
                 <app-button class="items-table__pack"
                             *ngIf="!item.isPacked; else packedTextTmpl"
                             (click)="onPackOrderItemClick(item)"
