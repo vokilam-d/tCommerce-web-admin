@@ -1,0 +1,36 @@
+<ng-container *ngIf="isModalVisible">
+  <div class="modal-overlay confirm-overlay" (click)="closeModal()"></div>
+  <div class="modal confirm-modal">
+    <div class="modal__header">
+      <div class="modal__title">
+        Сколько шт. <b>{{ itemName }}</b> было упаковано?
+      </div>
+      <div class="modal__close" (click)="closeModal()">
+        <i class="ai ai-multiply modal__close-icon"></i>
+      </div>
+    </div>
+
+    <div class="modal__content">
+
+      <form class="confirm-modal__form"
+            [formGroup]="form"
+            (ngSubmit)="closeModal(true)"
+            ngNativeValidate
+      >
+
+        <div class="field confirm-modal__field">
+          <label for="qty" class="field__label">Количество</label>
+          <span class="field__control">
+            <input class="field__input" formControlName="qty" id="qty" type="number" min="1" required>
+          </span>
+        </div>
+
+        <div class="confirm-modal__submit">
+          <app-button btnStyle="primary" type="submit">
+            Подтвердить
+          </app-button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-container>

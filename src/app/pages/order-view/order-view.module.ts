@@ -9,10 +9,11 @@ import { PreloaderModule } from '../../preloader/preloader.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ShipmentInfoModalComponent } from './shipment-info-modal/shipment-info-modal.component';
 import { InvoiceModalComponent } from './invoice-modal/invoice-modal.component';
+import { ConfirmPackItemModalComponent } from './confirm-pack-item-modal/confirm-pack-item-modal.component';
 
 
 @NgModule({
-  declarations: [OrderViewComponent, ShipmentInfoModalComponent, InvoiceModalComponent],
+  declarations: [OrderViewComponent, ShipmentInfoModalComponent, InvoiceModalComponent, ConfirmPackItemModalComponent],
   imports: [
     CommonModule,
     OrderViewRoutingModule,

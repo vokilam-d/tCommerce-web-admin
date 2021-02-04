@@ -20,7 +20,7 @@
   background: #fff;
   z-index: 21;
   overflow: auto;
-  animation: fadeIn 0.3s ease, slideIn 0.4s ease;
+  animation: fadeIn 0.3s ease, slideInFromRight 0.4s ease;
 
   &__header {
     display: flex;
@@ -44,14 +44,5 @@
 
   &__content {
     margin: 20px 0 0;
-  }
-}
-
-@keyframes slideIn {
-  from {
-    transform: translateX(100%);
-  }
-  to {
-    transform: translateX(0);
   }
 }

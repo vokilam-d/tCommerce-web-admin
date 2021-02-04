@@ -27,6 +27,7 @@ import { copyToClipboard } from '../../shared/helpers/copy-to-clipboard.function
 import { ISelectOption } from '../../shared/components/select/select-option.interface';
 import { InvoiceModalComponent } from './invoice-modal/invoice-modal.component';
 import { InvoiceEditDto } from '../../shared/dtos/invoice-edit.dto';
+import { ConfirmPackItemModalComponent } from './confirm-pack-item-modal/confirm-pack-item-modal.component';
 
 @Component({
   selector: 'order-view',
@@ -53,6 +54,7 @@ export class OrderViewComponent extends NgUnsubscribe implements OnInit {
   @ViewChild(AddressFormComponent) addressFormCmp: AddressFormComponent;
   @ViewChild(ShipmentInfoModalComponent) shipmentInfoModalCmp: ShipmentInfoModalComponent;
   @ViewChild(InvoiceModalComponent) invoiceModalCmp: InvoiceModalComponent;
+  @ViewChild(ConfirmPackItemModalComponent) confirmPackCmp: ConfirmPackItemModalComponent;
 
   get nextOrderStatus(): OrderStatusEnum | null {
     switch (this.order.status) {
@@ -403,16 +405,19 @@ export class OrderViewComponent extends NgUnsubscribe implements OnInit {
     this.invoiceModalCmp.openModal();
   }
 
-  packOrderItem(item: OrderItemDto): void {
-    let qty: number;
+  onPackOrderItemClick(item: OrderItemDto): void {
     if (item.qty === 1) {
-      qty = item.qty
+      this.packOrderItem(item, item.qty);
     } else {
-      const result = prompt(`Сколько шт. "${item.name[this.lang]}" было упаковано?`);
-      if (!result) { return; }
-      qty = parseInt(result);
+      this.confirmPackCmp.openModal(item.name[this.lang]).subscribe(qty => {
+        if (qty) {
+          this.packOrderItem(item, qty);
+        }
+      });
     }
+  }
 
+  private packOrderItem(item: OrderItemDto, qty: number) {
     this.isLoading = true;
     this.orderService.packOrderItem(this.order.id, item, qty)
       .pipe(

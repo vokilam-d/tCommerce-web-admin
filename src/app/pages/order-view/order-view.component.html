@@ -249,7 +249,7 @@
               <td class="items-table__block items-table__block--packed">
                 <app-button class="items-table__pack"
                             *ngIf="!item.isPacked; else packedTextTmpl"
-                            (click)="packOrderItem(item)"
+                            (click)="onPackOrderItemClick(item)"
                             btnSize="small"
                 >
                   Упаковать
@@ -364,3 +364,5 @@
 <invoice-modal *ngIf="order" [order]="order" (print)="printInvoice($event)"></invoice-modal>
 
 <preloader class="preloader" *ngIf="!customer || isLoading" [hasMargins]="false"></preloader>
+
+<confirm-pack-item-modal></confirm-pack-item-modal>
