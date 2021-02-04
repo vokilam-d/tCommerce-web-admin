@@ -21,8 +21,16 @@ import { NgUnsubscribe } from '../../shared/directives/ng-unsubscribe/ng-unsubsc
 import { getClientLinkPrefix } from '../../shared/helpers/get-client-link-prefix.function';
 import { MultilingualTextDto } from '../../shared/dtos/multilingual-text.dto';
 import { Language } from '../../shared/enums/language.enum';
+import { ISelectOption } from '../../shared/components/select/select-option.interface';
+import { ProductLabelTypeEnum } from '../../shared/enums/product-label-type.enum';
 
 type PostAction = 'duplicate' | 'exit' | 'none';
+
+const PRODUCT_LABEL_OPTIONS: ISelectOption[] = [
+  { data: ProductLabelTypeEnum.Empty, view: 'Не выбрано' },
+  { data: ProductLabelTypeEnum.New, view: 'Новинка' },
+  { data: ProductLabelTypeEnum.Top, view: 'Топ продаж' }
+];
 
 @Component({
   selector: 'product',
@@ -38,6 +46,7 @@ export class ProductComponent extends NgUnsubscribe implements OnInit {
   currencies = ECurrencyCode;
   isLoading: boolean = false;
   lang = DEFAULT_LANG;
+  productLabelSelectOptions: ISelectOption[] = PRODUCT_LABEL_OPTIONS;
 
   get variantsFormArray() { return this.form.get('variants') as FormArray; }
   get isMultiVariant(): boolean { return this.variantsFormArray.controls.length > 1; }
@@ -116,6 +125,7 @@ export class ProductComponent extends NgUnsubscribe implements OnInit {
         currency: [variant.currency],
         vendorCode: [variant.vendorCode],
         gtin: [variant.gtin],
+        label: [variant.label],
         isIncludedInShoppingFeed: [variant.isIncludedInShoppingFeed],
         googleAdsProductTitle: [variant.googleAdsProductTitle],
         medias: [variant.medias],

@@ -3,6 +3,7 @@ import { ProductSelectedAttributeDto } from './selected-attribute.dto';
 import { BreadcrumbDto } from './breadcrumb.dto';
 import { ECurrencyCode } from '../enums/currency.enum';
 import { MultilingualTextDto } from './multilingual-text.dto';
+import { ProductLabelTypeEnum } from '../enums/product-label-type.enum';
 
 export class ProductCategoryDto {
   id: number;
@@ -58,6 +59,7 @@ export class ProductListItemDto {
   categories: ProductCategoryDto[];
   attributes: ProductSelectedAttributeDto[];
   mediaUrl: string;
+  label: ProductLabelTypeEnum;
   name: MultilingualTextDto = new MultilingualTextDto();
   skus: string;
   gtins: string;
