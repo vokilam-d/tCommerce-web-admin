@@ -425,4 +425,8 @@ export class OrderViewComponent extends NgUnsubscribe implements OnInit {
         }
       );
   }
+
+  isAllOrderItemsPacked(): boolean {
+    return this.order.items.every(item => item.isPacked);
+  }
 }

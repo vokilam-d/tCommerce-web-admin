@@ -57,14 +57,20 @@
           <ng-container *ngSwitchCase="orderStatuses.RETURNED">Посылка возвращена</ng-container>
         </app-button>
 
-        <app-button class="header__btn"
-                    *ngIf="isCreateInternetDocumentVisible()"
-                    (click)="openShipmentInfo()"
-                    btnStyle="primary"
-                    type="button"
-        >
-          Накладная
-        </app-button>
+        <div class="header__btn internet-document-btn" *ngIf="isCreateInternetDocumentVisible()">
+          <app-button (click)="openShipmentInfo()"
+                      [disabled]="!isAllOrderItemsPacked()"
+                      [style.position]="'relative'"
+                      btnStyle="primary"
+                      type="button"
+          >
+            Накладная
+          </app-button>
+
+          <span class="tooltip tooltip--right-bottom" *ngIf="!isAllOrderItemsPacked()">
+            Не все товары упакованы
+          </span>
+        </div>
       </ng-container>
     </div>
   </div>

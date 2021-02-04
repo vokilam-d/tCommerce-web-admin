@@ -10,9 +10,16 @@
   width: 100%;
   border: 1px solid #adadad;
   transition: all 0.2s ease;
-  cursor: pointer;
   font-size: 14px;
   box-sizing: border-box;
+
+  &[disabled] {
+    opacity: 0.5;
+  }
+
+  &:not([disabled]) {
+    cursor: pointer;
+  }
 
   &--size-default {
     padding: 9px 14px;
@@ -26,10 +33,6 @@
   &--size-big {
     padding: 11px 18px 12px;
     font-size: 16px;
-  }
-
-  &[disabled] {
-    opacity: 0.5;
   }
 
   &--color-default {
