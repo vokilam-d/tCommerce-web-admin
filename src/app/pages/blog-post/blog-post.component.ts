@@ -19,6 +19,7 @@ import { LinkedProductDto } from '../../shared/dtos/linked-product.dto';
 import { ISelectOption } from '../../shared/components/select/select-option.interface';
 import { BlogCategoryService } from '../../shared/services/blog-category.service';
 import { BlogCategoryDto } from '../../shared/dtos/blog-category.dto';
+import { CustomValidators } from '../../shared/classes/validators';
 
 @Component({
   selector: 'blog-post',
@@ -83,7 +84,7 @@ export class BlogPostComponent extends NgUnsubscribe implements OnInit {
   private buildForm() {
     this.form = this.formBuilder.group({
       name: [this.post.name],
-      slug: [this.post.slug],
+      slug: [this.post.slug, CustomValidators.slug],
       category: [this.post.category?.id],
       content: [this.post.content],
       shortContent: [this.post.shortContent],

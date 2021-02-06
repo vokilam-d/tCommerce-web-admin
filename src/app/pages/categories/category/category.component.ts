@@ -15,6 +15,7 @@ import { IDraggedEvent } from '../../../shared/directives/draggable-item/draggab
 import { EReorderPosition } from '../../../shared/enums/reorder-position.enum';
 import { ISelectOption } from '../../../shared/components/select/select-option.interface';
 import { EProductsSort } from '../../../shared/enums/product-sort.enum';
+import { CustomValidators } from '../../../shared/classes/validators';
 
 @Component({
   selector: 'category',
@@ -156,7 +157,7 @@ export class CategoryComponent implements OnInit {
       name: [category.name],
       canonicalCategoryId: category.canonicalCategoryId,
       description: category.description,
-      slug: category.slug,
+      slug: [category.slug, CustomValidators.slug],
       createRedirect: false,
       metaTags: this.formBuilder.group({
         title: category.metaTags.title,

@@ -23,6 +23,7 @@ import { MultilingualTextDto } from '../../shared/dtos/multilingual-text.dto';
 import { Language } from '../../shared/enums/language.enum';
 import { ISelectOption } from '../../shared/components/select/select-option.interface';
 import { ProductLabelTypeEnum } from '../../shared/enums/product-label-type.enum';
+import { CustomValidators } from '../../shared/classes/validators';
 
 type PostAction = 'duplicate' | 'exit' | 'none';
 
@@ -116,7 +117,7 @@ export class ProductComponent extends NgUnsubscribe implements OnInit {
     this.product.variants.forEach(variant => {
       const variantControls: Record<keyof AddOrUpdateProductVariantDto, any> = {
         name: [variant.name],
-        slug: variant.slug,
+        slug: [variant.slug, CustomValidators.slug],
         createRedirect: false,
         attributes: [variant.attributes],
         isEnabled: variant.isEnabled,

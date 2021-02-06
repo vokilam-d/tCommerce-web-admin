@@ -378,12 +378,18 @@
         <div class="block__content">
           <div class="product__field field"
                *ngIf="variantForm.get('slug') as slug"
+               [class.field--invalid]="isControlInvalid(slug)"
           >
             <label class="field__label" [for]="'slug-' + i">
               URL адрес
             </label>
             <span class="field__control">
-              <textarea class="field__input" [formControl]="slug" [id]="'slug-' + i" rows="1"></textarea>
+              <textarea class="field__input" [formControl]="slug" [id]="'slug-' + i" rows="2"></textarea>
+
+              <span class="field__error" *ngIf="isControlInvalid(slug)">
+                URL может состоять только из маленьких латинских букв (a-z), дефиса (-) и/или нижнего подчёркивания (_)
+              </span>
+
               <redirect-control *ngIf="!isNewProduct && !isNewProductBasedOn && product.variants[i]?.slug"
                                 [formControl]="variantForm.get('createRedirect')"
                                 [initialSlug]="product.variants[i]?.slug"

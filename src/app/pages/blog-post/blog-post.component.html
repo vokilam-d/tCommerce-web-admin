@@ -95,6 +95,10 @@
         <label for="slug" class="field__label">URL адрес</label>
         <span class="field__control">
           <input class="field__input" [formControl]="slug" type="text" id="slug">
+
+          <span class="field__error" *ngIf="isControlInvalid(slug)">
+            URL может состоять только из маленьких латинских букв (a-z), дефиса (-) и/или нижнего подчёркивания (_)
+          </span>
         </span>
       </div>
 
