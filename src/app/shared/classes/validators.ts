@@ -1,7 +1,7 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 export class CustomValidators {
-  private static invalidSlugRegex = /[^a-z0-9\-_]/;
+  private static invalidSlugRegex = /[^a-z0-9\-.]/;
 
   static passwordConfirm(passwordControl: AbstractControl): ValidatorFn {
     return (passwordConfirmControl: AbstractControl): ValidationErrors | null => {

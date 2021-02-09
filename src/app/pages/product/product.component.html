@@ -387,7 +387,7 @@
               <textarea class="field__input" [formControl]="slug" [id]="'slug-' + i" rows="2"></textarea>
 
               <span class="field__error" *ngIf="isControlInvalid(slug)">
-                URL может состоять только из маленьких латинских букв (a-z), дефиса (-) и/или нижнего подчёркивания (_)
+                URL может состоять только из маленьких латинских букв (a-z), цифр (0-9) и/или дефиса (-)
               </span>
 
               <redirect-control *ngIf="!isNewProduct && !isNewProductBasedOn && product.variants[i]?.slug"
