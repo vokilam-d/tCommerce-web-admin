@@ -4,14 +4,14 @@
 
   <div class="users__sidebar list">
     <app-button class="list__add-btn" (click)="addNewUser()">
-      Добавить юзера
+      Добавить пользователя
     </app-button>
 
     <div class="list__users">
       <div class="list__user"
            *ngIf="!users.length; else hasUsersTmpl"
       >
-        Нет юзеров
+        Нет пользователей
       </div>
 
       <ng-template #hasUsersTmpl>
@@ -116,4 +116,4 @@
   </div>
 </div>
 
-<ng-template #newUserTitle>Новый юзер</ng-template>
+<ng-template #newUserTitle>Новый пользователь</ng-template>

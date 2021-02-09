@@ -96,23 +96,23 @@ export class UsersComponent implements OnInit {
 
     if (this.isNewUser) {
       this.userService.createUser(dto)
-        .pipe(this.notyService.attachNoty({ successText: `Юзер успешно создан` }))
+        .pipe(this.notyService.attachNoty({ successText: `Пользователь успешно создан` }))
         .subscribe(_ => this.init());
     } else {
 
       this.userService.updateUser(this.activeUser.id, dto)
-        .pipe(this.notyService.attachNoty({ successText: `Юзер успешно обновлён` }))
+        .pipe(this.notyService.attachNoty({ successText: `Пользователь успешно обновлён` }))
         .subscribe(_ => this.init());
     }
   }
 
   deleteUser() {
-    if (!this.activeUser.id || !confirm(`Вы уверены, что хотите удалить юзера '${this.activeUser.login}'?`)) {
+    if (!this.activeUser.id || !confirm(`Вы уверены, что хотите удалить пользователя '${this.activeUser.login}'?`)) {
       return;
     }
 
     this.userService.deleteUser(this.activeUser.id)
-      .pipe(this.notyService.attachNoty({ successText: `Юзер успешно удалён` }))
+      .pipe(this.notyService.attachNoty({ successText: `Пользователь успешно удалён` }))
       .subscribe(_ => this.init());
   }
 
