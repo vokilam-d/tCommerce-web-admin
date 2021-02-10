@@ -8,7 +8,7 @@ import { AppServerModule } from './src/main.server';
 import { APP_BASE_HREF } from '@angular/common';
 import { existsSync } from 'fs';
 import { Server as SocketServer } from 'socket.io';
-import { SERVER_RESTART_TOPIC } from './src/app/shared/constants/constants';
+import { SOCKET } from './src/app/shared/constants/constants';
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app() {
@@ -54,10 +54,10 @@ function run() {
     console.log(`Node Express server listening on http://localhost:${port}`);
   });
 
-  const socket = new SocketServer(httpServer);
+  const socket = new SocketServer(httpServer, { path: SOCKET.path });
 
   const closeServer = () => {
-    socket.emit(SERVER_RESTART_TOPIC);
+    socket.emit(SOCKET.serverRestartTopic);
     setTimeout(() => process.exit(0), 500);
   };
 

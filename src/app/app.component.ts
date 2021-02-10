@@ -3,7 +3,7 @@ import { UserService } from './shared/services/user.service';
 import { HeadService } from './shared/services/head.service';
 import { DeviceService } from './shared/services/device-detector/device.service';
 import { io } from 'socket.io-client';
-import { SERVER_RESTART_TOPIC } from './shared/constants/constants';
+import { SOCKET } from './shared/constants/constants';
 import { NotyService } from './noty/noty.service';
 
 @Component({
@@ -43,8 +43,8 @@ export class AppComponent implements OnInit {
   private handleServerRestart() {
     if (this.deviceService.isPlatformServer()) { return; }
 
-    const socket = io();
-    socket.on(SERVER_RESTART_TOPIC, () => {
+    const socket = io({ path: SOCKET.path });
+    socket.on(SOCKET.serverRestartTopic, () => {
       this.notyService.showErrorNoty(`Сессия устарела - учтите несохранённые изменения и обновите страницу.`)
     });
   }

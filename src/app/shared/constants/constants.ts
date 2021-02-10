@@ -11,7 +11,10 @@ export const API_HOST = environment.production ? '' : 'http://localhost:3000';
 export const UPLOADED_HOST = API_HOST;
 // export const UPLOADED_HOST = 'http://173.249.23.253:3080';
 
-export const SERVER_RESTART_TOPIC = 'server_restart';
+export const SOCKET = {
+  path: '/admin/socket.io',
+  serverRestartTopic: 'server_restart'
+};
 export const DEFAULT_LANG: Language = Language.RU;
 export const INPUT_MEDIA_ACCEPT_TYPES = '.jpg,.jpeg,.png,.webp,.svg,.tiff,.gif';
 export const DEFAULT_ERROR_TEXT = 'Что-то пошло не так. Пожалуйста, попробуйте позже';
