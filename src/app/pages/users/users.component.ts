@@ -139,7 +139,7 @@ export class UsersComponent implements OnInit {
     return this.userService.user.role <= Role.Administrator;
   }
 
-  private getTranslation(role: Role): string {
+  getTranslation(role: Role): string {
     return TRANSLATIONS_MAP[role];
   }
 
