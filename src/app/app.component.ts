@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from './shared/services/user.service';
 import { HeadService } from './shared/services/head.service';
 import { DeviceService } from './shared/services/device-detector/device.service';
+import { io } from 'socket.io-client';
+import { SERVER_RESTART_TOPIC } from './shared/constants/constants';
+import { NotyService } from './noty/noty.service';
 
 @Component({
   selector: 'app-root',
@@ -17,21 +20,32 @@ export class AppComponent implements OnInit {
   constructor(
     private userService: UserService,
     private headService: HeadService,
+    private notyService: NotyService,
     private deviceService: DeviceService
   ) { }
 
   ngOnInit(): void {
     this.headService.setNoindex();
 
-    if (this.deviceService.isPlatformServer()) {
-      return;
-    }
+    this.handleVersion();
+    this.handleServerRestart();
+  }
+
+  private handleVersion() {
+    if (this.deviceService.isPlatformServer()) { return; }
     const version = localStorage.getItem('version');
-    if (version === this.appVersion) {
-      return;
-    }
+    if (version === this.appVersion) { return;}
 
     localStorage.clear();
     localStorage.setItem('version', this.appVersion);
+  }
+
+  private handleServerRestart() {
+    if (this.deviceService.isPlatformServer()) { return; }
+
+    const socket = io();
+    socket.on(SERVER_RESTART_TOPIC, () => {
+      this.notyService.showErrorNoty(`Сессия устарела - учтите несохранённые изменения и обновите страницу.`)
+    });
   }
 }
