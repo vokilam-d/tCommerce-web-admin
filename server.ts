@@ -54,15 +54,23 @@ function run() {
     console.log(`Node Express server listening on http://localhost:${port}`);
   });
 
-  const socket = new SocketServer(httpServer, { path: SOCKET.path });
+  let socket;
+  if (isPrimaryInstance()) {
+    socket = new SocketServer(httpServer, { path: SOCKET.path });
+  }
 
   const closeServer = () => {
-    socket.emit(SOCKET.serverRestartTopic);
+    socket?.emit(SOCKET.serverRestartTopic);
     setTimeout(() => process.exit(0), 500);
   };
 
   process.on('SIGTERM', () => closeServer());
   process.on('SIGINT', () => closeServer());
+}
+
+function isPrimaryInstance(): boolean {
+  const instanceId = process.env.INSTANCE_ID;
+  return instanceId === undefined || instanceId === '0';
 }
 
 // Webpack will replace 'require' with '__webpack_require__'
