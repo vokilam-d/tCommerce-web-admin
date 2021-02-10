@@ -48,8 +48,21 @@ function run() {
 
   // Start up the Node server
   const server = app();
-  server.listen(port, '0.0.0.0', () => {
+  const httpServer = server.listen(port, '0.0.0.0', () => {
     console.log(`Node Express server listening on http://localhost:${port}`);
+  });
+
+  const closeServer = () => setTimeout(() => httpServer.close(() => {
+    console.log('HTTP server closed');
+  }), 2000);
+
+  process.on('SIGTERM', () => {
+    console.log('SIGTERM signal received: closing HTTP server');
+    closeServer();
+  });
+  process.on('SIGINT', () => {
+    console.log('SIGINT signal received: closing HTTP server');
+    closeServer();
   });
 }
 
