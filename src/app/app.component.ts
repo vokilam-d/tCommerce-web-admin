@@ -43,7 +43,7 @@ export class AppComponent implements OnInit {
   private handleServerRestart() {
     if (this.deviceService.isPlatformServer()) { return; }
 
-    const socket = io({ path: SOCKET.path });
+    const socket = io({ path: SOCKET.path, reconnectionAttempts: 20, reconnectionDelay: 3000, reconnectionDelayMax: 50000 });
     socket.on(SOCKET.serverRestartTopic, () => {
       this.notyService.showErrorNoty(`Сессия устарела - учтите несохранённые изменения и обновите страницу.`)
     });
