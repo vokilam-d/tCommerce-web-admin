@@ -58,7 +58,9 @@ function run() {
   // let socket;
   let wss: WebSocket.Server;
   let clients = [];
+  console.log(' before isPrimaryInstance');
   if (isPrimaryInstance()) {
+    console.log('isPrimaryInstance');
     // socket = new SocketServer(httpServer, { path: SOCKET.path, cors: { origin: '*' } });
     const wss = new WebSocket.Server({ server: httpServer, path: SOCKET.path });
     wss.on('connection', (ws) => {
@@ -94,6 +96,7 @@ function run() {
 
 function isPrimaryInstance(): boolean {
   const instanceId = process.env.INSTANCE_ID;
+  console.log(JSON.stringify({instanceId}));
   return instanceId === undefined || instanceId === '0';
 }
 
