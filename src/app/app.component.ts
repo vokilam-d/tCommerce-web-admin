@@ -51,8 +51,10 @@ export class AppComponent implements OnInit {
     const wsProtocol = location.protocol === 'https:' ? 'wss' : 'ws';
     const socket = webSocket(`${wsProtocol}://${location.host}${SOCKET.path}`);
     // const socket = webSocket(`wss://klondike.com.ua${SOCKET.path}`);
-    socket.subscribe(msg => {
-      console.log({msg});
+    socket.subscribe(({ topic, data }) => {
+      if (topic === SOCKET.serverRestartTopic) {
+        this.notyService.showErrorNoty(`Сессия устарела - учтите несохранённые изменения и обновите страницу.`)
+      }
     });
   }
 }
