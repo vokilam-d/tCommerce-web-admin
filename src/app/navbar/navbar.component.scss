@@ -1,6 +1,7 @@
 @import "variables";
 
 .navbar {
+  position: relative;
   height: 100%;
   padding: 0 0 20vh;
   background: #373330;
@@ -40,17 +41,6 @@
     }
   }
 
-  &__sub-link {
-    padding: 16px 5px 11px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    text-align: center;
-    color: #aaa6a0;
-    font-size: 10px;
-    text-transform: uppercase;
-  }
-
   &__logo {
     display: block;
     margin: 0 auto;
@@ -63,5 +53,26 @@
     display: block;
     margin: 0 auto 3px;
     font-size: 22px;
+  }
+}
+
+.sub-navbar {
+  position: absolute;
+  top: 0;
+  left: 88px;
+  width: max-content;
+  min-width: 240px;
+  height: 100%;
+  padding: 88px 15px;
+  background-color: #373330;
+  z-index: 1;
+
+  &__item {
+    margin-bottom: 15px;
+  }
+
+  &__link {
+    padding: 10px 20px;
+    color: #f1ede6;
   }
 }
