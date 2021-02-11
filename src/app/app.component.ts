@@ -44,15 +44,15 @@ export class AppComponent implements OnInit {
   private handleServerRestart() {
     if (this.deviceService.isPlatformServer()) { return; }
 
-    // const socket = io({ path: SOCKET.path, reconnectionAttempts: 5, reconnectionDelay: 30000, reconnectionDelayMax: 50000 });
-    // socket.on(SOCKET.serverRestartTopic, () => {
-    //   this.notyService.showErrorNoty(`Сессия устарела - учтите несохранённые изменения и обновите страницу.`)
-    // });
-    const wsProtocol = location.protocol === 'https:' ? 'wss' : 'ws';
-    // const socket = webSocket(`${wsProtocol}://${location.host}${SOCKET.path}`);
-    const socket = webSocket(`wss://klondike.com.ua${SOCKET.path}`);
-    socket.subscribe(msg => {
-      console.log({msg});
+    const socket = io({ path: SOCKET.path, reconnectionAttempts: 5, reconnectionDelay: 30000, reconnectionDelayMax: 50000 });
+    socket.on(SOCKET.serverRestartTopic, () => {
+      this.notyService.showErrorNoty(`Сессия устарела - учтите несохранённые изменения и обновите страницу.`)
     });
+    // const wsProtocol = location.protocol === 'https:' ? 'wss' : 'ws';
+    // const socket = webSocket(`${wsProtocol}://${location.host}${SOCKET.path}`);
+    // const socket = webSocket(`wss://klondike.com.ua${SOCKET.path}`);
+    // socket.subscribe(msg => {
+    //   console.log({msg});
+    // });
   }
 }

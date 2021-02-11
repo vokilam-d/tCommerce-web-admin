@@ -7,8 +7,8 @@ import { join } from 'path';
 import { AppServerModule } from './src/main.server';
 import { APP_BASE_HREF } from '@angular/common';
 import { existsSync } from 'fs';
-// import { Server as SocketServer } from 'socket.io';
-import * as WebSocket from 'ws';
+import { Server as SocketServer } from 'socket.io';
+// import * as WebSocket from 'ws';
 import { SOCKET } from './src/app/shared/constants/constants';
 
 // The Express app is exported so that it can be used by serverless Functions.
@@ -55,37 +55,37 @@ function run() {
     console.log(`Node Express server listening on http://localhost:${port}`);
   });
 
-  // let socket;
-  let wss: WebSocket.Server;
-  let clients = [];
-  console.log(' before isPrimaryInstance');
+  let socket;
+  // let wss: WebSocket.Server;
+  // let clients = [];
+  // console.log(' before isPrimaryInstance');
   if (isPrimaryInstance()) {
-    console.log('isPrimaryInstance');
-    // socket = new SocketServer(httpServer, { path: SOCKET.path, cors: { origin: '*' } });
-    wss = new WebSocket.Server({ server: httpServer, path: SOCKET.path });
-    wss.on('connection', (ws) => {
-      clients.push(ws);
-      setInterval(() => {
-        ws.send(JSON.stringify({ topic: 'date', data: new Date() }))
-      }, 13000);
-    });
-    wss.on('error', err => {
-      console.log(err);
-    });
-    console.log(wss);
+    // console.log('isPrimaryInstance');
+    socket = new SocketServer(httpServer, { path: SOCKET.path, cors: { origin: '*' } });
+    // wss = new WebSocket.Server({ server: httpServer, path: SOCKET.path });
+    // wss.on('connection', (ws) => {
+    //   clients.push(ws);
+    //   setInterval(() => {
+    //     ws.send(JSON.stringify({ topic: 'date', data: new Date() }))
+    //   }, 13000);
+    // });
+    // wss.on('error', err => {
+    //   console.log(err);
+    // });
+    // console.log(wss);
   }
 
   const closeServer = () => {
-    // socket?.emit(SOCKET.serverRestartTopic);
-    console.log('start close');
-    console.log(wss);
-    if (wss) {
-      console.log('in wss', wss.clients.size, clients.length);
-      wss.clients.forEach(ws => {
-        console.log(ws.send);
-        ws.send(JSON.stringify({ topic: SOCKET.serverRestartTopic, data: new Date() }));
-      });
-    }
+    socket?.emit(SOCKET.serverRestartTopic);
+    // console.log('start close');
+    // console.log(wss);
+    // if (wss) {
+    //   console.log('in wss', wss.clients.size, clients.length);
+    //   wss.clients.forEach(ws => {
+    //     console.log(ws.send);
+    //     ws.send(JSON.stringify({ topic: SOCKET.serverRestartTopic, data: new Date() }));
+    //   });
+    // }
     setTimeout(() => {
       console.log('exit');
       process.exit(0);
