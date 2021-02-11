@@ -50,7 +50,7 @@ export class AppComponent implements OnInit {
     // });
     const wsProtocol = location.protocol === 'https:' ? 'wss' : 'ws';
     // const socket = webSocket(`${wsProtocol}://${location.host}${SOCKET.path}`);
-    const socket = webSocket(`ws://173.249.23.253:3001${SOCKET.path}`);
+    const socket = webSocket(`wss://klondike.com.ua${SOCKET.path}`);
     socket.subscribe(msg => {
       console.log({msg});
     });

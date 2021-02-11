@@ -62,7 +62,7 @@ function run() {
   if (isPrimaryInstance()) {
     console.log('isPrimaryInstance');
     // socket = new SocketServer(httpServer, { path: SOCKET.path, cors: { origin: '*' } });
-    const wss = new WebSocket.Server({ server: httpServer, path: SOCKET.path });
+    wss = new WebSocket.Server({ server: httpServer, path: SOCKET.path });
     wss.on('connection', (ws) => {
       clients.push(ws);
       setInterval(() => {
@@ -71,12 +71,14 @@ function run() {
     });
     wss.on('error', err => {
       console.log(err);
-    })
+    });
+    console.log(wss);
   }
 
   const closeServer = () => {
     // socket?.emit(SOCKET.serverRestartTopic);
     console.log('start close');
+    console.log(wss);
     if (wss) {
       console.log('in wss', wss.clients.size, clients.length);
       wss.clients.forEach(ws => {
