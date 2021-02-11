@@ -5,6 +5,7 @@ import { DeviceService } from './shared/services/device-detector/device.service'
 import { io } from 'socket.io-client';
 import { SOCKET } from './shared/constants/constants';
 import { NotyService } from './noty/noty.service';
+import { WebSocketSubject, webSocket } from 'rxjs/webSocket';
 
 @Component({
   selector: 'app-root',
@@ -43,9 +44,13 @@ export class AppComponent implements OnInit {
   private handleServerRestart() {
     if (this.deviceService.isPlatformServer()) { return; }
 
-    const socket = io({ path: SOCKET.path, reconnectionAttempts: 5, reconnectionDelay: 30000, reconnectionDelayMax: 50000 });
-    socket.on(SOCKET.serverRestartTopic, () => {
-      this.notyService.showErrorNoty(`Сессия устарела - учтите несохранённые изменения и обновите страницу.`)
+    // const socket = io({ path: SOCKET.path, reconnectionAttempts: 5, reconnectionDelay: 30000, reconnectionDelayMax: 50000 });
+    // socket.on(SOCKET.serverRestartTopic, () => {
+    //   this.notyService.showErrorNoty(`Сессия устарела - учтите несохранённые изменения и обновите страницу.`)
+    // });
+    const socket = webSocket(`ws://${location.host}/admin/ws`);
+    socket.subscribe(msg => {
+      console.log({msg});
     });
   }
 }

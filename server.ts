@@ -7,7 +7,8 @@ import { join } from 'path';
 import { AppServerModule } from './src/main.server';
 import { APP_BASE_HREF } from '@angular/common';
 import { existsSync } from 'fs';
-import { Server as SocketServer } from 'socket.io';
+// import { Server as SocketServer } from 'socket.io';
+import * as WebSocket from 'ws';
 import { SOCKET } from './src/app/shared/constants/constants';
 
 // The Express app is exported so that it can be used by serverless Functions.
@@ -54,13 +55,25 @@ function run() {
     console.log(`Node Express server listening on http://localhost:${port}`);
   });
 
-  let socket;
+  // let socket;
+  let wss: WebSocket.Server;
   if (isPrimaryInstance()) {
-    socket = new SocketServer(httpServer, { path: SOCKET.path });
+    // socket = new SocketServer(httpServer, { path: SOCKET.path, cors: { origin: '*' } });
+    const wss = new WebSocket.Server({ server: httpServer, path: '/admin/ws' });
+    wss.on('connection', (ws) => {
+      setInterval(() => {
+        ws.send(JSON.stringify({ topic: 'date', data: new Date() }))
+      }, 13000);
+    })
   }
 
   const closeServer = () => {
-    socket?.emit(SOCKET.serverRestartTopic);
+    // socket?.emit(SOCKET.serverRestartTopic);
+    if (wss) {
+      wss.clients.forEach(ws => {
+        ws.send(JSON.stringify({ topic: SOCKET.serverRestartTopic, data: new Date() }));
+      });
+    }
     setTimeout(() => process.exit(0), 500);
   };
 
