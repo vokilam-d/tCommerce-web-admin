@@ -64,6 +64,9 @@ function run() {
       setInterval(() => {
         ws.send(JSON.stringify({ topic: 'date', data: new Date() }))
       }, 13000);
+    });
+    wss.on('error', err => {
+      console.log(err);
     })
   }
 

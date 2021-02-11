@@ -12,7 +12,7 @@ export const UPLOADED_HOST = API_HOST;
 // export const UPLOADED_HOST = 'http://173.249.23.253:3080';
 
 export const SOCKET = {
-  path: '/admin/socket.io/',
+  path: '/admin/ws',
   serverRestartTopic: 'server_restart'
 };
 export const DEFAULT_LANG: Language = Language.RU;
