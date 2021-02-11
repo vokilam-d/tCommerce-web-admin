@@ -59,7 +59,7 @@ function run() {
   let wss: WebSocket.Server;
   if (isPrimaryInstance()) {
     // socket = new SocketServer(httpServer, { path: SOCKET.path, cors: { origin: '*' } });
-    const wss = new WebSocket.Server({ server: httpServer, path: '/admin/ws' });
+    const wss = new WebSocket.Server({ server: httpServer, path: SOCKET.path });
     wss.on('connection', (ws) => {
       setInterval(() => {
         ws.send(JSON.stringify({ topic: 'date', data: new Date() }))
