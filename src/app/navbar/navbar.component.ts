@@ -5,8 +5,7 @@ export interface INavBarItem {
   name: string;
   link: string;
   icon: string;
-  action?: any;
-  groupName?: string;
+  isChildrenVisible?: boolean;
   subItems?: INavBarItem[];
 }
 
@@ -26,9 +25,7 @@ export enum MenuGroup {
 export class NavbarComponent implements OnInit {
 
   public navBarMenu: INavBarItem[];
-  public menuGroup: typeof MenuGroup = MenuGroup;
 
-  public isSalesGroupVisible: boolean = false;
 
   constructor() { }
 
@@ -41,15 +38,13 @@ export class NavbarComponent implements OnInit {
       {
         name: 'Dashboard',
         link: '/admin/dashboard',
-        icon: 'navbar__icon ai ai-dashboard',
-        action: this.doNothing
+        icon: 'navbar__icon ai ai-dashboard'
       },
       {
         name: 'Заказы',
         link: '',
         icon: 'navbar__icon ai ai-sales',
-        action: this.toggleIsSalesGroupVisible,
-        groupName: MenuGroup.Sales,
+        isChildrenVisible: false,
         subItems: [
           {
           name: 'Заказы',
@@ -67,7 +62,7 @@ export class NavbarComponent implements OnInit {
         name: 'Товары',
         link: '',
         icon: 'navbar__icon ai ai-catalog',
-        action: this.doNothing,
+        isChildrenVisible: false,
         subItems: [
             {
               name: 'Категории',
@@ -99,20 +94,18 @@ export class NavbarComponent implements OnInit {
       {
         name: 'Блог посты',
         link: '/admin/blog-post',
-        icon: 'navbar__icon ai ai-content',
-        action: this.doNothing
+        icon: 'navbar__icon ai ai-content'
       },
       {
         name: 'Клиенты',
         link: '/admin/customer',
-        icon: 'navbar__icon ai ai-customers',
-        action: this.doNothing
+        icon: 'navbar__icon ai ai-customers'
       },
       {
         name: 'Отзывы',
         link: '',
         icon: 'navbar__icon ai ai-marketing',
-        action: this.doNothing,
+        isChildrenVisible: false,
         subItems: [
           {
             name: 'Отзывы о магазине',
@@ -130,7 +123,7 @@ export class NavbarComponent implements OnInit {
         name: 'Система',
         link: '',
         icon: 'navbar__icon ai ai-system',
-        action: this.doNothing,
+        isChildrenVisible: false,
         subItems: [
           {
             name: 'Объявление',
@@ -157,10 +150,7 @@ export class NavbarComponent implements OnInit {
     ];
   }
 
-  public toggleIsSalesGroupVisible() {
-    console.log(this.isSalesGroupVisible);
-    this.isSalesGroupVisible = !this.isSalesGroupVisible;
+  public showSubItems(item: INavBarItem) {
+    item.isChildrenVisible = !item.isChildrenVisible;
   }
-
-  public doNothing() { return; }
 }

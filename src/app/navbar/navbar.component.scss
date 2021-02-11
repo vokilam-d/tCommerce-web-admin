@@ -40,6 +40,17 @@
     }
   }
 
+  &__sub-link {
+    padding: 16px 5px 11px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    text-align: center;
+    color: #aaa6a0;
+    font-size: 10px;
+    text-transform: uppercase;
+  }
+
   &__logo {
     display: block;
     margin: 0 auto;
@@ -52,23 +63,5 @@
     display: block;
     margin: 0 auto 3px;
     font-size: 22px;
-  }
-}
-
-.sub-navbar {
-  width: 100%;
-  padding: 0 0 20vh;
-  display: flex;
-  background: #373330;
-
-  &__link {
-    padding: 16px 5px 11px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    text-align: center;
-    color: #aaa6a0;
-    font-size: 10px;
-    text-transform: uppercase;
   }
 }

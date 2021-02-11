@@ -9,30 +9,20 @@
   </li>
   <ng-container *ngFor="let item of navBarMenu">
     <li>
-      <a class="navbar__link" (click)="item.action()" [routerLink]="item.link" routerLinkActive="navbar__link--active">
+      <a class="navbar__link" (click)="showSubItems(item)" [routerLink]="item.link" routerLinkActive="navbar__link--active">
         <i [ngClass]="item.icon"></i>
         {{ item.name }}
       </a>
     </li>
-<!--    <ng-template class="sub-navbar" *ngFor="let subItem of item.subItems">-->
-<!--      {{ item.subItems }}-->
-<!--      <li>-->
-<!--        <a class="sub-navbar__link" [routerLink]="subItem.link" routerLinkActive="navbar__link&#45;&#45;active">-->
-<!--          <i [ngClass]="subItem.icon"></i>-->
-<!--          {{ subItem.name }}-->
-<!--        </a>-->
-<!--      </li>-->
-<!--    </ng-template>-->
+    <ng-container *ngIf="item.isChildrenVisible">
+      <ng-container *ngFor="let subItem of item.subItems">
+        <li>
+          <a class="navbar__link navbar__link--logo" [routerLink]="subItem.link" routerLinkActive="navbar__link--active">
+            <i [ngClass]="subItem.icon"></i>
+            {{ subItem.name }}
+          </a>
+        </li>
+      </ng-container>
+    </ng-container>
   </ng-container>
 </ul>
-
-<ng-container *ngIf="true">
-  <ul class="sub-navbar" *ngFor="let subItem of navBarMenu[1].subItems">
-    <li>
-      <a class="sub-navbar__link" [routerLink]="subItem.link" routerLinkActive="navbar__link--active">
-        <i [ngClass]="subItem.icon"></i>
-        {{ subItem.name }}
-      </a>
-    </li>
-  </ul>
-</ng-container>
