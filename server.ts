@@ -57,10 +57,12 @@ function run() {
 
   // let socket;
   let wss: WebSocket.Server;
+  let clients = [];
   if (isPrimaryInstance()) {
     // socket = new SocketServer(httpServer, { path: SOCKET.path, cors: { origin: '*' } });
     const wss = new WebSocket.Server({ server: httpServer, path: SOCKET.path });
     wss.on('connection', (ws) => {
+      clients.push(ws);
       setInterval(() => {
         ws.send(JSON.stringify({ topic: 'date', data: new Date() }))
       }, 13000);
@@ -72,12 +74,18 @@ function run() {
 
   const closeServer = () => {
     // socket?.emit(SOCKET.serverRestartTopic);
+    console.log('start close');
     if (wss) {
+      console.log('in wss', wss.clients.size, clients.length);
       wss.clients.forEach(ws => {
+        console.log(ws.send);
         ws.send(JSON.stringify({ topic: SOCKET.serverRestartTopic, data: new Date() }));
       });
     }
-    setTimeout(() => process.exit(0), 500);
+    setTimeout(() => {
+      console.log('exit');
+      process.exit(0);
+    }, 500);
   };
 
   process.on('SIGTERM', () => closeServer());
