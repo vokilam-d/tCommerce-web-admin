@@ -53,7 +53,7 @@ export class AppComponent implements OnInit {
     // const socket = webSocket(`wss://klondike.com.ua${SOCKET.path}`);
     socket.subscribe(({ topic, data }) => {
       if (topic === SOCKET.serverRestartTopic) {
-        this.notyService.showErrorNoty(`Сессия устарела - учтите несохранённые изменения и обновите страницу.`)
+        this.notyService.showErrorNoty(`Сессия устарела - учтите несохранённые изменения и обновите страницу.`, false);
       }
     });
   }

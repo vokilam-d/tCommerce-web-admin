@@ -39,8 +39,10 @@ export class NotyComponent extends NgUnsubscribe implements OnInit {
     clearTimeout(this.autoHideTimeout);
     this.noties.push(noty);
 
-    const timeToAutoHide = noty.type === 'error' ? this.timeToErrorAutoHide : this.timeToAutoHide;
-    setTimeout(() => this.hideNoty(noty), timeToAutoHide);
+    if (noty.autoHide) {
+      const timeToAutoHide = noty.type === 'error' ? this.timeToErrorAutoHide : this.timeToAutoHide;
+      setTimeout(() => this.hideNoty(noty), timeToAutoHide);
+    }
     this.autoHideTimeout = setTimeout(() => this.removeAllNotiesExcept(noty), 300);
   }
 
