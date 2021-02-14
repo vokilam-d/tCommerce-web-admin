@@ -165,7 +165,9 @@ export class NavbarComponent implements OnInit {
   public pinMenuItem(i) {
   }
 
-  public toggleVisibility() {
+
+
+  public closeSubItems() {
     const itemsWithChildren = this.getItemsWithChildren();
     itemsWithChildren.forEach(item => {
       item.isChildrenVisible = false;
