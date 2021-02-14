@@ -1,4 +1,4 @@
-<ul class="navbar">
+<ul class="navbar" (clickOutside)="toggleVisibility()">
   <li>
     <a class="navbar__link navbar__link--logo"
        routerLink="/"
@@ -7,7 +7,7 @@
       <img class="navbar__logo" src="/admin/assets/images/klondike-icon.png" alt="">
     </a>
   </li>
-  <ng-container *ngFor="let item of navBarMenu">
+  <ng-container *ngFor="let item of navBarMenu; let i = index">
     <li>
       <a class="navbar__link" (click)="showSubItems(item)" [routerLink]="item.link" routerLinkActive="navbar__link--active">
         <i [ngClass]="item.icon"></i>
@@ -17,7 +17,7 @@
     <ng-container *ngIf="item.isChildrenVisible">
       <ul class="sub-navbar">
         <li class="sub-navbar__item" *ngFor="let subItem of item.subItems">
-          <a class="sub-navbar__link" (click)="closeSubNavbar(item)" [routerLink]="subItem.link" routerLinkActive="navbar__link--active">
+          <a class="sub-navbar__link" (click)="pinMenuItem(i)" [routerLink]="subItem.link" routerLinkActive="navbar__link--active">
 <!--            <i [ngClass]="subItem.icon"></i>-->
             {{ subItem.name }}
           </a>

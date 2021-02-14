@@ -9,13 +9,6 @@ export interface INavBarItem {
   subItems?: INavBarItem[];
 }
 
-export enum MenuGroup {
-  Sales = 'sales',
-  Catalog = 'catalog',
-  Marketing = 'marketing',
-  System = 'system'
-}
-
 
 @Component({
   selector: 'navbar',
@@ -150,7 +143,32 @@ export class NavbarComponent implements OnInit {
     ];
   }
 
-  public showSubItems(item: INavBarItem) {
-    item.isChildrenVisible = !item.isChildrenVisible;
+  private getItemsWithChildren(): INavBarItem[] {
+    return this.navBarMenu.filter(item => {
+      if (item.hasOwnProperty('isChildrenVisible')) {
+        return item;
+      }
+    });
+  }
+
+  public showSubItems(clickedItem: INavBarItem) {
+    const itemsWithChildren = this.getItemsWithChildren();
+    itemsWithChildren.find(item => {
+      if (Object.is(item, clickedItem)) {
+        item.isChildrenVisible = !item.isChildrenVisible;
+      } else {
+        item.isChildrenVisible = false;
+      }
+    });
+  }
+
+  public pinMenuItem(i) {
+  }
+
+  public toggleVisibility() {
+    const itemsWithChildren = this.getItemsWithChildren();
+    itemsWithChildren.forEach(item => {
+      item.isChildrenVisible = false;
+    });
   }
 }
