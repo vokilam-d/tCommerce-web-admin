@@ -159,13 +159,17 @@ export class ProductListComponent extends NgUnsubscribe implements OnInit, After
           product.name[DEFAULT_LANG],
           this.getItemCategories(product),
           product.vendorCodes,
+          product.gtins,
           this.getManufacturerAttr(product),
           `${product.prices} ${this.readableCurrencyPipe.transform(this.defaultCurrency)}`,
           product.quantitiesInStock,
           product.sellableQuantities,
+          product.note,
           `${product.isEnabled ? 'On' : 'Off'}`,
           product.salesCount,
-          `${this.datePipe.transform(product.createdAt, 'dd.MM.y')} ${this.datePipe.transform(product.createdAt, 'HH:mm:ss')}`
+          `${product.isIncludedInShoppingFeed ? 'Да' : 'Нет'}`,
+          `${this.datePipe.transform(product.createdAt, 'dd.MM.y')} ${this.datePipe.transform(product.createdAt, 'HH:mm:ss')}`,
+          `${this.datePipe.transform(product.updatedAt, 'dd.MM.y')} ${this.datePipe.transform(product.updatedAt, 'HH:mm:ss')}`
         ];
 
         return fields.join('\t');

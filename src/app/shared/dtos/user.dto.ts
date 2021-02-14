@@ -1,8 +1,13 @@
-export class UserDto {
-  id?: string;
+import { Role } from '../enums/role.enum';
+
+export class AddOrUpdateUserDto {
   login: string = '';
+  password: string = '';
+  name: string = '';
+  role: Role = Role.Manager;
 }
 
-export class AddOrUpdateUserDto extends UserDto {
-  password: string;
+export class UserDto extends AddOrUpdateUserDto {
+  id: string;
 }
+

@@ -4,14 +4,14 @@
 
   <div class="users__sidebar list">
     <app-button class="list__add-btn" (click)="addNewUser()">
-      Добавить юзера
+      Добавить пользователя
     </app-button>
 
     <div class="list__users">
       <div class="list__user"
            *ngIf="!users.length; else hasUsersTmpl"
       >
-        Нет юзеров
+        Нет пользователей
       </div>
 
       <ng-template #hasUsersTmpl>
@@ -60,13 +60,13 @@
         </span>
       </div>
 
-      <div class="user-form__field field field--required"
+      <div class="user-form__field field"
            *ngIf="form.get('password') as password"
            [class.field--invalid]="isControlInvalid(password)"
       >
         <label for="password" class="field__label">Новый пароль</label>
         <span class="field__control">
-          <input class="field__input" [formControl]="password" type="password" id="password" required>
+          <input class="field__input" [formControl]="password" type="password" id="password">
 
           <span class="field__error" *ngIf="isControlInvalid(password)">
             Пароль должен быть не менее 6 символов, состоять из цифр и латинских букв, в том числе заглавных
@@ -74,7 +74,7 @@
         </span>
       </div>
 
-      <div class="user-form__field field field--required"
+      <div class="user-form__field field"
            *ngIf="form.get('passwordConfirm') as passwordConfirm"
            [class.field--invalid]="isControlInvalid(passwordConfirm)"
       >
@@ -88,9 +88,32 @@
         </span>
       </div>
 
+      <div class="user-form__field field"
+           *ngIf="form.get('name') as name"
+           [class.field--invalid]="isControlInvalid(name)"
+      >
+        <label for="name" class="field__label">Имя</label>
+        <span class="field__control">
+          <input class="field__input" [formControl]="name" type="text" id="name">
+        </span>
+      </div>
+
+      <div class="user-form__field field"
+           *ngIf="form.get('role') as role"
+           [class.field--invalid]="isControlInvalid(role)"
+      >
+        <label class="field__label">Роль</label>
+        <span class="field__control">
+          <app-select *ngIf="canEditRole(); else roleTextTmpl" [formControl]="role" [options]="rolesOptions"></app-select>
+          <ng-template #roleTextTmpl>
+            <span class="user-form__role-text">{{ getTranslation(activeUser.role) }}</span>
+          </ng-template>
+        </span>
+      </div>
+
     </form>
 
   </div>
 </div>
 
-<ng-template #newUserTitle>Новый юзер</ng-template>
+<ng-template #newUserTitle>Новый пользователь</ng-template>

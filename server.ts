@@ -7,23 +7,26 @@ import { join } from 'path';
 import { AppServerModule } from './src/main.server';
 import { APP_BASE_HREF } from '@angular/common';
 import { existsSync } from 'fs';
+// import { Server as SocketServer } from 'socket.io';
+import * as WebSocket from 'ws';
+import { SOCKET } from './src/app/shared/constants/constants';
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app() {
-  const server = express();
+  const expressApp = express();
   const distFolder = join(process.cwd(), 'dist/web-admin/browser');
   let indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
   indexHtml = join('admin', indexHtml);
 
   // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
-  server.engine('html', ngExpressEngine({
+  expressApp.engine('html', ngExpressEngine({
     bootstrap: AppServerModule,
   }));
 
-  server.set('view engine', 'html');
-  server.set('views', distFolder);
+  expressApp.set('view engine', 'html');
+  expressApp.set('views', distFolder);
 
-  server.get(`/api/*`, (req, res) => {
+  expressApp.get(`/api/*`, (req, res) => {
     console.log(`${new Date().toISOString()} - Got api request: ${req.url}`)
     res.send(`API is not supported`);
   });
@@ -31,29 +34,72 @@ export function app() {
   // Example Express Rest API endpoints
   // server.get('/api/**', (req, res) => { });
   // Serve static files from /browser
-  server.get('*.*', express.static(distFolder, {
+  expressApp.get('*.*', express.static(distFolder, {
     maxAge: '1y'
   }));
 
   // All regular routes use the Universal engine
-  server.get('*', (req, res) => {
-    console.log('\n');
-    console.log(new Date());
-    console.log(`Before SSR on url: ${req.url}`);
+  expressApp.get('*', (req, res) => {
     res.render(indexHtml, { req, providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }] });
   });
 
-  return server;
+  return expressApp;
 }
 
 function run() {
   const port = +process.env.PORT || 3001;
 
   // Start up the Node server
-  const server = app();
-  server.listen(port, '0.0.0.0', () => {
+  const expressApp = app();
+  const httpServer = expressApp.listen(port, '0.0.0.0', () => {
     console.log(`Node Express server listening on http://localhost:${port}`);
   });
+
+  // let socket;
+  let wss: WebSocket.Server;
+  let clients = [];
+  console.log(' before isPrimaryInstance');
+  // if (isPrimaryInstance()) {
+    console.log('isPrimaryInstance');
+    // socket = new SocketServer(httpServer, { path: SOCKET.path, cors: { origin: '*' } });
+    wss = new WebSocket.Server({ server: httpServer, path: SOCKET.path });
+    wss.on('connection', (ws) => {
+      clients.push(ws);
+      setInterval(() => {
+        ws.send(JSON.stringify({ topic: 'date', data: new Date() }))
+      }, 13000);
+    });
+    wss.on('error', err => {
+      console.log(err);
+    });
+    console.log(wss);
+  // }
+
+  const closeServer = () => {
+    // socket?.emit(SOCKET.serverRestartTopic);
+    console.log('start close');
+    console.log(wss);
+    // if (wss) {
+      console.log('in wss', wss.clients.size, clients.length);
+      wss.clients.forEach(ws => {
+        console.log(ws.send);
+        ws.send(JSON.stringify({ topic: SOCKET.serverRestartTopic, data: new Date() }));
+      });
+    // }
+    setTimeout(() => {
+      console.log('exit');
+      process.exit(0);
+    }, 500);
+  };
+
+  process.on('SIGTERM', () => closeServer());
+  process.on('SIGINT', () => closeServer());
+}
+
+function isPrimaryInstance(): boolean {
+  const instanceId = process.env.INSTANCE_ID;
+  console.log(JSON.stringify({instanceId}));
+  return instanceId === undefined || instanceId === '0';
 }
 
 // Webpack will replace 'require' with '__webpack_require__'

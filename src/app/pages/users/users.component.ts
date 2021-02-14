@@ -6,8 +6,10 @@ import { Router } from '@angular/router';
 import { UserService } from '../../shared/services/user.service';
 import { AddOrUpdateUserDto, UserDto } from '../../shared/dtos/user.dto';
 import { CustomValidators } from '../../shared/classes/validators';
-import { VALID_PASSWORD_REGEX } from '../../shared/constants/constants';
+import { TRANSLATIONS_MAP } from '../../shared/constants/constants';
 import { HeadService } from '../../shared/services/head.service';
+import { ISelectOption } from '../../shared/components/select/select-option.interface';
+import { Role } from '../../shared/enums/role.enum';
 
 @Component({
   selector: 'users',
@@ -20,6 +22,7 @@ export class UsersComponent implements OnInit {
   activeUser: UserDto;
   form: FormGroup;
   isLoading: boolean = false;
+  rolesOptions: ISelectOption[] = [];
 
   get isNewUser(): boolean { return !this.activeUser?.id; }
 
@@ -32,6 +35,7 @@ export class UsersComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.setRolesOptions();
     this.init();
   }
 
@@ -56,15 +60,16 @@ export class UsersComponent implements OnInit {
 
     const controls: Record<keyof Omit<AddOrUpdateUserDto, 'id'>, any> = {
       login: [user.login, Validators.required],
-      password: ['', Validators.pattern(VALID_PASSWORD_REGEX)]
+      password: ['', CustomValidators.password],
+      name: user.name,
+      role: user.role
     };
     (controls as any).passwordConfirm = [''];
-    if (!this.isNewUser) {
-      (controls as any).oldPassword = [''];
-    }
 
     this.form = this.formBuilder.group(controls);
-    this.form.get('passwordConfirm').setValidators(CustomValidators.passwordConfirm(this.form.get('password')));
+
+    const passwordKey: keyof AddOrUpdateUserDto = 'password';
+    this.form.get('passwordConfirm').setValidators(CustomValidators.passwordConfirm(this.form.get(passwordKey)));
 
     this.headService.setTitle(this.activeUser?.login || `Новый пользователь`);
   }
@@ -76,6 +81,8 @@ export class UsersComponent implements OnInit {
   }
 
   saveUser() {
+    this.form.get('passwordConfirm').updateValueAndValidity();
+
     if (this.form.invalid) {
       this.notyService.showErrorNoty(`Ошибка в форме`);
       this.validateControls();
@@ -89,23 +96,23 @@ export class UsersComponent implements OnInit {
 
     if (this.isNewUser) {
       this.userService.createUser(dto)
-        .pipe(this.notyService.attachNoty({ successText: `Юзер успешно создан` }))
+        .pipe(this.notyService.attachNoty({ successText: `Пользователь успешно создан` }))
         .subscribe(_ => this.init());
     } else {
 
-      this.userService.updateUser(dto.id, dto)
-        .pipe(this.notyService.attachNoty({ successText: `Юзер успешно обновлён` }))
+      this.userService.updateUser(this.activeUser.id, dto)
+        .pipe(this.notyService.attachNoty({ successText: `Пользователь успешно обновлён` }))
         .subscribe(_ => this.init());
     }
   }
 
   deleteUser() {
-    if (!this.activeUser.id || !confirm(`Вы уверены, что хотите удалить юзера '${this.activeUser.login}'?`)) {
+    if (!this.activeUser.id || !confirm(`Вы уверены, что хотите удалить пользователя '${this.activeUser.login}'?`)) {
       return;
     }
 
     this.userService.deleteUser(this.activeUser.id)
-      .pipe(this.notyService.attachNoty({ successText: `Юзер успешно удалён` }))
+      .pipe(this.notyService.attachNoty({ successText: `Пользователь успешно удалён` }))
       .subscribe(_ => this.init());
   }
 
@@ -126,5 +133,19 @@ export class UsersComponent implements OnInit {
 
   isControlInvalid(control: AbstractControl): boolean {
     return !control.valid && control.touched;
+  }
+
+  canEditRole(): boolean {
+    return this.userService.user.role <= Role.Administrator;
+  }
+
+  getTranslation(role: Role): string {
+    return TRANSLATIONS_MAP[role];
+  }
+
+  private setRolesOptions() {
+    this.rolesOptions = Object.values(Role)
+      .filter((role: Role) => role >= 0)
+      .map((role: Role) => ({ view: this.getTranslation(role), data: role }));
   }
 }

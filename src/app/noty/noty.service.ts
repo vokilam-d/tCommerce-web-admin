@@ -92,17 +92,19 @@ export class NotyService {
       })
   }
 
-  showSuccessNoty(message) {
+  showSuccessNoty(message, autoHide: boolean = true) {
     this._showNoty$.next({
       type: 'success',
-      message
+      message,
+      autoHide
     });
   }
 
-  showErrorNoty(message) {
+  showErrorNoty(message, autoHide: boolean = true) {
     this._showNoty$.next({
       type: 'error',
-      message
+      message,
+      autoHide
     });
   }
 
