@@ -10,10 +10,9 @@
   <ng-container *ngFor="let item of navBarMenu; let i = index">
     <li>
       <a class="navbar__link"
-         (click)="showSubItems(item)"
+         [class.navbar__link--active]="item.isSelected"
          [routerLink]="item.link"
-         [routerLinkActiveOptions]="{exact: true}"
-         routerLinkActive="navbar__link--active"
+         (click)="showSubItems(item);"
       >
         <i [ngClass]="item.icon"></i>
         {{ item.name }}

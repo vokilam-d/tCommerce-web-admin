@@ -6,6 +6,7 @@ export interface INavBarItem {
   link: string;
   icon: string;
   isChildrenVisible?: boolean;
+  isSelected?: boolean;
   subItems?: INavBarItem[];
 }
 
@@ -31,13 +32,15 @@ export class NavbarComponent implements OnInit {
       {
         name: 'Dashboard',
         link: '/admin/dashboard',
-        icon: 'navbar__icon ai ai-dashboard'
+        icon: 'navbar__icon ai ai-dashboard',
+        isSelected: true
       },
       {
         name: 'Заказы',
         link: '',
         icon: 'navbar__icon ai ai-sales',
         isChildrenVisible: false,
+        isSelected: false,
         subItems: [
           {
           name: 'Заказы',
@@ -56,6 +59,7 @@ export class NavbarComponent implements OnInit {
         link: '',
         icon: 'navbar__icon ai ai-catalog',
         isChildrenVisible: false,
+        isSelected: false,
         subItems: [
             {
               name: 'Категории',
@@ -87,18 +91,21 @@ export class NavbarComponent implements OnInit {
       {
         name: 'Блог посты',
         link: '/admin/blog-post',
-        icon: 'navbar__icon ai ai-content'
+        icon: 'navbar__icon ai ai-content',
+        isSelected: false,
       },
       {
         name: 'Клиенты',
         link: '/admin/customer',
-        icon: 'navbar__icon ai ai-customers'
+        icon: 'navbar__icon ai ai-customers',
+        isSelected: false,
       },
       {
         name: 'Отзывы',
         link: '',
         icon: 'navbar__icon ai ai-marketing',
         isChildrenVisible: false,
+        isSelected: false,
         subItems: [
           {
             name: 'Отзывы о магазине',
@@ -117,6 +124,7 @@ export class NavbarComponent implements OnInit {
         link: '',
         icon: 'navbar__icon ai ai-system',
         isChildrenVisible: false,
+        isSelected: false,
         subItems: [
           {
             name: 'Объявление',
@@ -160,12 +168,22 @@ export class NavbarComponent implements OnInit {
         item.isChildrenVisible = false;
       }
     });
+
+    this.toggleActiveLinkClass(clickedItem);
+  }
+
+  private toggleActiveLinkClass(clickedItem: INavBarItem) {
+    this.navBarMenu.find(item => {
+      if (Object.is(item, clickedItem)) {
+        item.isSelected = !item.isSelected;
+      } else {
+        item.isSelected = false;
+      }
+    });
   }
 
   public pinMenuItem(i) {
   }
-
-
 
   public closeSubItems() {
     const itemsWithChildren = this.getItemsWithChildren();
