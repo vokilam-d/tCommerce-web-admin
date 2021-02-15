@@ -159,6 +159,16 @@ export class NavbarComponent implements OnInit {
     });
   }
 
+  private toggleActiveLinkClass(clickedItem: INavBarItem) {
+    this.navBarMenu.find(item => {
+      if (Object.is(item, clickedItem)) {
+        item.isSelected = !item.isSelected;
+      } else {
+        item.isSelected = false;
+      }
+    });
+  }
+
   public showSubItems(clickedItem: INavBarItem) {
     const itemsWithChildren = this.getItemsWithChildren();
     itemsWithChildren.find(item => {
@@ -172,22 +182,9 @@ export class NavbarComponent implements OnInit {
     this.toggleActiveLinkClass(clickedItem);
   }
 
-  private toggleActiveLinkClass(clickedItem: INavBarItem) {
-    this.navBarMenu.find(item => {
-      if (Object.is(item, clickedItem)) {
-        item.isSelected = !item.isSelected;
-      } else {
-        item.isSelected = false;
-      }
-    });
-  }
-
   public onSubItemClickHandler(clickedItem: INavBarItem) {
     clickedItem.isSelected = true;
     clickedItem.isChildrenVisible = false;
-  }
-
-  public pinMenuItem(i) {
   }
 
   public closeSubItems() {
@@ -196,5 +193,8 @@ export class NavbarComponent implements OnInit {
       item.isChildrenVisible = false;
       item.isSelected = false;
     });
+  }
+
+  public pinMenuItem(i) {
   }
 }

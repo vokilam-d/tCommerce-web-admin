@@ -9,7 +9,8 @@
   </li>
   <ng-container *ngFor="let item of navBarMenu; let i = index">
     <li>
-      <a class="navbar__link"
+      <a *ngIf="item.link; else emptyLink"
+         class="navbar__link"
          [class.navbar__link--active]="item.isSelected"
          [routerLink]="item.link"
          (click)="showSubItems(item);"
@@ -17,6 +18,15 @@
         <i [ngClass]="item.icon"></i>
         {{ item.name }}
       </a>
+      <ng-template #emptyLink>
+        <span class="navbar__link"
+           [class.navbar__link--active]="item.isSelected"
+           (click)="showSubItems(item);"
+        >
+          <i [ngClass]="item.icon"></i>
+          {{ item.name }}
+        </span>
+      </ng-template>
     </li>
     <ng-container *ngIf="item.isChildrenVisible">
       <ul class="sub-navbar">

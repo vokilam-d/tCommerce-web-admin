@@ -18,6 +18,7 @@
     &:not(&--logo):hover {
       background: #4a4542;
       color: #f7f3eb;
+      cursor: pointer;
     }
 
     &--active:not(&--logo) {
@@ -63,14 +64,15 @@
   min-width: 240px;
   height: 100%;
   padding: 88px 15px;
-  background-color: #373330;
-  z-index: 1;
+  background-color: rgba(55, 51, 48, 0.95);
+  z-index: 3;
 
   &__item {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
   }
 
   &__link {
+    display: block;
     padding: 10px 20px;
     color: #f1ede6;
   }
