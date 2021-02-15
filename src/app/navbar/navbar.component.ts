@@ -182,6 +182,11 @@ export class NavbarComponent implements OnInit {
     });
   }
 
+  public onSubItemClickHandler(clickedItem: INavBarItem) {
+    clickedItem.isSelected = true;
+    clickedItem.isChildrenVisible = false;
+  }
+
   public pinMenuItem(i) {
   }
 
@@ -189,6 +194,7 @@ export class NavbarComponent implements OnInit {
     const itemsWithChildren = this.getItemsWithChildren();
     itemsWithChildren.forEach(item => {
       item.isChildrenVisible = false;
+      item.isSelected = false;
     });
   }
 }

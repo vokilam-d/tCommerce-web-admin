@@ -21,7 +21,12 @@
     <ng-container *ngIf="item.isChildrenVisible">
       <ul class="sub-navbar">
         <li class="sub-navbar__item" *ngFor="let subItem of item.subItems">
-          <a class="sub-navbar__link" (click)="closeSubItems()" [routerLink]="subItem.link" routerLinkActive="navbar__link--active">
+          <a
+            class="sub-navbar__link"
+            routerLinkActive="navbar__link--active"
+            (click)="onSubItemClickHandler(item)"
+            [routerLink]="subItem.link"
+          >
 <!--            <i [ngClass]="subItem.icon"></i>-->
             {{ subItem.name }}
           </a>
