@@ -72,8 +72,26 @@
   }
 
   &__link {
+    position: relative;
     display: block;
     padding: 10px 20px;
     color: #f1ede6;
+
+    &:hover {
+      background: #4a4542;
+      color: #f7f3eb;
+      cursor: pointer;
+    }
+
+    &:hover img {
+      display: block;
+    }
+  }
+
+  &__icon {
+    display: none;
+    position: absolute;
+    right: 10px;
+    height: 10px;
   }
 }

@@ -7,6 +7,7 @@
       <img class="navbar__logo" src="/admin/assets/images/klondike-icon.png" alt="">
     </a>
   </li>
+
   <ng-container *ngFor="let item of navBarMenu; let i = index">
     <li>
       <a *ngIf="item.link; else emptyLink"
@@ -18,6 +19,7 @@
         <i [ngClass]="item.icon"></i>
         {{ item.name }}
       </a>
+
       <ng-template #emptyLink>
         <span class="navbar__link"
            [class.navbar__link--active]="item.isSelected"
@@ -28,6 +30,7 @@
         </span>
       </ng-template>
     </li>
+
     <ng-container *ngIf="item.isChildrenVisible">
       <ul class="sub-navbar">
         <li class="sub-navbar__item" *ngFor="let subItem of item.subItems">
@@ -37,11 +40,12 @@
             (click)="onSubItemClickHandler(item)"
             [routerLink]="subItem.link"
           >
-<!--            <i [ngClass]="subItem.icon"></i>-->
+            <img class="sub-navbar__icon" src="/admin/assets/images/push-pin.svg" alt="push-pin">
             {{ subItem.name }}
           </a>
         </li>
       </ul>
     </ng-container>
+
   </ng-container>
 </ul>

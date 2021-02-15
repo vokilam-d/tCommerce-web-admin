@@ -36,7 +36,7 @@ export class NavbarComponent implements OnInit {
         isSelected: true
       },
       {
-        name: 'Заказы',
+        name: 'Продажи',
         link: '',
         icon: 'navbar__icon ai ai-sales',
         isChildrenVisible: false,
@@ -55,7 +55,7 @@ export class NavbarComponent implements OnInit {
           ]
       },
       {
-        name: 'Товары',
+        name: 'Каталог',
         link: '',
         icon: 'navbar__icon ai ai-catalog',
         isChildrenVisible: false,
