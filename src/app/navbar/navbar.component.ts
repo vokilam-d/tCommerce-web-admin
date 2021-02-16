@@ -7,6 +7,7 @@ export interface INavBarItem {
   icon: string;
   isChildrenVisible?: boolean;
   isSelected?: boolean;
+  isPinned?: boolean;
   subItems?: INavBarItem[];
 }
 
@@ -18,7 +19,7 @@ export interface INavBarItem {
 })
 export class NavbarComponent implements OnInit {
 
-  public navBarMenu: INavBarItem[];
+  public navBarMenu: INavBarItem[] = [];
 
 
   constructor() { }
@@ -45,12 +46,14 @@ export class NavbarComponent implements OnInit {
           {
           name: 'Заказы',
           link: '/admin/order',
-          icon: 'navbar__icon ai ai-sales'
+          icon: 'navbar__icon ai ai-sales',
+          isSelected: false,
         },
           {
             name: 'Способы оплаты',
             link: '/admin/payment-method',
-            icon: 'navbar__icon ai ai-sales'
+            icon: 'navbar__icon ai ai-sales',
+            isSelected: false,
           }
           ]
       },
@@ -64,27 +67,32 @@ export class NavbarComponent implements OnInit {
             {
               name: 'Категории',
               link: '/admin/category',
-              icon: 'navbar__icon ai ai-catalog'
+              icon: 'navbar__icon ai ai-catalog',
+              isSelected: false,
             },
             {
               name: 'Товары',
               link: '/admin/product',
-              icon: 'navbar__icon ai ai-catalog'
+              icon: 'navbar__icon ai ai-catalog',
+              isSelected: false,
             },
             {
               name: 'Атрибуты товаров',
               link: '/admin/attribute',
-              icon: 'navbar__icon ai ai-catalog'
+              icon: 'navbar__icon ai ai-catalog',
+              isSelected: false,
             },
             {
               name: 'Доп. услуги',
               link: '/admin/additional-service',
-              icon: 'navbar__icon ai ai-catalog'
+              icon: 'navbar__icon ai ai-catalog',
+              isSelected: false,
             },
             {
               name: 'Агрегаторы',
               link: '/admin/aggregator',
-              icon: 'navbar__icon ai ai-catalog'
+              icon: 'navbar__icon ai ai-catalog',
+              isSelected: false,
             },
           ]
       },
@@ -110,12 +118,14 @@ export class NavbarComponent implements OnInit {
           {
             name: 'Отзывы о магазине',
             link: '/admin/store-review',
-            icon: 'navbar__icon ai ai-marketing'
+            icon: 'navbar__icon ai ai-marketing',
+            isSelected: false,
           },
           {
             name: 'Отзывы о товарах',
             link: '/admin/product-review',
-            icon: 'navbar__icon ai ai-marketing'
+            icon: 'navbar__icon ai ai-marketing',
+            isSelected: false,
           }
         ]
       },
@@ -129,22 +139,26 @@ export class NavbarComponent implements OnInit {
           {
             name: 'Объявление',
             link: '/admin/announcement',
-            icon: 'navbar__icon ai ai-system'
+            icon: 'navbar__icon ai ai-system',
+            isSelected: false,
           },
           {
             name: 'Emails',
             link: '/admin/emails-test',
-            icon: 'navbar__icon ai ai-system'
+            icon: 'navbar__icon ai ai-system',
+            isSelected: false,
           },
           {
             name: 'Валюты',
             link: '/admin/currency',
-            icon: 'navbar__icon ai ai-system'
+            icon: 'navbar__icon ai ai-system',
+            isSelected: false,
           },
           {
             name: 'Админы',
             link: '/admin/users',
-            icon: 'navbar__icon ai ai-system'
+            icon: 'navbar__icon ai ai-system',
+            isSelected: false,
           }
         ]
       }
@@ -195,6 +209,14 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-  public pinMenuItem(i) {
+  public pinSubItem(subItem: INavBarItem) {
+    subItem.isPinned = true;
+    this.navBarMenu.splice(1, 0, subItem);
+    this.navBarMenu = [...new Set(this.navBarMenu)];
+  }
+
+  public unpinItem(item: INavBarItem, index: number) {
+    item.isPinned = false;
+    this.navBarMenu.splice(index, 1);
   }
 }

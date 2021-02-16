@@ -9,7 +9,7 @@
   </li>
 
   <ng-container *ngFor="let item of navBarMenu; let i = index">
-    <li>
+    <li class="navbar__item">
       <a *ngIf="item.link; else emptyLink"
          class="navbar__link"
          [class.navbar__link--active]="item.isSelected"
@@ -29,6 +29,10 @@
           {{ item.name }}
         </span>
       </ng-template>
+
+      <ng-container *ngIf="item.isPinned">
+        <img class="navbar__pin-icon" src="/admin/assets/images/push-pin.svg" alt="push-pin" (click)="unpinItem(item, i)">
+      </ng-container>
     </li>
 
     <ng-container *ngIf="item.isChildrenVisible">
@@ -40,12 +44,12 @@
             (click)="onSubItemClickHandler(item)"
             [routerLink]="subItem.link"
           >
-            <img class="sub-navbar__icon" src="/admin/assets/images/push-pin.svg" alt="push-pin">
             {{ subItem.name }}
           </a>
+
+          <img class="sub-navbar__pin-icon" src="/admin/assets/images/push-pin.svg" alt="push-pin" (click)="pinSubItem(subItem)">
         </li>
       </ul>
     </ng-container>
-
   </ng-container>
 </ul>
