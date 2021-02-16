@@ -204,7 +204,7 @@ export class NavbarComponent implements OnInit {
       }
   });
 
-    menuItem.isChildrenVisible = false;
+    clickedMenuItem.isChildrenVisible = false;
   }
 
   public closeSubItems() {
