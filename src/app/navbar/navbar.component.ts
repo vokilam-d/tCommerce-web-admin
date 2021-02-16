@@ -196,11 +196,11 @@ export class NavbarComponent implements OnInit {
     this.toggleActiveLinkClass(clickedItem);
   }
 
-  public onSubItemClickHandler(menuItem: INavBarItem, subItem: INavBarItem) {
+  public onSubItemClickHandler(clickedMenuItem: INavBarItem, subItem: INavBarItem) {
     this.navBarMenu.find(item => {
       if (Object.is(item, subItem)) {
         item.isSelected = true;
-        menuItem.isSelected = false;
+        clickedMenuItem.isSelected = false;
       }
   });
 
