@@ -41,7 +41,7 @@
           <a
             class="sub-navbar__link"
             routerLinkActive="navbar__link--active"
-            (click)="onSubItemClickHandler(item)"
+            (click)="onSubItemClickHandler(item, subItem)"
             [routerLink]="subItem.link"
           >
             {{ subItem.name }}
