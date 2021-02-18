@@ -28,7 +28,7 @@
       <a *ngIf="item.link; else emptyLink"
          class="navbar__link"
          routerLinkActive="navbar__link--active"
-         [class.navbar__link--active]="item.isSelected"
+         [class.navbar__link--active]="isChildActive(item)"
          [routerLink]="item.link"
          (click)="showSubItems(item);"
       >
@@ -53,7 +53,7 @@
           <a
             class="sub-navbar__link"
             routerLinkActive="navbar__link--active"
-            (click)="onSubItemClickHandler(item, subItem)"
+            (click)="onSubItemClickHandler(item)"
             [routerLink]="subItem.link"
           >
             {{ subItem.name }}
