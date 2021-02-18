@@ -175,7 +175,7 @@ export class NavbarComponent implements OnInit {
 
   private toggleActiveLinkClass(clickedItem: INavBarItem) {
     this.navBarMenu.find(item => {
-      if (Object.is(item, clickedItem)) {
+      if (item === clickedItem) {
         item.isSelected = !item.isSelected;
       } else {
         item.isSelected = false;
@@ -186,7 +186,7 @@ export class NavbarComponent implements OnInit {
   public showSubItems(clickedItem: INavBarItem) {
     const itemsWithChildren = this.getItemsWithChildren();
     itemsWithChildren.find(item => {
-      if (Object.is(item, clickedItem)) {
+      if (item === clickedItem) {
         item.isChildrenVisible = !item.isChildrenVisible;
       } else {
         item.isChildrenVisible = false;
@@ -198,7 +198,7 @@ export class NavbarComponent implements OnInit {
 
   public onSubItemClickHandler(clickedMenuItem: INavBarItem, subItem: INavBarItem) {
     this.navBarMenu.find(item => {
-      if (Object.is(item, subItem)) {
+      if (item === subItem) {
         item.isSelected = true;
         clickedMenuItem.isSelected = false;
       }
@@ -219,8 +219,6 @@ export class NavbarComponent implements OnInit {
     subItem.isPinned = true;
     this.navBarMenu.splice(1, 0, subItem);
     this.navBarMenu = [...new Set(this.navBarMenu)];
-
-    // console.log(this.navBarMenu);
   }
 
   public unpinItem(item: INavBarItem, index: number) {
