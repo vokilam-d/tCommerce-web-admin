@@ -1,4 +1,4 @@
-<ul class="navbar">
+<ul class="navbar" (clickOutside)="closeSubItems()">
   <li>
     <a class="navbar__link navbar__link--logo"
        routerLink="/"
@@ -7,100 +7,67 @@
       <img class="navbar__logo" src="/admin/assets/images/klondike-icon.png" alt="">
     </a>
   </li>
-  <li>
-    <a class="navbar__link" [routerLink]="'/admin/dashboard'" routerLinkActive="navbar__link--active">
-      <i class="navbar__icon ai ai-dashboard"></i>
-      Dashboard
-    </a>
-  </li>
-  <li>
-    <a class="navbar__link" [routerLink]="'/admin/order'" routerLinkActive="navbar__link--active">
-      <i class="navbar__icon ai ai-sales"></i>
-      Заказы
-    </a>
-  </li>
-  <li>
-    <a class="navbar__link" [routerLink]="'/admin/payment-method'" routerLinkActive="navbar__link--active">
-      <i class="navbar__icon ai ai-sales"></i>
-      Способы оплаты
-    </a>
-  </li>
-  <li>
-    <a class="navbar__link" [routerLink]="'/admin/category'" routerLinkActive="navbar__link--active">
-      <i class="navbar__icon ai ai-catalog"></i>
-      Категории
-    </a>
-  </li>
-  <li>
-    <a class="navbar__link" [routerLink]="'/admin/product'" routerLinkActive="navbar__link--active">
-      <i class="navbar__icon ai ai-catalog"></i>
-      Товары
-    </a>
-  </li>
-  <li>
-    <a class="navbar__link" [routerLink]="'/admin/attribute'" routerLinkActive="navbar__link--active">
-      <i class="navbar__icon ai ai-catalog"></i>
-      Атрибуты товаров
-    </a>
-  </li>
-  <li>
-    <a class="navbar__link" [routerLink]="'/admin/additional-service'" routerLinkActive="navbar__link--active">
-      <i class="navbar__icon ai ai-catalog"></i>
-      Доп. услуги
-    </a>
-  </li>
-  <li>
-    <a class="navbar__link" [routerLink]="'/admin/aggregator'" routerLinkActive="navbar__link--active">
-      <i class="navbar__icon ai ai-catalog"></i>
-      Агрегаторы
-    </a>
-  </li>
-  <li>
-    <a class="navbar__link" [routerLink]="'/admin/blog-post'" routerLinkActive="navbar__link--active">
-      <i class="navbar__icon ai ai-content"></i>
-      Блог посты
-    </a>
-  </li>
-  <li>
-    <a class="navbar__link" [routerLink]="'/admin/customer'" routerLinkActive="navbar__link--active">
-      <i class="navbar__icon ai ai-customers"></i>
-      Клиенты
-    </a>
-  </li>
-  <li>
-    <a class="navbar__link" [routerLink]="'/admin/store-review'" routerLinkActive="navbar__link--active">
-      <i class="navbar__icon ai ai-marketing"></i>
-      Отзывы о магазине
-    </a>
-  </li>
-  <li>
-    <a class="navbar__link" [routerLink]="'/admin/product-review'" routerLinkActive="navbar__link--active">
-      <i class="navbar__icon ai ai-marketing"></i>
-      Отзывы о товарах
-    </a>
-  </li>
-  <li>
-    <a class="navbar__link" [routerLink]="'/admin/announcement'" routerLinkActive="navbar__link--active">
-      <i class="navbar__icon ai ai-system"></i>
-      Объявление
-    </a>
-  </li>
-  <li>
-    <a class="navbar__link" [routerLink]="'/admin/emails-test'" routerLinkActive="navbar__link--active">
-      <i class="navbar__icon ai ai-system"></i>
-      Emails
-    </a>
-  </li>
-  <li>
-    <a class="navbar__link" [routerLink]="'/admin/currency'" routerLinkActive="navbar__link--active">
-      <i class="navbar__icon ai ai-system"></i>
-      Валюты
-    </a>
-  </li>
-  <li>
-    <a class="navbar__link" [routerLink]="'/admin/users'" routerLinkActive="navbar__link--active">
-      <i class="navbar__icon ai ai-system"></i>
-      Админы
-    </a>
-  </li>
+
+  <ng-container *ngFor="let pinnedItem of getPinnedItems(); let i = index">
+    <li class="navbar__item">
+      <a class="navbar__link"
+         routerLinkActive="navbar__link--active"
+         [class.navbar__link--active]="pinnedItem.isSelected"
+         [routerLink]="pinnedItem.link"
+      >
+        <i [ngClass]="pinnedItem.icon"></i>
+        {{ pinnedItem.name }}
+      </a>
+
+      <img class="navbar__pin-icon" src="/admin/assets/images/push-pin.svg" alt="push-pin" (click)="togglePinnedItem(pinnedItem)">
+    </li>
+  </ng-container>
+
+  <ng-container *ngFor="let item of navBarMenu">
+    <li class="navbar__item">
+      <a *ngIf="item.link; else emptyLink"
+         class="navbar__link"
+         routerLinkActive="navbar__link--active"
+         [class.navbar__link--active]="isChildActive(item)"
+         [routerLink]="item.link"
+         (click)="showSubItems(item);"
+      >
+        <i [ngClass]="item.icon"></i>
+        {{ item.name }}
+      </a>
+
+      <ng-template #emptyLink>
+        <span class="navbar__link"
+           [class.navbar__link--active]="item.isSelected"
+           (click)="showSubItems(item);"
+        >
+          <i [ngClass]="item.icon"></i>
+          {{ item.name }}
+        </span>
+      </ng-template>
+    </li>
+
+    <ng-container *ngIf="item.isChildrenVisible">
+      <ul class="sub-navbar">
+        <li class="sub-navbar__item" *ngFor="let subItem of item.subItems">
+          <a
+            class="sub-navbar__link"
+            routerLinkActive="navbar__link--active"
+            (click)="onSubItemClickHandler(item)"
+            [routerLink]="subItem.link"
+          >
+            {{ subItem.name }}
+          </a>
+
+          <img
+            class="sub-navbar__pin-icon"
+            [class.sub-navbar__pin-icon--visible]="subItem.isPinned"
+            src="/admin/assets/images/push-pin.svg"
+            alt="push-pin"
+            (click)="togglePinnedItem(subItem)"
+          >
+        </li>
+      </ul>
+    </ng-container>
+  </ng-container>
 </ul>

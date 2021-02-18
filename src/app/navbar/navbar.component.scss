@@ -1,11 +1,17 @@
 @import "variables";
 
 .navbar {
+  position: relative;
   height: 100%;
   padding: 0 0 20vh;
   background: #373330;
 
+  &__item {
+    position: relative;
+  }
+
   &__link {
+    position: relative;
     display: block;
     padding: 16px 5px 11px;
     text-align: center;
@@ -16,6 +22,7 @@
     &:not(&--logo):hover {
       background: #4a4542;
       color: #f7f3eb;
+      cursor: pointer;
     }
 
     &--active:not(&--logo) {
@@ -35,7 +42,6 @@
         right: 15px;
         border-top: 1px solid grey;
       }
-
     }
   }
 
@@ -51,5 +57,60 @@
     display: block;
     margin: 0 auto 3px;
     font-size: 22px;
+  }
+
+  &__pin-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    height: 13px;
+    opacity: 0.5;
+    cursor: pointer;
+  }
+}
+
+.sub-navbar {
+  position: absolute;
+  top: 0;
+  left: 88px;
+  width: max-content;
+  min-width: 240px;
+  height: 100%;
+  padding: 88px 15px;
+  background-color: rgba(55, 51, 48, 0.95);
+  z-index: 3;
+
+  &__item {
+    margin-bottom: 10px;
+    position: relative;
+
+    &:hover img {
+      display: block;
+    }
+  }
+
+  &__link {
+    display: block;
+    padding: 10px 20px;
+    color: #f1ede6;
+
+    &:hover {
+      background: #4a4542;
+      color: #f7f3eb;
+      cursor: pointer;
+    }
+  }
+
+  &__pin-icon {
+    display: none;
+    position: absolute;
+    top: 12px;
+    right: 10px;
+    height: 13px;
+    cursor: pointer;
+
+    &--visible {
+      display: block;
+    }
   }
 }
