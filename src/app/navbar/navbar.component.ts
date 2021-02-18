@@ -20,11 +20,12 @@ export interface INavBarItem {
 export class NavbarComponent implements OnInit {
 
   public navBarMenu: INavBarItem[] = navBarMenu;
-
+  private storagePinnedStateKey = 'navbar-pinned-links';
 
   constructor(private location: Location) { }
 
   ngOnInit() {
+    this.setPinnedState();
   }
 
   private getItemsWithChildren(): INavBarItem[] {
@@ -79,20 +80,20 @@ export class NavbarComponent implements OnInit {
   public togglePinnedItem(subItem: INavBarItem) {
     subItem.isPinned = !subItem.isPinned;
 
-    const pinnedItems = this.getPinnedItems();
-    const storedPinnedItems = JSON.parse(localStorage.getItem('links'));
-
-    const isArraysEqual = this.compareArrays(pinnedItems, storedPinnedItems);
-
-    if (!isArraysEqual) {
-      localStorage.setItem('links', JSON.stringify(pinnedItems));
-    }
+    const pinnedItemLinks = this.getPinnedItems().map(item => item.link);
+    localStorage.setItem(this.storagePinnedStateKey, JSON.stringify(pinnedItemLinks));
   }
 
-  private compareArrays(pinnedItems: INavBarItem[], storedPinnedItems: INavBarItem[]): boolean {
-    return pinnedItems.every((item, index) => {
-      return item === storedPinnedItems[index];
-    });
+  private setPinnedState() {
+    const pinnedItemLinks: string[] = JSON.parse(localStorage.getItem(this.storagePinnedStateKey)) || [];
+    const setState = (item: INavBarItem) => {
+      if (pinnedItemLinks.includes(item.link)) {
+        item.isPinned = true;
+      }
+      item.subItems?.forEach(setState);
+    };
+
+    this.navBarMenu.forEach(setState);
   }
 }
 
