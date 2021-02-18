@@ -8,10 +8,26 @@
     </a>
   </li>
 
-  <ng-container *ngFor="let item of navBarMenu; let i = index">
+  <ng-container *ngFor="let pinnedItem of getPinnedItems(); let i = index">
+    <li class="navbar__item">
+      <a class="navbar__link"
+         routerLinkActive="navbar__link--active"
+         [class.navbar__link--active]="pinnedItem.isSelected"
+         [routerLink]="pinnedItem.link"
+      >
+        <i [ngClass]="pinnedItem.icon"></i>
+        {{ pinnedItem.name }}
+      </a>
+
+      <img class="navbar__pin-icon" src="/admin/assets/images/push-pin.svg" alt="push-pin" (click)="togglePinnedItem(pinnedItem)">
+    </li>
+  </ng-container>
+
+  <ng-container *ngFor="let item of navBarMenu">
     <li class="navbar__item">
       <a *ngIf="item.link; else emptyLink"
          class="navbar__link"
+         routerLinkActive="navbar__link--active"
          [class.navbar__link--active]="item.isSelected"
          [routerLink]="item.link"
          (click)="showSubItems(item);"
@@ -29,10 +45,6 @@
           {{ item.name }}
         </span>
       </ng-template>
-
-      <ng-container *ngIf="item.isPinned">
-        <img class="navbar__pin-icon" src="/admin/assets/images/push-pin.svg" alt="push-pin" (click)="unpinItem(item, i)">
-      </ng-container>
     </li>
 
     <ng-container *ngIf="item.isChildrenVisible">
@@ -47,7 +59,13 @@
             {{ subItem.name }}
           </a>
 
-          <img class="sub-navbar__pin-icon" src="/admin/assets/images/push-pin.svg" alt="push-pin" (click)="pinSubItem(subItem)">
+          <img
+            class="sub-navbar__pin-icon"
+            [class.sub-navbar__pin-icon--visible]="subItem.isPinned"
+            src="/admin/assets/images/push-pin.svg"
+            alt="push-pin"
+            (click)="togglePinnedItem(subItem)"
+          >
         </li>
       </ul>
     </ng-container>

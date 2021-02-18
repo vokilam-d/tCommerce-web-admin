@@ -107,7 +107,10 @@
     top: 12px;
     right: 10px;
     height: 13px;
-    opacity: 0.5;
     cursor: pointer;
+
+    &--visible {
+      display: block;
+    }
   }
 }

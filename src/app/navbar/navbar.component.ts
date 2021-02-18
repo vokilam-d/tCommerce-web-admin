@@ -215,14 +215,20 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-  public pinSubItem(subItem: INavBarItem) {
-    subItem.isPinned = true;
-    this.navBarMenu.splice(1, 0, subItem);
-    this.navBarMenu = [...new Set(this.navBarMenu)];
+  public getPinnedItems() {
+    const pinnedItems: INavBarItem[] = [];
+    this.navBarMenu.forEach(item => {
+      item.subItems?.forEach(subItem => {
+        if (subItem.isPinned) {
+          pinnedItems.push(subItem);
+        }
+      });
+    });
+
+    return pinnedItems;
   }
 
-  public unpinItem(item: INavBarItem, index: number) {
-    item.isPinned = false;
-    this.navBarMenu.splice(index, 1);
+  public togglePinnedItem(subItem: INavBarItem) {
+    subItem.isPinned = !subItem.isPinned;
   }
 }
