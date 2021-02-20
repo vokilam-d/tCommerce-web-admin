@@ -85,11 +85,11 @@
               </div>
 
               <div>
-                Отзывов о магазине: <b>{{ customer.storeReviewIds.length }}</b><span *ngIf="customer.storeReviewIds > 0">. Средняя оценка: <b>{{ customerAvgStoreReviewsRating }}</b></span>
+                Отзывов о магазине: <b>{{ customer.storeReviewIds.length }}</b><span *ngIf="customer.storeReviewIds.length > 0">. Средняя оценка: <b>{{ customerAvgStoreReviewsRating }}</b></span>
               </div>
 
               <div>
-                Отзывов о товаре: <b>{{ customer.productReviewIds.length }}</b><span *ngIf="customer.productReviewIds > 0">. Средняя оценка: <b>{{ customerAvgProductReviewsRating }}</b></span>
+                Отзывов о товаре: <b>{{ customer.productReviewIds.length }}</b><span *ngIf="customer.productReviewIds.length> 0">. Средняя оценка: <b>{{ customerAvgProductReviewsRating }}</b></span>
               </div>
             </div>
           </div>
