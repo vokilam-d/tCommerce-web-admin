@@ -26,7 +26,7 @@ export class CustomerComponent implements OnInit {
 
   activeAddress: ShipmentAddressDto = null;
 
-  tabsLabels: string[] = ['Информация о клиенте', 'Адреса', 'Заказы', 'Корзина', 'Отзывы о товарах', 'Список желаний'];
+  tabsLabels: string[] = ['Информация о клиенте', 'Адреса', 'Заказы', 'Корзина', 'Отзывы о товарах', 'Отзывы о магазине', 'Список желаний'];
 
   @ViewChild(AddressFormComponent) addressFormCmp: AddressFormComponent;
 

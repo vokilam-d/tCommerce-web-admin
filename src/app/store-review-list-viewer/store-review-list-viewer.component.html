@@ -1,0 +1,34 @@
+<grid class="page__grid"
+      [cells]="gridCells"
+      [itemsArray]="storeReviews"
+      [itemsFiltered]="itemsFiltered"
+      [pagesTotal]="pagesTotal"
+      [isLoading]="isGridLoading"
+      (gridChange)="fetchStoreReviews($event)"
+      linkUrlSuffix="/admin/store-review/edit"
+      trackByFieldName="id"
+      linkFieldName="id"
+      linkTarget="_blank"
+      size="small"
+      gridName="store-review-list-viewer"
+>
+  <span grid-total-items>Всего отзывов: {{ itemsTotal }}</span>
+  <span grid-no-items>Отзывы не найдены</span>
+
+  <ng-template #cellContent let-storeReview="item">{{ storeReview.createdAt | date }}</ng-template>
+  <ng-template #cellContent let-storeReview="item">{{ storeReview.name }}</ng-template>
+  <ng-template #cellContent let-storeReview="item">{{ storeReview.text }}</ng-template>
+  <ng-template #cellContent let-storeReview="item">{{ storeReview.rating }}</ng-template>
+  <ng-template #cellContent let-storeReview="item">{{ storeReview.isEnabled ? 'Включен' : 'Выключен' }}</ng-template>
+  <ng-template #cellContent let-storeReview="item">{{ storeReview.managerComment }}</ng-template>
+  <ng-template #cellContent let-storeReview="item">
+    <ng-container [ngSwitch]="storeReview.source">
+      <ng-container *ngSwitchCase="reviewSourceEnum.Manager">Менеджер</ng-container>
+      <ng-container *ngSwitchCase="reviewSourceEnum.Website">Сайт</ng-container>
+      <ng-container *ngSwitchCase="reviewSourceEnum.Email">Письмо</ng-container>
+      <ng-container *ngSwitchCase="reviewSourceEnum.LinkFromEmail">Ссылка из письма</ng-container>
+      <ng-container *ngSwitchCase="reviewSourceEnum.Sms">Sms</ng-container>
+      <ng-container *ngSwitchDefault>{{storeReview.source}}</ng-container>
+    </ng-container>
+  </ng-template>
+</grid>

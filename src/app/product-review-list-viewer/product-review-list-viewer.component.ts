@@ -1,70 +1,70 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { NotyService } from '../../noty/noty.service';
-import { ProductReviewDto } from '../../shared/dtos/product-review.dto';
-import { ProductReviewService } from '../../shared/services/product-review.service';
-import { IGridCell, IGridValue } from '../../grid/grid.interface';
-import { getPropertyOf } from '../../shared/helpers/get-property-of.function';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { GridComponent } from '../../grid/grid.component';
+import { IGridCell, IGridValue } from '../grid/grid.interface';
+import { DEFAULT_CURRENCY_CODE } from '../shared/enums/currency.enum';
+import { GridComponent } from '../grid/grid.component';
+import { ActivatedRoute } from '@angular/router';
+import { NotyService } from '../noty/noty.service';
 import { finalize } from 'rxjs/operators';
-import { HeadService } from '../../shared/services/head.service';
-import { ReviewSource } from '../../shared/enums/review-source.enum';
+import { DEFAULT_LANG } from '../shared/constants/constants';
+import { ProductReviewDto } from '../shared/dtos/product-review.dto';
+import { ProductReviewService } from '../shared/services/product-review.service';
+import { getPropertyOf } from '../shared/helpers/get-property-of.function';
+import { ReviewSource } from '../shared/enums/review-source.enum';
 
 @Component({
-  selector: 'product-review-list',
-  templateUrl: './product-review-list.component.html',
-  styleUrls: ['./product-review-list.component.scss']
+  selector: 'product-review-list-viewer',
+  templateUrl: './product-review-list-viewer.component.html',
+  styleUrls: ['./product-review-list-viewer.component.scss']
 })
-export class ProductReviewListComponent implements OnInit, AfterViewInit {
+export class ProductReviewListViewerComponent implements OnInit, AfterViewInit {
 
-  private fetchAllSub: Subscription;
-
-  productReviews: ProductReviewDto[] = [];
   itemsTotal: number = 0;
   itemsFiltered: number;
   pagesTotal: number = 1;
   isGridLoading: boolean = false;
-  idFieldName = getPropertyOf<ProductReviewDto>('id');
-  gridCells: IGridCell[] = productReviewsGridCells;
-
+  lang = DEFAULT_LANG;
   reviewSourceEnum = ReviewSource;
 
+  gridCells: IGridCell[] = productReviewsGridCells;
+  productReviews: ProductReviewDto[] = [];
+
+  private fetchAllSub: Subscription;
+
+  @Input() ids: number[];
   @ViewChild(GridComponent) gridCmp: GridComponent;
 
   constructor(
-    private productReviewsService: ProductReviewService,
-    private route: ActivatedRoute,
-    private headService: HeadService,
+    private productReviewService: ProductReviewService,
     private cdr: ChangeDetectorRef,
-    private notyService: NotyService,
-    private router: Router
+    private route: ActivatedRoute,
+    private notyService: NotyService
   ) { }
 
   ngOnInit() {
-    this.headService.setTitle(`Отзывы о товарах`);
   }
 
   ngAfterViewInit(): void {
+    if (!this.ids?.length) { return; }
+
     const gridValue = this.gridCmp.getValue();
     this.fetchProductReviews(gridValue);
-  }
-
-  add() {
-    this.router.navigate(['add'], { relativeTo: this.route });
   }
 
   fetchProductReviews(gridValue: IGridValue) {
     if (this.fetchAllSub) { this.fetchAllSub.unsubscribe(); }
 
+    gridValue.filters.push({ fieldName: 'id', value: this.ids.join('|') })
+
     this.isGridLoading = true;
     this.cdr.detectChanges();
-    this.fetchAllSub = this.productReviewsService.fetchAllProductReviews(gridValue)
+    this.fetchAllSub = this.productReviewService.fetchAllProductReviews(gridValue)
       .pipe(this.notyService.attachNoty(), finalize(() => this.isGridLoading = false))
       .subscribe(
         response => {
           this.productReviews = response.data;
           this.itemsTotal = response.itemsTotal;
+          this.itemsFiltered = response.itemsFiltered;
           this.pagesTotal = response.pagesTotal;
         },
         error => console.warn(error)

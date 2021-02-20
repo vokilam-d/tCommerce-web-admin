@@ -1,0 +1,36 @@
+<grid class="page__grid"
+      [cells]="gridCells"
+      [itemsArray]="productReviews"
+      [itemsFiltered]="itemsFiltered"
+      [pagesTotal]="pagesTotal"
+      [isLoading]="isGridLoading"
+      (gridChange)="fetchProductReviews($event)"
+      linkUrlSuffix="/admin/product-review/edit"
+      trackByFieldName="id"
+      linkFieldName="id"
+      linkTarget="_blank"
+      size="small"
+      gridName="product-review-list-viewer"
+>
+  <span grid-total-items>Всего отзывов: {{ itemsTotal }}</span>
+  <span grid-no-items>Отзывы не найдены</span>
+
+  <ng-template #cellContent let-productReview="item">{{ productReview.createdAt | date }}</ng-template>
+  <ng-template #cellContent let-productReview="item">{{ productReview.productId }}</ng-template>
+  <ng-template #cellContent let-productReview="item">{{ productReview.productName }}</ng-template>
+  <ng-template #cellContent let-productReview="item">{{ productReview.name }}</ng-template>
+  <ng-template #cellContent let-productReview="item">{{ productReview.text }}</ng-template>
+  <ng-template #cellContent let-productReview="item">{{ productReview.rating }}</ng-template>
+  <ng-template #cellContent let-productReview="item">{{ productReview.isEnabled ? 'Включен' : 'Выключен' }}</ng-template>
+  <ng-template #cellContent let-productReview="item">{{ productReview.managerComment }}</ng-template>
+  <ng-template #cellContent let-productReview="item">
+    <ng-container [ngSwitch]="productReview.source">
+      <ng-container *ngSwitchCase="reviewSourceEnum.Manager">Менеджер</ng-container>
+      <ng-container *ngSwitchCase="reviewSourceEnum.Website">Сайт</ng-container>
+      <ng-container *ngSwitchCase="reviewSourceEnum.Email">Письмо</ng-container>
+      <ng-container *ngSwitchCase="reviewSourceEnum.LinkFromEmail">Ссылка из письма</ng-container>
+      <ng-container *ngSwitchCase="reviewSourceEnum.Sms">Sms</ng-container>
+      <ng-container *ngSwitchDefault>{{ productReview.source }}</ng-container>
+    </ng-container>
+  </ng-template>
+</grid>

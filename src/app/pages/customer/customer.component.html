@@ -192,7 +192,13 @@
 
     <ng-template #tabContent>In progress...</ng-template>
 
-    <ng-template #tabContent>In progress...</ng-template>
+    <ng-template #tabContent>
+      <store-review-list-viewer [ids]="customer.storeReviewIds"></store-review-list-viewer>
+    </ng-template>
+
+    <ng-template #tabContent>
+      <product-review-list-viewer [ids]="customer.productReviewIds"></product-review-list-viewer>
+    </ng-template>
 
     <ng-template #tabContent>In progress...</ng-template>
   </tabs>
