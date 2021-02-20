@@ -18,6 +18,8 @@ export class AddOrUpdateProductVariantDto {
   price: number = 0;
   oldPrice: number;
   currency: ECurrencyCode = DEFAULT_CURRENCY_CODE;
+  purchasePrice: number;
+  purchaseCurrency: ECurrencyCode = DEFAULT_CURRENCY_CODE;
   medias: MediaDto[] = [];
   fullDescription: MultilingualTextDto = new MultilingualTextDto();
   shortDescription: MultilingualTextDto = new MultilingualTextDto();

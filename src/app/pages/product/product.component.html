@@ -219,6 +219,28 @@
               </div>
 
               <div class="product__field field"
+                   *ngIf="variantForm.get('purchasePrice') as purchasePrice"
+                   [class.field--invalid]="isControlInvalid(purchasePrice)"
+              >
+                <label class="field__label" [for]="'purchasePrice-' + i">
+                  Цена закупки
+                </label>
+                <span class="field__control price">
+                  <input class="field__input price__input" [formControl]="purchasePrice" [id]="'purchasePrice-' + i" type="number">
+
+                  <select class="price__currency"
+                          *ngIf="variantForm.get('purchaseCurrency') as purchaseCurrency"
+                          [formControl]="purchaseCurrency"
+                          name="purchaseCurrency"
+                  >
+                    <option [value]="currencies.UAH">{{ currencies.UAH | readableCurrency }}</option>
+                    <option [value]="currencies.EUR">{{ currencies.EUR | readableCurrency }}</option>
+                    <option [value]="currencies.USD">{{ currencies.USD | readableCurrency }}</option>
+                  </select>
+                </span>
+              </div>
+
+              <div class="product__field field"
                    *ngIf="variantForm.get('qtyInStock') as qtyInStock"
               >
                 <label class="field__label" [for]="'qtyInStock-' + i">
