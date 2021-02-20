@@ -156,7 +156,7 @@
       </div>
 
       <div class="variation__content">
-        <div class="block__item block__item--info" id="product-info">
+        <div class="block__item block__item--wide" id="product-info">
           <div class="block__title">Инфо</div>
           <div class="block__content info">
 
@@ -512,6 +512,15 @@
     <ng-container *ngIf="isMultiVariant">
       <ng-container *ngTemplateOutlet="reviewsTmpl"></ng-container>
     </ng-container>
+
+    <div class="block__item block__item--wide" *ngIf="!isNewProduct && product">
+      <div class="block__title">
+        Заказы
+      </div>
+      <div class="block__content">
+        <order-list-viewer [productId]="product.id"></order-list-viewer>
+      </div>
+    </div>
 
   </form>
 </div>

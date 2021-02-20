@@ -36,6 +36,7 @@ export class OrderListViewerComponent implements OnInit, AfterViewInit {
   private fetchAllSub: Subscription;
 
   @Input() customerId: number;
+  @Input() productId: number;
   @Input() ids: number[];
   @ViewChild(GridComponent) gridCmp: GridComponent;
 
@@ -50,7 +51,7 @@ export class OrderListViewerComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    if (!this.customerId && !this.ids?.length) { return; }
+    if (!this.customerId && !this.productId && !this.ids?.length) { return; }
 
     const gridValue = this.gridCmp.getValue();
     this.fetchOrders(gridValue);
@@ -59,11 +60,13 @@ export class OrderListViewerComponent implements OnInit, AfterViewInit {
   fetchOrders(gridValue: IGridValue) {
     if (this.fetchAllSub) { this.fetchAllSub.unsubscribe(); }
 
-    gridValue.filters.push({ fieldName: 'id', value: this.ids.join('|') })
+    if (this.ids) {
+      gridValue.filters.push({ fieldName: 'id', value: this.ids.join('|') })
+    }
 
     this.isGridLoading = true;
     this.cdr.detectChanges();
-    this.fetchAllSub = this.ordersService.fetchOrders(gridValue, { customerId: this.customerId })
+    this.fetchAllSub = this.ordersService.fetchOrders(gridValue, { customerId: this.customerId, productId: this.productId })
       .pipe(this.notyService.attachNoty(), finalize(() => this.isGridLoading = false))
       .subscribe(
         response => {
