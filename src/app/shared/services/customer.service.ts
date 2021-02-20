@@ -6,6 +6,7 @@ import { AddOrUpdateCustomerDto, CustomerDto } from '../dtos/customer.dto';
 import { toHttpParams } from '../helpers/to-http-params.function';
 import { IGridValue } from '../../grid/grid.interface';
 import { API_HOST } from '../constants/constants';
+import { CustomerReviewsAverageRatingDto } from '../dtos/customer-reviews-average-rating.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,10 @@ export class CustomerService {
 
   fetchCustomer(id: string | number): Observable<ResponseDto<CustomerDto>> {
     return this.http.get<ResponseDto<CustomerDto>>(`${API_HOST}/api/v1/admin/customers/${id}`);
+  }
+
+  fetchCustomerReviewsAvgRating(id: string | number): Observable<ResponseDto<CustomerReviewsAverageRatingDto>> {
+    return this.http.get<ResponseDto<CustomerReviewsAverageRatingDto>>(`${API_HOST}/api/v1/admin/customers/${id}/avg-reviews-rating`);
   }
 
   addNewCustomer(dto: AddOrUpdateCustomerDto): Observable<ResponseDto<CustomerDto>> {

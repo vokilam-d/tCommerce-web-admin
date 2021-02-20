@@ -21,6 +21,18 @@ a {
   }
 }
 
+.blue-link {
+  &,
+  &:visited,
+  &:active {
+    color: $blue;
+  }
+
+  &:hover {
+    color: darken($blue, 10%);
+  }
+}
+
 img {
   max-width: 100%;
 }

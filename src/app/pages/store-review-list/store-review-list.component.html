@@ -36,7 +36,7 @@
         <ng-container *ngSwitchCase="reviewSourceEnum.Email">Письмо</ng-container>
         <ng-container *ngSwitchCase="reviewSourceEnum.LinkFromEmail">Ссылка из письма</ng-container>
         <ng-container *ngSwitchCase="reviewSourceEnum.Sms">Sms</ng-container>
-        <ng-container *ngSwitchDefault>storeReview.source</ng-container>
+        <ng-container *ngSwitchDefault>{{storeReview.source}}</ng-container>
       </ng-container>
     </ng-template>
   </grid>

@@ -126,6 +126,12 @@
       background: #eee;
     }
   }
+
+  &__block {
+    &--reviews {
+      text-align: right;
+    }
+  }
 }
 
 .method {

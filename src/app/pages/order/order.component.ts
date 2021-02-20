@@ -40,6 +40,8 @@ export class OrderComponent extends NgUnsubscribe implements OnInit {
   addressSelectControl: FormControl;
   addressSelectOptions: ISelectOption[] = [];
   managerSelectOptions: ISelectOption[] = MANAGER_SELECT_OPTIONS;
+  customerAvgStoreReviewsRating: number = 0;
+  customerAvgProductReviewsRating: number = 0;
   private newAddress: ShipmentAddressDto = new ShipmentAddressDto();
   private arePricesValid: boolean = true;
 
@@ -199,6 +201,14 @@ export class OrderComponent extends NgUnsubscribe implements OnInit {
 
       this.order.shipment.recipient = this.customer.addresses.find(a => a.isDefault) || this.customer.addresses[0] || this.newAddress;
     }
+
+    this.customerService.fetchCustomerReviewsAvgRating(this.customer.id)
+      .subscribe(
+        response => {
+          this.customerAvgStoreReviewsRating = response.data.storeReviews.avgRating;
+          this.customerAvgProductReviewsRating = response.data.productReviews.avgRating;
+        }
+      );
 
     this.handleAddressForm();
   }
