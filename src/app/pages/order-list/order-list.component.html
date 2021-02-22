@@ -47,15 +47,10 @@
       </div>
     </ng-template>
     <ng-template #cellContent let-order="item">
-      <span class="order__city">{{ order.customerNote }}</span>
-    </ng-template>
-    <ng-template #cellContent let-order="item">
       <span class="order__city">{{ order.shipment.recipient.settlement || order.shipment.recipient.settlementFull }}</span>
     </ng-template>
-    <ng-template #cellContent let-order="item">
-      <span class="order__city">{{ order.shipment.recipient.address || order.shipment.recipient.addressFull }}</span>
-    </ng-template>
     <ng-template #cellContent let-order="item">{{ order.prices.totalCost }} {{ defaultCurrency | readableCurrency }}</ng-template>
+    <ng-template #cellContent let-order="item">{{ order.adminNote }}</ng-template>
     <ng-template #cellContent let-order="item">{{ order.statusDescription[lang] }}</ng-template>
     <ng-template #cellContent let-order="item">
       <span class="order__shipment-status">
@@ -67,7 +62,6 @@
       <span class="order__time">{{ order.shippedAt | date:'HH:mm:ss' }}</span>
     </ng-template>
     <ng-template #cellContent let-order="item">{{ order.shipment.trackingNumber }}</ng-template>
-    <ng-template #cellContent let-order="item">{{ order.adminNote }}</ng-template>
     <ng-template #cellContent let-order="item">
       <div class="order__is-paid"
            *ngIf="order.paymentType !== paymentTypes.CASH_ON_DELIVERY"
@@ -85,6 +79,9 @@
         <ng-container *ngSwitchCase="'client'">Клиент</ng-container>
         <ng-container *ngSwitchCase="'manager'">Менеджер</ng-container>
       </ng-container>
+    </ng-template>
+    <ng-template #cellContent let-order="item">
+      <span class="order__city">{{ order.customerNote }}</span>
     </ng-template>
   </grid>
 

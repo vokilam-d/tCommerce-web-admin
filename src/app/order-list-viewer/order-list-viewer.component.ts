@@ -129,6 +129,15 @@ const orderGridCells: IGridCell[] = [
     fieldName: `${getPropertyOf<OrderDto>('prices')}.${getPropertyOf<OrderPricesDto>('totalCost')}`
   },
   {
+    isSearchable: true,
+    label: 'Комментарий админа',
+    initialWidth: 250,
+    align: 'left',
+    isImage: false,
+    isSortable: true,
+    fieldName: getPropertyOf<OrderDto>('adminNote')
+  },
+  {
     isSearchable: false,
     label: 'Статус',
     initialWidth: 130,
@@ -160,15 +169,6 @@ const orderGridCells: IGridCell[] = [
     isImage: false,
     isSortable: false,
     fieldName: `${shipmentProp}.${getPropertyOf<ShipmentDto>('trackingNumber')}`
-  },
-  {
-    isSearchable: true,
-    label: 'Комментарий админа',
-    initialWidth: 250,
-    align: 'left',
-    isImage: false,
-    isSortable: true,
-    fieldName: getPropertyOf<OrderDto>('adminNote')
   },
   {
     isSearchable: true,

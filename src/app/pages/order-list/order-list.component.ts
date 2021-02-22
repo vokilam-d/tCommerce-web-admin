@@ -189,15 +189,6 @@ const orderGridCells: IGridCell[] = [
   },
   {
     isSearchable: true,
-    label: 'Коммент о клиенте',
-    initialWidth: 65,
-    align: 'left',
-    isImage: false,
-    isSortable: false,
-    fieldName: getPropertyOf<OrderDto>('customerNote')
-  },
-  {
-    isSearchable: true,
     label: 'Город',
     initialWidth: 80,
     align: 'left',
@@ -207,21 +198,21 @@ const orderGridCells: IGridCell[] = [
   },
   {
     isSearchable: true,
-    label: '№ отд.',
-    initialWidth: 50,
-    align: 'left',
-    isImage: false,
-    isSortable: true,
-    fieldName: `${shipmentProp}.${recipientProp}.${getPropertyOf<ShipmentAddressDto>('address')}|${shipmentProp}.${recipientProp}.${getPropertyOf<ShipmentAddressDto>('addressFull')}`
-  },
-  {
-    isSearchable: true,
     label: 'Сумма',
     initialWidth: 75,
     align: 'left',
     isImage: false,
     isSortable: true,
     fieldName: `${getPropertyOf<OrderDto>('prices')}.${getPropertyOf<OrderPricesDto>('totalCost')}`
+  },
+  {
+    isSearchable: true,
+    label: 'Комментарий админа о заказе',
+    initialWidth: 150,
+    align: 'left',
+    isImage: false,
+    isSortable: true,
+    fieldName: getPropertyOf<OrderDto>('adminNote')
   },
   {
     isSearchable: false,
@@ -265,15 +256,6 @@ const orderGridCells: IGridCell[] = [
     isImage: false,
     isSortable: false,
     fieldName: `${shipmentProp}.${getPropertyOf<ShipmentDto>('trackingNumber')}`
-  },
-  {
-    isSearchable: true,
-    label: 'Комментарий админа о заказе',
-    initialWidth: 150,
-    align: 'left',
-    isImage: false,
-    isSortable: true,
-    fieldName: getPropertyOf<OrderDto>('adminNote')
   },
   {
     isSearchable: false,
@@ -333,5 +315,14 @@ const orderGridCells: IGridCell[] = [
       { data: 'client', view: 'Клиент' },
       { data: 'manager', view: 'Менеджер' }
     ]
-  }
+  },
+  {
+    isSearchable: true,
+    label: 'Коммент о клиенте',
+    initialWidth: 65,
+    align: 'left',
+    isImage: false,
+    isSortable: false,
+    fieldName: getPropertyOf<OrderDto>('customerNote')
+  },
 ];
