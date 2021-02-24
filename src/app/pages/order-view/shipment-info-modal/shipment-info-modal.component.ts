@@ -27,7 +27,7 @@ export class ShipmentInfoModalComponent implements OnInit {
   @Output('infoSubmit') infoSubmitEmitter = new EventEmitter<ShipmentDto>();
   @Output('trackingId') trackingIdEmitter = new EventEmitter<string>();
 
-  payerTypeOptions: ISelectOption[] = [{ view: 'Получатель', data: ShipmentPayerEnum.RECIPIENT }, { view: 'Отправитель', data: ShipmentPayerEnum.SENDER }];
+  payerTypeOptions: ISelectOption[] = [{ view: 'Клиент', data: ShipmentPayerEnum.RECIPIENT }, { view: 'Мы', data: ShipmentPayerEnum.SENDER }];
   get payerTypeForCost(): ShipmentPayerEnum { return this.cost < 1000 ? ShipmentPayerEnum.RECIPIENT : ShipmentPayerEnum.SENDER; }
   get payerTypeNameForCost(): string { return this.payerTypeOptions.find(o => o.data === this.payerTypeForCost).view; }
 
