@@ -206,6 +206,10 @@ export class OrderViewComponent extends NgUnsubscribe implements OnInit {
     return this.order.status !== OrderStatusEnum.FINISHED && this.order.status !== OrderStatusEnum.CANCELED;
   }
 
+  isTrackingNumberAvailable(): boolean {
+    return !this.trackingIdControl && this.order.status !== OrderStatusEnum.READY_TO_PACK && this.order.status !== OrderStatusEnum.PROCESSING && this.order.status !== OrderStatusEnum.NEW;
+  }
+
   openAddressForm() {
     this.isAddressFormVisible = true;
   }

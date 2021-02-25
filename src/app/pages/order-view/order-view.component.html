@@ -195,7 +195,7 @@
       <div class="order-view__subtitle">
         Новая Почта
 
-        <ng-container >
+        <ng-container *ngIf="isTrackingNumberAvailable()">
           <button class="order-view__edit-btn" *ngIf="!trackingIdControl" (click)="openTrackingIdForm()">
             изменить
           </button>
