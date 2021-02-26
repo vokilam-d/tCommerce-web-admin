@@ -14,7 +14,8 @@ export class AddOrUpdateCustomerDto {
   note: string = '';
   addresses: ShipmentAddressDto[] = [];
   deprecatedAddresses: string[];
-  reviewIds: number[] = [];
+  storeReviewIds: number[] = [];
+  productReviewIds: number[] = [];
   orderIds: number[] = [];
   wishlistProductIds: number[] = [];
   discountPercent: number = 0;

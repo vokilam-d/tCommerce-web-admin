@@ -156,7 +156,7 @@
       </div>
 
       <div class="variation__content">
-        <div class="block__item block__item--info" id="product-info">
+        <div class="block__item block__item--wide" id="product-info">
           <div class="block__title">Инфо</div>
           <div class="block__content info">
 
@@ -215,6 +215,28 @@
                   <span class="price__default-currency" *ngIf="!isDefaultCurrency(i) && product.variants[i].oldPriceInDefaultCurrency as oldDefaultPrice">
                     {{ oldDefaultPrice }} грн
                   </span>
+                </span>
+              </div>
+
+              <div class="product__field field"
+                   *ngIf="variantForm.get('purchasePrice') as purchasePrice"
+                   [class.field--invalid]="isControlInvalid(purchasePrice)"
+              >
+                <label class="field__label" [for]="'purchasePrice-' + i">
+                  Цена закупки
+                </label>
+                <span class="field__control price">
+                  <input class="field__input price__input" [formControl]="purchasePrice" [id]="'purchasePrice-' + i" type="number">
+
+                  <select class="price__currency"
+                          *ngIf="variantForm.get('purchaseCurrency') as purchaseCurrency"
+                          [formControl]="purchaseCurrency"
+                          name="purchaseCurrency"
+                  >
+                    <option [value]="currencies.UAH">{{ currencies.UAH | readableCurrency }}</option>
+                    <option [value]="currencies.EUR">{{ currencies.EUR | readableCurrency }}</option>
+                    <option [value]="currencies.USD">{{ currencies.USD | readableCurrency }}</option>
+                  </select>
                 </span>
               </div>
 
@@ -490,6 +512,15 @@
     <ng-container *ngIf="isMultiVariant">
       <ng-container *ngTemplateOutlet="reviewsTmpl"></ng-container>
     </ng-container>
+
+    <div class="block__item block__item--wide" *ngIf="!isNewProduct && product">
+      <div class="block__title">
+        Заказы
+      </div>
+      <div class="block__content">
+        <order-list-viewer [productId]="product.id"></order-list-viewer>
+      </div>
+    </div>
 
   </form>
 </div>

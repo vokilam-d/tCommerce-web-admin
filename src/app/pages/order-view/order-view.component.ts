@@ -47,6 +47,8 @@ export class OrderViewComponent extends NgUnsubscribe implements OnInit {
   paymentStatusError: string | null = null;
   isLoading: boolean = false;
   isPdfButtonsVisible: boolean = false;
+  customerAvgStoreReviewsRating: number = 0;
+  customerAvgProductReviewsRating: number = 0;
 
   orderStatuses = OrderStatusEnum;
   managerSelectOptions: ISelectOption[] = MANAGER_SELECT_OPTIONS;
@@ -119,6 +121,14 @@ export class OrderViewComponent extends NgUnsubscribe implements OnInit {
       .subscribe(
         response => {
           this.customer = response.data;
+        }
+      );
+
+    this.customerService.fetchCustomerReviewsAvgRating(customerId)
+      .subscribe(
+        response => {
+          this.customerAvgStoreReviewsRating = response.data.storeReviews.avgRating;
+          this.customerAvgProductReviewsRating = response.data.productReviews.avgRating;
         }
       );
   }
@@ -194,6 +204,10 @@ export class OrderViewComponent extends NgUnsubscribe implements OnInit {
 
   isFinishOrderVisible(): boolean {
     return this.order.status !== OrderStatusEnum.FINISHED && this.order.status !== OrderStatusEnum.CANCELED;
+  }
+
+  isTrackingNumberAvailable(): boolean {
+    return !this.trackingIdControl && this.order.status !== OrderStatusEnum.READY_TO_PACK && this.order.status !== OrderStatusEnum.PROCESSING && this.order.status !== OrderStatusEnum.NEW;
   }
 
   openAddressForm() {

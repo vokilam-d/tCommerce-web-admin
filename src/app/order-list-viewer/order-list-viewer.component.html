@@ -31,6 +31,7 @@
       </span>
   </ng-template>
   <ng-template #cellContent let-order="item">{{ order.prices.totalCost }} {{ defaultCurrency | readableCurrency }}</ng-template>
+  <ng-template #cellContent let-order="item">{{ order.adminNote }}</ng-template>
   <ng-template #cellContent let-order="item">{{ order.statusDescription[lang] }}</ng-template>
   <ng-template #cellContent let-order="item">
       <span class="order__shipment-status">
@@ -38,6 +39,5 @@
       </span>
   </ng-template>
   <ng-template #cellContent let-order="item">{{ order.shipment.trackingNumber }}</ng-template>
-  <ng-template #cellContent let-order="item">{{ order.adminNote }}</ng-template>
   <ng-template #cellContent let-order="item">{{ order.clientNote }}</ng-template>
 </grid>

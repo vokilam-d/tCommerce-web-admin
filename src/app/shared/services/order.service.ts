@@ -17,6 +17,7 @@ import { PackOrderItemDto } from '../dtos/pack-order-item.dto';
 
 interface IFetchOrderOptions {
   customerId?: number;
+  productId?: number;
 }
 
 @Injectable({
@@ -27,10 +28,11 @@ export class OrderService {
   constructor(private http: HttpClient) {
   }
 
-  fetchOrders(filter: IGridValue, { customerId }: IFetchOrderOptions = { }): Observable<ResponseDto<OrderDto[]>> {
+  fetchOrders(filter: IGridValue, { customerId, productId }: IFetchOrderOptions = { }): Observable<ResponseDto<OrderDto[]>> {
     const params = toHttpParams({
       ...filter,
-      customerId
+      customerId,
+      productId
     });
 
     return this.http.get<ResponseDto<OrderDto[]>>(

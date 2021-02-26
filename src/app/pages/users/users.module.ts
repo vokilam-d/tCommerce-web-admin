@@ -10,6 +10,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [UsersComponent],
+  exports: [
+    UsersComponent
+  ],
   imports: [
     CommonModule,
     UsersRoutingModule,

@@ -27,6 +27,7 @@
     <ng-template #cellContent let-storeReview="item">{{ storeReview.createdAt | date }}</ng-template>
     <ng-template #cellContent let-storeReview="item">{{ storeReview.name }}</ng-template>
     <ng-template #cellContent let-storeReview="item">{{ storeReview.text }}</ng-template>
+    <ng-template #cellContent let-storeReview="item">{{ storeReview.rating }}</ng-template>
     <ng-template #cellContent let-storeReview="item">{{ storeReview.isEnabled ? 'Включен' : 'Выключен' }}</ng-template>
     <ng-template #cellContent let-storeReview="item">{{ storeReview.managerComment }}</ng-template>
     <ng-template #cellContent let-storeReview="item">
@@ -36,7 +37,7 @@
         <ng-container *ngSwitchCase="reviewSourceEnum.Email">Письмо</ng-container>
         <ng-container *ngSwitchCase="reviewSourceEnum.LinkFromEmail">Ссылка из письма</ng-container>
         <ng-container *ngSwitchCase="reviewSourceEnum.Sms">Sms</ng-container>
-        <ng-container *ngSwitchDefault>storeReview.source</ng-container>
+        <ng-container *ngSwitchDefault>{{storeReview.source}}</ng-container>
       </ng-container>
     </ng-template>
   </grid>

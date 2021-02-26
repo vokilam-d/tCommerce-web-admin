@@ -6,6 +6,7 @@ import { OrderPricesDto } from './order-prices.dto';
 import { MultilingualTextDto } from './multilingual-text.dto';
 import { LogDto } from './log.dto';
 import { ManagerDto } from './manager.dto';
+import { MediaDto } from './media.dto';
 
 export class AddOrUpdateOrderDto {
   customerId: number;
@@ -32,6 +33,7 @@ export class AddOrUpdateOrderDto {
   manager: ManagerDto = new ManagerDto();
   isOrderPaid: boolean = false;
   logs: LogDto[];
+  medias: MediaDto[];
 }
 
 export class OrderDto extends AddOrUpdateOrderDto {

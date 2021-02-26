@@ -8,6 +8,8 @@ import { SharedModule } from '../../shared/shared.module';
 import { GridModule } from '../../grid/grid.module';
 import { AddressFormModule } from '../../address-form/address-form.module';
 import { OrderListViewerModule } from '../../order-list-viewer/order-list-viewer.module';
+import { StoreReviewListViewerModule } from '../../store-review-list-viewer/store-review-list-viewer.module';
+import { ProductReviewListViewerModule } from '../../product-review-list-viewer/product-review-list-viewer.module';
 
 
 @NgModule({
@@ -19,7 +21,9 @@ import { OrderListViewerModule } from '../../order-list-viewer/order-list-viewer
     GridModule,
     SharedModule,
     OrderListViewerModule,
-    AddressFormModule
+    AddressFormModule,
+    StoreReviewListViewerModule,
+    ProductReviewListViewerModule
   ]
 })
 export class CustomerModule { }

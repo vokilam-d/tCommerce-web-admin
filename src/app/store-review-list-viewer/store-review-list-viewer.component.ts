@@ -1,51 +1,51 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { NotyService } from '../../noty/noty.service';
-import { StoreReviewDto } from '../../shared/dtos/store-review.dto';
-import { StoreReviewService } from '../../shared/services/store-review.service';
-import { IGridCell, IGridValue } from '../../grid/grid.interface';
-import { getPropertyOf } from '../../shared/helpers/get-property-of.function';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { GridComponent } from '../../grid/grid.component';
+import { IGridCell, IGridValue } from '../grid/grid.interface';
+import { GridComponent } from '../grid/grid.component';
+import { ActivatedRoute } from '@angular/router';
+import { NotyService } from '../noty/noty.service';
 import { finalize } from 'rxjs/operators';
-import { HeadService } from '../../shared/services/head.service';
-import { ReviewSource } from '../../shared/enums/review-source.enum';
+import { DEFAULT_LANG } from '../shared/constants/constants';
+import { StoreReviewDto } from '../shared/dtos/store-review.dto';
+import { StoreReviewService } from '../shared/services/store-review.service';
+import { getPropertyOf } from '../shared/helpers/get-property-of.function';
+import { ReviewSource } from '../shared/enums/review-source.enum';
 
 @Component({
-  selector: 'store-review-list',
-  templateUrl: './store-review-list.component.html',
-  styleUrls: ['./store-review-list.component.scss']
+  selector: 'store-review-list-viewer',
+  templateUrl: './store-review-list-viewer.component.html',
+  styleUrls: ['./store-review-list-viewer.component.scss']
 })
-export class StoreReviewListComponent implements OnInit, AfterViewInit {
+export class StoreReviewListViewerComponent implements OnInit, AfterViewInit {
 
-  storeReviews: StoreReviewDto[] = [];
   itemsTotal: number = 0;
   itemsFiltered: number;
   pagesTotal: number = 1;
   isGridLoading: boolean = false;
-  idFieldName = getPropertyOf<StoreReviewDto>('id');
-  gridCells: IGridCell[] = storeReviewsGridCells;
-
+  lang = DEFAULT_LANG;
   reviewSourceEnum = ReviewSource;
+
+  gridCells: IGridCell[] = storeReviewsGridCells;
+  storeReviews: StoreReviewDto[] = [];
 
   private fetchAllSub: Subscription;
 
+  @Input() ids: number[];
   @ViewChild(GridComponent) gridCmp: GridComponent;
 
   constructor(
-    private storeReviewsService: StoreReviewService,
+    private storeReviewService: StoreReviewService,
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
-    private headService: HeadService,
-    private notyService: NotyService,
-    private router: Router
+    private notyService: NotyService
   ) { }
 
   ngOnInit() {
-    this.headService.setTitle(`Отзывы о магазине`);
   }
 
   ngAfterViewInit(): void {
+    if (!this.ids?.length) { return; }
+
     const gridValue = this.gridCmp.getValue();
     this.fetchStoreReviews(gridValue);
   }
@@ -53,22 +53,21 @@ export class StoreReviewListComponent implements OnInit, AfterViewInit {
   fetchStoreReviews(gridValue: IGridValue) {
     if (this.fetchAllSub) { this.fetchAllSub.unsubscribe(); }
 
+    gridValue.filters.push({ fieldName: 'id', value: this.ids.join('|') })
+
     this.isGridLoading = true;
     this.cdr.detectChanges();
-    this.fetchAllSub = this.storeReviewsService.fetchAllStoreReviews(gridValue)
+    this.fetchAllSub = this.storeReviewService.fetchAllStoreReviews(gridValue)
       .pipe(this.notyService.attachNoty(), finalize(() => this.isGridLoading = false))
       .subscribe(
         response => {
           this.storeReviews = response.data;
           this.itemsTotal = response.itemsTotal;
+          this.itemsFiltered = response.itemsFiltered;
           this.pagesTotal = response.pagesTotal;
         },
         error => console.warn(error)
       );
-  }
-
-  add() {
-    this.router.navigate(['add'], { relativeTo: this.route });
   }
 }
 
@@ -94,7 +93,7 @@ const storeReviewsGridCells: IGridCell[] = [
   {
     isSearchable: true,
     label: 'Текст',
-    initialWidth: 500,
+    initialWidth: 300,
     align: 'left',
     isImage: false,
     isSortable: false,

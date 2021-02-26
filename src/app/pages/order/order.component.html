@@ -48,7 +48,14 @@
 
         <div class="order__block-container">
           <div class="order__subtitle">
-            Информация для связи
+            <ng-container *ngIf="isNewCustomer">Информация о клиенте</ng-container>
+            <a class="blue-link"
+               *ngIf="!isNewCustomer"
+               [routerLink]="['/', 'admin', 'customer', 'edit', customer?.id]"
+               target="_blank"
+            >
+              Информация о клиенте
+            </a>
           </div>
 
           <div class="order__block">
@@ -68,8 +75,22 @@
               </div>
             </ng-container>
 
-            <div class="order__contacts" *ngIf="!isNewCustomer">
-              <b>{{ order.customerEmail }}</b><span *ngIf="order.customerPhoneNumber as phone"><br><b>{{ phone }}</b></span>
+            <div class="order__customer customer-info" *ngIf="!isNewCustomer">
+              <div *ngIf="order.customerEmail as email">
+                Email: <b>{{ email }}</b>
+              </div>
+
+              <div *ngIf="order.customerPhoneNumber as phone">
+                Телефон: <b>{{ phone }}</b>
+              </div>
+
+              <div>
+                Отзывов о магазине: <b>{{ customer.storeReviewIds.length }}</b><span *ngIf="customer.storeReviewIds.length > 0">. Средняя оценка: <b>{{ customerAvgStoreReviewsRating }}</b></span>
+              </div>
+
+              <div>
+                Отзывов о товаре: <b>{{ customer.productReviewIds.length }}</b><span *ngIf="customer.productReviewIds.length> 0">. Средняя оценка: <b>{{ customerAvgProductReviewsRating }}</b></span>
+              </div>
             </div>
           </div>
         </div>
