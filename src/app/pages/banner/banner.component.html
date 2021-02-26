@@ -1,0 +1,96 @@
+<!--<section class="banner">-->
+<!--  <div class="banner__sections">-->
+<!--    <div class="banner__section banner__section&#45;&#45;main left-block" (click)="showBannerTypeModal(0);">-->
+<!--      <div class="left-block__item">-->
+<!--        <ng-template #defaultImg><img class="banner__add-btn" src="{{ itemImgSrc }}" alt="add"></ng-template>-->
+
+<!--        <ng-container *ngIf="bannerItems[0]; else defaultImg">-->
+<!--          <img class="banner__img" [src]="getItemSrc(0)" alt="add">-->
+<!--          <span class="banner__sale-label" *ngIf="bannerItems[0]?.oldPrice">-->
+<!--            -{{ discountValue }}%-->
+<!--          </span>-->
+<!--          <span class="banner__label" [ngClass]="getLabelClass(bannerItems[0])" *ngIf="bannerItems[0]?.label">-->
+<!--            {{ bannerItems[0].label }}-->
+<!--          </span>-->
+<!--        </ng-container>-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--    <div class="banner__section banner__section&#45;&#45;small right-block">-->
+<!--      <div class="right-block__item" (click)="showBannerTypeModal(1);">-->
+<!--        <ng-template #defaultImg><img class="banner__add-btn banner__add-btn&#45;&#45;small" src="{{ itemImgSrc }}" alt="add"></ng-template>-->
+
+<!--        <ng-container *ngIf="bannerItems[1]; else defaultImg">-->
+<!--          <img class="banner__img" [src]="getItemSrc(1)" alt="add">-->
+<!--          <span class="banner__sale-label" *ngIf="bannerItems[1]?.oldPrice">-->
+<!--            -{{ discountValue }}%-->
+<!--          </span>-->
+<!--          <span class="banner__label" [ngClass]="getLabelClass(bannerItems[1])" *ngIf="bannerItems[1]?.label">-->
+<!--            {{ bannerItems[1].label }}-->
+<!--          </span>-->
+<!--        </ng-container>-->
+<!--      </div>-->
+
+<!--      <div class="right-block__item" (click)="showBannerTypeModal(2);">-->
+<!--        <ng-template #defaultImg><img class="banner__add-btn banner__add-btn&#45;&#45;small" src="{{ itemImgSrc }}" alt="add"></ng-template>-->
+
+<!--        <ng-container *ngIf="bannerItems[2]; else defaultImg">-->
+<!--          <img class="banner__img" [src]="getItemSrc(2)" alt="add">-->
+<!--          <span class="banner__sale-label" *ngIf="bannerItems[2]?.oldPrice">-->
+<!--            -{{ discountValue }}%-->
+<!--          </span>-->
+<!--          <span class="banner__label" [ngClass]="getLabelClass(bannerItems[2])" *ngIf="bannerItems[2]?.label">-->
+<!--            {{ bannerItems[2].label }}-->
+<!--          </span>-->
+<!--        </ng-container>-->
+<!--      </div>-->
+
+<!--      <div class="right-block__item right-block__item&#45;&#45;wide" (click)="showBannerTypeModal(3);">-->
+<!--        <ng-template #defaultImg><img class="banner__add-btn banner__add-btn&#45;&#45;small" src="{{ itemImgSrc }}" alt="add"></ng-template>-->
+
+<!--        <ng-container *ngIf="bannerItems[3]; else defaultImg">-->
+<!--          <img class="banner__img" [src]="getItemSrc(3)" alt="add">-->
+<!--          <span class="banner__sale-label" *ngIf="bannerItems[3]?.oldPrice">-->
+<!--            -{{ discountValue }}%-->
+<!--          </span>-->
+<!--          <span class="banner__label" [ngClass]="getLabelClass(bannerItems[3])" *ngIf="bannerItems[3]?.label">-->
+<!--            {{ bannerItems[3].label }}-->
+<!--          </span>-->
+<!--        </ng-container>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</section>-->
+
+<!--<banner-type-modal></banner-type-modal>-->
+
+
+<section class="banner">
+  <div class="banner__grid">
+    <div *ngFor="let bannerItem of bannerItems; let i = index" class="banner__item banner__item--{{i}}" (click)="showBannerTypeModal(i);">
+      <ng-template #defaultImg><img class="banner__add-btn" src="{{ itemImgSrc }}" alt="add"></ng-template>
+
+      <ng-container *ngIf="bannerItem; else defaultImg">
+        <ng-container *ngIf="bannerItem?.type === bannerItemType.product">
+          <img class="banner__img" [src]="getProductSrc(i)" alt="item">
+
+          <div class="banner__sale-label" *ngIf="bannerItem.item?.oldPrice">
+            <span class="banner__sale-label--discount">-{{ discountValue }}%</span>
+            <span class="banner__sale-label--price">{{ bannerItem.item?.priceInDefaultCurrency }} грн</span>
+            <span class="banner__sale-label--old-price">{{ bannerItem.item?.oldPriceInDefaultCurrency }} грн</span>
+          </div>
+
+          <span class="banner__label" [ngClass]="getLabelClass(bannerItem.item)" *ngIf="bannerItem.item?.label">
+            {{ bannerItem.item.label }}
+          </span>
+        </ng-container>
+
+        <ng-container *ngIf="bannerItem?.type === bannerItemType.post">
+          <img class="banner__img" [src]="getPostSrc(i)" alt="item">
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+</section>
+
+<banner-type-modal></banner-type-modal>
