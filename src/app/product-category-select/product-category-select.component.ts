@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, forwardRef, OnInit } from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, forwardRef, Input, OnInit} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CategoryTreeItem } from '../shared/dtos/category.dto';
@@ -23,7 +23,7 @@ type CategorySelectOption = CategoryTreeItem & { isSelected: boolean; children: 
 })
 export class ProductCategorySelectComponent implements OnInit, ControlValueAccessor {
 
-  isVisible: boolean = false;
+  @Input() isVisible: boolean = false;
   isDisabled: boolean = false;
   options: CategorySelectOption[] = [];
   lang = DEFAULT_LANG;

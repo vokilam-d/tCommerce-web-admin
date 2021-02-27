@@ -1,6 +1,6 @@
 <ng-container *ngIf="isModalVisible">
   <div class="modal-overlay type-overlay" (click)="closeModal()"></div>
-  <div class="modal type-modal">
+  <div class="modal banner-modal">
     <div class="modal__header">
       <div class="modal__title">
         Выберите тип:
@@ -21,7 +21,7 @@
 
 <ng-container *ngIf="isCategoryModalVisible">
   <div class="modal-overlay type-overlay" (click)="closeCategorySelectorModal()"></div>
-  <div class="modal type-modal">
+  <div class="modal banner-modal banner-modal--category">
     <div class="modal__header">
       <div class="modal__title">
         Выберите категорию:
@@ -32,14 +32,14 @@
     </div>
 
     <div class="banner-item__field">
-      <product-category-select [formControl]="categories"></product-category-select>
+      <product-category-select [isVisible]="true" [formControl]="categories"></product-category-select>
     </div>
   </div>
 </ng-container>
 
 <ng-container *ngIf="isItemModalVisible">
   <div class="modal-overlay type-overlay" (click)="closeItemModal()"></div>
-  <div class="modal item-modal">
+  <div class="modal banner-modal">
     <div class="modal__header">
       <div class="modal__title">
         Создайте секцию баннера:
