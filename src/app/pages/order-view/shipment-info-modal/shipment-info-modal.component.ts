@@ -31,7 +31,7 @@ export class ShipmentInfoModalComponent implements OnInit {
   payerTypeOptions: ISelectOption[] = [{ view: 'Клиент', data: ShipmentPayerEnum.RECIPIENT }, { view: 'Мы', data: ShipmentPayerEnum.SENDER }];
   get payerTypeForCost(): ShipmentPayerEnum {
     const isToWarehouse = this.shipment.recipient.addressType === AddressTypeEnum.WAREHOUSE;
-    return isToWarehouse && this.cost < 1000 ? ShipmentPayerEnum.RECIPIENT : ShipmentPayerEnum.SENDER;
+    return isToWarehouse && this.cost >= 1000 ? ShipmentPayerEnum.SENDER : ShipmentPayerEnum.RECIPIENT;
   }
   get payerTypeNameForCost(): string { return this.payerTypeOptions.find(o => o.data === this.payerTypeForCost).view; }
 
