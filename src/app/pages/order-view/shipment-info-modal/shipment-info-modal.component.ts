@@ -6,6 +6,7 @@ import { ISelectOption } from '../../../shared/components/select/select-option.i
 import { ShipmentSenderDto } from '../../../shared/dtos/shipment-sender.dto';
 import { ShipmentPayerEnum } from '../../../shared/enums/shipment-payer.enum';
 import { NotyService } from '../../../noty/noty.service';
+import { AddressTypeEnum } from '../../../shared/enums/address-type.enum';
 
 @Component({
   selector: 'shipment-info-modal',
@@ -28,7 +29,10 @@ export class ShipmentInfoModalComponent implements OnInit {
   @Output('trackingId') trackingIdEmitter = new EventEmitter<string>();
 
   payerTypeOptions: ISelectOption[] = [{ view: 'Клиент', data: ShipmentPayerEnum.RECIPIENT }, { view: 'Мы', data: ShipmentPayerEnum.SENDER }];
-  get payerTypeForCost(): ShipmentPayerEnum { return this.cost < 1000 ? ShipmentPayerEnum.RECIPIENT : ShipmentPayerEnum.SENDER; }
+  get payerTypeForCost(): ShipmentPayerEnum {
+    const isToWarehouse = this.shipment.recipient.addressType === AddressTypeEnum.WAREHOUSE;
+    return isToWarehouse && this.cost >= 1000 ? ShipmentPayerEnum.SENDER : ShipmentPayerEnum.RECIPIENT;
+  }
   get payerTypeNameForCost(): string { return this.payerTypeOptions.find(o => o.data === this.payerTypeForCost).view; }
 
   constructor(
