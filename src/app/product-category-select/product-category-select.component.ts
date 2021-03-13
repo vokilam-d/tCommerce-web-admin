@@ -178,10 +178,10 @@ export class ProductCategorySelectComponent implements OnInit, ControlValueAcces
     this.getFilteredCategory(this.options, searchAsRegEx);
   }
 
-  private getFilteredCategory(subCategory, searchAsRegEx) {
+  private getFilteredCategory(categories: CategorySelectOption[], searchAsRegEx: RegExp) {
     let isCategoryFiltered = false;
 
-    subCategory.forEach(category => {
+    categories.forEach(category => {
 
       if (category.children?.length) {
         const isSubCategoryFiltered = this.getFilteredCategory(category.children, searchAsRegEx);
