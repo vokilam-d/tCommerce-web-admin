@@ -202,13 +202,15 @@ export class OrderComponent extends NgUnsubscribe implements OnInit {
       this.order.shipment.recipient = this.customer.addresses.find(a => a.isDefault) || this.customer.addresses[0] || this.newAddress;
     }
 
-    this.customerService.fetchCustomerReviewsAvgRating(this.customer.id)
-      .subscribe(
-        response => {
-          this.customerAvgStoreReviewsRating = response.data.storeReviews.avgRating;
-          this.customerAvgProductReviewsRating = response.data.productReviews.avgRating;
-        }
-      );
+    if (!this.isNewCustomer) {
+      this.customerService.fetchCustomerReviewsAvgRating(this.customer.id)
+        .subscribe(
+          response => {
+            this.customerAvgStoreReviewsRating = response.data.storeReviews.avgRating;
+            this.customerAvgProductReviewsRating = response.data.productReviews.avgRating;
+          }
+        );
+    }
 
     this.handleAddressForm();
   }
