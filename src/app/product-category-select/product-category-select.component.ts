@@ -1,14 +1,18 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, forwardRef, Input, OnInit} from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { CategoryTreeItem } from '../shared/dtos/category.dto';
-import { ResponseDto } from '../shared/dtos/response.dto';
-import { API_HOST, DEFAULT_LANG } from '../shared/constants/constants';
-import { ProductCategoryDto } from '../shared/dtos/product.dto';
-import { NotyService } from '../noty/noty.service';
-import { toHttpParams } from '../shared/helpers/to-http-params.function';
+import {HttpClient} from '@angular/common/http';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {CategoryTreeItem} from '../shared/dtos/category.dto';
+import {ResponseDto} from '../shared/dtos/response.dto';
+import {API_HOST, DEFAULT_LANG} from '../shared/constants/constants';
+import {ProductCategoryDto} from '../shared/dtos/product.dto';
+import {NotyService} from '../noty/noty.service';
+import {toHttpParams} from '../shared/helpers/to-http-params.function';
 
-type CategorySelectOption = CategoryTreeItem & { isSelected: boolean; children: CategorySelectOption[]; };
+type CategorySelectOption = CategoryTreeItem & {
+  isSelected: boolean;
+  isFiltered?: boolean;
+  children: CategorySelectOption[];
+};
 
 @Component({
   selector: 'product-category-select',
@@ -24,9 +28,11 @@ type CategorySelectOption = CategoryTreeItem & { isSelected: boolean; children: 
 export class ProductCategorySelectComponent implements OnInit, ControlValueAccessor {
 
   @Input() isVisible: boolean = false;
+
   isDisabled: boolean = false;
   options: CategorySelectOption[] = [];
   lang = DEFAULT_LANG;
+  searchValue: string;
 
   private _value: ProductCategoryDto[];
 
@@ -162,8 +168,37 @@ export class ProductCategorySelectComponent implements OnInit, ControlValueAcces
           }
         }
       }
-    }
+    };
 
     return findOption(this.options);
+  }
+
+  onSearchInputChange(searchTerm: string) {
+    const searchAsRegEx = new RegExp(searchTerm, 'gi');
+    this.getFilteredCategory(this.options, searchAsRegEx);
+  }
+
+  private getFilteredCategory(subCategory, searchAsRegEx) {
+    let isCategoryFiltered = false;
+
+    subCategory.forEach(category => {
+
+      if (category.children?.length) {
+        const isSubCategoryFiltered = this.getFilteredCategory(category.children, searchAsRegEx);
+        if (isSubCategoryFiltered) {
+          category.isFiltered = true;
+        } else {
+          category.isFiltered = !!category.name[DEFAULT_LANG].match(searchAsRegEx);
+        }
+      } else {
+        category.isFiltered = !!category.name[DEFAULT_LANG].match(searchAsRegEx);
+      }
+
+      if (category.isFiltered) {
+        isCategoryFiltered = true;
+      }
+    });
+
+    return isCategoryFiltered;
   }
 }

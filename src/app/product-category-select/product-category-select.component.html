@@ -4,9 +4,18 @@
           (click)="toggleVisibility()"
           type="button"
   >
-    <span *ngIf="!value.length; else selectedTmpl" class="select__placeholder">
+    <span *ngIf="!isVisible" class="select__placeholder">
       Выбрать...
     </span>
+
+    <input
+      class="select__input"
+      *ngIf="!value.length && isVisible; else selectedTmpl"
+      [(ngModel)]="searchValue"
+      (ngModelChange)="onSearchInputChange($event)"
+      (click)="toggleVisibility(false)"
+      placeholder="Введите категорию"
+    >
 
     <ng-template #selectedTmpl>
       <span class="select__chip" *ngFor="let category of value">
@@ -25,10 +34,8 @@
 
 </div>
 
-
-
 <ng-template #treeItem let-option="option">
-  <li class="select__option-container">
+  <li class="select__option-container" *ngIf="!searchValue || option?.isFiltered && searchValue">
     <button class="select__option" (click)="toggleOption(option)" type="button">
       <span class="select__checkbox">
         <i class="ai ai-checkmark select__checkmark" *ngIf="option.isSelected"></i>
