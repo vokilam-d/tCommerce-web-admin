@@ -4,7 +4,7 @@
           (click)="toggleVisibility()"
           type="button"
   >
-    <span *ngIf="!isVisible" class="select__placeholder">
+    <span *ngIf="!value.length && !isVisible" class="select__placeholder">
       Выбрать...
     </span>
 
