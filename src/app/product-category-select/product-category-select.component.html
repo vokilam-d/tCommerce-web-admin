@@ -30,12 +30,14 @@
     <ng-container *ngFor="let option of options">
       <ng-container *ngTemplateOutlet="treeItem; context: { option: option }"></ng-container>
     </ng-container>
+
+    <li class="select__option-container" *ngIf="searchValue && !isSearchTermFound">Ничего не найдено</li>
   </ul>
 
 </div>
 
 <ng-template #treeItem let-option="option">
-  <li class="select__option-container" *ngIf="!searchValue || option?.isFiltered && searchValue">
+  <li class="select__option-container" *ngIf="!searchValue || searchValue && option?.isFiltered">
     <button class="select__option" (click)="toggleOption(option)" type="button">
       <span class="select__checkbox">
         <i class="ai ai-checkmark select__checkmark" *ngIf="option.isSelected"></i>

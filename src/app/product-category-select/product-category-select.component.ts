@@ -33,6 +33,7 @@ export class ProductCategorySelectComponent implements OnInit, ControlValueAcces
   options: CategorySelectOption[] = [];
   lang = DEFAULT_LANG;
   searchValue: string;
+  isSearchTermFound: boolean;
 
   private _value: ProductCategoryDto[];
 
@@ -175,7 +176,7 @@ export class ProductCategorySelectComponent implements OnInit, ControlValueAcces
 
   onSearchInputChange(searchTerm: string) {
     const searchAsRegEx = new RegExp(searchTerm, 'gi');
-    this.getFilteredCategory(this.options, searchAsRegEx);
+    this.isSearchTermFound = this.getFilteredCategory(this.options, searchAsRegEx);
   }
 
   private getFilteredCategory(categories: CategorySelectOption[], searchAsRegEx: RegExp) {
