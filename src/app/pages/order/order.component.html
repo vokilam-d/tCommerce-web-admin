@@ -91,6 +91,10 @@
               <div>
                 Отзывов о товаре: <b>{{ customer.productReviewIds.length }}</b><span *ngIf="customer.productReviewIds.length> 0">. Средняя оценка: <b>{{ customerAvgProductReviewsRating }}</b></span>
               </div>
+
+              <div>
+                Коммент о клиенте: <i>{{ customer.note }}</i>
+              </div>
             </div>
           </div>
         </div>
