@@ -320,6 +320,19 @@
       </div>
     </div>
 
+    <div class="order-view__block order-view__block--wide">
+      <div class="order-view__subtitle">
+        Фото
+      </div>
+      <div class="order-view__content order-view__content--wide media">
+        <media-asset class="media__asset"
+                     *ngFor="let media of order.medias"
+                     [media]="media"
+                     [showRemoveBtn]="false"
+        ></media-asset>
+      </div>
+    </div>
+
     <div class="order-view__block order-view__block--no-border order-view__block--wide">
       <div class="order-view__logs log" *ngFor="let log of order.logs">
         <div class="log__data">{{ log.time | date: 'dd.MM.y HH:mm:ss' }} - {{ log.text }}</div>
