@@ -5,7 +5,7 @@
     <div class="media__is-hidden" *ngIf="media.isHidden">Скрыто</div>
   </div>
 
-  <div class="media__remove" (click)="remove()">
+  <div class="media__remove" *ngIf="showRemoveBtn" (click)="remove()">
     <i class="ai ai-trash media__remove-icon"></i>
   </div>
 
@@ -31,6 +31,13 @@
     </div>
 
     <div class="details__info">
+      <div class="details__row">
+        <div class="details__value blue-link">
+          <a class="blue-link details__show-original" [href]="getMediaUrl(true)" target="_blank">
+            Посмотреть в полном размере
+          </a>
+        </div>
+      </div>
       <label class="details__row">
         <span class="details__label">Alt text</span>
         <span class="details__value">
@@ -46,7 +53,7 @@
         <div class="details__value">{{ media.dimensions }}</div>
       </div>
       <div class="details__row">
-        <div class="details__label">Скрыть со страницы товара?</div>
+        <div class="details__label">Скрыть?</div>
         <div class="details__value">
           <toggle [(ngModel)]="media.isHidden"></toggle>
         </div>

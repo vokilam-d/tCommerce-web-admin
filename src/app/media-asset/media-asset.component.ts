@@ -12,6 +12,7 @@ export class MediaAssetComponent implements OnInit {
   isDetailsVisible: boolean = false;
 
   @Input() media: MediaDto;
+  @Input() showRemoveBtn: boolean = true;
   @Output('remove') removeEmitter = new EventEmitter<MediaDto>();
 
   constructor() { }
@@ -31,7 +32,7 @@ export class MediaAssetComponent implements OnInit {
     this.isDetailsVisible = false;
   }
 
-  getMediaUrl(): string {
-    return UPLOADED_HOST + this.media.variantsUrls.original;
+  getMediaUrl(original: boolean = false): string {
+    return UPLOADED_HOST + (original ? this.media.variantsUrls.original : this.media.variantsUrls.large);
   }
 }

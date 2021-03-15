@@ -10,6 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ShipmentInfoModalComponent } from './shipment-info-modal/shipment-info-modal.component';
 import { InvoiceModalComponent } from './invoice-modal/invoice-modal.component';
 import { ConfirmPackItemModalComponent } from './confirm-pack-item-modal/confirm-pack-item-modal.component';
+import { MediaAssetModule } from '../../media-asset/media-asset.module';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { ConfirmPackItemModalComponent } from './confirm-pack-item-modal/confirm
     SharedModule,
     AddressFormModule,
     PreloaderModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MediaAssetModule
   ]
 })
 export class OrderViewModule { }
