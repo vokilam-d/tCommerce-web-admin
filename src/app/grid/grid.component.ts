@@ -49,7 +49,7 @@ interface ISavedGridInfo {
     ])
   ]
 })
-export class GridComponent<T extends { isOpened?: boolean } = any> extends NgUnsubscribe implements OnInit, AfterViewInit {
+export class GridComponent<T extends { isOpened?: boolean } = any> extends NgUnsubscribe implements OnInit {
 
   activeSorting: IGridSorting = null;
   filtersMap = new Map<fieldName, string | string[]>();
@@ -73,7 +73,6 @@ export class GridComponent<T extends { isOpened?: boolean } = any> extends NgUns
   @Output('itemSelect') itemSelectEmitter = new EventEmitter<T>();
 
   @ViewChild(PaginationComponent) paginationCmp: PaginationComponent;
-  @ViewChild('gridBodyRef') gridBodyRef: ElementRef<HTMLElement>;
   @ViewChildren(SelectComponent) selectCmpsList: QueryList<SelectComponent>;
   @ContentChildren('cellContent') cellContents: QueryList<TemplateRef<any>>;
   @ContentChildren('subCellContent') subCellContents: QueryList<TemplateRef<any>>;
@@ -82,8 +81,7 @@ export class GridComponent<T extends { isOpened?: boolean } = any> extends NgUns
   get subCellContentsArray(): TemplateRef<any>[] { return this.subCellContents.toArray(); }
 
   constructor(
-    private deviceService: DeviceService,
-    private cdr: ChangeDetectorRef
+    private deviceService: DeviceService
   ) {
     super();
   }
@@ -91,10 +89,6 @@ export class GridComponent<T extends { isOpened?: boolean } = any> extends NgUns
   ngOnInit() {
     this.setFromSavedInfo();
     this.handleSearch();
-  }
-
-  ngAfterViewInit() {
-    this.handleHeadFixed();
   }
 
   onHeadCellClick(cell: IGridCell) {
@@ -223,17 +217,6 @@ export class GridComponent<T extends { isOpened?: boolean } = any> extends NgUns
           this.emitChange();
         }
       );
-  }
-
-  private handleHeadFixed() {
-    if (this.deviceService.isPlatformServer()) { return; }
-
-    fromEvent(this.gridBodyRef.nativeElement, 'scroll')
-      .pipe( takeUntil(this.ngUnsubscribe) )
-      .subscribe(evt => {
-        this.gridScrollLeft = (evt.target as HTMLElement).scrollLeft;
-        this.cdr.markForCheck();
-      });
   }
 
   clearAllFilters() {
