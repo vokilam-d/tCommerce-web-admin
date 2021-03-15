@@ -9,74 +9,71 @@
 </div>
 
 <div class="grid" [class.grid--small]="size === 'small'">
-  <div class="grid__head-container">
-    <div class="grid__head-overflow-container">
-      <div class="grid__head grid__head-scroller" [scrollLeft]="gridScrollLeft">
-        <div class="grid__block"
-             *ngFor="let cell of cells"
-             (click)="onHeadCellClick(cell)"
-             [ngClass]="{
-               'grid__block--image': cell.isImage,
-               'grid__block--date': cell.hasDateFromFilter || cell.hasDateToFilter,
-               'grid__block--sortable': cell.isSortable,
-               'grid__block--left': cell.align === 'left',
-               'grid__block--center': cell.align === 'center',
-               'grid__block--right': cell.align === 'right',
-               'sorting': activeSorting && cell.fieldName === activeSorting.fieldName,
-               'sorting--desc': activeSorting && cell.fieldName === activeSorting.fieldName && activeSorting.isDescOrder
-             }"
-             [style.width.px]="cell.initialWidth"
-        >
-          {{ cell.label }}
-        </div>
+  <div class="grid__head-container" [style.width.px]="headRef.scrollWidth" #headRef>
+    <div class="grid__head" [scrollLeft]="gridScrollLeft">
+      <div class="grid__block"
+           *ngFor="let cell of cells"
+           (click)="onHeadCellClick(cell)"
+           [ngClass]="{
+           'grid__block--image': cell.isImage,
+           'grid__block--date': cell.hasDateFromFilter || cell.hasDateToFilter,
+           'grid__block--sortable': cell.isSortable,
+           'grid__block--left': cell.align === 'left',
+           'grid__block--center': cell.align === 'center',
+           'grid__block--right': cell.align === 'right',
+           'sorting': activeSorting && cell.fieldName === activeSorting.fieldName,
+           'sorting--desc': activeSorting && cell.fieldName === activeSorting.fieldName && activeSorting.isDescOrder
+         }"
+           [style.width.px]="cell.initialWidth"
+      >
+        {{ cell.label }}
       </div>
+    </div>
 
-      <div class="grid__search grid__head-scroller" [scrollLeft]="gridScrollLeft">
-        <div class="grid__block grid__block--search"
-             *ngFor="let cell of cells"
-             [class.grid__block--image]="cell.isImage"
-             [class.grid__block--date]="cell.hasDateFromFilter || cell.hasDateToFilter"
-             [style.width.px]="cell.initialWidth"
+    <div class="grid__search" [scrollLeft]="gridScrollLeft">
+      <div class="grid__block grid__block--search"
+           *ngFor="let cell of cells"
+           [class.grid__block--image]="cell.isImage"
+           [class.grid__block--date]="cell.hasDateFromFilter || cell.hasDateToFilter"
+           [style.width.px]="cell.initialWidth"
+      >
+
+        <input class="grid__date-filter"
+               *ngIf="cell.hasDateFromFilter"
+               [value]="(filtersMap.get(cell.fieldName) || [])[0]"
+               (input)="onDateSelect(cell, $event, 'from')"
+               type="date"
         >
 
-          <input class="grid__date-filter"
-                 *ngIf="cell.hasDateFromFilter"
-                 [value]="(filtersMap.get(cell.fieldName) || [])[0]"
-                 (input)="onDateSelect(cell, $event, 'from')"
-                 type="date"
-          >
+        <input class="grid__date-filter"
+               *ngIf="cell.hasDateToFilter"
+               [value]="(filtersMap.get(cell.fieldName) || [])[1]"
+               (input)="onDateSelect(cell, $event, 'to')"
+               type="date"
+        >
 
-          <input class="grid__date-filter"
-                 *ngIf="cell.hasDateToFilter"
-                 [value]="(filtersMap.get(cell.fieldName) || [])[1]"
-                 (input)="onDateSelect(cell, $event, 'to')"
-                 type="date"
-          >
+        <input class="grid__search-input"
+               *ngIf="cell.isSearchable"
+               [value]="filtersMap.get(cell.fieldName) || ''"
+               [placeholder]="cell.placeholder || ''"
+               (input)="onSearchInput(cell, $event)"
+               type="text"
+               autocomplete="none"
+        >
 
-          <input class="grid__search-input"
-                 *ngIf="cell.isSearchable"
-                 [value]="filtersMap.get(cell.fieldName) || ''"
-                 [placeholder]="cell.placeholder || ''"
-                 (input)="onSearchInput(cell, $event)"
-                 type="text"
-                 autocomplete="none"
-          >
-
-          <app-select *ngIf="cell.filterFields?.length"
-                      [options]="cell.filterFields"
-                      [hasEmpty]="false"
-                      [isSizeSmall]="true"
-                      [isMultiSelect]="true"
-                      [initialValue]="filtersMap.get(cell.fieldName) || []"
-                      (select)="onFilterSelect(cell, $event)"
-                      #selectComponentRef
-          ></app-select>
-        </div>
+        <app-select *ngIf="cell.filterFields?.length"
+                    [options]="cell.filterFields"
+                    [hasEmpty]="false"
+                    [isSizeSmall]="true"
+                    [isMultiSelect]="true"
+                    [initialValue]="filtersMap.get(cell.fieldName) || []"
+                    (select)="onFilterSelect(cell, $event)"
+        ></app-select>
       </div>
     </div>
   </div>
 
-  <div class="grid__body" #gridBodyRef>
+  <div class="grid__body" [style.width.px]="gridBodyRef.scrollWidth" #gridBodyRef>
 
     <preloader *ngIf="isLoading" [hasOverlay]="true"></preloader>
 
@@ -97,12 +94,12 @@
           <div class="grid__block"
                *ngFor="let cell of cells, index as i"
                [ngClass]="{
-                 'grid__block--image': cell.isImage,
-                 'grid__block--date': cell.hasDateFromFilter || cell.hasDateToFilter,
-                 'grid__block--left': cell.align === 'left',
-                 'grid__block--center': cell.align === 'center',
-                 'grid__block--right': cell.align === 'right'
-               }"
+               'grid__block--image': cell.isImage,
+               'grid__block--date': cell.hasDateFromFilter || cell.hasDateToFilter,
+               'grid__block--left': cell.align === 'left',
+               'grid__block--center': cell.align === 'center',
+               'grid__block--right': cell.align === 'right'
+             }"
                [style.width.px]="cell.initialWidth"
           >
             <ng-container *ngTemplateOutlet="cellContentsArray[i]; context: { item: item }"></ng-container>
@@ -114,12 +111,12 @@
             <div class="grid__block"
                  *ngFor="let cell of cells, index as subIdx"
                  [ngClass]="{
-                   'grid__block--image': cell.isImage,
-                   'grid__block--date': cell.hasDateFromFilter || cell.hasDateToFilter,
-                   'grid__block--left': cell.align === 'left',
-                   'grid__block--center': cell.align === 'center',
-                   'grid__block--right': cell.align === 'right'
-                 }"
+                 'grid__block--image': cell.isImage,
+                 'grid__block--date': cell.hasDateFromFilter || cell.hasDateToFilter,
+                 'grid__block--left': cell.align === 'left',
+                 'grid__block--center': cell.align === 'center',
+                 'grid__block--right': cell.align === 'right'
+               }"
                  [style.width.px]="cell.initialWidth"
             >
               <ng-container *ngTemplateOutlet="subCellContentsArray[subIdx]; context: { item: item, subItem: subItem }"></ng-container>
