@@ -159,7 +159,7 @@ const shipmentProp = getPropertyOf<OrderDto>('shipment');
 const recipientProp = getPropertyOf<ShipmentDto>('recipient');
 const orderGridCells: IGridCell[] = [
   {
-    isSearchable: false,
+    isSearchable: true,
     label: 'ID',
     initialWidth: 40,
     align: 'center',

@@ -12,7 +12,7 @@ import { REQUEST } from '@nguniversal/express-engine/tokens';
 })
 export class UserService {
 
-  user: UserDto;
+  user: UserDto = null;
 
   constructor(
     private http: HttpClient,

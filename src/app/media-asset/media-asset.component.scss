@@ -136,6 +136,8 @@
   }
 
   &__row {
+    display: block;
+
     &:not(:first-child) {
       margin: 30px 0 0;
     }
@@ -150,6 +152,12 @@
   &__value {
     display: block;
     margin: 8px 0 0;
+  }
+
+  &__show-original {
+    padding: 0 0 1px;
+    border-bottom-style: dashed;
+    border-width: 2px;
   }
 }
 
