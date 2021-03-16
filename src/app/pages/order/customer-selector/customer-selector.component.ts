@@ -95,7 +95,7 @@ const customerGridCells: IGridCell[] = [
   {
     isSearchable: true,
     label: 'Телефон',
-    initialWidth: 110,
+    initialWidth: 130,
     align: 'left',
     isImage: false,
     isSortable: false,
