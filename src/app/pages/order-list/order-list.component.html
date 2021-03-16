@@ -38,7 +38,7 @@
       <div class="order__name">
         {{ order.shipment.recipient.firstName }} {{ order.shipment.recipient.lastName }}
         <br>
-        {{ order.shipment.recipient.phone }}
+        {{ order.shipment.recipient.phone | beautifyPhone }}
         <div class="order__customer-name"
              *ngIf="hasDifferentName(order) as differentName"
         >

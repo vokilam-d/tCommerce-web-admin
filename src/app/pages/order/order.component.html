@@ -81,7 +81,7 @@
               </div>
 
               <div *ngIf="order.customerPhoneNumber as phone">
-                Телефон: {{ phone }}
+                Телефон: {{ phone | beautifyPhone }}
               </div>
 
               <div>

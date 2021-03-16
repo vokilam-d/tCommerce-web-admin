@@ -160,7 +160,7 @@
       <div class="order-view__content order-view__address">
         {{ order.shippingMethodName[lang] }}<br><br>
 
-        {{ order.shipment.recipient.firstName }} {{ order.shipment.recipient.lastName }}, {{ order.shipment.recipient.phone | normalizedPhone }}
+        {{ order.shipment.recipient.firstName }} {{ order.shipment.recipient.lastName }}, {{ order.shipment.recipient.phone | beautifyPhone }}
         <br>
         {{ order.shipment.recipient.settlementFull || order.shipment.recipient.settlement }}, {{ order.shipment.recipient.addressFull || order.shipment.recipient.address }}<ng-container *ngIf="order.shipment.recipient.buildingNumber as buildingNumber">, {{ buildingNumber }} {{ order.shipment.recipient.flat }}</ng-container>
       </div>

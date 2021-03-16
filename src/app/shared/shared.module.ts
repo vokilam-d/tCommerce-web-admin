@@ -16,6 +16,7 @@ import { AutofocusDirective } from './directives/autofocus/autofocus.directive';
 import { DraggableItemDirective } from './directives/draggable-item/draggable-item.directive';
 import { RouterModule } from '@angular/router';
 import { AdditionalServiceSelectComponent } from './components/additional-service-select/additional-service-select.component';
+import { BeautifyPhonePipe } from './pipes/beautify-phone.pipe';
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import { AdditionalServiceSelectComponent } from './components/additional-servic
     ToggleComponent,
     ReadableCurrencyPipe,
     NormalizedPhonePipe,
+    BeautifyPhonePipe,
     AutofocusDirective,
     DraggableItemDirective
   ],
@@ -48,6 +50,7 @@ import { AdditionalServiceSelectComponent } from './components/additional-servic
     ToggleComponent,
     ReadableCurrencyPipe,
     NormalizedPhonePipe,
+    BeautifyPhonePipe,
     AutofocusDirective,
     DraggableItemDirective
   ],
