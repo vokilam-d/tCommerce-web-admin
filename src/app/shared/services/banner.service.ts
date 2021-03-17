@@ -1,6 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { IBannerItem } from '../../pages/banner/banner-item.interface';
+import { HttpClient } from '@angular/common/http';
+import { ResponseDto } from '../dtos/response.dto';
+import { BannerItemDto } from '../dtos/banner-item.dto';
+import { API_HOST } from '../constants/constants';
+import { CreateBannerItemDto } from '../dtos/create-banner-item.dto';
+import { UpdateBannerDto } from '../dtos/update-banner.dto';
 
 
 @Injectable({
@@ -8,12 +14,17 @@ import { IBannerItem } from '../../pages/banner/banner-item.interface';
 })
 export class BannerService {
 
-  private bannerItemDataSource = new Subject<IBannerItem>();
-  sharedItem = this.bannerItemDataSource.asObservable();
+  constructor(private http: HttpClient) { }
 
-  constructor() { }
+  fetchBanner(): Observable<ResponseDto<BannerItemDto[]>> {
+    return this.http.get<ResponseDto<BannerItemDto[]>>(`${API_HOST}/api/v1/admin/banner`);
+  }
 
-  updateBannerItems(item: IBannerItem) {
-    this.bannerItemDataSource.next(item);
+  createBannerItem(dto: CreateBannerItemDto): Observable<ResponseDto<BannerItemDto>> {
+    return this.http.post<ResponseDto<BannerItemDto>>(`${API_HOST}/api/v1/admin/banner/banner-item`, dto);
+  }
+
+  updateBanner(dto: UpdateBannerDto): Observable<ResponseDto<BannerItemDto[]>> {
+    return this.http.post<ResponseDto<BannerItemDto[]>>(`${API_HOST}/api/v1/admin/banner`, dto);
   }
 }

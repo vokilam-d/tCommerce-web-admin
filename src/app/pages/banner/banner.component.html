@@ -1,20 +1,31 @@
+<div class="page">
+  <div class="header">
+    <h1 class="header__title">
+      Баннер на сайте
+    </h1>
+
+    <div class="header__toolbar">
+      <button class="header__btn toolbar-main-btn" (click)="save()" type="button">Сохранить</button>
+    </div>
+  </div>
+
 <section class="banner">
   <div class="banner__grid">
-    <div *ngFor="let bannerItem of bannerItems; let i = index" class="banner__item banner__item--{{i}}" (click)="showBannerTypeModal(i);">
+    <div *ngFor="let bannerItem of bannerItems; let i = index" class="banner__item banner__item--{{i}}" (click)="showBannerTypeModal(i)">
       <ng-template #defaultImg><img class="banner__add-btn" src="{{ itemImgSrc }}" alt="add"></ng-template>
 
       <ng-container *ngIf="bannerItem; else defaultImg">
         <ng-container *ngIf="bannerItem?.type === bannerItemType.product">
           <img class="banner__img" [src]="getProductSrc(i)" alt="item">
 
-          <div class="banner__sale-label" *ngIf="bannerItem.item?.oldPrice">
+          <div class="banner__sale-label" *ngIf="bannerItem?.oldPrice">
             <span class="banner__sale-label--discount">-{{ discountValue }}%</span>
-            <span class="banner__sale-label--price">{{ bannerItem.item?.priceInDefaultCurrency }} грн</span>
-            <span class="banner__sale-label--old-price">{{ bannerItem.item?.oldPriceInDefaultCurrency }} грн</span>
+            <span class="banner__sale-label--price">{{ bannerItem?.price }} грн</span>
+            <span class="banner__sale-label--old-price">{{ bannerItem?.oldPrice }} грн</span>
           </div>
 
-          <span class="banner__label" [ngClass]="getLabelClass(bannerItem.item)" *ngIf="bannerItem.item?.label">
-            {{ bannerItem.item.label }}
+          <span class="banner__label" [ngClass]="getLabelClass(bannerItem)" *ngIf="bannerItem?.label">
+            {{ bannerItem.label }}
           </span>
         </ng-container>
 
@@ -26,4 +37,4 @@
   </div>
 </section>
 
-<banner-type-modal></banner-type-modal>
+<banner-type-modal (bannerItem)="createBannerItem($event)"></banner-type-modal>

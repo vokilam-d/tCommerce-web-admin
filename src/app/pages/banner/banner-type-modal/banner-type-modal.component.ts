@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { ProductSelectorComponent } from '../../../product-selector/product-selector.component';
 import { BannerService } from '../../../shared/services/banner.service';
 import { PostSelectorComponent } from '../../../post-selector/post-selector.component';
@@ -8,6 +8,8 @@ import { API_HOST } from '../../../shared/constants/constants';
 import { FormControl } from '@angular/forms';
 import { CustomValidators } from '../../../shared/classes/validators';
 import { IBannerItem } from '../banner-item.interface';
+import { CreateBannerItemDto } from '../../../shared/dtos/create-banner-item.dto';
+import { UpdateBannerDto } from '../../../shared/dtos/update-banner.dto';
 
 
 @Component({
@@ -27,6 +29,8 @@ export class BannerTypeModalComponent implements OnInit {
     updateOn: 'blur'
   });
   categories = new FormControl([]);
+
+  @Output() bannerItem = new EventEmitter<CreateBannerItemDto>();
 
   @ViewChild(ProductSelectorComponent) productSelectorCmp: ProductSelectorComponent;
   @ViewChild(PostSelectorComponent) postSelectorCmp: PostSelectorComponent;
@@ -72,23 +76,23 @@ export class BannerTypeModalComponent implements OnInit {
     this.isCategoryModalVisible = false;
   }
 
-  onProductSelect({ variant }) {
-    const productItem: IBannerItem = {
-      item: variant,
+  onProductSelect({ product }) {
+    const item: CreateBannerItemDto = {
+      id: product.id,
       type: EBannerItemType.product
     };
 
-    this.bannerService.updateBannerItems(productItem);
+    this.bannerItem.emit(item);
     this.productSelectorCmp.hideSelector();
   }
 
   onPostSelect(post) {
-    const postItem: IBannerItem = {
-      item: post,
+    const item: CreateBannerItemDto = {
+      id: post.id,
       type: EBannerItemType.post
     };
 
-    this.bannerService.updateBannerItems(postItem);
+    this.bannerItem.emit(item);
     this.postSelectorCmp.hideSelector();
   }
 

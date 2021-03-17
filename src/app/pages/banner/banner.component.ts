@@ -6,6 +6,8 @@ import { takeUntil } from 'rxjs/operators';
 import { NgUnsubscribe } from '../../shared/directives/ng-unsubscribe/ng-unsubscribe.directive';
 import { ProductLabelTypeEnum } from '../../shared/enums/product-label-type.enum';
 import { EBannerItemType } from '../../shared/enums/banner-item-type.enum';
+import { CreateBannerItemDto } from '../../shared/dtos/create-banner-item.dto';
+import { UpdateBannerDto } from '../../shared/dtos/update-banner.dto';
 
 
 @Component({
@@ -20,6 +22,7 @@ export class BannerComponent extends NgUnsubscribe implements OnInit {
   clickedItemId: number;
 
   discountValue: number;
+
   uploadedHost = UPLOADED_HOST;
   itemImgSrc = '/admin/assets/images/plus.svg';
 
@@ -31,19 +34,50 @@ export class BannerComponent extends NgUnsubscribe implements OnInit {
   }
 
   ngOnInit(): void {
-    this.setBannerItems();
+    this.onInit();
   }
 
-  private setBannerItems() {
-    this.bannerService.sharedItem
+  onInit() {
+    this.bannerService.fetchBanner()
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(bannerItem => {
-        console.log(bannerItem);
+      .subscribe(
+        response => {
+          this.bannerItems = response.data;
 
-        this.bannerItems[this.clickedItemId] = bannerItem;
-        this.setDiscountValue(bannerItem.item);
-    });
+          this.bannerItems.forEach(bannerItem => {
+            this.setDiscountValue(bannerItem);
+          });
+      },
+        error => console.warn(error)
+      );
   }
+
+  createBannerItem(item: CreateBannerItemDto) {
+    this.bannerService.createBannerItem(item)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(
+        response => {
+          const bannerItem = response.data;
+
+          this.bannerItems.splice(this.clickedItemId, 1, bannerItem);
+
+          this.bannerItems[this.clickedItemId] = bannerItem;
+          this.setDiscountValue(bannerItem);
+          },
+        error => console.warn(error)
+      );
+  }
+
+  // private setBannerItems() {
+    // this.bannerService.fetchBanner()
+    //   .pipe(takeUntil(this.ngUnsubscribe))
+    //   .subscribe(bannerItem => {
+    //     console.log(bannerItem);
+
+        // this.bannerItems[this.clickedItemId] = bannerItem;
+        // this.setDiscountValue(bannerItem.item);
+    // });
+  // }
 
   private setDiscountValue(item) {
     if (!item.oldPrice) { return; }
@@ -56,22 +90,48 @@ export class BannerComponent extends NgUnsubscribe implements OnInit {
   }
 
   getProductSrc(id: number): string {
-    const bannerItemUrl = this.bannerItems[id].item.mediaUrl;
+    const bannerItemUrl = this.bannerItems[id]?.media?.variantsUrls?.original;
     return `${this.uploadedHost}${bannerItemUrl}`;
   }
 
   getPostSrc(id: number): string {
-    const bannerItem = this.bannerItems[id].item;
-    const bannerItemUrl = bannerItem.featuredMedia?.variantsUrls?.original;
+    const bannerItem = this.bannerItems[id];
+    const bannerItemUrl = bannerItem.media?.variantsUrls?.original;
     return `${this.uploadedHost}${bannerItemUrl}`;
   }
 
   getLabelClass(item) {
-    switch (item.label) {
+    switch (item?.label) {
       case ProductLabelTypeEnum.New:
         return 'banner__label--new';
       case ProductLabelTypeEnum.Top:
         return 'banner__label--top';
     }
+  }
+
+  save() {
+    const updatedBanner = this.bannerItems.map(bannerItem => {
+      return {
+        id: bannerItem.id,
+        type: bannerItem.type
+      };
+    });
+
+    const createdBannerItems: UpdateBannerDto = {
+      bannerItems: updatedBanner
+    };
+
+    this.bannerService.updateBanner(createdBannerItems)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(
+        response => {
+          this.bannerItems = response.data;
+
+          this.bannerItems.forEach(bannerItem => {
+            this.setDiscountValue(bannerItem);
+          });
+      },
+        error => console.warn(error)
+      );
   }
 }
