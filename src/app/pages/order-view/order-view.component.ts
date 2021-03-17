@@ -448,4 +448,9 @@ export class OrderViewComponent extends NgUnsubscribe implements OnInit {
   isAllOrderItemsPacked(): boolean {
     return this.order.items.every(item => item.isPacked);
   }
+
+  copyPhoneToClipboard() {
+    copyToClipboard(this.order.shipment.recipient.phone);
+    this.notyService.showSuccessNoty(`Скопировано`);
+  }
 }

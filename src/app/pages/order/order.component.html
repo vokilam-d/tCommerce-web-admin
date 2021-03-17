@@ -75,13 +75,13 @@
               </div>
             </ng-container>
 
-            <div class="order__customer customer-info" *ngIf="!isNewCustomer">
+            <div class="order__customer" *ngIf="!isNewCustomer">
               <div *ngIf="order.customerEmail as email">
-                Email: <b>{{ email }}</b>
+                Email: {{ email }}
               </div>
 
               <div *ngIf="order.customerPhoneNumber as phone">
-                Телефон: <b>{{ phone }}</b>
+                Телефон: {{ phone | beautifyPhone }}
               </div>
 
               <div>
@@ -90,6 +90,10 @@
 
               <div>
                 Отзывов о товаре: <b>{{ customer.productReviewIds.length }}</b><span *ngIf="customer.productReviewIds.length> 0">. Средняя оценка: <b>{{ customerAvgProductReviewsRating }}</b></span>
+              </div>
+
+              <div>
+                Коммент о клиенте: <b><span class="order__customer-note">{{ customer.note }}</span></b>
               </div>
             </div>
           </div>

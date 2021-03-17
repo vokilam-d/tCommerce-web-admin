@@ -114,7 +114,7 @@
               {{ address.firstName }} {{ address.lastName }}
             </div>
             <div class="address__block">
-              {{ address.phone | normalizedPhone }}
+              {{ address.phone | beautifyPhone }}
             </div>
             <div class="address__block">
               {{ address.settlementFull || address.settlement }}

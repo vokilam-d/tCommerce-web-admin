@@ -28,6 +28,8 @@
   $grid: &;
 
   margin: 20px 0 0;
+  overflow: auto;
+  height: 90vh;
 
   &--small {
     font-size: 12px;
@@ -44,17 +46,6 @@
     position: sticky;
     top: 0;
     z-index: 2;
-    //overflow: hidden;
-  }
-
-  &__head-scroller {
-    //overflow: auto;
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-
-    &::-webkit-scrollbar { /* Chrome, Safari and Opera */
-      display: none;
-    }
   }
 
   &__head {
@@ -101,9 +92,6 @@
 
   &__body {
     position: relative;
-    top: -3px;
-    min-height: 20vh;
-    overflow: auto;
   }
 
   &__block {
